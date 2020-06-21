@@ -1,5 +1,6 @@
 import Head from "next/head"
 import { GetStaticProps } from "next"
+import { SignupFormComponent } from "../components/signup"
 
 export default function App({}) {
     return (
@@ -7,6 +8,9 @@ export default function App({}) {
             <Head>
                 <title>アカウント登録</title>
             </Head>
+            <div>
+                <SignupFormComponent />
+            </div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useCallback } from "react"
 import classnames from "classnames"
-import * as api from "../api"
+import * as Api from "../api"
 
 const context = {
     nameField: {
@@ -84,7 +84,7 @@ const InputComponent = ({
     )
 }
 
-const TextInputName = () => {
+const FormInputName = () => {
     const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
     return (
         <InputComponent
@@ -98,7 +98,7 @@ const TextInputName = () => {
         />
     )
 }
-const TextInputPassword = () => {
+const FormInputPassword = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(
         SignupFormContext
     )
@@ -114,7 +114,7 @@ const TextInputPassword = () => {
         />
     )
 }
-const TextInputConfirmedPassword = () => {
+const FormInputConfirmedPassword = () => {
     const {
         confirmedPasswordField,
         handleUpdateConfirmedPasswordValue,
@@ -191,7 +191,7 @@ export const SignupFormComponent = () => {
             value: confirmedPasswordField.value,
         })
         try {
-            const response = await api.post("account/signup", {
+            const response = await Api.post("account/signup", {
                 name: nameField.value,
                 password: passwordField.value,
                 confirmed_password: confirmedPasswordField.value,
@@ -201,8 +201,7 @@ export const SignupFormComponent = () => {
             console.log(error)
         }
     }
-    const handleError = (response: api.Response) => {
-        console.log(response)
+    const handleError = (response: Api.Response) => {
         if (response.argument === "name") {
             return setNameField({
                 errorMessage: response.getErrorMessage(),
@@ -245,9 +244,9 @@ export const SignupFormComponent = () => {
             }}
         >
             <form method="POST" action="/signup" onSubmit={handleSubmit}>
-                <TextInputName />
-                <TextInputPassword />
-                <TextInputConfirmedPassword />
+                <FormInputName />
+                <FormInputPassword />
+                <FormInputConfirmedPassword />
                 <button type="submit">登録する</button>
             </form>
         </SignupFormContext.Provider>

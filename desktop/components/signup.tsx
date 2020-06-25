@@ -3,18 +3,18 @@ import classnames from "classnames"
 import * as api from "../api"
 
 const context = {
-    name_field: {
-        error_message: [],
+    nameField: {
+        errorMessage: [],
         hint: [],
         value: "",
     },
-    password_field: {
-        error_message: [],
+    passwordField: {
+        errorMessage: [],
         hint: [],
         value: "",
     },
-    confirmed_password_field: {
-        error_message: [],
+    confirmedPasswordField: {
+        errorMessage: [],
         hint: [],
         value: "",
     },
@@ -30,7 +30,7 @@ type InputComponentInput = {
     value: string
     onChange: any
     label: string
-    error_message: string[]
+    errorMessage: string[]
     hint: string[]
 }
 
@@ -40,19 +40,19 @@ const InputComponent = ({
     value,
     onChange,
     label,
-    error_message,
+    errorMessage,
     hint,
 }: InputComponentInput) => {
     return (
         <div
             className={classnames("input-component", {
-                error: error_message.length > 0,
+                error: errorMessage.length > 0,
                 hint: hint.length > 0,
             })}
         >
             <label className="label">{label}</label>
             <input name={name} value={value} type={type} onChange={onChange} />
-            {error_message.map((line, index) => {
+            {errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">
                         {line}
@@ -85,21 +85,21 @@ const InputComponent = ({
 }
 
 const TextInputName = () => {
-    const { name_field, handleUpdateNameValue } = useContext(SignupFormContext)
+    const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
     return (
         <InputComponent
             label="ユーザー名"
             type="text"
             name="name"
-            value={name_field.value}
-            error_message={name_field.error_message}
-            hint={name_field.hint}
+            value={nameField.value}
+            errorMessage={nameField.errorMessage}
+            hint={nameField.hint}
             onChange={handleUpdateNameValue}
         />
     )
 }
 const TextInputPassword = () => {
-    const { password_field, handleUpdatePasswordValue } = useContext(
+    const { passwordField, handleUpdatePasswordValue } = useContext(
         SignupFormContext
     )
     return (
@@ -107,16 +107,16 @@ const TextInputPassword = () => {
             label="パスワード"
             type="password"
             name="password"
-            value={password_field.value}
-            error_message={password_field.error_message}
-            hint={password_field.hint}
+            value={passwordField.value}
+            errorMessage={passwordField.errorMessage}
+            hint={passwordField.hint}
             onChange={handleUpdatePasswordValue}
         />
     )
 }
 const TextInputConfirmedPassword = () => {
     const {
-        confirmed_password_field,
+        confirmedPasswordField,
         handleUpdateConfirmedPasswordValue,
     } = useContext(SignupFormContext)
     return (
@@ -124,77 +124,77 @@ const TextInputConfirmedPassword = () => {
             label="パスワードの確認"
             type="password"
             name="confirmed_password"
-            value={confirmed_password_field.value}
-            error_message={confirmed_password_field.error_message}
-            hint={confirmed_password_field.hint}
+            value={confirmedPasswordField.value}
+            errorMessage={confirmedPasswordField.errorMessage}
+            hint={confirmedPasswordField.hint}
             onChange={handleUpdateConfirmedPasswordValue}
         />
     )
 }
 
 export const SignupFormComponent = () => {
-    const initial_state = {
-        error_message: [],
+    const initialState = {
+        errorMessage: [],
         hint: [],
         value: "",
     }
-    const [name_field, setNameField] = useState(initial_state)
-    const [password_field, setPasswordField] = useState(initial_state)
-    const [confirmed_password_field, setConfirmedPasswordField] = useState(
-        initial_state
+    const [nameField, setNameField] = useState(initialState)
+    const [passwordField, setPasswordField] = useState(initialState)
+    const [confirmedPasswordField, setConfirmedPasswordField] = useState(
+        initialState
     )
     const handleUpdateNameValue = useCallback(
         (event) => {
             setNameField({
-                error_message: name_field.error_message,
-                hint: name_field.hint,
+                errorMessage: nameField.errorMessage,
+                hint: nameField.hint,
                 value: event.target.value,
             })
         },
-        [name_field]
+        [nameField]
     )
     const handleUpdatePasswordValue = useCallback(
         (event) => {
             setPasswordField({
-                error_message: password_field.error_message,
-                hint: password_field.hint,
+                errorMessage: passwordField.errorMessage,
+                hint: passwordField.hint,
                 value: event.target.value,
             })
         },
-        [password_field]
+        [passwordField]
     )
     const handleUpdateConfirmedPasswordValue = useCallback(
         (event) => {
             setConfirmedPasswordField({
-                error_message: confirmed_password_field.error_message,
-                hint: confirmed_password_field.hint,
+                errorMessage: confirmedPasswordField.errorMessage,
+                hint: confirmedPasswordField.hint,
                 value: event.target.value,
             })
         },
-        [confirmed_password_field]
+        [confirmedPasswordField]
     )
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setNameField({
-            error_message: [],
+            errorMessage: [],
             hint: [],
-            value: name_field.value,
+            value: nameField.value,
         })
         setPasswordField({
-            error_message: [],
+            errorMessage: [],
             hint: [],
-            value: password_field.value,
+            value: passwordField.value,
         })
         setConfirmedPasswordField({
-            error_message: [],
+            errorMessage: [],
             hint: [],
-            value: confirmed_password_field.value,
+            value: confirmedPasswordField.value,
         })
         try {
             const response = await api.post("account/signup", {
-                name: name_field.value,
-                password: password_field.value,
-                confirmed_password: confirmed_password_field.value,
+                name: nameField.value,
+                password: passwordField.value,
+                confirmed_password: confirmedPasswordField.value,
             })
             handleError(response)
         } catch (error) {
@@ -205,30 +205,30 @@ export const SignupFormComponent = () => {
         console.log(response)
         if (response.argument === "name") {
             return setNameField({
-                error_message: response.getErrorMessage(),
+                errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
-                value: name_field.value,
+                value: nameField.value,
             })
         }
         if (response.argument === "password") {
             return setPasswordField({
-                error_message: response.getErrorMessage(),
+                errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
-                value: password_field.value,
+                value: passwordField.value,
             })
         }
         if (response.argument === "confirmed_password") {
             return setConfirmedPasswordField({
-                error_message: response.getErrorMessage(),
+                errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
-                value: confirmed_password_field.value,
+                value: confirmedPasswordField.value,
             })
         }
         if (response.getErrorCode() === "name_taken") {
             return setNameField({
-                error_message: response.getErrorMessage(),
+                errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
-                value: name_field.value,
+                value: nameField.value,
             })
         }
     }
@@ -236,9 +236,9 @@ export const SignupFormComponent = () => {
     return (
         <SignupFormContext.Provider
             value={{
-                name_field,
-                password_field,
-                confirmed_password_field,
+                nameField,
+                passwordField,
+                confirmedPasswordField,
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
                 handleUpdateConfirmedPasswordValue,

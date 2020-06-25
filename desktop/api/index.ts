@@ -1,9 +1,4 @@
-import {
-    is_array_or_null,
-    is_string_or_null,
-    is_boolean,
-    is_string,
-} from "../lib/functions"
+import * as TypeCheck from "../lib/type_check"
 import { resolve } from "path"
 
 class UnexpectedResponseError extends Error {
@@ -30,22 +25,22 @@ export class Response implements ResponseInterface {
     error_code: string
     ok: boolean
     constructor(response: ResponseInterface) {
-        if (is_array_or_null(response.hint) === false) {
+        if (TypeCheck.isArrayOrNull(response.hint) === false) {
             throw new UnexpectedResponseError()
         }
-        if (is_array_or_null(response.description) === false) {
+        if (TypeCheck.isArrayOrNull(response.description) === false) {
             throw new UnexpectedResponseError()
         }
-        if (is_string_or_null(response.additional_message) === false) {
+        if (TypeCheck.isStringOrNull(response.additional_message) === false) {
             throw new UnexpectedResponseError()
         }
-        if (is_string_or_null(response.argument) === false) {
+        if (TypeCheck.isStringOrNull(response.argument) === false) {
             throw new UnexpectedResponseError()
         }
-        if (is_string(response.error_code) === false) {
+        if (TypeCheck.isString(response.error_code) === false) {
             throw new UnexpectedResponseError()
         }
-        if (is_boolean(response.ok) === false) {
+        if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
         }
         this.hint = response.hint ? response.hint : []

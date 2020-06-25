@@ -24,7 +24,7 @@ const context = {
 }
 const SignupFormContext = createContext(context)
 
-type InputComponentInput = {
+type InputComponentAttributes = {
     name: string
     type: string
     value: string
@@ -42,7 +42,7 @@ const InputComponent = ({
     label,
     errorMessage,
     hint,
-}: InputComponentInput) => {
+}: InputComponentAttributes) => {
     return (
         <div
             className={classnames("input-component", {

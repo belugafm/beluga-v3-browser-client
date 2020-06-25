@@ -138,14 +138,14 @@ export const SignupFormComponent = () => {
         hint: [],
         value: "",
     }
-    const [name_field, setName] = useState(initial_state)
-    const [password_field, setPassword] = useState(initial_state)
-    const [confirmed_password_field, setConfirmedPassword] = useState(
+    const [name_field, setNameField] = useState(initial_state)
+    const [password_field, setPasswordField] = useState(initial_state)
+    const [confirmed_password_field, setConfirmedPasswordField] = useState(
         initial_state
     )
     const handleUpdateNameValue = useCallback(
         (event) => {
-            setName({
+            setNameField({
                 error_message: name_field.error_message,
                 hint: name_field.hint,
                 value: event.target.value,
@@ -155,7 +155,7 @@ export const SignupFormComponent = () => {
     )
     const handleUpdatePasswordValue = useCallback(
         (event) => {
-            setPassword({
+            setPasswordField({
                 error_message: password_field.error_message,
                 hint: password_field.hint,
                 value: event.target.value,
@@ -165,7 +165,7 @@ export const SignupFormComponent = () => {
     )
     const handleUpdateConfirmedPasswordValue = useCallback(
         (event) => {
-            setConfirmedPassword({
+            setConfirmedPasswordField({
                 error_message: confirmed_password_field.error_message,
                 hint: confirmed_password_field.hint,
                 value: event.target.value,
@@ -175,17 +175,17 @@ export const SignupFormComponent = () => {
     )
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        setName({
+        setNameField({
             error_message: [],
             hint: [],
             value: name_field.value,
         })
-        setPassword({
+        setPasswordField({
             error_message: [],
             hint: [],
             value: password_field.value,
         })
-        setConfirmedPassword({
+        setConfirmedPasswordField({
             error_message: [],
             hint: [],
             value: confirmed_password_field.value,
@@ -204,28 +204,28 @@ export const SignupFormComponent = () => {
     const handleError = (response: api.Response) => {
         console.log(response)
         if (response.argument === "name") {
-            return setName({
+            return setNameField({
                 error_message: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: name_field.value,
             })
         }
         if (response.argument === "password") {
-            return setPassword({
+            return setPasswordField({
                 error_message: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: password_field.value,
             })
         }
         if (response.argument === "confirmed_password") {
-            return setConfirmedPassword({
+            return setConfirmedPasswordField({
                 error_message: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: confirmed_password_field.value,
             })
         }
         if (response.getErrorCode() === "name_taken") {
-            return setName({
+            return setNameField({
                 error_message: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: name_field.value,

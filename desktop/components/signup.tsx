@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useCallback } from "react"
 import classnames from "classnames"
 import * as WebAPI from "../api"
+import { useTheme } from "./theme"
 
 const context = {
     nameField: {
@@ -43,6 +44,7 @@ const InputComponent = ({
     errorMessage,
     hint,
 }: InputComponentAttributes) => {
+    const [theme] = useTheme()
     return (
         <div
             className={classnames("input-component", {

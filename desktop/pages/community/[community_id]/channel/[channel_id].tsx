@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { GetServerSideProps } from "next"
 
-export default function App({ params }) {
+export default ({ params }) => {
     return (
         <div>
             <Head>

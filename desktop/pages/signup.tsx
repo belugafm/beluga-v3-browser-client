@@ -1,16 +1,23 @@
 import Head from "next/head"
 import { GetStaticProps } from "next"
 import { SignupFormComponent } from "../components/signup"
+import { ThemeProvider, defaultUserTheme } from "../components/theme"
+import { App } from "../components/app"
 
-export default function App({}) {
+export default ({}) => {
     return (
         <div>
             <Head>
                 <title>アカウント登録</title>
             </Head>
-            <div>
-                <SignupFormComponent />
-            </div>
+            <ThemeProvider
+                userTheme={defaultUserTheme}
+                defaultGlobalThemeName="dark"
+            >
+                <App>
+                    <SignupFormComponent />
+                </App>
+            </ThemeProvider>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useCallback } from "react"
 import classnames from "classnames"
-import * as Api from "../api"
+import * as WebAPI from "../api"
 
 const context = {
     nameField: {
@@ -191,7 +191,7 @@ export const SignupFormComponent = () => {
             value: confirmedPasswordField.value,
         })
         try {
-            const response = await Api.post("account/signup", {
+            const response = await WebAPI.account.signup({
                 name: nameField.value,
                 password: passwordField.value,
                 confirmed_password: confirmedPasswordField.value,
@@ -201,7 +201,7 @@ export const SignupFormComponent = () => {
             console.log(error)
         }
     }
-    const handleError = (response: Api.Response) => {
+    const handleError = (response: WebAPI.Response) => {
         if (response.argument === "name") {
             return setNameField({
                 errorMessage: response.getErrorMessage(),

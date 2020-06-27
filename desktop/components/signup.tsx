@@ -2,28 +2,7 @@ import React, { useState, createContext, useContext, useCallback } from "react"
 import classnames from "classnames"
 import * as WebAPI from "../api"
 import { useTheme } from "./theme"
-
-const context = {
-    nameField: {
-        errorMessage: [],
-        hint: [],
-        value: "",
-    },
-    passwordField: {
-        errorMessage: [],
-        hint: [],
-        value: "",
-    },
-    confirmedPasswordField: {
-        errorMessage: [],
-        hint: [],
-        value: "",
-    },
-    handleUpdateNameValue: null,
-    handleUpdatePasswordValue: null,
-    handleUpdateConfirmedPasswordValue: null,
-}
-const SignupFormContext = createContext(context)
+import { useSignupFormState, SignupFormContext } from "../models/signup"
 
 type InputComponentAttributes = {
     name: string
@@ -70,6 +49,7 @@ const InputComponent = ({
             })}
             <style jsx>{`
                 .input-component {
+                    margin: auto;
                 }
                 .label {
                     display: block;
@@ -135,104 +115,15 @@ const FormInputConfirmedPassword = () => {
 }
 
 export const SignupFormComponent = () => {
-    const initialState = {
-        errorMessage: [],
-        hint: [],
-        value: "",
-    }
-    const [nameField, setNameField] = useState(initialState)
-    const [passwordField, setPasswordField] = useState(initialState)
-    const [confirmedPasswordField, setConfirmedPasswordField] = useState(
-        initialState
-    )
-    const handleUpdateNameValue = useCallback(
-        (event) => {
-            setNameField({
-                errorMessage: nameField.errorMessage,
-                hint: nameField.hint,
-                value: event.target.value,
-            })
-        },
-        [nameField]
-    )
-    const handleUpdatePasswordValue = useCallback(
-        (event) => {
-            setPasswordField({
-                errorMessage: passwordField.errorMessage,
-                hint: passwordField.hint,
-                value: event.target.value,
-            })
-        },
-        [passwordField]
-    )
-    const handleUpdateConfirmedPasswordValue = useCallback(
-        (event) => {
-            setConfirmedPasswordField({
-                errorMessage: confirmedPasswordField.errorMessage,
-                hint: confirmedPasswordField.hint,
-                value: event.target.value,
-            })
-        },
-        [confirmedPasswordField]
-    )
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setNameField({
-            errorMessage: [],
-            hint: [],
-            value: nameField.value,
-        })
-        setPasswordField({
-            errorMessage: [],
-            hint: [],
-            value: passwordField.value,
-        })
-        setConfirmedPasswordField({
-            errorMessage: [],
-            hint: [],
-            value: confirmedPasswordField.value,
-        })
-        try {
-            const response = await WebAPI.account.signup({
-                name: nameField.value,
-                password: passwordField.value,
-                confirmed_password: confirmedPasswordField.value,
-            })
-            handleError(response)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const handleError = (response: WebAPI.Response) => {
-        if (response.argument === "name") {
-            return setNameField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: nameField.value,
-            })
-        }
-        if (response.argument === "password") {
-            return setPasswordField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: passwordField.value,
-            })
-        }
-        if (response.argument === "confirmed_password") {
-            return setConfirmedPasswordField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: confirmedPasswordField.value,
-            })
-        }
-        if (response.getErrorCode() === "name_taken") {
-            return setNameField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: nameField.value,
-            })
-        }
-    }
+    const {
+        nameField,
+        passwordField,
+        confirmedPasswordField,
+        handleUpdateNameValue,
+        handleUpdatePasswordValue,
+        handleUpdateConfirmedPasswordValue,
+        handleSubmit,
+    } = useSignupFormState()
 
     return (
         <SignupFormContext.Provider

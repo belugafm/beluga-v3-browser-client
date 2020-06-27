@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, ReactType } from "react"
 type GlobalTheme = {
     backgroundPrimaryColor: string
     backgroundSecondaryColor: string
+    fontPrimaryColor: string
 }
 
 type UserTheme = {
@@ -10,13 +11,15 @@ type UserTheme = {
 }
 
 const defaultGlobalDarkTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#0B0D0F",
-    backgroundSecondaryColor: "#383B42",
+    backgroundPrimaryColor: "#232323",
+    backgroundSecondaryColor: "#2d2d2d",
+    fontPrimaryColor: "#FFFFFF",
 }
 
 const defaultGlobalLightTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#FFFFFF",
+    backgroundPrimaryColor: "#F0F2F5",
     backgroundSecondaryColor: "#E1E3E6",
+    fontPrimaryColor: "#222222",
 }
 
 export const defaultUserTheme: UserTheme = {

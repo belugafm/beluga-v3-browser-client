@@ -9,6 +9,7 @@ export const App = ({ children }) => {
                 body {
                     background-color: ${theme.global.current
                         .backgroundPrimaryColor};
+                    color: ${theme.global.current.fontPrimaryColor};
                 }
             `}</style>
         </>

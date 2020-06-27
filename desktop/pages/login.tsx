@@ -8,14 +8,14 @@ export default ({}) => {
     return (
         <div>
             <Head>
-                <title>アカウント登録</title>
+                <title>ログイン</title>
             </Head>
             <ThemeProvider
                 userTheme={defaultUserTheme}
                 defaultGlobalThemeName="dark"
             >
                 <App>
-                    <AccountSessionComponent active="signup" />
+                    <AccountSessionComponent active="login" />
                 </App>
             </ThemeProvider>
         </div>

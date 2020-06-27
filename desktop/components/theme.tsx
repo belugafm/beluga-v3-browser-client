@@ -70,8 +70,7 @@ export const ThemeProvider = ({
                     },
                 },
                 user: userTheme,
-            }}
-        >
+            }}>
             {children}
         </ThemeContext.Provider>
     )

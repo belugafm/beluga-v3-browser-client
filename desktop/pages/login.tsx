@@ -12,8 +12,7 @@ export default ({}) => {
             </Head>
             <ThemeProvider
                 userTheme={defaultUserTheme}
-                defaultGlobalThemeName="dark"
-            >
+                defaultGlobalThemeName="dark">
                 <App>
                     <AccountSessionComponent active="login" />
                 </App>

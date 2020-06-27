@@ -54,7 +54,10 @@ export const useSignupFormState = () => {
                 password: passwordField.value,
                 confirmed_password: confirmedPasswordField.value,
             })
-            handleError(response)
+            if (response.ok) {
+            } else {
+                handleError(response)
+            }
         } catch (error) {
             console.log(error)
         }

@@ -29,8 +29,7 @@ const InputComponent = ({
             className={classnames("input-component", {
                 error: errorMessage.length > 0,
                 hint: hint.length > 0,
-            })}
-        >
+            })}>
             <label className="label">{label}</label>
             <input name={name} value={value} type={type} onChange={onChange} />
             {errorMessage.map((line, index) => {
@@ -134,8 +133,7 @@ export const SignupFormComponent = () => {
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
                 handleUpdateConfirmedPasswordValue,
-            }}
-        >
+            }}>
             <form method="POST" action="/signup" onSubmit={handleSubmit}>
                 <FormInputName />
                 <FormInputPassword />

@@ -4,6 +4,44 @@ import {
     WebAPINotAvailableResponse,
     UnexpectedResponseError,
 } from "../api/classes"
+import fp from "fingerprintjs2"
+import crypto from "crypto"
+
+const getBrowserFingerprint = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        // @ts-ignore
+        if (window.requestIdleCallback) {
+            // @ts-ignore
+            requestIdleCallback(() => {
+                fp.get((components) => {
+                    const values = components.map((component) => {
+                        return component.value
+                    })
+                    resolve(
+                        crypto
+                            .createHash("sha256")
+                            .update(values.join(""))
+                            .digest("hex")
+                    )
+                })
+            })
+        } else {
+            setTimeout(() => {
+                fp.get((components) => {
+                    const values = components.map((component) => {
+                        return component.value
+                    })
+                    resolve(
+                        crypto
+                            .createHash("sha256")
+                            .update(values.join(""))
+                            .digest("hex")
+                    )
+                })
+            }, 500)
+        }
+    })
+}
 
 export const useSignupFormState = () => {
     const initialState = {
@@ -55,11 +93,13 @@ export const useSignupFormState = () => {
     )
 
     const signup = async () => {
+        const fingerprint = await getBrowserFingerprint()
         try {
             return await WebAPI.account.signup({
                 name: nameField.value,
                 password: passwordField.value,
                 confirmed_password: confirmedPasswordField.value,
+                fingerprint: fingerprint,
             })
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {

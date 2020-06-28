@@ -1,8 +1,7 @@
-import React, { useState, createContext, useContext, useCallback } from "react"
+import React, { useContext } from "react"
 import classnames from "classnames"
-import * as WebAPI from "../api"
-import { useTheme } from "./theme"
-import { useSignupFormState, SignupFormContext } from "../models/signup"
+import { useTheme } from "../../theme"
+import { useSignupFormState, SignupFormContext } from "../../../models/signup"
 
 type InputComponentAttributes = {
     name: string
@@ -55,10 +54,14 @@ const InputComponent = ({
                 }
                 .error-message {
                     display: none;
-                    color: red;
                 }
                 .input-component.error .error-message {
                     display: block;
+                }
+            `}</style>
+            <style jsx>{`
+                .error-message {
+                    color: ${theme.global.current.errorMessageFontColor};
                 }
             `}</style>
         </div>
@@ -113,11 +116,40 @@ const FormInputConfirmedPassword = () => {
     )
 }
 
+const GlobalErrorMessageComponent = () => {
+    const [theme] = useTheme()
+    const { globalErrorMessageField } = useContext(SignupFormContext)
+    return (
+        <div className="global-error">
+            {globalErrorMessageField.errorMessage.map((line, index) => {
+                return (
+                    <p key={index} className="error-message">
+                        {line}
+                    </p>
+                )
+            })}
+            {globalErrorMessageField.hint.map((line, index) => {
+                return (
+                    <p key={index} className="hint">
+                        {line}
+                    </p>
+                )
+            })}
+            <style jsx>{`
+                .error-message {
+                    color: ${theme.global.current.errorMessageFontColor};
+                }
+            `}</style>
+        </div>
+    )
+}
+
 export const SignupFormComponent = () => {
     const {
         nameField,
         passwordField,
         confirmedPasswordField,
+        globalErrorMessageField,
         handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmedPasswordValue,
@@ -130,11 +162,13 @@ export const SignupFormComponent = () => {
                 nameField,
                 passwordField,
                 confirmedPasswordField,
+                globalErrorMessageField,
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
                 handleUpdateConfirmedPasswordValue,
             }}>
             <form method="POST" action="/signup" onSubmit={handleSubmit}>
+                <GlobalErrorMessageComponent />
                 <FormInputName />
                 <FormInputPassword />
                 <FormInputConfirmedPassword />

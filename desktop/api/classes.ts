@@ -67,6 +67,13 @@ export class Response implements ResponseInterface {
     }
 }
 
+export const WebAPINotAvailableResponse: ResponseInterface = {
+    description: ["サーバーに接続できませんでした"],
+    hint: ["しばらく時間をおいてからアクセスしてください"],
+    error_code: "webapi_not_available",
+    ok: false,
+}
+
 export function post(method_url: string, body: object): Promise<Response> {
     return new Promise((resolve, reject) => {
         fetch(`/api/v1/${method_url}`, {

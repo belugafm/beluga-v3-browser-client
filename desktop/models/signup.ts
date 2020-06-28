@@ -1,5 +1,6 @@
 import { useState, useCallback, createContext } from "react"
 import * as WebAPI from "../api"
+import { WebAPINotAvailableResponse } from "../api/classes"
 
 export const useSignupFormState = () => {
     const initialState = {
@@ -12,6 +13,10 @@ export const useSignupFormState = () => {
     const [confirmedPasswordField, setConfirmedPasswordField] = useState(
         initialState
     )
+    const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
+        errorMessage: [],
+        hint: [],
+    })
 
     const handleUpdateNameValue = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,12 +64,16 @@ export const useSignupFormState = () => {
                 handleError(response)
             }
         } catch (error) {
-            console.log(error)
+            handleError(new WebAPI.Response(WebAPINotAvailableResponse))
         }
     }
 
     const handleError = (response: WebAPI.Response) => {
         if (response.argument === "name") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
             setPasswordField({
                 errorMessage: [],
                 hint: [],
@@ -75,13 +84,18 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmedPasswordField.value,
             })
-            return setNameField({
+            setNameField({
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: nameField.value,
             })
+            return
         }
         if (response.argument === "password") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
             setNameField({
                 errorMessage: [],
                 hint: [],
@@ -92,13 +106,18 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmedPasswordField.value,
             })
-            return setPasswordField({
+            setPasswordField({
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: passwordField.value,
             })
+            return
         }
         if (response.argument === "confirmed_password") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
             setNameField({
                 errorMessage: [],
                 hint: [],
@@ -109,13 +128,18 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: passwordField.value,
             })
-            return setConfirmedPasswordField({
+            setConfirmedPasswordField({
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: confirmedPasswordField.value,
             })
+            return
         }
         if (response.getErrorCode() === "name_taken") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
             setPasswordField({
                 errorMessage: [],
                 hint: [],
@@ -126,18 +150,41 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmedPasswordField.value,
             })
-            return setNameField({
+            setNameField({
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: nameField.value,
             })
+            return
         }
+
+        // その他のエラーは入力内容と無関係
+        setPasswordField({
+            errorMessage: [],
+            hint: [],
+            value: passwordField.value,
+        })
+        setConfirmedPasswordField({
+            errorMessage: [],
+            hint: [],
+            value: confirmedPasswordField.value,
+        })
+        setNameField({
+            errorMessage: [],
+            hint: [],
+            value: nameField.value,
+        })
+        setGlobalErrorMessageField({
+            errorMessage: response.getErrorMessage(),
+            hint: response.getHint(),
+        })
     }
 
     return {
         nameField,
         passwordField,
         confirmedPasswordField,
+        globalErrorMessageField,
         handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmedPasswordValue,
@@ -161,8 +208,14 @@ const context = {
         hint: [],
         value: "",
     },
+    globalErrorMessageField: {
+        errorMessage: [],
+        hint: [],
+        value: "",
+    },
     handleUpdateNameValue: null,
     handleUpdatePasswordValue: null,
     handleUpdateConfirmedPasswordValue: null,
 }
+
 export const SignupFormContext = createContext(context)

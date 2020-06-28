@@ -1,4 +1,4 @@
-import { SignupFormComponent } from "../../signup"
+import { SignupFormComponent } from "./signup"
 import { useTheme } from "../../theme"
 
 function getInnerComponent(active: string) {

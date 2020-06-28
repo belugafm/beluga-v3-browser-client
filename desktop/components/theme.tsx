@@ -4,6 +4,7 @@ type GlobalTheme = {
     backgroundPrimaryColor: string
     backgroundSecondaryColor: string
     fontPrimaryColor: string
+    errorMessageFontColor: string
 }
 
 type UserTheme = {
@@ -14,12 +15,14 @@ const defaultGlobalDarkTheme: GlobalTheme = {
     backgroundPrimaryColor: "#232323",
     backgroundSecondaryColor: "#2d2d2d",
     fontPrimaryColor: "#FFFFFF",
+    errorMessageFontColor: "#DC162F",
 }
 
 const defaultGlobalLightTheme: GlobalTheme = {
     backgroundPrimaryColor: "#F0F2F5",
     backgroundSecondaryColor: "#E1E3E6",
     fontPrimaryColor: "#222222",
+    errorMessageFontColor: "#DC162F",
 }
 
 export const defaultUserTheme: UserTheme = {

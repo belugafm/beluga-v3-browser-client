@@ -1,6 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
 
-class UnexpectedResponseError extends Error {
+export class UnexpectedResponseError extends Error {
     constructor() {
         super()
         Object.setPrototypeOf(this, UnexpectedResponseError.prototype)
@@ -24,23 +24,27 @@ export class Response implements ResponseInterface {
     error_code: string
     ok: boolean
     constructor(response: ResponseInterface) {
-        if (TypeCheck.isArrayOrNull(response.hint) === false) {
-            throw new UnexpectedResponseError()
-        }
-        if (TypeCheck.isArrayOrNull(response.description) === false) {
-            throw new UnexpectedResponseError()
-        }
-        if (TypeCheck.isStringOrNull(response.additional_message) === false) {
-            throw new UnexpectedResponseError()
-        }
-        if (TypeCheck.isStringOrNull(response.argument) === false) {
-            throw new UnexpectedResponseError()
-        }
-        if (TypeCheck.isString(response.error_code) === false) {
-            throw new UnexpectedResponseError()
-        }
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
+        }
+        if (response.ok === false) {
+            if (TypeCheck.isArrayOrNull(response.hint) === false) {
+                throw new UnexpectedResponseError()
+            }
+            if (TypeCheck.isArrayOrNull(response.description) === false) {
+                throw new UnexpectedResponseError()
+            }
+            if (
+                TypeCheck.isStringOrNull(response.additional_message) === false
+            ) {
+                throw new UnexpectedResponseError()
+            }
+            if (TypeCheck.isStringOrNull(response.argument) === false) {
+                throw new UnexpectedResponseError()
+            }
+            if (TypeCheck.isString(response.error_code) === false) {
+                throw new UnexpectedResponseError()
+            }
         }
         this.hint = response.hint ? response.hint : []
         this.description = response.description ? response.description : []

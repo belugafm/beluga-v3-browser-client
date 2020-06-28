@@ -30,6 +30,9 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                 }
             `}</style>
             <style jsx>{`
+                .tab-menu a {
+                    color: ${theme.global.current.fontPrimaryColor};
+                }
                 .session {
                     background-color: ${theme.global.current
                         .backgroundSecondaryColor};

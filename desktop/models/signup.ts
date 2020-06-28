@@ -1,6 +1,9 @@
 import { useState, useCallback, createContext } from "react"
 import * as WebAPI from "../api"
-import { WebAPINotAvailableResponse } from "../api/classes"
+import {
+    WebAPINotAvailableResponse,
+    UnexpectedResponseError,
+} from "../api/classes"
 
 export const useSignupFormState = () => {
     const initialState = {
@@ -51,20 +54,46 @@ export const useSignupFormState = () => {
         [confirmedPasswordField]
     )
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+    const signup = async () => {
         try {
-            const response = await WebAPI.account.signup({
+            return await WebAPI.account.signup({
                 name: nameField.value,
                 password: passwordField.value,
                 confirmed_password: confirmedPasswordField.value,
             })
-            if (response.ok) {
-            } else {
-                handleError(response)
-            }
         } catch (error) {
+            if (error instanceof UnexpectedResponseError) {
+                throw error
+            }
             handleError(new WebAPI.Response(WebAPINotAvailableResponse))
+        }
+    }
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const response = await signup()
+        if (response.ok) {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setNameField({
+                errorMessage: [],
+                hint: [],
+                value: nameField.value,
+            })
+            setPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: passwordField.value,
+            })
+            setConfirmedPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: confirmedPasswordField.value,
+            })
+        } else {
+            handleError(response)
         }
     }
 

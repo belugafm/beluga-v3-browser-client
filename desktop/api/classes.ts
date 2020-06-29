@@ -7,6 +7,13 @@ export class UnexpectedResponseError extends Error {
     }
 }
 
+export class ServerError extends Error {
+    constructor() {
+        super()
+        Object.setPrototypeOf(this, ServerError.prototype)
+    }
+}
+
 interface ResponseInterface {
     hint?: string[]
     description?: string[]
@@ -71,7 +78,7 @@ export class Response implements ResponseInterface {
     }
 }
 
-export const WebAPINotAvailableResponse: ResponseInterface = {
+export const WebAPIUnavailableResponse: ResponseInterface = {
     description: ["サーバーに接続できませんでした"],
     hint: ["しばらく時間をおいてからアクセスしてください"],
     error_code: "webapi_not_available",
@@ -88,6 +95,9 @@ export function post(method_url: string, body: object): Promise<Response> {
             body: JSON.stringify(body),
         })
             .then(async (data) => {
+                if (data.status !== 200) {
+                    return reject(new ServerError())
+                }
                 try {
                     const response = new Response(await data.json())
                     resolve(response)

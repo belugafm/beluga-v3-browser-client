@@ -1,7 +1,7 @@
 import { useState, useCallback, createContext } from "react"
 import * as WebAPI from "../api"
 import {
-    WebAPINotAvailableResponse,
+    WebAPIUnavailableResponse,
     UnexpectedResponseError,
 } from "../api/classes"
 import fp from "fingerprintjs2"
@@ -105,7 +105,7 @@ export const useSignupFormState = () => {
             if (error instanceof UnexpectedResponseError) {
                 throw error
             }
-            handleError(new WebAPI.Response(WebAPINotAvailableResponse))
+            return new WebAPI.Response(WebAPIUnavailableResponse)
         }
     }
 

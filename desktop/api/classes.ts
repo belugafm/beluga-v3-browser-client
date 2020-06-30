@@ -87,10 +87,12 @@ export const WebAPIUnavailableResponse: ResponseInterface = {
 
 export function post(method_url: string, body: object): Promise<Response> {
     return new Promise((resolve, reject) => {
-        fetch(`/api/v1/${method_url}`, {
+        fetch(`http://localhost.beluga.fm/api/v1/${method_url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-From": location.href,
             },
             body: JSON.stringify(body),
         })

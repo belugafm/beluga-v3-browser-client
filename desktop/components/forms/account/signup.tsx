@@ -167,7 +167,7 @@ export const SignupFormComponent = () => {
                 handleUpdatePasswordValue,
                 handleUpdateConfirmedPasswordValue,
             }}>
-            <form method="POST" action="/signup" onSubmit={handleSubmit}>
+            <form method="POST" action="" onSubmit={handleSubmit}>
                 <GlobalErrorMessageComponent />
                 <FormInputName />
                 <FormInputPassword />

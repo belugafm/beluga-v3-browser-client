@@ -132,6 +132,7 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmedPasswordField.value,
             })
+            location.href = "/welcome"
         } else {
             handleError(response)
         }
@@ -280,7 +281,6 @@ const context = {
     globalErrorMessageField: {
         errorMessage: [],
         hint: [],
-        value: "",
     },
     handleUpdateNameValue: null,
     handleUpdatePasswordValue: null,

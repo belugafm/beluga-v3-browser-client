@@ -2,19 +2,19 @@ import Head from "next/head"
 import { GetStaticProps } from "next"
 import { ThemeProvider, defaultUserTheme } from "../components/theme"
 import { App } from "../components/app"
-import { AccountSessionComponent } from "../components/forms/account/session"
+import { WelcomeComponent } from "../components/welcome"
 
 export default ({}) => {
     return (
         <div>
             <Head>
-                <title>ログイン</title>
+                <title>Belugaへようこそ！</title>
             </Head>
             <ThemeProvider
                 userTheme={defaultUserTheme}
                 defaultGlobalThemeName="light">
                 <App>
-                    <AccountSessionComponent active="signin" />
+                    <WelcomeComponent />
                 </App>
             </ThemeProvider>
         </div>

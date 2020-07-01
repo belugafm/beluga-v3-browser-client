@@ -1,0 +1,162 @@
+import { useState, useCallback, createContext } from "react"
+import * as WebAPI from "../api"
+import {
+    WebAPIUnavailableResponse,
+    UnexpectedResponseError,
+} from "../api/classes"
+
+export const useSigninFormState = () => {
+    const initialState = {
+        errorMessage: [],
+        hint: [],
+        value: "",
+    }
+    const [nameField, setNameField] = useState(initialState)
+    const [passwordField, setPasswordField] = useState(initialState)
+    const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
+        errorMessage: [],
+        hint: [],
+    })
+
+    const handleUpdateNameValue = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setNameField({
+                errorMessage: nameField.errorMessage,
+                hint: nameField.hint,
+                value: event.target.value,
+            })
+        },
+        [nameField]
+    )
+
+    const handleUpdatePasswordValue = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setPasswordField({
+                errorMessage: passwordField.errorMessage,
+                hint: passwordField.hint,
+                value: event.target.value,
+            })
+        },
+        [passwordField]
+    )
+
+    const signin = async () => {
+        try {
+            return await WebAPI.account.signin({
+                name: nameField.value,
+                password: passwordField.value,
+            })
+        } catch (error) {
+            if (error instanceof UnexpectedResponseError) {
+                throw error
+            }
+            return new WebAPI.Response(WebAPIUnavailableResponse)
+        }
+    }
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const response = await signin()
+        if (response.ok) {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setNameField({
+                errorMessage: [],
+                hint: [],
+                value: nameField.value,
+            })
+            setPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: passwordField.value,
+            })
+        } else {
+            handleError(response)
+        }
+    }
+
+    const handleError = (response: WebAPI.Response) => {
+        if (response.argument === "name") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: passwordField.value,
+            })
+            setNameField({
+                errorMessage: response.getErrorMessage(),
+                hint: response.getHint(),
+                value: nameField.value,
+            })
+            return
+        }
+        if (response.argument === "password") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setNameField({
+                errorMessage: [],
+                hint: [],
+                value: nameField.value,
+            })
+            setPasswordField({
+                errorMessage: response.getErrorMessage(),
+                hint: response.getHint(),
+                value: passwordField.value,
+            })
+            return
+        }
+
+        // その他のエラーは入力内容と無関係
+        setPasswordField({
+            errorMessage: [],
+            hint: [],
+            value: passwordField.value,
+        })
+        setNameField({
+            errorMessage: [],
+            hint: [],
+            value: nameField.value,
+        })
+        setGlobalErrorMessageField({
+            errorMessage: response.getErrorMessage(),
+            hint: response.getHint(),
+        })
+    }
+
+    return {
+        nameField,
+        passwordField,
+        globalErrorMessageField,
+        handleUpdateNameValue,
+        handleUpdatePasswordValue,
+        handleSubmit,
+    }
+}
+
+const context = {
+    nameField: {
+        errorMessage: [],
+        hint: [],
+        value: "",
+    },
+    passwordField: {
+        errorMessage: [],
+        hint: [],
+        value: "",
+    },
+    globalErrorMessageField: {
+        errorMessage: [],
+        hint: [],
+    },
+    handleUpdateNameValue: null,
+    handleUpdatePasswordValue: null,
+}
+
+export const SigninFormContext = createContext(context)

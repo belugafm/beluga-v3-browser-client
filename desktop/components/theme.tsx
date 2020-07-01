@@ -4,7 +4,11 @@ type GlobalTheme = {
     backgroundPrimaryColor: string
     backgroundSecondaryColor: string
     fontPrimaryColor: string
+    fontSecondaryColor: string
+    borderPrimaryColor: string
     errorMessageFontColor: string
+    boxShadow: string
+    transitionDuration: string
 }
 
 type UserTheme = {
@@ -12,17 +16,25 @@ type UserTheme = {
 }
 
 const defaultGlobalDarkTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#232323",
+    backgroundPrimaryColor: "#202020",
     backgroundSecondaryColor: "#2d2d2d",
     fontPrimaryColor: "#FFFFFF",
+    fontSecondaryColor: "#717171",
+    borderPrimaryColor: "#4c4c4c",
     errorMessageFontColor: "#DC162F",
+    boxShadow: "0px 1px 2px rgba(0,0,0,0.2)",
+    transitionDuration: "0.05s",
 }
 
 const defaultGlobalLightTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#F0F2F5",
-    backgroundSecondaryColor: "#E1E3E6",
+    backgroundPrimaryColor: "#f6f6f6",
+    backgroundSecondaryColor: "#fefefe",
     fontPrimaryColor: "#222222",
+    fontSecondaryColor: "#c5c5c5",
+    borderPrimaryColor: "#efefef",
     errorMessageFontColor: "#DC162F",
+    boxShadow: "0px 1px 2px rgba(0,0,0,0.08)",
+    transitionDuration: "0.05s",
 }
 
 export const defaultUserTheme: UserTheme = {

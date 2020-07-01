@@ -59,6 +59,13 @@ export class Response implements ResponseInterface {
         this.argument = response.argument
         this.error_code = response.error_code
         this.ok = response.ok
+
+        console.log(Object.keys(this))
+        for (const key in response) {
+            if (Object.keys(this).includes(key) === false) {
+                this[key] = response[key]
+            }
+        }
     }
     getErrorMessage() {
         const error_message = []

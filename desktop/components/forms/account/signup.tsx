@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
 import { useSignupFormState, SignupFormContext } from "../../../models/signup"
+import { useLoggedInUser } from "../../../models/session"
 
 type InputComponentAttributes = {
     name: string
@@ -144,6 +145,15 @@ const GlobalErrorMessageComponent = () => {
     )
 }
 
+const AlreadyLoggedInMessageComponent = () => {
+    const { loggedInUser, isLoading } = useLoggedInUser()
+    if (isLoading) {
+        return null
+    } else {
+        return <div>{`${loggedInUser.name}としてログイン中です`}</div>
+    }
+}
+
 export const SignupFormComponent = () => {
     const {
         nameField,
@@ -168,6 +178,7 @@ export const SignupFormComponent = () => {
                 handleUpdateConfirmedPasswordValue,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
+                <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <FormInputName />
                 <FormInputPassword />

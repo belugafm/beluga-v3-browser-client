@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { GetStaticProps } from "next"
+import { GetServerSideProps } from "next"
 import { ThemeProvider, defaultUserTheme } from "../components/theme"
 import { App } from "../components/app"
 import { WelcomeComponent } from "../components/welcome"
@@ -21,7 +21,7 @@ export default ({}) => {
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     return {
         props: {},
     }

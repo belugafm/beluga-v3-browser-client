@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, ReactType } from "react"
+import React, { createContext, useState, useContext } from "react"
+import Cookie from "cookie"
 
 type GlobalTheme = {
     backgroundPrimaryColor: string
@@ -68,7 +69,7 @@ export const ThemeProvider = ({
     const [currentGlobalThemeName, setCurrentGlobalThemeName]: [
         string,
         (key: string) => any
-    ] = useState(defaultGlobalThemeName)
+    ] = useState(defaultGlobalThemeName ? defaultGlobalThemeName : "light")
     return (
         <ThemeContext.Provider
             value={{
@@ -77,10 +78,14 @@ export const ThemeProvider = ({
                     light: defaultGlobalLightTheme,
                     current: defaultGlobalThemes[currentGlobalThemeName],
                     setCurrentTheme: (key: string) => {
-                        console.log("key", key)
                         if (key !== "dark" && key !== "light") {
                             return
                         }
+                        document.cookie = Cookie.serialize("theme", key, {
+                            expires: new Date(Date.now() + 86400 * 180),
+                            path: "/",
+                            domain: location.host,
+                        })
                         setCurrentGlobalThemeName(key)
                     },
                 },

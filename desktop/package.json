@@ -9,8 +9,10 @@
     },
     "dependencies": {
         "@types/classnames": "^2.2.10",
+        "@types/cookie": "^0.4.0",
         "@types/fingerprintjs2": "^2.0.0",
         "classnames": "^2.2.6",
+        "cookie": "^0.4.1",
         "date-fns": "^2.11.1",
         "fingerprintjs2": "^2.1.0",
         "gray-matter": "^4.0.2",

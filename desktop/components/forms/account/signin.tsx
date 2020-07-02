@@ -129,11 +129,11 @@ const GlobalErrorMessageComponent = () => {
 }
 
 const AlreadyLoggedInMessageComponent = () => {
-    const { loggedInUser, isLoading } = useLoggedInUser()
-    if (isLoading) {
-        return null
-    } else {
+    const { loggedInUser } = useLoggedInUser()
+    if (loggedInUser) {
         return <div>{`${loggedInUser.name}としてログイン中です`}</div>
+    } else {
+        return null
     }
 }
 

@@ -76,6 +76,8 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                     background-color: ${theme.global.current
                         .backgroundSecondaryColor};
                     box-shadow: ${theme.global.current.boxShadow};
+                    transition: background-color
+                        ${theme.global.current.transitionDuration} linear 0s;
                 }
                 .tab-menu a {
                     color: ${theme.global.current.fontSecondaryColor};
@@ -98,6 +100,8 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                 .tab-menu ul {
                     border-bottom: 1px solid
                         ${theme.global.current.borderPrimaryColor};
+                    transition: border-bottom-color
+                        ${theme.global.current.transitionDuration} linear 0s;
                 }
             `}</style>
         </div>

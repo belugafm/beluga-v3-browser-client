@@ -82,7 +82,9 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                 .tab-menu a {
                     color: ${theme.global.current.fontSecondaryColor};
                     transition: color ${theme.global.current.transitionDuration}
-                        linear 0s;
+                            linear 0s,
+                        border-bottom-color
+                            ${theme.global.current.transitionDuration} linear 0s;
                 }
                 .tab-menu a:hover {
                     color: ${theme.global.current.fontPrimaryColor};

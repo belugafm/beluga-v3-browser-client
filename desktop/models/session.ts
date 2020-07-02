@@ -9,6 +9,6 @@ export const useLoggedInUser = () => {
         loggedInUser: data ? data["user"] : null,
         needsLogin: data ? data["logged_out"] === true : false,
         error: error,
-        isLoading: data == null,
+        isLoading: data == null && error == null,
     }
 }

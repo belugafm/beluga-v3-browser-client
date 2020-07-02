@@ -58,6 +58,14 @@ export const useSignupFormState = () => {
         errorMessage: [],
         hint: [],
     })
+    const [
+        termsOfServiceAgreementField,
+        setTermsOfServiceAgreementField,
+    ] = useState({
+        errorMessage: [],
+        hint: [],
+        checked: false,
+    })
 
     const handleUpdateNameValue = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +100,28 @@ export const useSignupFormState = () => {
         [confirmedPasswordField]
     )
 
+    const handleTermsOfServiceAgreementChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setTermsOfServiceAgreementField({
+                errorMessage: termsOfServiceAgreementField.errorMessage,
+                hint: termsOfServiceAgreementField.hint,
+                checked: event.target.checked,
+            })
+        },
+        [termsOfServiceAgreementField]
+    )
+
     const signup = async () => {
+        if (termsOfServiceAgreementField.checked !== true) {
+            return new WebAPI.Response({
+                ok: false,
+                error_code: "you_must_agree_to_terms_of_service",
+                description: ["利用規約をお読みください"],
+                hint: [
+                    "同意する場合はチェックボックスにチェックを入れてください",
+                ],
+            })
+        }
         const fingerprint = await getBrowserFingerprint()
         try {
             return await WebAPI.account.signup({
@@ -227,6 +256,33 @@ export const useSignupFormState = () => {
             })
             return
         }
+        if (response.getErrorCode() === "you_must_agree_to_terms_of_service") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: passwordField.value,
+            })
+            setConfirmedPasswordField({
+                errorMessage: [],
+                hint: [],
+                value: confirmedPasswordField.value,
+            })
+            setNameField({
+                errorMessage: [],
+                hint: [],
+                value: nameField.value,
+            })
+            setTermsOfServiceAgreementField({
+                errorMessage: response.getErrorMessage(),
+                hint: response.getHint(),
+                checked: false,
+            })
+            return
+        }
 
         // その他のエラーは入力内容と無関係
         setPasswordField({
@@ -255,9 +311,11 @@ export const useSignupFormState = () => {
         passwordField,
         confirmedPasswordField,
         globalErrorMessageField,
+        termsOfServiceAgreementField,
         handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmedPasswordValue,
+        handleTermsOfServiceAgreementChange,
         handleSubmit,
     }
 }
@@ -282,9 +340,15 @@ const context = {
         errorMessage: [],
         hint: [],
     },
+    termsOfServiceAgreementField: {
+        errorMessage: [],
+        hint: [],
+        checked: false,
+    },
     handleUpdateNameValue: null,
     handleUpdatePasswordValue: null,
     handleUpdateConfirmedPasswordValue: null,
+    handleTermsOfServiceAgreementChange: null,
 }
 
 export const SignupFormContext = createContext(context)

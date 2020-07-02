@@ -38,8 +38,21 @@ const defaultGlobalLightTheme: GlobalTheme = {
     transitionDuration: "0.05s",
 }
 
-export const defaultUserTheme: UserTheme = {
-    linkPrimaryColor: "",
+export const defaultUserDarkTheme: UserTheme = {
+    linkPrimaryColor: "#7aa3f8",
+}
+export const defaultUserLightTheme: UserTheme = {
+    linkPrimaryColor: "#4d7bb7",
+}
+
+export const getDefaultUserTheme = (theme: string) => {
+    if (theme === "dark") {
+        return defaultUserDarkTheme
+    }
+    if (theme === "light") {
+        return defaultUserLightTheme
+    }
+    throw new Error("`theme`が不正です")
 }
 
 const defaultGlobalThemes = {
@@ -89,7 +102,9 @@ export const ThemeProvider = ({
                         setCurrentGlobalThemeName(key)
                     },
                 },
-                user: userTheme,
+                user: userTheme
+                    ? userTheme
+                    : getDefaultUserTheme(currentGlobalThemeName),
             }}>
             {children}
         </ThemeContext.Provider>

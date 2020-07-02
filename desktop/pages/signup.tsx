@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { ThemeProvider, defaultUserTheme } from "../components/theme"
+import { ThemeProvider } from "../components/theme"
 import { App } from "../components/app"
 export { getServerSideProps } from "../components/app"
 import { AccountSessionComponent } from "../components/forms/account/session"
@@ -11,9 +11,7 @@ export default ({ theme }) => {
             <Head>
                 <title>アカウント登録</title>
             </Head>
-            <ThemeProvider
-                userTheme={defaultUserTheme}
-                defaultGlobalThemeName={theme}>
+            <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
                 <App>
                     <AccountSessionComponent active="signup" />
                     <ThemeSettingComponent />

@@ -42,7 +42,7 @@ export const defaultUserDarkTheme: UserTheme = {
     linkPrimaryColor: "#64b5f6",
 }
 export const defaultUserLightTheme: UserTheme = {
-    linkPrimaryColor: "#4d7bb7",
+    linkPrimaryColor: "#477da7",
 }
 
 export const getDefaultUserTheme = (theme: string) => {

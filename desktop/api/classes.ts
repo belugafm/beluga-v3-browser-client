@@ -1,4 +1,5 @@
 import * as TypeCheck from "../lib/type_check"
+import config from "../config"
 
 export class UnexpectedResponseError extends Error {
     constructor() {
@@ -93,7 +94,8 @@ export const WebAPIUnavailableResponse: ResponseInterface = {
 
 export function post(method_url: string, body: object): Promise<Response> {
     return new Promise((resolve, reject) => {
-        fetch(`http://localhost.beluga.fm/api/v1/${method_url}`, {
+        const protocol = config.server.https ? "https" : "http"
+        fetch(`${protocol}://${config.server.domain}/api/v1/${method_url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",

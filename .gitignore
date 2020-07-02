@@ -2,3 +2,4 @@ nextjs-blog
 .vscode
 .DS_Store
 npm-debug.log
+desktop/config.ts

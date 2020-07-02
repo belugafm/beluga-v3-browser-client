@@ -6,7 +6,13 @@ export const WelcomeComponent = () => {
     return (
         <div className="welcome">
             <div>Belugaへようこそ！</div>
-            <div>ここに良い感じのガイダンス的なやつを入れる</div>
+            <div>
+                <ul>
+                    <li>
+                        <a href="/home">ホーム</a>
+                    </li>
+                </ul>
+            </div>
             <style jsx>{`
                 .welcome {
                     width: 500px;

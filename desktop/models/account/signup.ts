@@ -1,9 +1,9 @@
 import { useState, useCallback, createContext } from "react"
-import * as WebAPI from "../api"
+import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
-} from "../api/classes"
+} from "../../api/classes"
 import fp from "fingerprintjs2"
 import crypto from "crypto"
 
@@ -161,6 +161,11 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmedPasswordField.value,
             })
+            setTermsOfServiceAgreementField({
+                errorMessage: [],
+                hint: [],
+                checked: true,
+            })
             location.href = "/welcome"
         } else {
             handleError(response)
@@ -188,6 +193,11 @@ export const useSignupFormState = () => {
                 hint: response.getHint(),
                 value: nameField.value,
             })
+            setTermsOfServiceAgreementField({
+                errorMessage: [],
+                hint: [],
+                checked: termsOfServiceAgreementField.checked,
+            })
             return
         }
         if (response.argument === "password") {
@@ -209,6 +219,11 @@ export const useSignupFormState = () => {
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: passwordField.value,
+            })
+            setTermsOfServiceAgreementField({
+                errorMessage: [],
+                hint: [],
+                checked: termsOfServiceAgreementField.checked,
             })
             return
         }
@@ -232,6 +247,11 @@ export const useSignupFormState = () => {
                 hint: response.getHint(),
                 value: confirmedPasswordField.value,
             })
+            setTermsOfServiceAgreementField({
+                errorMessage: [],
+                hint: [],
+                checked: termsOfServiceAgreementField.checked,
+            })
             return
         }
         if (response.getErrorCode() === "name_taken") {
@@ -253,6 +273,11 @@ export const useSignupFormState = () => {
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
                 value: nameField.value,
+            })
+            setTermsOfServiceAgreementField({
+                errorMessage: [],
+                hint: [],
+                checked: termsOfServiceAgreementField.checked,
             })
             return
         }
@@ -303,6 +328,11 @@ export const useSignupFormState = () => {
         setGlobalErrorMessageField({
             errorMessage: response.getErrorMessage(),
             hint: response.getHint(),
+        })
+        setTermsOfServiceAgreementField({
+            errorMessage: [],
+            hint: [],
+            checked: termsOfServiceAgreementField.checked,
         })
     }
 

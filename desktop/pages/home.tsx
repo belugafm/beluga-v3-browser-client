@@ -8,11 +8,18 @@ export default ({ theme }) => {
     return (
         <div>
             <Head>
-                <title>ログイン</title>
+                <title>ホーム</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
                 <App>
-                    <AccountSessionComponent active="signin" />
+                    <ul>
+                        <li>
+                            <a href="/channel/create">チャンネル作成</a>
+                        </li>
+                        <li>
+                            <a href="/community/create">コミュニティ作成</a>
+                        </li>
+                    </ul>
                 </App>
             </ThemeProvider>
         </div>

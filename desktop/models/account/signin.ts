@@ -1,9 +1,9 @@
 import { useState, useCallback, createContext } from "react"
-import * as WebAPI from "../api"
+import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
-} from "../api/classes"
+} from "../../api/classes"
 
 export const useSigninFormState = () => {
     const initialState = {

@@ -1,7 +1,10 @@
 import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
-import { useSignupFormState, SignupFormContext } from "../../../models/signup"
+import {
+    useSignupFormState,
+    SignupFormContext,
+} from "../../../models/account/signup"
 import { useLoggedInUser } from "../../../models/session"
 
 type InputComponentAttributes = {

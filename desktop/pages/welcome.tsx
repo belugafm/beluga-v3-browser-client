@@ -1,5 +1,5 @@
-import Head from "next/head"
 export { getServerSideProps } from "../components/app"
+import Head from "next/head"
 import { ThemeProvider } from "../components/theme"
 import { App } from "../components/app"
 import { WelcomeComponent } from "../components/welcome"

@@ -126,13 +126,13 @@ const TermsOfServiceCheckbox = () => {
     return (
         <div>
             <a
-                href="https://github.com/belugafm/beluga-v2-api-server/blob/development/terms_of_service.md"
+                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/terms_of_service.md"
                 target="_blank">
                 利用規約
             </a>
             および
             <a
-                href="https://github.com/belugafm/beluga-v2-api-server/blob/development/privacy.md"
+                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/privacy.md"
                 target="_blank">
                 プライバシーポリシー
             </a>

@@ -2,7 +2,7 @@ export { getServerSideProps } from "../../components/app"
 import Head from "next/head"
 import { ThemeProvider } from "../../components/theme"
 import { App } from "../../components/app"
-import { AccountSessionComponent } from "../../components/forms/account/session"
+import { CreateChannelFormComponent } from "../../components/forms/channel/create"
 
 export default ({ theme }) => {
     return (
@@ -11,7 +11,9 @@ export default ({ theme }) => {
                 <title>チャンネルの作成</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <App></App>
+                <App>
+                    <CreateChannelFormComponent />
+                </App>
             </ThemeProvider>
         </div>
     )

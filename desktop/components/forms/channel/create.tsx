@@ -2,14 +2,12 @@ import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
 import {
-    useSigninFormState,
-    SigninFormContext,
-} from "../../../models/account/signin"
+    useChannelCreateFormState,
+    CreateChannelFormContext,
+} from "../../../models/channel/create"
 import { useLoggedInUser } from "../../../models/session"
 
 type InputComponentAttributes = {
-    name: string
-    type: string
     value: string
     onChange: any
     label: string
@@ -18,8 +16,6 @@ type InputComponentAttributes = {
 }
 
 const InputComponent = ({
-    name,
-    type,
     value,
     onChange,
     label,
@@ -34,7 +30,7 @@ const InputComponent = ({
                 hint: hint.length > 0,
             })}>
             <label className="label">{label}</label>
-            <input name={name} value={value} type={type} onChange={onChange} />
+            <input value={value} type="text" onChange={onChange} />
             {errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">
@@ -72,13 +68,67 @@ const InputComponent = ({
     )
 }
 
-const FormInputName = () => {
-    const { nameField, handleUpdateNameValue } = useContext(SigninFormContext)
+const TextareaComponent = ({
+    value,
+    onChange,
+    label,
+    errorMessage,
+    hint,
+}: InputComponentAttributes) => {
+    const [theme] = useTheme()
+    return (
+        <div
+            className={classnames("input-component", {
+                error: errorMessage.length > 0,
+                hint: hint.length > 0,
+            })}>
+            <label className="label">{label}</label>
+            <textarea onChange={onChange}>{value}</textarea>
+            {errorMessage.map((line, index) => {
+                return (
+                    <p key={index} className="error-message">
+                        {line}
+                    </p>
+                )
+            })}
+            {hint.map((line, index) => {
+                return (
+                    <p key={index} className="hint">
+                        {line}
+                    </p>
+                )
+            })}
+            <style jsx>{`
+                .input-component {
+                    margin: auto;
+                }
+                .label {
+                    display: block;
+                }
+                .error-message {
+                    display: none;
+                }
+                .input-component.error .error-message {
+                    display: block;
+                }
+            `}</style>
+            <style jsx>{`
+                .error-message {
+                    color: ${theme.global.current.errorMessageFontColor};
+                }
+            `}</style>
+        </div>
+    )
+}
+
+const NameInputForm = () => {
+    const { nameField, handleUpdateNameValue } = useContext(
+        CreateChannelFormContext
+    )
     return (
         <InputComponent
-            label="ユーザー名"
+            label="チャンネル名"
             type="text"
-            name="name"
             value={nameField.value}
             errorMessage={nameField.errorMessage}
             hint={nameField.hint}
@@ -86,26 +136,66 @@ const FormInputName = () => {
         />
     )
 }
-const FormInputPassword = () => {
-    const { passwordField, handleUpdatePasswordValue } = useContext(
-        SigninFormContext
+const DescriptionInputForm = () => {
+    const { descriptionField, handleUpdateDescriptionValue } = useContext(
+        CreateChannelFormContext
     )
     return (
-        <InputComponent
-            label="パスワード"
-            type="password"
-            name="password"
-            value={passwordField.value}
-            errorMessage={passwordField.errorMessage}
-            hint={passwordField.hint}
-            onChange={handleUpdatePasswordValue}
+        <TextareaComponent
+            label="チャンネルの説明"
+            value={descriptionField.value}
+            errorMessage={descriptionField.errorMessage}
+            hint={descriptionField.hint}
+            onChange={handleUpdateDescriptionValue}
         />
+    )
+}
+
+const IsPublicCheckbox = () => {
+    const [theme] = useTheme()
+    const { isPublicField, handleUpdateIsPublicChecked } = useContext(
+        CreateChannelFormContext
+    )
+    return (
+        <div>
+            <label>
+                <input
+                    type="checkbox"
+                    name="is_public"
+                    checked={isPublicField.checked}
+                    onChange={handleUpdateIsPublicChecked}
+                />
+                パブリック
+            </label>
+            <p className="hint">
+                パブリックに設定すると、このチャンネルの投稿はグローバルタイムラインやコミュニティタイムラインに表示されます
+            </p>
+            {isPublicField.errorMessage.map((line, index) => {
+                return (
+                    <p key={index} className="error-message">
+                        {line}
+                    </p>
+                )
+            })}
+            {isPublicField.hint.map((line, index) => {
+                return (
+                    <p key={index} className="hint">
+                        {line}
+                    </p>
+                )
+            })}
+            <style jsx>{`
+                .error-message {
+                    color: ${theme.global.current.errorMessageFontColor};
+                }
+            `}</style>
+        </div>
     )
 }
 
 const GlobalErrorMessageComponent = () => {
     const [theme] = useTheme()
-    const { globalErrorMessageField } = useContext(SigninFormContext)
+    const { globalErrorMessageField } = useContext(CreateChannelFormContext)
     return (
         <div className="global-error">
             {globalErrorMessageField.errorMessage.map((line, index) => {
@@ -131,41 +221,36 @@ const GlobalErrorMessageComponent = () => {
     )
 }
 
-const AlreadyLoggedInMessageComponent = () => {
-    const { loggedInUser } = useLoggedInUser()
-    if (loggedInUser) {
-        return <div>{`${loggedInUser.name}としてログイン中です`}</div>
-    } else {
-        return null
-    }
-}
-
-export const SigninFormComponent = () => {
+export const CreateChannelFormComponent = () => {
     const {
         nameField,
-        passwordField,
+        descriptionField,
         globalErrorMessageField,
+        isPublicField,
         handleUpdateNameValue,
-        handleUpdatePasswordValue,
+        handleUpdateDescriptionValue,
+        handleUpdateIsPublicChecked,
         handleSubmit,
-    } = useSigninFormState()
+    } = useChannelCreateFormState()
 
     return (
-        <SigninFormContext.Provider
+        <CreateChannelFormContext.Provider
             value={{
                 nameField,
-                passwordField,
+                descriptionField,
                 globalErrorMessageField,
+                isPublicField,
                 handleUpdateNameValue,
-                handleUpdatePasswordValue,
+                handleUpdateDescriptionValue,
+                handleUpdateIsPublicChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
-                <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
-                <FormInputName />
-                <FormInputPassword />
-                <button type="submit">ログイン</button>
+                <NameInputForm />
+                <DescriptionInputForm />
+                <IsPublicCheckbox />
+                <button type="submit">チャンネルを作成</button>
             </form>
-        </SigninFormContext.Provider>
+        </CreateChannelFormContext.Provider>
     )
 }

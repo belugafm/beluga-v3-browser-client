@@ -2,9 +2,11 @@ import { Response, post } from "../../classes"
 
 type Arguments = {
     name: string
+    description: string
+    is_public: boolean
     community_id?: string
 }
 
 export function create(body: Arguments): Promise<Response> {
-    return post("channel/create", body)
+    return post("channels/create", body)
 }

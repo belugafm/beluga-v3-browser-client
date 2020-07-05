@@ -72,7 +72,7 @@ const InputComponent = ({
     )
 }
 
-const FormInputName = () => {
+const NameInputForm = () => {
     const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
     return (
         <InputComponent
@@ -86,7 +86,7 @@ const FormInputName = () => {
         />
     )
 }
-const FormInputPassword = () => {
+const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(
         SignupFormContext
     )
@@ -102,7 +102,7 @@ const FormInputPassword = () => {
         />
     )
 }
-const FormInputConfirmedPassword = () => {
+const ConfirmedPasswordInputForm = () => {
     const {
         confirmedPasswordField,
         handleUpdateConfirmedPasswordValue,
@@ -124,7 +124,7 @@ const TermsOfServiceCheckbox = () => {
     const [theme] = useTheme()
     const {
         termsOfServiceAgreementField,
-        handleTermsOfServiceAgreementChange,
+        handleTermsOfServiceAgreementChecked,
     } = useContext(SignupFormContext)
     return (
         <div>
@@ -143,7 +143,7 @@ const TermsOfServiceCheckbox = () => {
             <input
                 type="checkbox"
                 checked={termsOfServiceAgreementField.checked}
-                onChange={handleTermsOfServiceAgreementChange}
+                onChange={handleTermsOfServiceAgreementChecked}
             />
             {termsOfServiceAgreementField.errorMessage.map((line, index) => {
                 return (
@@ -215,7 +215,7 @@ export const SignupFormComponent = () => {
         handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmedPasswordValue,
-        handleTermsOfServiceAgreementChange,
+        handleTermsOfServiceAgreementChecked,
         handleSubmit,
     } = useSignupFormState()
 
@@ -230,14 +230,14 @@ export const SignupFormComponent = () => {
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
                 handleUpdateConfirmedPasswordValue,
-                handleTermsOfServiceAgreementChange,
+                handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
-                <FormInputName />
-                <FormInputPassword />
-                <FormInputConfirmedPassword />
+                <NameInputForm />
+                <PasswordInputForm />
+                <ConfirmedPasswordInputForm />
                 <TermsOfServiceCheckbox />
                 <button type="submit">登録する</button>
             </form>

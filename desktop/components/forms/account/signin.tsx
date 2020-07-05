@@ -72,7 +72,7 @@ const InputComponent = ({
     )
 }
 
-const FormInputName = () => {
+const NameInputForm = () => {
     const { nameField, handleUpdateNameValue } = useContext(SigninFormContext)
     return (
         <InputComponent
@@ -86,7 +86,7 @@ const FormInputName = () => {
         />
     )
 }
-const FormInputPassword = () => {
+const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(
         SigninFormContext
     )
@@ -162,8 +162,8 @@ export const SigninFormComponent = () => {
             <form method="POST" action="" onSubmit={handleSubmit}>
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
-                <FormInputName />
-                <FormInputPassword />
+                <NameInputForm />
+                <PasswordInputForm />
                 <button type="submit">ログイン</button>
             </form>
         </SigninFormContext.Provider>

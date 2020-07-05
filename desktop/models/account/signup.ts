@@ -100,7 +100,7 @@ export const useSignupFormState = () => {
         [confirmedPasswordField]
     )
 
-    const handleTermsOfServiceAgreementChange = useCallback(
+    const handleTermsOfServiceAgreementChecked = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setTermsOfServiceAgreementField({
                 errorMessage: termsOfServiceAgreementField.errorMessage,
@@ -345,7 +345,7 @@ export const useSignupFormState = () => {
         handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmedPasswordValue,
-        handleTermsOfServiceAgreementChange,
+        handleTermsOfServiceAgreementChecked,
         handleSubmit,
     }
 }
@@ -378,7 +378,7 @@ const context = {
     handleUpdateNameValue: null,
     handleUpdatePasswordValue: null,
     handleUpdateConfirmedPasswordValue: null,
-    handleTermsOfServiceAgreementChange: null,
+    handleTermsOfServiceAgreementChecked: null,
 }
 
 export const SignupFormContext = createContext(context)

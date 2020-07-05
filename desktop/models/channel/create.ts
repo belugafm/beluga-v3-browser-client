@@ -3,6 +3,7 @@ import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
+    WebAPIUnexpectedErrorResponse,
 } from "../../api/classes"
 
 export const useChannelCreateFormState = () => {
@@ -89,6 +90,13 @@ export const useChannelCreateFormState = () => {
                 hint: [],
                 value: descriptionField.value,
             })
+            const { channel } = response
+            if (channel == null) {
+                return handleError(
+                    new WebAPI.Response(WebAPIUnexpectedErrorResponse)
+                )
+            }
+            location.href = `/channel/${channel.id}`
         } else {
             handleError(response)
         }

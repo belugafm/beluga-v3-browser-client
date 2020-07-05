@@ -83,7 +83,7 @@ const TextareaComponent = ({
                 hint: hint.length > 0,
             })}>
             <label className="label">{label}</label>
-            <textarea onChange={onChange}>{value}</textarea>
+            <textarea onChange={onChange} value={value} />
             {errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">

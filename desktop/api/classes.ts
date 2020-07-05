@@ -15,6 +15,15 @@ export class ServerError extends Error {
     }
 }
 
+type Channel = {
+    id: string
+    name: string
+    description: string
+    is_public: boolean
+    created_at: Date
+    community_id: string | null
+}
+
 interface ResponseInterface {
     hint?: string[]
     description?: string[]
@@ -22,6 +31,7 @@ interface ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
+    channel?: Channel
 }
 
 export class Response implements ResponseInterface {
@@ -31,6 +41,7 @@ export class Response implements ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
+    channel?: Channel
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
@@ -61,10 +72,8 @@ export class Response implements ResponseInterface {
         this.error_code = response.error_code
         this.ok = response.ok
 
-        for (const key in response) {
-            if (Object.keys(this).includes(key) === false) {
-                this[key] = response[key]
-            }
+        if (response.channel) {
+            this.channel = response.channel
         }
     }
     getErrorMessage() {
@@ -89,6 +98,13 @@ export const WebAPIUnavailableResponse: ResponseInterface = {
     description: ["サーバーに接続できませんでした"],
     hint: ["しばらく時間をおいてからアクセスしてください"],
     error_code: "webapi_not_available",
+    ok: false,
+}
+
+export const WebAPIUnexpectedErrorResponse: ResponseInterface = {
+    description: ["サーバーで問題が発生しました"],
+    hint: ["管理者にお問い合わせください"],
+    error_code: "webapi_unexpected_error",
     ok: false,
 }
 

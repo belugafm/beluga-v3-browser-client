@@ -2,10 +2,10 @@ import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
 import {
-    useSignupFormState,
-    SignupFormContext,
-} from "../../../models/account/signup"
-import { useLoggedInUser } from "../../../models/session"
+    useSigninFormState,
+    SigninFormContext,
+} from "../../../state/account/signin"
+import { useLoggedInUser } from "../../../state/session"
 
 type InputComponentAttributes = {
     name: string
@@ -73,7 +73,7 @@ const InputComponent = ({
 }
 
 const NameInputForm = () => {
-    const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
+    const { nameField, handleUpdateNameValue } = useContext(SigninFormContext)
     return (
         <InputComponent
             label="ユーザー名"
@@ -88,7 +88,7 @@ const NameInputForm = () => {
 }
 const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(
-        SignupFormContext
+        SigninFormContext
     )
     return (
         <InputComponent
@@ -102,75 +102,10 @@ const PasswordInputForm = () => {
         />
     )
 }
-const ConfirmedPasswordInputForm = () => {
-    const {
-        confirmedPasswordField,
-        handleUpdateConfirmedPasswordValue,
-    } = useContext(SignupFormContext)
-    return (
-        <InputComponent
-            label="パスワードの確認"
-            type="password"
-            name="confirmed_password"
-            value={confirmedPasswordField.value}
-            errorMessage={confirmedPasswordField.errorMessage}
-            hint={confirmedPasswordField.hint}
-            onChange={handleUpdateConfirmedPasswordValue}
-        />
-    )
-}
-
-const TermsOfServiceCheckbox = () => {
-    const [theme] = useTheme()
-    const {
-        termsOfServiceAgreementField,
-        handleTermsOfServiceAgreementChecked,
-    } = useContext(SignupFormContext)
-    return (
-        <div>
-            <a
-                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/terms_of_service.md"
-                target="_blank">
-                利用規約
-            </a>
-            および
-            <a
-                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/privacy.md"
-                target="_blank">
-                プライバシーポリシー
-            </a>
-            を読み、同意します
-            <input
-                type="checkbox"
-                checked={termsOfServiceAgreementField.checked}
-                onChange={handleTermsOfServiceAgreementChecked}
-            />
-            {termsOfServiceAgreementField.errorMessage.map((line, index) => {
-                return (
-                    <p key={index} className="error-message">
-                        {line}
-                    </p>
-                )
-            })}
-            {termsOfServiceAgreementField.hint.map((line, index) => {
-                return (
-                    <p key={index} className="hint">
-                        {line}
-                    </p>
-                )
-            })}
-            <style jsx>{`
-                .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
-                }
-            `}</style>
-        </div>
-    )
-}
 
 const GlobalErrorMessageComponent = () => {
     const [theme] = useTheme()
-    const { globalErrorMessageField } = useContext(SignupFormContext)
+    const { globalErrorMessageField } = useContext(SigninFormContext)
     return (
         <div className="global-error">
             {globalErrorMessageField.errorMessage.map((line, index) => {
@@ -205,42 +140,32 @@ const AlreadyLoggedInMessageComponent = () => {
     }
 }
 
-export const SignupFormComponent = () => {
+export const SigninFormComponent = () => {
     const {
         nameField,
         passwordField,
-        confirmedPasswordField,
         globalErrorMessageField,
-        termsOfServiceAgreementField,
         handleUpdateNameValue,
         handleUpdatePasswordValue,
-        handleUpdateConfirmedPasswordValue,
-        handleTermsOfServiceAgreementChecked,
         handleSubmit,
-    } = useSignupFormState()
+    } = useSigninFormState()
 
     return (
-        <SignupFormContext.Provider
+        <SigninFormContext.Provider
             value={{
                 nameField,
                 passwordField,
-                confirmedPasswordField,
                 globalErrorMessageField,
-                termsOfServiceAgreementField,
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
-                handleUpdateConfirmedPasswordValue,
-                handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <NameInputForm />
                 <PasswordInputForm />
-                <ConfirmedPasswordInputForm />
-                <TermsOfServiceCheckbox />
-                <button type="submit">登録する</button>
+                <button type="submit">ログイン</button>
             </form>
-        </SignupFormContext.Provider>
+        </SigninFormContext.Provider>
     )
 }

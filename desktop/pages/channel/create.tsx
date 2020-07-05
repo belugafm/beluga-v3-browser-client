@@ -1,8 +1,8 @@
-export { getServerSideProps } from "../../components/app"
+export { getServerSideProps } from "../../component/app"
 import Head from "next/head"
-import { ThemeProvider } from "../../components/theme"
-import { App } from "../../components/app"
-import { CreateChannelFormComponent } from "../../components/forms/channel/create"
+import { ThemeProvider } from "../../component/theme"
+import { App } from "../../component/app"
+import { CreateChannelFormComponent } from "../../component/forms/channel/create"
 
 export default ({ theme }) => {
     return (

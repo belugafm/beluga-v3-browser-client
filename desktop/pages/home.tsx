@@ -1,8 +1,8 @@
-export { getServerSideProps } from "../components/app"
+export { getServerSideProps } from "../component/app"
 import Head from "next/head"
-import { ThemeProvider } from "../components/theme"
-import { App } from "../components/app"
-import { AccountSessionComponent } from "../components/forms/account/session"
+import { ThemeProvider } from "../component/theme"
+import { App } from "../component/app"
+import { AccountSessionComponent } from "../component/forms/account/session"
 
 export default ({ theme }) => {
     return (

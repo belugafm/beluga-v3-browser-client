@@ -1,5 +1,5 @@
 import { useTheme } from "./theme"
-import { useLoggedInUser } from "../models/session"
+import { useLoggedInUser } from "../state/session"
 import { GetServerSideProps } from "next"
 import Cookie from "cookie"
 

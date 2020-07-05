@@ -2,12 +2,14 @@ import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
 import {
-    useChannelCreateFormState,
-    CreateChannelFormContext,
-} from "../../../models/channel/create"
-import { useLoggedInUser } from "../../../models/session"
+    useSignupFormState,
+    SignupFormContext,
+} from "../../../state/account/signup"
+import { useLoggedInUser } from "../../../state/session"
 
 type InputComponentAttributes = {
+    name: string
+    type: string
     value: string
     onChange: any
     label: string
@@ -16,6 +18,8 @@ type InputComponentAttributes = {
 }
 
 const InputComponent = ({
+    name,
+    type,
     value,
     onChange,
     label,
@@ -30,60 +34,7 @@ const InputComponent = ({
                 hint: hint.length > 0,
             })}>
             <label className="label">{label}</label>
-            <input value={value} type="text" onChange={onChange} />
-            {errorMessage.map((line, index) => {
-                return (
-                    <p key={index} className="error-message">
-                        {line}
-                    </p>
-                )
-            })}
-            {hint.map((line, index) => {
-                return (
-                    <p key={index} className="hint">
-                        {line}
-                    </p>
-                )
-            })}
-            <style jsx>{`
-                .input-component {
-                    margin: auto;
-                }
-                .label {
-                    display: block;
-                }
-                .error-message {
-                    display: none;
-                }
-                .input-component.error .error-message {
-                    display: block;
-                }
-            `}</style>
-            <style jsx>{`
-                .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
-                }
-            `}</style>
-        </div>
-    )
-}
-
-const TextareaComponent = ({
-    value,
-    onChange,
-    label,
-    errorMessage,
-    hint,
-}: InputComponentAttributes) => {
-    const [theme] = useTheme()
-    return (
-        <div
-            className={classnames("input-component", {
-                error: errorMessage.length > 0,
-                hint: hint.length > 0,
-            })}>
-            <label className="label">{label}</label>
-            <textarea onChange={onChange} value={value} />
+            <input name={name} value={value} type={type} onChange={onChange} />
             {errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">
@@ -122,13 +73,12 @@ const TextareaComponent = ({
 }
 
 const NameInputForm = () => {
-    const { nameField, handleUpdateNameValue } = useContext(
-        CreateChannelFormContext
-    )
+    const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
     return (
         <InputComponent
-            label="チャンネル名"
+            label="ユーザー名"
             type="text"
+            name="name"
             value={nameField.value}
             errorMessage={nameField.errorMessage}
             hint={nameField.hint}
@@ -136,48 +86,73 @@ const NameInputForm = () => {
         />
     )
 }
-const DescriptionInputForm = () => {
-    const { descriptionField, handleUpdateDescriptionValue } = useContext(
-        CreateChannelFormContext
+const PasswordInputForm = () => {
+    const { passwordField, handleUpdatePasswordValue } = useContext(
+        SignupFormContext
     )
     return (
-        <TextareaComponent
-            label="チャンネルの説明"
-            value={descriptionField.value}
-            errorMessage={descriptionField.errorMessage}
-            hint={descriptionField.hint}
-            onChange={handleUpdateDescriptionValue}
+        <InputComponent
+            label="パスワード"
+            type="password"
+            name="password"
+            value={passwordField.value}
+            errorMessage={passwordField.errorMessage}
+            hint={passwordField.hint}
+            onChange={handleUpdatePasswordValue}
+        />
+    )
+}
+const ConfirmedPasswordInputForm = () => {
+    const {
+        confirmedPasswordField,
+        handleUpdateConfirmedPasswordValue,
+    } = useContext(SignupFormContext)
+    return (
+        <InputComponent
+            label="パスワードの確認"
+            type="password"
+            name="confirmed_password"
+            value={confirmedPasswordField.value}
+            errorMessage={confirmedPasswordField.errorMessage}
+            hint={confirmedPasswordField.hint}
+            onChange={handleUpdateConfirmedPasswordValue}
         />
     )
 }
 
-const IsPublicCheckbox = () => {
+const TermsOfServiceCheckbox = () => {
     const [theme] = useTheme()
-    const { isPublicField, handleUpdateIsPublicChecked } = useContext(
-        CreateChannelFormContext
-    )
+    const {
+        termsOfServiceAgreementField,
+        handleTermsOfServiceAgreementChecked,
+    } = useContext(SignupFormContext)
     return (
         <div>
-            <label>
-                <input
-                    type="checkbox"
-                    name="is_public"
-                    checked={isPublicField.checked}
-                    onChange={handleUpdateIsPublicChecked}
-                />
-                パブリック
-            </label>
-            <p className="hint">
-                パブリックに設定すると、このチャンネルの投稿はグローバルタイムラインやコミュニティタイムラインに表示されます
-            </p>
-            {isPublicField.errorMessage.map((line, index) => {
+            <a
+                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/terms_of_service.md"
+                target="_blank">
+                利用規約
+            </a>
+            および
+            <a
+                href="https://github.com/belugafm/beluga-v2-api-server/blob/master/privacy.md"
+                target="_blank">
+                プライバシーポリシー
+            </a>
+            を読み、同意します
+            <input
+                type="checkbox"
+                checked={termsOfServiceAgreementField.checked}
+                onChange={handleTermsOfServiceAgreementChecked}
+            />
+            {termsOfServiceAgreementField.errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">
                         {line}
                     </p>
                 )
             })}
-            {isPublicField.hint.map((line, index) => {
+            {termsOfServiceAgreementField.hint.map((line, index) => {
                 return (
                     <p key={index} className="hint">
                         {line}
@@ -195,7 +170,7 @@ const IsPublicCheckbox = () => {
 
 const GlobalErrorMessageComponent = () => {
     const [theme] = useTheme()
-    const { globalErrorMessageField } = useContext(CreateChannelFormContext)
+    const { globalErrorMessageField } = useContext(SignupFormContext)
     return (
         <div className="global-error">
             {globalErrorMessageField.errorMessage.map((line, index) => {
@@ -221,36 +196,51 @@ const GlobalErrorMessageComponent = () => {
     )
 }
 
-export const CreateChannelFormComponent = () => {
+const AlreadyLoggedInMessageComponent = () => {
+    const { loggedInUser } = useLoggedInUser()
+    if (loggedInUser) {
+        return <div>{`${loggedInUser.name}としてログイン中です`}</div>
+    } else {
+        return null
+    }
+}
+
+export const SignupFormComponent = () => {
     const {
         nameField,
-        descriptionField,
+        passwordField,
+        confirmedPasswordField,
         globalErrorMessageField,
-        isPublicField,
+        termsOfServiceAgreementField,
         handleUpdateNameValue,
-        handleUpdateDescriptionValue,
-        handleUpdateIsPublicChecked,
+        handleUpdatePasswordValue,
+        handleUpdateConfirmedPasswordValue,
+        handleTermsOfServiceAgreementChecked,
         handleSubmit,
-    } = useChannelCreateFormState()
+    } = useSignupFormState()
 
     return (
-        <CreateChannelFormContext.Provider
+        <SignupFormContext.Provider
             value={{
                 nameField,
-                descriptionField,
+                passwordField,
+                confirmedPasswordField,
                 globalErrorMessageField,
-                isPublicField,
+                termsOfServiceAgreementField,
                 handleUpdateNameValue,
-                handleUpdateDescriptionValue,
-                handleUpdateIsPublicChecked,
+                handleUpdatePasswordValue,
+                handleUpdateConfirmedPasswordValue,
+                handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
+                <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <NameInputForm />
-                <DescriptionInputForm />
-                <IsPublicCheckbox />
-                <button type="submit">チャンネルを作成</button>
+                <PasswordInputForm />
+                <ConfirmedPasswordInputForm />
+                <TermsOfServiceCheckbox />
+                <button type="submit">登録する</button>
             </form>
-        </CreateChannelFormContext.Provider>
+        </SignupFormContext.Provider>
     )
 }

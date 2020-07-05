@@ -1,4 +1,4 @@
-import { useState, useCallback, createContext } from "react"
+import { useState, createContext } from "react"
 import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
@@ -18,27 +18,25 @@ export const useSigninFormState = () => {
         hint: [],
     })
 
-    const handleUpdateNameValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setNameField({
-                errorMessage: nameField.errorMessage,
-                hint: nameField.hint,
-                value: event.target.value,
-            })
-        },
-        [nameField]
-    )
+    const handleUpdateNameValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setNameField({
+            errorMessage: nameField.errorMessage,
+            hint: nameField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleUpdatePasswordValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setPasswordField({
-                errorMessage: passwordField.errorMessage,
-                hint: passwordField.hint,
-                value: event.target.value,
-            })
-        },
-        [passwordField]
-    )
+    const handleUpdatePasswordValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setPasswordField({
+            errorMessage: passwordField.errorMessage,
+            hint: passwordField.hint,
+            value: event.target.value,
+        })
+    }
 
     const signin = async () => {
         try {

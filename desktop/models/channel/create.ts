@@ -1,4 +1,4 @@
-import { useState, useCallback, createContext } from "react"
+import { useState, createContext } from "react"
 import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
@@ -24,38 +24,35 @@ export const useChannelCreateFormState = () => {
         checked: true,
     })
 
-    const handleUpdateNameValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setNameField({
-                errorMessage: nameField.errorMessage,
-                hint: nameField.hint,
-                value: event.target.value,
-            })
-        },
-        [nameField]
-    )
+    const handleUpdateNameValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setNameField({
+            errorMessage: nameField.errorMessage,
+            hint: nameField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleUpdateDescriptionValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setDescriptionField({
-                errorMessage: descriptionField.errorMessage,
-                hint: descriptionField.hint,
-                value: event.target.value,
-            })
-        },
-        [descriptionField]
-    )
+    const handleUpdateDescriptionValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setDescriptionField({
+            errorMessage: descriptionField.errorMessage,
+            hint: descriptionField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleUpdateIsPublicChecked = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setIsPublicField({
-                errorMessage: isPublicField.errorMessage,
-                hint: isPublicField.hint,
-                checked: event.target.checked,
-            })
-        },
-        [isPublicField]
-    )
+    const handleUpdateIsPublicChecked = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setIsPublicField({
+            errorMessage: isPublicField.errorMessage,
+            hint: isPublicField.hint,
+            checked: event.target.checked,
+        })
+    }
 
     const create = async () => {
         try {

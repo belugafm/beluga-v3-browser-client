@@ -1,4 +1,4 @@
-import { useState, useCallback, createContext } from "react"
+import { useState, createContext } from "react"
 import * as WebAPI from "../../api"
 import {
     WebAPIUnavailableResponse,
@@ -67,49 +67,45 @@ export const useSignupFormState = () => {
         checked: false,
     })
 
-    const handleUpdateNameValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setNameField({
-                errorMessage: nameField.errorMessage,
-                hint: nameField.hint,
-                value: event.target.value,
-            })
-        },
-        [nameField]
-    )
+    const handleUpdateNameValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setNameField({
+            errorMessage: nameField.errorMessage,
+            hint: nameField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleUpdatePasswordValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setPasswordField({
-                errorMessage: passwordField.errorMessage,
-                hint: passwordField.hint,
-                value: event.target.value,
-            })
-        },
-        [passwordField]
-    )
+    const handleUpdatePasswordValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setPasswordField({
+            errorMessage: passwordField.errorMessage,
+            hint: passwordField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleUpdateConfirmedPasswordValue = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setConfirmedPasswordField({
-                errorMessage: confirmedPasswordField.errorMessage,
-                hint: confirmedPasswordField.hint,
-                value: event.target.value,
-            })
-        },
-        [confirmedPasswordField]
-    )
+    const handleUpdateConfirmedPasswordValue = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setConfirmedPasswordField({
+            errorMessage: confirmedPasswordField.errorMessage,
+            hint: confirmedPasswordField.hint,
+            value: event.target.value,
+        })
+    }
 
-    const handleTermsOfServiceAgreementChecked = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setTermsOfServiceAgreementField({
-                errorMessage: termsOfServiceAgreementField.errorMessage,
-                hint: termsOfServiceAgreementField.hint,
-                checked: event.target.checked,
-            })
-        },
-        [termsOfServiceAgreementField]
-    )
+    const handleTermsOfServiceAgreementChecked = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setTermsOfServiceAgreementField({
+            errorMessage: termsOfServiceAgreementField.errorMessage,
+            hint: termsOfServiceAgreementField.hint,
+            checked: event.target.checked,
+        })
+    }
 
     const signup = async () => {
         if (termsOfServiceAgreementField.checked !== true) {

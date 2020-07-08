@@ -42,9 +42,11 @@ export const App = ({ children }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookie = Cookie.parse(context.req.headers.cookie || "")
     const { theme } = cookie
+    const { params } = context
     return {
         props: {
             theme: theme ? theme : null,
+            params: params ? params : {},
         },
     }
 }

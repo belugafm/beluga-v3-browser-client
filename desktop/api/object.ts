@@ -44,6 +44,9 @@ export type ChannelObject = {
     is_public: boolean
     community_id: string | null
     community: CommunityObject | null
+    timeline: {
+        status_ids: string[]
+    }
 }
 
 export type StatusObject = {

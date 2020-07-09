@@ -1,5 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
 import config from "../config"
+import { StatusObject, CommunityObject, ChannelObject } from "./object"
 
 export class UnexpectedResponseError extends Error {
     constructor() {
@@ -15,15 +16,6 @@ export class ServerError extends Error {
     }
 }
 
-type Channel = {
-    id: string
-    name: string
-    description: string
-    is_public: boolean
-    created_at: Date
-    community_id: string | null
-}
-
 interface ResponseInterface {
     hint?: string[]
     description?: string[]
@@ -31,7 +23,8 @@ interface ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
-    channel?: Channel
+    channel?: ChannelObject
+    statuses?: StatusObject[]
 }
 
 export class Response implements ResponseInterface {
@@ -41,7 +34,8 @@ export class Response implements ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
-    channel?: Channel
+    channel?: ChannelObject
+    statuses?: StatusObject[]
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
@@ -74,6 +68,9 @@ export class Response implements ResponseInterface {
 
         if (response.channel) {
             this.channel = response.channel
+        }
+        if (response.statuses) {
+            this.statuses = response.statuses
         }
     }
     getErrorMessage() {
@@ -108,10 +105,44 @@ export const WebAPIUnexpectedErrorResponse: ResponseInterface = {
     ok: false,
 }
 
+export function get(method_url: string, query: any): Promise<Response> {
+    return new Promise((resolve, reject) => {
+        const protocol = config.server.https ? "https" : "http"
+        const params = new URLSearchParams(query)
+        const endpoint_url = new URL(
+            `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        )
+        endpoint_url.search = params.toString()
+        fetch(endpoint_url.toString(), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+        })
+            .then(async (data) => {
+                if (data.status !== 200) {
+                    return reject(new ServerError())
+                }
+                try {
+                    const response = new Response(await data.json())
+                    resolve(response)
+                } catch (error) {
+                    reject(error)
+                }
+            })
+            .catch((error) => {
+                console.error(endpoint_url)
+                console.error(error)
+                reject(error)
+            })
+    })
+}
+
 export function post(method_url: string, body: object): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
-        fetch(`${protocol}://${config.server.domain}/api/v1/${method_url}`, {
+        const endpoint_url = `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        fetch(endpoint_url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -132,6 +163,8 @@ export function post(method_url: string, body: object): Promise<Response> {
                 }
             })
             .catch((error) => {
+                console.error(endpoint_url)
+                console.error(error)
                 reject(error)
             })
     })

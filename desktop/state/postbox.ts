@@ -34,10 +34,7 @@ export const usePostboxState = (channelId) => {
         }
     }
 
-    const handleUpdate = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-        event.preventDefault()
+    const handleUpdate = async () => {
         const response = await update()
         if (response.ok) {
             setTextField({

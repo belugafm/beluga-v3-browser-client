@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
-import { ChatUIStateContext } from "../../state/chat/ui_state"
+import { ChatAppStateContext } from "../../state/chat/app"
 import { ChatColumnComponent } from "./column"
 
 export const ChatColumnContainerComponent = () => {
-    const { columns } = useContext(ChatUIStateContext)
+    const { columns } = useContext(ChatAppStateContext)
     return (
         <div className="column-container">
             <>

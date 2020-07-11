@@ -1,7 +1,8 @@
 import React, { useContext } from "react"
 import { useTheme } from "./theme"
 import { PostboxContext, usePostboxState } from "../state/postbox"
-import { ColumnState, ChatUIStateContext } from "../state/chat/ui_state"
+import { ColumnState, ChatAppStateContext } from "../state/chat/app"
+import { ChatDomainDataContext } from "../state/chat/data"
 
 export const PostboxComponent = ({
     column,
@@ -11,25 +12,27 @@ export const PostboxComponent = ({
     channelId: string
 }) => {
     const [theme] = useTheme()
-    const { textField, handleUpdateTextValue, handleUpdate } = usePostboxState(
-        channelId
-    )
-    const { handleUpdateColumnTimeline } = useContext(ChatUIStateContext)
+    const domainData = useContext(ChatDomainDataContext)
+    const { textField, updateTextValue, updateStatus } = usePostboxState({
+        query: column.postbox.query,
+        domainData: domainData,
+    })
+    const { updateColumnTimeline } = useContext(ChatAppStateContext)
     const onClick = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault()
-        await handleUpdate()
-        await handleUpdateColumnTimeline(column)
+        await updateStatus()
+        await updateColumnTimeline(column)
     }
     return (
         <PostboxContext.Provider
-            value={{ textField, handleUpdateTextValue, handleUpdate }}>
+            value={{ textField, updateTextValue, updateStatus }}>
             <div className="postbox">
                 <div>
                     <textarea
                         value={textField.value}
-                        onChange={handleUpdateTextValue}
+                        onChange={updateTextValue}
                     />
                 </div>
                 <div>

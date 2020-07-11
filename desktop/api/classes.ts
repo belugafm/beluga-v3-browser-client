@@ -24,6 +24,7 @@ interface ResponseInterface {
     error_code: string
     ok: boolean
     channel?: ChannelObject
+    status?: StatusObject
     statuses?: StatusObject[]
 }
 
@@ -35,6 +36,7 @@ export class Response implements ResponseInterface {
     error_code: string
     ok: boolean
     channel?: ChannelObject
+    status?: StatusObject
     statuses?: StatusObject[]
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
@@ -71,6 +73,9 @@ export class Response implements ResponseInterface {
         }
         if (response.statuses) {
             this.statuses = response.statuses
+        }
+        if (response.status) {
+            this.status = response.status
         }
     }
     getErrorMessage() {

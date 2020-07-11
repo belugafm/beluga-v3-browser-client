@@ -1,9 +1,8 @@
 import React from "react"
-import { useTheme } from "./theme"
-import { PostboxContext, usePostboxState } from "../state/postbox"
-import { useChatUIState, ChatUIStateContext } from "../state/chat/ui_state"
-import { ChatColumnComponent } from "./chat/column"
+import { ChatAppStateContext } from "../state/chat/app"
 import { ChatColumnContainerComponent } from "./chat/columns"
+import { useChatStore } from "../state/chat"
+import { ChatDomainDataContext } from "../state/chat/data"
 
 export const ChatComponent = ({
     context,
@@ -15,13 +14,17 @@ export const ChatComponent = ({
         userId?: string
     }
 }) => {
-    const { columns, handleUpdateColumnTimeline } = useChatUIState({
-        context: context,
+    const { domainData, appState, updateColumnTimeline } = useChatStore({
+        context,
     })
     return (
-        <ChatUIStateContext.Provider
-            value={{ columns, handleUpdateColumnTimeline }}>
-            <ChatColumnContainerComponent />
-        </ChatUIStateContext.Provider>
+        <ChatAppStateContext.Provider
+            value={Object.assign({}, appState, {
+                updateColumnTimeline,
+            })}>
+            <ChatDomainDataContext.Provider value={domainData}>
+                <ChatColumnContainerComponent />
+            </ChatDomainDataContext.Provider>
+        </ChatAppStateContext.Provider>
     )
 }

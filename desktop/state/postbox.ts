@@ -4,16 +4,21 @@ import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
 } from "../api/classes"
+import { DomainData } from "./chat/data"
 
-export const usePostboxState = (channelId) => {
+export const usePostboxState = ({
+    query,
+    domainData,
+}: {
+    query: Record<string, any>
+    domainData: DomainData
+}) => {
     const [textField, setTextField] = useState({
         errorMessage: [],
         value: "",
     })
 
-    const handleUpdateTextValue = (
-        event: React.ChangeEvent<HTMLTextAreaElement>
-    ) => {
+    const updateTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTextField({
             errorMessage: textField.errorMessage,
             value: event.target.value,
@@ -22,10 +27,12 @@ export const usePostboxState = (channelId) => {
 
     const update = async () => {
         try {
-            return await WebAPI.statuses.update({
-                text: textField.value,
-                channel_id: channelId,
-            })
+            return await domainData.reduce(
+                WebAPI.statuses.update,
+                Object.assign({}, query, {
+                    text: textField.value,
+                })
+            )
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
                 throw error
@@ -34,7 +41,7 @@ export const usePostboxState = (channelId) => {
         }
     }
 
-    const handleUpdate = async () => {
+    const updateStatus = async () => {
         const response = await update()
         if (response.ok) {
             setTextField({
@@ -50,8 +57,8 @@ export const usePostboxState = (channelId) => {
 
     return {
         textField,
-        handleUpdateTextValue,
-        handleUpdate,
+        updateTextValue,
+        updateStatus,
     }
 }
 
@@ -60,8 +67,8 @@ const context = {
         errorMessage: [],
         value: "",
     },
-    handleUpdateTextValue: null,
-    handleUpdate: null,
+    updateTextValue: null,
+    updateStatus: null,
 }
 
 export const PostboxContext = createContext(context)

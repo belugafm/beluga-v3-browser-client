@@ -45,9 +45,11 @@ export type AppStateDataT = {
     columns: ColumnStateT[]
 }
 
-export const useChatAppState = (): AppStateDataT & {
+export type AppStateContextT = AppStateDataT & {
     setColumns: Dispatch<SetStateAction<ColumnStateT[]>>
-} => {
+}
+
+export const useChatAppState = (): AppStateContextT => {
     console.info("useChatAppState")
     const [columns, setColumns] = useState<ColumnStateT[]>([])
     return {

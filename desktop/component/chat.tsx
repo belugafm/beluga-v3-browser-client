@@ -15,13 +15,14 @@ export const ChatComponent = ({
         userId?: string
     }
 }) => {
-    const { domainData, appState, reducer } = useChatStore({
+    const { domainData, appState, reducer, orderedReducers } = useChatStore({
         context,
     })
     return (
         <ChatAppStateContext.Provider value={appState}>
             <ChatDomainDataContext.Provider value={domainData}>
-                <ChatReducerContext.Provider value={{ reducer }}>
+                <ChatReducerContext.Provider
+                    value={{ reducer, orderedReducers }}>
                     <ChatColumnContainerComponent />
                 </ChatReducerContext.Provider>
             </ChatDomainDataContext.Provider>

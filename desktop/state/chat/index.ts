@@ -2,7 +2,7 @@ import { useChatAppState } from "./app"
 import { useChatDomainData } from "./data"
 import { useState } from "react"
 import * as reducers from "./reducers"
-import { StoreDataT, udpateStoreData, StoreContextT } from "./reducer"
+import { StoreDataT, udpateStoreData } from "./reducer"
 import { Response } from "../../api"
 
 export const useChatStore = ({
@@ -23,27 +23,64 @@ export const useChatStore = ({
     const store = { domainData, appState }
 
     const reducer = async (
-        prevStore: StoreContextT,
+        storeData: StoreDataT,
         method: (
-            prevStore: StoreDataT | StoreContextT,
+            store: StoreDataT,
             query: Record<string, any>
-        ) => Promise<[StoreDataT, Response]>,
+        ) => Promise<[StoreDataT, Response | null]>,
         query: Record<string, any>
-    ): Promise<Response> => {
-        const [nextStore, response] = await method(prevStore, query)
-        udpateStoreData(prevStore, nextStore)
+    ): Promise<Response | null> => {
+        const [nextStoreData, response] = await method(storeData, query)
+        udpateStoreData(store, nextStoreData)
         return response
+    }
+
+    const orderedReducers = async (
+        storeData: StoreDataT,
+        reducers: {
+            method: (
+                store: StoreDataT,
+                query: Record<string, any>
+            ) => Promise<[StoreDataT, Response]>
+            query: Record<string, any>
+        }[]
+    ): Promise<void> => {
+        for (let index = 0; index < reducers.length; index++) {
+            const { method, query } = reducers[index]
+            const [nextStoreData, response] = await method(storeData, query)
+            storeData = nextStoreData
+        }
+        udpateStoreData(store, storeData)
     }
 
     if (needsInitialize) {
         if (context.channelId) {
-            reducer(store, reducers.columns.channel.create, {
-                channelId: context.channelId,
-                columnIndex: appState.columns.length,
-            })
+            orderedReducers(store, [
+                {
+                    method: reducers.columns.channel.create,
+                    query: {
+                        channelId: context.channelId,
+                        columnIndex: 0,
+                    },
+                },
+                {
+                    method: reducers.columns.channel.create,
+                    query: {
+                        channelId: context.channelId,
+                        columnIndex: 1,
+                    },
+                },
+                {
+                    method: reducers.columns.channel.create,
+                    query: {
+                        channelId: context.channelId,
+                        columnIndex: 2,
+                    },
+                },
+            ])
         }
         setNeedsInitialize(false)
     }
 
-    return { domainData, appState, reducer }
+    return { domainData, appState, reducer, orderedReducers }
 }

@@ -11,6 +11,11 @@ export const ChatColumnContainerComponent = () => {
                     return <ChatColumnComponent key={index} column={column} />
                 })}
             </>
+            <style jsx>{`
+                .column-container {
+                    display: flex;
+                }
+            `}</style>
         </div>
     )
 }

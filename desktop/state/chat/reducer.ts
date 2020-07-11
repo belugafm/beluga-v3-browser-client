@@ -1,5 +1,5 @@
 import { DomainDataT } from "./data"
-import { AppStateDataT } from "./app"
+import { AppStateDataT, AppStateContextT } from "./app"
 import equals from "deep-equal"
 import { createContext } from "react"
 import { Response } from "../../api"
@@ -15,49 +15,54 @@ export type StoreContextT = {
 }
 
 export type ReducerT = (
-    prevStore: StoreContextT,
+    storeData: StoreDataT,
     method: (
-        prevStore: StoreDataT | StoreContextT,
+        storeData: StoreDataT,
         query: Record<string, any>
     ) => Promise<[StoreDataT, Response | null]>,
     query: Record<string, any>
 ) => Promise<Response | null>
 
+export type OrderedReducerT = (
+    storeData: StoreDataT,
+    reducers: {
+        method: (
+            storeData: StoreDataT,
+            query: Record<string, any>
+        ) => Promise<[StoreDataT, Response | null]>
+        query: Record<string, any>
+    }[]
+) => Promise<void>
+
 export const udpateStoreData = (
-    prevStore: StoreContextT,
+    store: StoreContextT,
     nextStoreData: StoreDataT
 ) => {
-    const prevDomainData = prevStore.domainData
-    const prevAppState = prevStore.appState
+    const domainData = store.domainData
+    const appState = store.appState
     const nextDomainData = nextStoreData.domainData
     const nextAppState = nextStoreData.appState
 
+    if (equals(domainData.statusesById, nextDomainData.statusesById) !== true) {
+        domainData.setStatusesById(nextDomainData.statusesById)
+    }
+    if (equals(domainData.usersById, nextDomainData.usersById) !== true) {
+        domainData.setUsersById(nextDomainData.usersById)
+    }
+    if (equals(domainData.channelsById, nextDomainData.channelsById) !== true) {
+        domainData.setChannelsById(nextDomainData.channelsById)
+    }
     if (
-        equals(prevDomainData.statusesById, nextDomainData.statusesById) !==
+        equals(domainData.communitiesById, nextDomainData.communitiesById) !==
         true
     ) {
-        prevDomainData.setStatusesById(nextDomainData.statusesById)
-    }
-    if (equals(prevDomainData.usersById, nextDomainData.usersById) !== true) {
-        prevDomainData.setUsersById(nextDomainData.usersById)
-    }
-    if (
-        equals(prevDomainData.channelsById, nextDomainData.channelsById) !==
-        true
-    ) {
-        prevDomainData.setChannelsById(nextDomainData.channelsById)
-    }
-    if (
-        equals(
-            prevDomainData.communitiesById,
-            nextDomainData.communitiesById
-        ) !== true
-    ) {
-        prevDomainData.setCommunitiesById(nextDomainData.communitiesById)
+        domainData.setCommunitiesById(nextDomainData.communitiesById)
     }
 
-    if (equals(prevAppState.columns, nextAppState.columns) !== true) {
-        prevAppState.setColumns(nextAppState.columns)
+    console.log(equals(appState.columns, nextAppState.columns))
+    if (equals(appState.columns, nextAppState.columns) !== true) {
+        console.log(nextAppState.columns)
+        appState.setColumns(nextAppState.columns)
     }
 
     console.info("udpateStoreData")
@@ -66,8 +71,10 @@ export const udpateStoreData = (
 
 const context: {
     reducer: ReducerT
+    orderedReducers: OrderedReducerT
 } = {
     reducer: null,
+    orderedReducers: null,
 }
 
 export const ChatReducerContext = createContext(context)

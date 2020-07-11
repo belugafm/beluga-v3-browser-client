@@ -7,53 +7,26 @@ import {
 } from "../../api/object"
 import { Response } from "../../api"
 
-const context: DomainData = {
+export type DomainDataT = {
+    statusesById: Record<string, StatusObject>
+    usersById: Record<string, UserObject>
+    channelsById: Record<string, ChannelObject>
+    communitiesById: Record<string, CommunityObject>
+}
+
+const context: DomainDataT = {
     statusesById: {},
     usersById: {},
     channelsById: {},
     communitiesById: {},
-    setStatusesById: null,
-    setUsersById: null,
-    setChannelsById: null,
-    setCommunitiesById: null,
-    reduce: null,
-}
-
-export type DomainData = {
-    statusesById: Record<string, StatusObject>
-    usersById: Record<string, UserObject>
-    channelsById: Record<string, ChannelObject>
-    communitiesById: Record<string, CommunityObject>
-    setStatusesById: Dispatch<SetStateAction<Record<string, StatusObject>>>
-    setUsersById: Dispatch<SetStateAction<Record<string, UserObject>>>
-    setChannelsById: Dispatch<SetStateAction<Record<string, ChannelObject>>>
-    setCommunitiesById: Dispatch<
-        SetStateAction<Record<string, CommunityObject>>
-    >
-    reduce: (
-        method: (query: any) => Promise<Response>,
-        query: any
-    ) => Promise<Response>
 }
 
 export const ChatDomainDataContext = createContext(context)
 
-type NextDomainData = {
-    statusesById: Record<string, StatusObject>
-    usersById: Record<string, UserObject>
-    channelsById: Record<string, ChannelObject>
-    communitiesById: Record<string, CommunityObject>
-}
-type NormalizerFunctionReturnType = {
-    statusesById: Record<string, StatusObject>
-    usersById: Record<string, UserObject>
-    channelsById: Record<string, ChannelObject>
-    communitiesById: Record<string, CommunityObject>
-}
 function normalizeStatus(
     status: StatusObject | null,
-    nextDomainData: NextDomainData
-): NormalizerFunctionReturnType {
+    nextDomainData: DomainDataT
+): DomainDataT {
     if (status == null) {
         return nextDomainData
     }
@@ -80,8 +53,8 @@ function normalizeStatus(
 
 function normalizeUser(
     user: UserObject | null,
-    nextDomainData: NextDomainData
-): NormalizerFunctionReturnType {
+    nextDomainData: DomainDataT
+): DomainDataT {
     if (user == null) {
         return nextDomainData
     }
@@ -91,8 +64,8 @@ function normalizeUser(
 
 function normalizeChannel(
     channel: ChannelObject | null,
-    nextDomainData: NextDomainData
-): NormalizerFunctionReturnType {
+    nextDomainData: DomainDataT
+): DomainDataT {
     if (channel == null) {
         return nextDomainData
     }
@@ -102,8 +75,8 @@ function normalizeChannel(
 
 function normalizeCommunity(
     community: CommunityObject | null,
-    nextDomainData: NextDomainData
-): NormalizerFunctionReturnType {
+    nextDomainData: DomainDataT
+): DomainDataT {
     if (community == null) {
         return nextDomainData
     }
@@ -111,7 +84,41 @@ function normalizeCommunity(
     return nextDomainData
 }
 
-export const useChatDomainData = (): DomainData => {
+export async function fetch(
+    prevDomainData: DomainDataT,
+    method: (query: any) => Promise<Response>,
+    query: any
+): Promise<[DomainDataT, Response]> {
+    const response = await method(query)
+    let nextDomainData = {
+        statusesById: Object.assign({}, prevDomainData.statusesById),
+        usersById: Object.assign({}, prevDomainData.usersById),
+        channelsById: Object.assign({}, prevDomainData.channelsById),
+        communitiesById: Object.assign({}, prevDomainData.communitiesById),
+    }
+    if (response.status) {
+        nextDomainData = normalizeStatus(response.status, nextDomainData)
+    }
+    if (response.statuses) {
+        response.statuses.forEach((status) => {
+            nextDomainData = normalizeStatus(status, nextDomainData)
+        })
+    }
+    if (response.channel) {
+        nextDomainData = normalizeChannel(response.channel, nextDomainData)
+    }
+
+    return [nextDomainData, response]
+}
+
+export const useChatDomainData = (): DomainDataT & {
+    setStatusesById: Dispatch<SetStateAction<Record<string, StatusObject>>>
+    setUsersById: Dispatch<SetStateAction<Record<string, UserObject>>>
+    setChannelsById: Dispatch<SetStateAction<Record<string, ChannelObject>>>
+    setCommunitiesById: Dispatch<
+        SetStateAction<Record<string, CommunityObject>>
+    >
+} => {
     console.info("useChatDomainData")
     const [statusesById, setStatusesById] = useState<
         Record<string, StatusObject>
@@ -124,42 +131,6 @@ export const useChatDomainData = (): DomainData => {
         Record<string, CommunityObject>
     >({})
 
-    async function reduce(
-        method: (query: any) => Promise<Response>,
-        query: any
-    ) {
-        const response = await method(query)
-        const nextStatusesById = Object.assign({}, statusesById)
-        const nextUsersById = Object.assign({}, usersById)
-        const nextChannelsById = Object.assign({}, channelsById)
-        const nextCommunitiesById = Object.assign({}, communitiesById)
-        let nextDomainData = {
-            statusesById: nextStatusesById,
-            usersById: nextUsersById,
-            channelsById: nextChannelsById,
-            communitiesById: nextCommunitiesById,
-        }
-        if (response.status) {
-            nextDomainData = normalizeStatus(response.status, nextDomainData)
-        }
-        if (response.statuses) {
-            response.statuses.forEach((status) => {
-                nextDomainData = normalizeStatus(status, nextDomainData)
-            })
-        }
-        if (response.channel) {
-            nextDomainData = normalizeChannel(response.channel, nextDomainData)
-        }
-        setStatusesById(nextDomainData.statusesById)
-        setUsersById(nextDomainData.usersById)
-        setChannelsById(nextDomainData.channelsById)
-        setCommunitiesById(nextDomainData.communitiesById)
-        console.info("reduce")
-        console.info(nextDomainData)
-
-        return response
-    }
-
     return {
         statusesById,
         usersById,
@@ -169,6 +140,5 @@ export const useChatDomainData = (): DomainData => {
         setUsersById,
         setChannelsById,
         setCommunitiesById,
-        reduce,
     }
 }

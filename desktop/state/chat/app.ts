@@ -1,59 +1,55 @@
-import { CommunityObject, ChannelObject, StatusObject } from "../../api/object"
-import { useState, createContext } from "react"
-import * as WebAPI from "../../api"
-import { update } from "../../api/methods/statuses/update"
+import { useState, createContext, Dispatch, SetStateAction } from "react"
 
-export const ColumnType = {
+export const ColumnTypes = {
     Global: "Global",
     Community: "Community",
     Channel: "Channel",
     Thread: "Thread",
 } as const
 
-export type ColumnState = {
+export type ColumnStateT = {
     index: number
-    type: keyof typeof ColumnType
+    type: keyof typeof ColumnTypes
     postbox: {
         enabled: boolean
         query: any
     }
     context: {
-        community_id?: string
-        channel_id?: string
-        status_id?: string
+        communityId?: string
+        channelId?: string
+        statusId?: string
     }
     timeline: {
-        status_ids: string[]
+        statusIds: string[]
+        query: {
+            communityId?: string
+            channelId?: string
+            statusId?: string
+            maxId?: string
+            sinceId?: string
+            maxDate?: number
+            untilDate?: number
+        }
     }
 }
 
 const context: {
-    columns: ColumnState[]
-    updateColumnTimeline: (column: ColumnState) => Promise<void>
+    columns: ColumnStateT[]
 } = {
     columns: [],
-    updateColumnTimeline: null,
 }
 
 export const ChatAppStateContext = createContext(context)
 
-export type AppState = {
-    columns: ColumnState[]
-    updateColumnTimeline: (column: ColumnState) => Promise<void>
+export type AppStateDataT = {
+    columns: ColumnStateT[]
 }
 
-export const useChatAppState = ({
-    context,
-}: {
-    context: {
-        channelId?: string
-        communityId?: string
-        statusId?: string
-        userId?: string
-    }
-}) => {
+export const useChatAppState = (): AppStateDataT & {
+    setColumns: Dispatch<SetStateAction<ColumnStateT[]>>
+} => {
     console.info("useChatAppState")
-    const [columns, setColumns] = useState<ColumnState[]>([])
+    const [columns, setColumns] = useState<ColumnStateT[]>([])
     return {
         columns,
         setColumns,

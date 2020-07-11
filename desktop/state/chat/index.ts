@@ -1,70 +1,9 @@
-import { useChatAppState, ColumnType, ColumnState, AppState } from "./app"
-import { useChatDomainData, DomainData } from "./data"
-import * as WebAPI from "../../api"
+import { useChatAppState } from "./app"
+import { useChatDomainData } from "./data"
 import { useState } from "react"
-
-const fetchChannelColumn = async ({
-    channelId,
-    columnIndex,
-    domainData,
-}: {
-    channelId: string
-    columnIndex: number
-    domainData: DomainData
-}): Promise<ColumnState> => {
-    const { channel } = await domainData.reduce(WebAPI.channels.show, {
-        channel_id: channelId,
-    })
-    const { statuses } = await domainData.reduce(WebAPI.timeline.channel, {
-        channel_id: channelId,
-    })
-
-    const column: ColumnState = {
-        index: columnIndex,
-        type: ColumnType.Channel,
-        postbox: {
-            enabled: true,
-            query: {
-                channel_id: channelId,
-            },
-        },
-        context: {
-            channel_id: channel.id,
-            community_id: channel.community_id,
-        },
-        timeline: {
-            status_ids: statuses.map((status) => status.id),
-        },
-    }
-    return column
-}
-
-const updateChannelColumnTimeline = async ({
-    column,
-    domainData,
-}: {
-    column: ColumnState
-    domainData: DomainData
-}) => {
-    const { statuses } = await domainData.reduce(WebAPI.timeline.channel, {
-        channel_id: column.context.channel_id,
-    })
-    column.timeline.status_ids = statuses.map((status) => status.id)
-    return column
-}
-
-const updateColumnTimeline = async ({
-    column,
-    domainData,
-}: {
-    column: ColumnState
-    domainData: DomainData
-}) => {
-    if (column.type == "Channel") {
-        return await updateChannelColumnTimeline({ column, domainData })
-    }
-    return null
-}
+import * as reducers from "./reducers"
+import { StoreDataT, udpateStoreData, StoreContextT } from "./reducer"
+import { Response } from "../../api"
 
 export const useChatStore = ({
     context,
@@ -78,33 +17,33 @@ export const useChatStore = ({
 }) => {
     console.info("useChatState")
     const domainData = useChatDomainData()
-    const appState = useChatAppState({ context })
+    const appState = useChatAppState()
     const [needsInitialize, setNeedsInitialize] = useState(true)
+
+    const store = { domainData, appState }
+
+    const reducer = async (
+        prevStore: StoreContextT,
+        method: (
+            prevStore: StoreDataT | StoreContextT,
+            query: Record<string, any>
+        ) => Promise<[StoreDataT, Response]>,
+        query: Record<string, any>
+    ): Promise<Response> => {
+        const [nextStore, response] = await method(prevStore, query)
+        udpateStoreData(prevStore, nextStore)
+        return response
+    }
 
     if (needsInitialize) {
         if (context.channelId) {
-            fetchChannelColumn({
+            reducer(store, reducers.columns.channel.create, {
                 channelId: context.channelId,
                 columnIndex: appState.columns.length,
-                domainData: domainData,
             })
-                .then((column) => {
-                    const newColumns = appState.columns.concat(column)
-                    appState.setColumns(newColumns)
-                })
-                .catch((error) => {})
         }
         setNeedsInitialize(false)
     }
 
-    return {
-        domainData,
-        appState,
-        updateColumnTimeline: async (column: ColumnState) => {
-            const newColumn = await updateColumnTimeline({ column, domainData })
-            const newColumnList = appState.columns.map((column) => column)
-            newColumnList[newColumn.index] = newColumn
-            appState.setColumns(newColumnList)
-        },
-    }
+    return { domainData, appState, reducer }
 }

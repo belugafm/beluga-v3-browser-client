@@ -1,29 +1,35 @@
 import React, { useContext } from "react"
 import { useTheme } from "./theme"
 import { PostboxContext, usePostboxState } from "../state/postbox"
-import { ColumnState, ChatAppStateContext } from "../state/chat/app"
+import { ColumnStateT, ChatAppStateContext } from "../state/chat/app"
+import { ChatReducerContext } from "../state/chat/reducer"
 import { ChatDomainDataContext } from "../state/chat/data"
+import * as reducers from "../state/chat/reducers"
 
 export const PostboxComponent = ({
     column,
     channelId,
 }: {
-    column: ColumnState
+    column: ColumnStateT
     channelId: string
 }) => {
     const [theme] = useTheme()
-    const domainData = useContext(ChatDomainDataContext)
     const { textField, updateTextValue, updateStatus } = usePostboxState({
         query: column.postbox.query,
-        domainData: domainData,
     })
-    const { updateColumnTimeline } = useContext(ChatAppStateContext)
+    const domainData = useContext(ChatDomainDataContext)
+    const appState = useContext(ChatAppStateContext)
+    const { reducer } = useContext(ChatReducerContext)
     const onClick = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault()
         await updateStatus()
-        await updateColumnTimeline(column)
+        await reducer(
+            { domainData, appState },
+            reducers.columns.channel.updateTimeline,
+            column.timeline.query
+        )
     }
     return (
         <PostboxContext.Provider

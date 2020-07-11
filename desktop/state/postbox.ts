@@ -1,18 +1,19 @@
-import { useState, createContext } from "react"
+import { useState, createContext, useContext } from "react"
 import * as WebAPI from "../api"
 import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
 } from "../api/classes"
-import { DomainData } from "./chat/data"
+import { ChatReducerContext } from "./chat/reducer"
+import { ChatDomainDataContext } from "./chat/data"
+import { ChatAppStateContext } from "./chat/app"
+import * as reducers from "./chat/reducers"
 
-export const usePostboxState = ({
-    query,
-    domainData,
-}: {
-    query: Record<string, any>
-    domainData: DomainData
-}) => {
+export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
+    const domainData = useContext(ChatDomainDataContext)
+    const appState = useContext(ChatAppStateContext)
+    const { reducer } = useContext(ChatReducerContext)
+
     const [textField, setTextField] = useState({
         errorMessage: [],
         value: "",
@@ -27,8 +28,9 @@ export const usePostboxState = ({
 
     const update = async () => {
         try {
-            return await domainData.reduce(
-                WebAPI.statuses.update,
+            return await reducer(
+                { domainData, appState },
+                reducers.statuses.update,
                 Object.assign({}, query, {
                     text: textField.value,
                 })

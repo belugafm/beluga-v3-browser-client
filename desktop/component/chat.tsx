@@ -3,6 +3,7 @@ import { ChatAppStateContext } from "../state/chat/app"
 import { ChatColumnContainerComponent } from "./chat/columns"
 import { useChatStore } from "../state/chat"
 import { ChatDomainDataContext } from "../state/chat/data"
+import { ChatReducerContext } from "../state/chat/reducer"
 
 export const ChatComponent = ({
     context,
@@ -14,16 +15,15 @@ export const ChatComponent = ({
         userId?: string
     }
 }) => {
-    const { domainData, appState, updateColumnTimeline } = useChatStore({
+    const { domainData, appState, reducer } = useChatStore({
         context,
     })
     return (
-        <ChatAppStateContext.Provider
-            value={Object.assign({}, appState, {
-                updateColumnTimeline,
-            })}>
+        <ChatAppStateContext.Provider value={appState}>
             <ChatDomainDataContext.Provider value={domainData}>
-                <ChatColumnContainerComponent />
+                <ChatReducerContext.Provider value={{ reducer }}>
+                    <ChatColumnContainerComponent />
+                </ChatReducerContext.Provider>
             </ChatDomainDataContext.Provider>
         </ChatAppStateContext.Provider>
     )

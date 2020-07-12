@@ -1,9 +1,6 @@
 import { useState, createContext } from "react"
 import * as WebAPI from "../../api"
-import {
-    WebAPIUnavailableResponse,
-    UnexpectedResponseError,
-} from "../../api/classes"
+import { WebAPIUnavailableResponse, UnexpectedResponseError } from "../../api/classes"
 
 export const useSigninFormState = () => {
     const initialState = {
@@ -18,9 +15,7 @@ export const useSigninFormState = () => {
         hint: [],
     })
 
-    const handleUpdateNameValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateNameValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNameField({
             errorMessage: nameField.errorMessage,
             hint: nameField.hint,
@@ -28,9 +23,7 @@ export const useSigninFormState = () => {
         })
     }
 
-    const handleUpdatePasswordValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdatePasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordField({
             errorMessage: passwordField.errorMessage,
             hint: passwordField.hint,

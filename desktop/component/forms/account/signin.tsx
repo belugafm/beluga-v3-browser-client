@@ -1,10 +1,7 @@
 import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
-import {
-    useSigninFormState,
-    SigninFormContext,
-} from "../../../state/account/signin"
+import { useSigninFormState, SigninFormContext } from "../../../state/account/signin"
 import { useLoggedInUser } from "../../../state/session"
 
 type InputComponentAttributes = {
@@ -87,9 +84,7 @@ const NameInputForm = () => {
     )
 }
 const PasswordInputForm = () => {
-    const { passwordField, handleUpdatePasswordValue } = useContext(
-        SigninFormContext
-    )
+    const { passwordField, handleUpdatePasswordValue } = useContext(SigninFormContext)
     return (
         <InputComponent
             label="パスワード"

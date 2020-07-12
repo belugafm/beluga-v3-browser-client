@@ -11,28 +11,24 @@ export const App = ({ children }) => {
             {isLoading ? null : children}
             <style jsx global>{`
                 body {
-                    font-family: "Helvetica Neue", Arial,
-                        "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo,
-                        sans-serif;
+                    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+                        "Hiragino Sans", Meiryo, sans-serif;
                 }
             `}</style>
             <style jsx global>{`
                 html,
                 body {
-                    background-color: ${theme.global.current
-                        .backgroundPrimaryColor};
+                    background-color: ${theme.global.current.backgroundPrimaryColor};
                     color: ${theme.global.current.fontPrimaryColor};
-                    transition: background-color
-                            ${theme.global.current.transitionDuration} linear 0s,
-                        color ${theme.global.current.transitionDuration} linear
-                            0s;
+                    transition: background-color ${theme.global.current.transitionDuration} linear
+                            0s,
+                        color ${theme.global.current.transitionDuration} linear 0s;
                 }
                 a {
                     color: ${theme.user.linkPrimaryColor};
                     text-decoration: none;
                     font-weight: bold;
-                    transition: color ${theme.global.current.transitionDuration}
-                        linear 0s;
+                    transition: color ${theme.global.current.transitionDuration} linear 0s;
                 }
             `}</style>
         </>

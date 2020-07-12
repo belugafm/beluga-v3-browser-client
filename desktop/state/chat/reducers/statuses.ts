@@ -6,11 +6,7 @@ export const update = async (
     store: StoreT,
     query: Record<string, any>
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(
-        store.domainData,
-        WebAPI.statuses.update,
-        query
-    )
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.update, query)
     const { status } = response
     return [
         {

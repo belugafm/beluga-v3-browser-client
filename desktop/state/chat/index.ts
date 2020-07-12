@@ -2,13 +2,7 @@ import { useChatAppState, ChatAppStateContext } from "./app"
 import { useChatDomainData, ChatDomainDataContext } from "./data"
 import { useState, useContext } from "react"
 import * as reducers from "./reducers"
-import {
-    StoreT,
-    udpateStore,
-    StoreSetActionsT,
-    ChatReducerContext,
-    ReducersT,
-} from "./reducer"
+import { StoreT, udpateStore, StoreSetActionsT, ChatReducerContext, ReducersT } from "./reducer"
 import { Response } from "../../api"
 
 export const useChatStoreContext = (): [StoreT, ReducersT] => {
@@ -49,10 +43,7 @@ export const useChatStore = ({
 
     const reducer = async (
         prevStore: StoreT,
-        method: (
-            store: StoreT,
-            query: Record<string, any>
-        ) => Promise<[StoreT, Response | null]>,
+        method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
         query: Record<string, any>
     ): Promise<Response | null> => {
         const [nextStore, response] = await method(prevStore, query)
@@ -63,10 +54,7 @@ export const useChatStore = ({
     const orderedReducers = async (
         store: StoreT,
         reducers: {
-            method: (
-                store: StoreT,
-                query: Record<string, any>
-            ) => Promise<[StoreT, Response]>
+            method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response]>
             query: Record<string, any>
         }[]
     ): Promise<void> => {

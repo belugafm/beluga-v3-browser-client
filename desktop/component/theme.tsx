@@ -74,11 +74,7 @@ type Themes = {
 
 const ThemeContext = createContext(null)
 
-export const ThemeProvider = ({
-    userTheme,
-    defaultGlobalThemeName,
-    children,
-}) => {
+export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) => {
     const [currentGlobalThemeName, setCurrentGlobalThemeName]: [
         string,
         (key: string) => any
@@ -102,9 +98,7 @@ export const ThemeProvider = ({
                         setCurrentGlobalThemeName(key)
                     },
                 },
-                user: userTheme
-                    ? userTheme
-                    : getDefaultUserTheme(currentGlobalThemeName),
+                user: userTheme ? userTheme : getDefaultUserTheme(currentGlobalThemeName),
             }}>
             {children}
         </ThemeContext.Provider>

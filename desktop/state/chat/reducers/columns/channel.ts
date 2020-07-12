@@ -100,13 +100,9 @@ export const updateTimeline = async (
         untilDate?: string
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
-    const [nextDomainData, response] = await fetch(
-        store.domainData,
-        WebAPI.timeline.channel,
-        {
-            channel_id: query.channelId,
-        }
-    )
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
+        channel_id: query.channelId,
+    })
     const { statuses } = response
     store.appState.columns.forEach((column) => {
         if (column.type !== ColumnTypes.Channel) {

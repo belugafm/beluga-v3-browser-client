@@ -1,11 +1,7 @@
 import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
-import {
-    useChannelCreateFormState,
-    CreateChannelFormContext,
-} from "../../../state/channel/create"
-import { useLoggedInUser } from "../../../state/session"
+import { useChannelCreateFormState, CreateChannelFormContext } from "../../../state/channel/create"
 
 type InputComponentAttributes = {
     value: string
@@ -122,9 +118,7 @@ const TextareaComponent = ({
 }
 
 const NameInputForm = () => {
-    const { nameField, handleUpdateNameValue } = useContext(
-        CreateChannelFormContext
-    )
+    const { nameField, handleUpdateNameValue } = useContext(CreateChannelFormContext)
     return (
         <InputComponent
             label="チャンネル名"
@@ -137,9 +131,7 @@ const NameInputForm = () => {
     )
 }
 const DescriptionInputForm = () => {
-    const { descriptionField, handleUpdateDescriptionValue } = useContext(
-        CreateChannelFormContext
-    )
+    const { descriptionField, handleUpdateDescriptionValue } = useContext(CreateChannelFormContext)
     return (
         <TextareaComponent
             label="チャンネルの説明"
@@ -153,9 +145,7 @@ const DescriptionInputForm = () => {
 
 const IsPublicCheckbox = () => {
     const [theme] = useTheme()
-    const { isPublicField, handleUpdateIsPublicChecked } = useContext(
-        CreateChannelFormContext
-    )
+    const { isPublicField, handleUpdateIsPublicChecked } = useContext(CreateChannelFormContext)
     return (
         <div>
             <label>

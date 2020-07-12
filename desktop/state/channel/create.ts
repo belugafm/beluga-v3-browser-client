@@ -24,9 +24,7 @@ export const useChannelCreateFormState = () => {
         checked: true,
     })
 
-    const handleUpdateNameValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateNameValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNameField({
             errorMessage: nameField.errorMessage,
             hint: nameField.hint,
@@ -34,9 +32,7 @@ export const useChannelCreateFormState = () => {
         })
     }
 
-    const handleUpdateDescriptionValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateDescriptionValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDescriptionField({
             errorMessage: descriptionField.errorMessage,
             hint: descriptionField.hint,
@@ -44,9 +40,7 @@ export const useChannelCreateFormState = () => {
         })
     }
 
-    const handleUpdateIsPublicChecked = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateIsPublicChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsPublicField({
             errorMessage: isPublicField.errorMessage,
             hint: isPublicField.hint,
@@ -89,9 +83,7 @@ export const useChannelCreateFormState = () => {
             })
             const { channel } = response
             if (channel == null) {
-                return handleError(
-                    new WebAPI.Response(WebAPIUnexpectedErrorResponse)
-                )
+                return handleError(new WebAPI.Response(WebAPIUnexpectedErrorResponse))
             }
             location.href = `/channel/${channel.id}`
         } else {

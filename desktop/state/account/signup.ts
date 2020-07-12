@@ -1,9 +1,6 @@
 import { useState, createContext } from "react"
 import * as WebAPI from "../../api"
-import {
-    WebAPIUnavailableResponse,
-    UnexpectedResponseError,
-} from "../../api/classes"
+import { WebAPIUnavailableResponse, UnexpectedResponseError } from "../../api/classes"
 import fp from "fingerprintjs2"
 import crypto from "crypto"
 
@@ -17,12 +14,7 @@ const getBrowserFingerprint = (): Promise<string> => {
                     const values = components.map((component) => {
                         return component.value
                     })
-                    resolve(
-                        crypto
-                            .createHash("sha256")
-                            .update(values.join(""))
-                            .digest("hex")
-                    )
+                    resolve(crypto.createHash("sha256").update(values.join("")).digest("hex"))
                 })
             })
         } else {
@@ -31,12 +23,7 @@ const getBrowserFingerprint = (): Promise<string> => {
                     const values = components.map((component) => {
                         return component.value
                     })
-                    resolve(
-                        crypto
-                            .createHash("sha256")
-                            .update(values.join(""))
-                            .digest("hex")
-                    )
+                    resolve(crypto.createHash("sha256").update(values.join("")).digest("hex"))
                 })
             }, 500)
         }
@@ -51,25 +38,18 @@ export const useSignupFormState = () => {
     }
     const [nameField, setNameField] = useState(initialState)
     const [passwordField, setPasswordField] = useState(initialState)
-    const [confirmedPasswordField, setConfirmedPasswordField] = useState(
-        initialState
-    )
+    const [confirmedPasswordField, setConfirmedPasswordField] = useState(initialState)
     const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
         errorMessage: [],
         hint: [],
     })
-    const [
-        termsOfServiceAgreementField,
-        setTermsOfServiceAgreementField,
-    ] = useState({
+    const [termsOfServiceAgreementField, setTermsOfServiceAgreementField] = useState({
         errorMessage: [],
         hint: [],
         checked: false,
     })
 
-    const handleUpdateNameValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateNameValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNameField({
             errorMessage: nameField.errorMessage,
             hint: nameField.hint,
@@ -77,9 +57,7 @@ export const useSignupFormState = () => {
         })
     }
 
-    const handleUpdatePasswordValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdatePasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordField({
             errorMessage: passwordField.errorMessage,
             hint: passwordField.hint,
@@ -87,9 +65,7 @@ export const useSignupFormState = () => {
         })
     }
 
-    const handleUpdateConfirmedPasswordValue = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleUpdateConfirmedPasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfirmedPasswordField({
             errorMessage: confirmedPasswordField.errorMessage,
             hint: confirmedPasswordField.hint,
@@ -97,9 +73,7 @@ export const useSignupFormState = () => {
         })
     }
 
-    const handleTermsOfServiceAgreementChecked = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleTermsOfServiceAgreementChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTermsOfServiceAgreementField({
             errorMessage: termsOfServiceAgreementField.errorMessage,
             hint: termsOfServiceAgreementField.hint,
@@ -113,9 +87,7 @@ export const useSignupFormState = () => {
                 ok: false,
                 error_code: "you_must_agree_to_terms_of_service",
                 description: ["利用規約をお読みください"],
-                hint: [
-                    "同意する場合はチェックボックスにチェックを入れてください",
-                ],
+                hint: ["同意する場合はチェックボックスにチェックを入れてください"],
             })
         }
         const fingerprint = await getBrowserFingerprint()

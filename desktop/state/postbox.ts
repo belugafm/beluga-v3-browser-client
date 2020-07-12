@@ -1,9 +1,6 @@
 import { useState, createContext, useContext } from "react"
 import * as WebAPI from "../api"
-import {
-    WebAPIUnavailableResponse,
-    UnexpectedResponseError,
-} from "../api/classes"
+import { WebAPIUnavailableResponse, UnexpectedResponseError } from "../api/classes"
 import * as reducers from "./chat/reducers"
 import { useChatStoreContext } from "./chat"
 

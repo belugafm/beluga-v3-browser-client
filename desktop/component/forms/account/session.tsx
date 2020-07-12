@@ -73,37 +73,31 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
             `}</style>
             <style jsx>{`
                 .session {
-                    background-color: ${theme.global.current
-                        .backgroundSecondaryColor};
+                    background-color: ${theme.global.current.backgroundSecondaryColor};
                     box-shadow: ${theme.global.current.boxShadow};
-                    transition: background-color
-                        ${theme.global.current.transitionDuration} linear 0s;
+                    transition: background-color ${theme.global.current.transitionDuration} linear
+                        0s;
                 }
                 .tab-menu a {
                     color: ${theme.global.current.fontSecondaryColor};
-                    transition: color ${theme.global.current.transitionDuration}
-                            linear 0s,
-                        border-bottom-color
-                            ${theme.global.current.transitionDuration} linear 0s;
+                    transition: color ${theme.global.current.transitionDuration} linear 0s,
+                        border-bottom-color ${theme.global.current.transitionDuration} linear 0s;
                 }
                 .tab-menu a:hover {
                     color: ${theme.global.current.fontPrimaryColor};
                 }
                 .tab-menu.active-signup a.signup {
                     color: ${theme.global.current.fontPrimaryColor};
-                    border-bottom: 3px solid
-                        ${theme.global.current.fontPrimaryColor};
+                    border-bottom: 3px solid ${theme.global.current.fontPrimaryColor};
                 }
                 .tab-menu.active-signin a.signin {
                     color: ${theme.global.current.fontPrimaryColor};
-                    border-bottom: 3px solid
-                        ${theme.global.current.fontPrimaryColor};
+                    border-bottom: 3px solid ${theme.global.current.fontPrimaryColor};
                 }
                 .tab-menu ul {
-                    border-bottom: 1px solid
-                        ${theme.global.current.borderPrimaryColor};
-                    transition: border-bottom-color
-                        ${theme.global.current.transitionDuration} linear 0s;
+                    border-bottom: 1px solid ${theme.global.current.borderPrimaryColor};
+                    transition: border-bottom-color ${theme.global.current.transitionDuration}
+                        linear 0s;
                 }
             `}</style>
         </div>

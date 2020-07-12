@@ -49,9 +49,7 @@ export class Response implements ResponseInterface {
             if (TypeCheck.isArrayOrNull(response.description) === false) {
                 throw new UnexpectedResponseError()
             }
-            if (
-                TypeCheck.isStringOrNull(response.additional_message) === false
-            ) {
+            if (TypeCheck.isStringOrNull(response.additional_message) === false) {
                 throw new UnexpectedResponseError()
             }
             if (TypeCheck.isStringOrNull(response.argument) === false) {
@@ -114,9 +112,7 @@ export function get(method_url: string, query: any): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
         const params = new URLSearchParams(query)
-        const endpoint_url = new URL(
-            `${protocol}://${config.server.domain}/api/v1/${method_url}`
-        )
+        const endpoint_url = new URL(`${protocol}://${config.server.domain}/api/v1/${method_url}`)
         endpoint_url.search = params.toString()
         fetch(endpoint_url.toString(), {
             method: "GET",

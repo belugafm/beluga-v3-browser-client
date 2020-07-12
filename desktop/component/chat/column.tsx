@@ -9,10 +9,7 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     return (
         <div className="column">
             <p>{column.context.channelId}</p>
-            <PostboxComponent
-                column={column}
-                channelId={column.context.channelId}
-            />
+            <PostboxComponent column={column} channelId={column.context.channelId} />
             {column.timeline.statusIds.map((status_id, index) => {
                 const status = statusesById[status_id]
                 if (status == null) {

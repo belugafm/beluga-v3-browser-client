@@ -24,8 +24,7 @@ export const WelcomeComponent = () => {
             <style jsx>{`
                 .welcome {
                     box-shadow: ${theme.global.current.boxShadow};
-                    background-color: ${theme.global.current
-                        .backgroundSecondaryColor};
+                    background-color: ${theme.global.current.backgroundSecondaryColor};
                 }
             `}</style>
         </div>

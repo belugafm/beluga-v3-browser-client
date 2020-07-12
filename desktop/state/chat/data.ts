@@ -1,10 +1,5 @@
 import { createContext, useState, Dispatch, SetStateAction } from "react"
-import {
-    StatusObject,
-    UserObject,
-    ChannelObject,
-    CommunityObject,
-} from "../../api/object"
+import { StatusObject, UserObject, ChannelObject, CommunityObject } from "../../api/object"
 import { Response } from "../../api"
 
 export type DomainDataT = {
@@ -23,10 +18,7 @@ const context: DomainDataT = {
 
 export const ChatDomainDataContext = createContext(context)
 
-function normalizeStatus(
-    status: StatusObject | null,
-    nextDomainData: DomainDataT
-): DomainDataT {
+function normalizeStatus(status: StatusObject | null, nextDomainData: DomainDataT): DomainDataT {
     if (status == null) {
         return nextDomainData
     }
@@ -51,10 +43,7 @@ function normalizeStatus(
     return nextDomainData
 }
 
-function normalizeUser(
-    user: UserObject | null,
-    nextDomainData: DomainDataT
-): DomainDataT {
+function normalizeUser(user: UserObject | null, nextDomainData: DomainDataT): DomainDataT {
     if (user == null) {
         return nextDomainData
     }
@@ -62,10 +51,7 @@ function normalizeUser(
     return nextDomainData
 }
 
-function normalizeChannel(
-    channel: ChannelObject | null,
-    nextDomainData: DomainDataT
-): DomainDataT {
+function normalizeChannel(channel: ChannelObject | null, nextDomainData: DomainDataT): DomainDataT {
     if (channel == null) {
         return nextDomainData
     }
@@ -115,23 +101,15 @@ export type DomainDataSetActionT = {
     setStatusesById: Dispatch<SetStateAction<Record<string, StatusObject>>>
     setUsersById: Dispatch<SetStateAction<Record<string, UserObject>>>
     setChannelsById: Dispatch<SetStateAction<Record<string, ChannelObject>>>
-    setCommunitiesById: Dispatch<
-        SetStateAction<Record<string, CommunityObject>>
-    >
+    setCommunitiesById: Dispatch<SetStateAction<Record<string, CommunityObject>>>
 }
 
 export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
     console.info("useChatDomainData")
-    const [statusesById, setStatusesById] = useState<
-        Record<string, StatusObject>
-    >({})
+    const [statusesById, setStatusesById] = useState<Record<string, StatusObject>>({})
     const [usersById, setUsersById] = useState<Record<string, UserObject>>({})
-    const [channelsById, setChannelsById] = useState<
-        Record<string, ChannelObject>
-    >({})
-    const [communitiesById, setCommunitiesById] = useState<
-        Record<string, CommunityObject>
-    >({})
+    const [channelsById, setChannelsById] = useState<Record<string, ChannelObject>>({})
+    const [communitiesById, setCommunitiesById] = useState<Record<string, CommunityObject>>({})
 
     return [
         {

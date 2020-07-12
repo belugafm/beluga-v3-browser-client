@@ -1,10 +1,7 @@
 import React, { useContext } from "react"
 import classnames from "classnames"
 import { useTheme } from "../../theme"
-import {
-    useSignupFormState,
-    SignupFormContext,
-} from "../../../state/account/signup"
+import { useSignupFormState, SignupFormContext } from "../../../state/account/signup"
 import { useLoggedInUser } from "../../../state/session"
 
 type InputComponentAttributes = {
@@ -87,9 +84,7 @@ const NameInputForm = () => {
     )
 }
 const PasswordInputForm = () => {
-    const { passwordField, handleUpdatePasswordValue } = useContext(
-        SignupFormContext
-    )
+    const { passwordField, handleUpdatePasswordValue } = useContext(SignupFormContext)
     return (
         <InputComponent
             label="パスワード"
@@ -103,10 +98,9 @@ const PasswordInputForm = () => {
     )
 }
 const ConfirmedPasswordInputForm = () => {
-    const {
-        confirmedPasswordField,
-        handleUpdateConfirmedPasswordValue,
-    } = useContext(SignupFormContext)
+    const { confirmedPasswordField, handleUpdateConfirmedPasswordValue } = useContext(
+        SignupFormContext
+    )
     return (
         <InputComponent
             label="パスワードの確認"
@@ -122,10 +116,9 @@ const ConfirmedPasswordInputForm = () => {
 
 const TermsOfServiceCheckbox = () => {
     const [theme] = useTheme()
-    const {
-        termsOfServiceAgreementField,
-        handleTermsOfServiceAgreementChecked,
-    } = useContext(SignupFormContext)
+    const { termsOfServiceAgreementField, handleTermsOfServiceAgreementChecked } = useContext(
+        SignupFormContext
+    )
     return (
         <div>
             <a

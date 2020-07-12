@@ -21,10 +21,7 @@ export type StoreSetActionsT = {
 
 export type ReducerT = (
     storeData: StoreT,
-    method: (
-        storeData: StoreT,
-        query: Record<string, any>
-    ) => Promise<[StoreT, Response | null]>,
+    method: (storeData: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
     query: Record<string, any>
 ) => Promise<Response | null>
 
@@ -44,27 +41,16 @@ function updateDomainData(
     prevDomainData: DomainDataT,
     nextDomainData: DomainDataT
 ) {
-    if (
-        equals(prevDomainData.statusesById, nextDomainData.statusesById) !==
-        true
-    ) {
+    if (equals(prevDomainData.statusesById, nextDomainData.statusesById) !== true) {
         setActions.setStatusesById(nextDomainData.statusesById)
     }
     if (equals(prevDomainData.usersById, nextDomainData.usersById) !== true) {
         setActions.setUsersById(nextDomainData.usersById)
     }
-    if (
-        equals(prevDomainData.channelsById, nextDomainData.channelsById) !==
-        true
-    ) {
+    if (equals(prevDomainData.channelsById, nextDomainData.channelsById) !== true) {
         setActions.setChannelsById(nextDomainData.channelsById)
     }
-    if (
-        equals(
-            prevDomainData.communitiesById,
-            nextDomainData.communitiesById
-        ) !== true
-    ) {
+    if (equals(prevDomainData.communitiesById, nextDomainData.communitiesById) !== true) {
         setActions.setCommunitiesById(nextDomainData.communitiesById)
     }
 }
@@ -84,16 +70,8 @@ export const udpateStore = (
     prevStore: StoreT,
     nextStore: StoreT
 ) => {
-    updateDomainData(
-        storeSetActions.domainData,
-        prevStore.domainData,
-        nextStore.domainData
-    )
-    updateAppState(
-        storeSetActions.appState,
-        prevStore.appState,
-        nextStore.appState
-    )
+    updateDomainData(storeSetActions.domainData, prevStore.domainData, nextStore.domainData)
+    updateAppState(storeSetActions.appState, prevStore.appState, nextStore.appState)
 
     console.info("udpateStoreData")
     console.info(nextStore)

@@ -4,15 +4,11 @@ import {
     WebAPIUnavailableResponse,
     UnexpectedResponseError,
 } from "../api/classes"
-import { ChatReducerContext } from "./chat/reducer"
-import { ChatDomainDataContext } from "./chat/data"
-import { ChatAppStateContext } from "./chat/app"
 import * as reducers from "./chat/reducers"
+import { useChatStoreContext } from "./chat"
 
 export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
-    const domainData = useContext(ChatDomainDataContext)
-    const appState = useContext(ChatAppStateContext)
-    const { reducer } = useContext(ChatReducerContext)
+    const [store, { reducer }] = useChatStoreContext()
 
     const [textField, setTextField] = useState({
         errorMessage: [],
@@ -29,7 +25,7 @@ export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
     const update = async () => {
         try {
             return await reducer(
-                { domainData, appState },
+                store,
                 reducers.statuses.update,
                 Object.assign({}, query, {
                     text: textField.value,

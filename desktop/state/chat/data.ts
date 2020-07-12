@@ -111,14 +111,16 @@ export async function fetch(
     return [nextDomainData, response]
 }
 
-export const useChatDomainData = (): DomainDataT & {
+export type DomainDataSetActionT = {
     setStatusesById: Dispatch<SetStateAction<Record<string, StatusObject>>>
     setUsersById: Dispatch<SetStateAction<Record<string, UserObject>>>
     setChannelsById: Dispatch<SetStateAction<Record<string, ChannelObject>>>
     setCommunitiesById: Dispatch<
         SetStateAction<Record<string, CommunityObject>>
     >
-} => {
+}
+
+export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
     console.info("useChatDomainData")
     const [statusesById, setStatusesById] = useState<
         Record<string, StatusObject>
@@ -131,14 +133,18 @@ export const useChatDomainData = (): DomainDataT & {
         Record<string, CommunityObject>
     >({})
 
-    return {
-        statusesById,
-        usersById,
-        channelsById,
-        communitiesById,
-        setStatusesById,
-        setUsersById,
-        setChannelsById,
-        setCommunitiesById,
-    }
+    return [
+        {
+            statusesById,
+            usersById,
+            channelsById,
+            communitiesById,
+        },
+        {
+            setStatusesById,
+            setUsersById,
+            setChannelsById,
+            setCommunitiesById,
+        },
+    ]
 }

@@ -5,6 +5,7 @@ import { ColumnStateT, ChatAppStateContext } from "../state/chat/app"
 import { ChatReducerContext } from "../state/chat/reducer"
 import { ChatDomainDataContext } from "../state/chat/data"
 import * as reducers from "../state/chat/reducers"
+import { useChatStoreContext } from "../state/chat"
 
 export const PostboxComponent = ({
     column,
@@ -17,16 +18,14 @@ export const PostboxComponent = ({
     const { textField, updateTextValue, updateStatus } = usePostboxState({
         query: column.postbox.query,
     })
-    const domainData = useContext(ChatDomainDataContext)
-    const appState = useContext(ChatAppStateContext)
-    const { reducer } = useContext(ChatReducerContext)
+    const [store, { reducer }] = useChatStoreContext()
     const onClick = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault()
         await updateStatus()
         await reducer(
-            { domainData, appState },
+            store,
             reducers.columns.channel.updateTimeline,
             column.timeline.query
         )

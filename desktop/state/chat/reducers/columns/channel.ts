@@ -1,6 +1,6 @@
-import { ColumnTypes, ColumnStateT, AppStateDataT } from "../../app"
+import { ColumnTypes, ColumnStateT, AppStateT } from "../../app"
 import { DomainDataT, fetch } from "../../data"
-import { StoreDataT } from "../../reducer"
+import { StoreT } from "../../reducer"
 import * as WebAPI from "../../../../api"
 import { ChannelObject, StatusObject } from "../../../../api/object"
 import equals from "deep-equal"
@@ -46,12 +46,12 @@ const _fetch = (
 }
 
 export const create = async (
-    store: StoreDataT,
+    store: StoreT,
     query: {
         channelId: string
         columnIndex: number
     }
-): Promise<[StoreDataT, WebAPI.Response | null]> => {
+): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await _fetch(store.domainData, {
         channel_id: query.channelId,
     })
@@ -78,7 +78,7 @@ export const create = async (
         },
     }
 
-    const nextAppState: AppStateDataT = {
+    const nextAppState: AppStateT = {
         columns: store.appState.columns.concat(column),
     }
     return [
@@ -91,7 +91,7 @@ export const create = async (
 }
 
 export const updateTimeline = async (
-    store: StoreDataT,
+    store: StoreT,
     query: {
         channelId?: string
         maxId?: string
@@ -99,7 +99,7 @@ export const updateTimeline = async (
         maxDate?: string
         untilDate?: string
     }
-): Promise<[StoreDataT, WebAPI.Response | null]> => {
+): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await fetch(
         store.domainData,
         WebAPI.timeline.channel,
@@ -118,7 +118,7 @@ export const updateTimeline = async (
         column.timeline.statusIds = statuses.map((status) => status.id)
     })
 
-    const nextAppState: AppStateDataT = {
+    const nextAppState: AppStateT = {
         columns: store.appState.columns.map((column) => column),
     }
     return [

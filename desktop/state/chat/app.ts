@@ -41,19 +41,16 @@ const context: {
 
 export const ChatAppStateContext = createContext(context)
 
-export type AppStateDataT = {
+export type AppStateT = {
     columns: ColumnStateT[]
 }
 
-export type AppStateContextT = AppStateDataT & {
+export type AppStateSetActionT = {
     setColumns: Dispatch<SetStateAction<ColumnStateT[]>>
 }
 
-export const useChatAppState = (): AppStateContextT => {
+export const useChatAppState = (): [AppStateT, AppStateSetActionT] => {
     console.info("useChatAppState")
     const [columns, setColumns] = useState<ColumnStateT[]>([])
-    return {
-        columns,
-        setColumns,
-    }
+    return [{ columns }, { setColumns }]
 }

@@ -1,9 +1,31 @@
-import { useChatAppState } from "./app"
-import { useChatDomainData } from "./data"
-import { useState } from "react"
+import { useChatAppState, ChatAppStateContext } from "./app"
+import { useChatDomainData, ChatDomainDataContext } from "./data"
+import { useState, useContext } from "react"
 import * as reducers from "./reducers"
-import { StoreDataT, udpateStoreData } from "./reducer"
+import {
+    StoreT,
+    udpateStore,
+    StoreSetActionsT,
+    ChatReducerContext,
+    ReducersT,
+} from "./reducer"
 import { Response } from "../../api"
+
+export const useChatStoreContext = (): [StoreT, ReducersT] => {
+    const domainData = useContext(ChatDomainDataContext)
+    const appState = useContext(ChatAppStateContext)
+    const { reducer, orderedReducers } = useContext(ChatReducerContext)
+    return [
+        {
+            domainData,
+            appState,
+        },
+        {
+            reducer,
+            orderedReducers,
+        },
+    ]
+}
 
 export const useChatStore = ({
     context,
@@ -16,44 +38,49 @@ export const useChatStore = ({
     }
 }) => {
     console.info("useChatState")
-    const domainData = useChatDomainData()
-    const appState = useChatAppState()
+    const [domainData, domainDataSetActions] = useChatDomainData()
+    const [appState, appStateSetActions] = useChatAppState()
     const [needsInitialize, setNeedsInitialize] = useState(true)
 
-    const store = { domainData, appState }
+    const storeSetActions: StoreSetActionsT = {
+        domainData: domainDataSetActions,
+        appState: appStateSetActions,
+    }
 
     const reducer = async (
-        storeData: StoreDataT,
+        prevStore: StoreT,
         method: (
-            store: StoreDataT,
+            store: StoreT,
             query: Record<string, any>
-        ) => Promise<[StoreDataT, Response | null]>,
+        ) => Promise<[StoreT, Response | null]>,
         query: Record<string, any>
     ): Promise<Response | null> => {
-        const [nextStoreData, response] = await method(storeData, query)
-        udpateStoreData(store, nextStoreData)
+        const [nextStore, response] = await method(prevStore, query)
+        udpateStore(storeSetActions, prevStore, nextStore)
         return response
     }
 
     const orderedReducers = async (
-        storeData: StoreDataT,
+        store: StoreT,
         reducers: {
             method: (
-                store: StoreDataT,
+                store: StoreT,
                 query: Record<string, any>
-            ) => Promise<[StoreDataT, Response]>
+            ) => Promise<[StoreT, Response]>
             query: Record<string, any>
         }[]
     ): Promise<void> => {
+        const prevStore = store
         for (let index = 0; index < reducers.length; index++) {
             const { method, query } = reducers[index]
-            const [nextStoreData, response] = await method(storeData, query)
-            storeData = nextStoreData
+            const [nextStore, response] = await method(store, query)
+            store = nextStore
         }
-        udpateStoreData(store, storeData)
+        udpateStore(storeSetActions, prevStore, store)
     }
 
     if (needsInitialize) {
+        const store = { domainData, appState }
         if (context.channelId) {
             orderedReducers(store, [
                 {

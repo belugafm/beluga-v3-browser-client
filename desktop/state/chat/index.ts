@@ -18,7 +18,59 @@ export const useChatStoreContext = (): [StoreT, ReducersT] => {
     ]
 }
 
-let _currentStore: StoreT = null
+type ReducerMethodT = (
+    store: StoreT,
+    query: Record<string, any>
+) => Promise<[StoreT, Response | null]>
+
+class State {
+    currentStore: StoreT = null
+    storeSetActions: StoreSetActionsT = null
+    use() {
+        const [domainData, domainDataSetActions] = useChatDomainData()
+        const [appState, appStateSetActions] = useChatAppState()
+        const store: StoreT = { domainData, appState }
+        const storeSetActions: StoreSetActionsT = {
+            domainData: domainDataSetActions,
+            appState: appStateSetActions,
+        }
+        this.currentStore = store
+        this.storeSetActions = storeSetActions
+        return [store, storeSetActions]
+    }
+    async reduce(method: ReducerMethodT, query: Record<string, any>): Promise<Response | null> {
+        try {
+            const [nextStore, response] = await method(this.currentStore, query)
+            this.currentStore = udpateStore(this.storeSetActions, this.currentStore, nextStore)
+            return response
+        } catch (error) {
+            console.error(error)
+            alert(error)
+        }
+        return null
+    }
+    async orderedReducers(
+        reducers: {
+            method: ReducerMethodT
+            query: Record<string, any>
+        }[]
+    ): Promise<void> {
+        const prevStore = this.currentStore
+        try {
+            for (let index = 0; index < reducers.length; index++) {
+                const { method, query } = reducers[index]
+                const [nextStore] = await method(this.currentStore, query)
+                this.currentStore = nextStore
+            }
+        } catch (error) {
+            console.error(error)
+            alert(error)
+        }
+        udpateStore(this.storeSetActions, prevStore, this.currentStore)
+    }
+}
+
+const state = new State()
 
 export const useChatStore = ({
     context,
@@ -31,48 +83,12 @@ export const useChatStore = ({
     }
 }) => {
     console.info("useChatState")
-    const [domainData, domainDataSetActions] = useChatDomainData()
-    const [appState, appStateSetActions] = useChatAppState()
+    const [store] = state.use()
     const [needsInitialize, setNeedsInitialize] = useState(true)
-
-    const storeSetActions: StoreSetActionsT = {
-        domainData: domainDataSetActions,
-        appState: appStateSetActions,
-    }
-    _currentStore = { domainData, appState }
-    const reducer = async (
-        method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
-        query: Record<string, any>
-    ): Promise<Response | null> => {
-        try {
-            const [nextStore, response] = await method(_currentStore, query)
-            _currentStore = udpateStore(storeSetActions, _currentStore, nextStore)
-            return response
-        } catch (error) {
-            console.error(error)
-            alert(error)
-        }
-        return null
-    }
-
-    const orderedReducers = async (
-        reducers: {
-            method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response]>
-            query: Record<string, any>
-        }[]
-    ): Promise<void> => {
-        const prevStore = _currentStore
-        for (let index = 0; index < reducers.length; index++) {
-            const { method, query } = reducers[index]
-            const [nextStore, response] = await method(_currentStore, query)
-            _currentStore = nextStore
-        }
-        udpateStore(storeSetActions, prevStore, _currentStore)
-    }
 
     if (needsInitialize) {
         if (context.channelId) {
-            orderedReducers([
+            state.orderedReducers([
                 {
                     method: reducers.columns.channel.create,
                     query: {
@@ -99,5 +115,16 @@ export const useChatStore = ({
         setNeedsInitialize(false)
     }
 
-    return { domainData, appState, reducer, orderedReducers }
+    return {
+        domainData: store.domainData,
+        appState: store.appState,
+        reducer: (method: ReducerMethodT, query: Record<string, any>) =>
+            state.reduce(method, query),
+        orderedReducers: (
+            reducers: {
+                method: ReducerMethodT
+                query: Record<string, any>
+            }[]
+        ) => state.orderedReducers(reducers),
+    }
 }

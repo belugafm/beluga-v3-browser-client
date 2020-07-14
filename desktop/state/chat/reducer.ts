@@ -20,13 +20,11 @@ export type StoreSetActionsT = {
 }
 
 export type ReducerT = (
-    storeData: StoreT,
     method: (storeData: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
     query: Record<string, any>
 ) => Promise<Response | null>
 
 export type OrderedReducerT = (
-    storeData: StoreT,
     reducers: {
         method: (
             storeData: StoreT,
@@ -72,9 +70,7 @@ export const udpateStore = (
 ) => {
     updateDomainData(storeSetActions.domainData, prevStore.domainData, nextStore.domainData)
     updateAppState(storeSetActions.appState, prevStore.appState, nextStore.appState)
-
-    console.info("udpateStoreData")
-    console.info(nextStore)
+    return nextStore
 }
 
 const context: {

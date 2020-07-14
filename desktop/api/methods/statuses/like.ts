@@ -5,7 +5,7 @@ type Arguments = {
 }
 
 export async function like(body: Arguments): Promise<Response> {
-    const responce = await post("statuses/like", body)
+    const responce = await post("likes/create", body)
     if (responce.status == null) {
         throw new UnexpectedResponseError()
     }

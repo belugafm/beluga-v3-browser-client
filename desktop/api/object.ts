@@ -1,4 +1,4 @@
-export type UserObject = {
+export type UserObjectT = {
     id: string
     name: string
     display_name: string | null
@@ -18,7 +18,7 @@ export type UserObject = {
     last_activity_date: Date | null
 }
 
-export type CommunityObject = {
+export type CommunityObjectT = {
     id: string
     name: string
     description: string | null
@@ -28,10 +28,10 @@ export type CommunityObject = {
     }
     created_at: Date
     creator_id: string
-    creator: UserObject | null
+    creator: UserObjectT | null
 }
 
-export type ChannelObject = {
+export type ChannelObjectT = {
     id: string
     name: string
     description: string | null
@@ -40,26 +40,33 @@ export type ChannelObject = {
     }
     created_at: Date
     creator_id: string
-    creator: UserObject | null
+    creator: UserObjectT | null
     is_public: boolean
     community_id: string | null
-    community: CommunityObject | null
-    timeline: {
-        status_ids: string[]
-    }
+    community: CommunityObjectT | null
 }
 
-export type StatusObject = {
+export type StatusObjectT = {
     id: string
     user_id: string
-    user: UserObject | null
+    user: UserObjectT | null
     channel_id: string
-    channel: ChannelObject | null
+    channel: ChannelObjectT | null
     community_id: string | null
-    community: CommunityObject | null
+    community: CommunityObjectT | null
     text: string
     created_at: Date
     is_public: boolean
     is_edited: boolean
     is_deleted: boolean
+    likes: {
+        count: number
+        users: UserObjectT[]
+        user_ids: string[]
+    }
+    favorites: {
+        count: number
+        users: UserObjectT[]
+        user_ids: string[]
+    }
 }

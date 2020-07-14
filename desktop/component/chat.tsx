@@ -21,7 +21,7 @@ export const ChatComponent = ({
     })
     const store = { domainData, appState }
     const reducers = { reducer, orderedReducers }
-    const statusMethods = useStatusMethods(store, reducers)
+    const statusMethods = useStatusMethods(reducers)
     return (
         <ChatAppStateContext.Provider value={appState}>
             <ChatDomainDataContext.Provider value={domainData}>

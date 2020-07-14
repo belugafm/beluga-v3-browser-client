@@ -1,6 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
 import config from "../config"
-import { StatusObject, CommunityObject, ChannelObject } from "./object"
+import { StatusObjectT, ChannelObjectT } from "./object"
 
 export class UnexpectedResponseError extends Error {
     constructor() {
@@ -23,9 +23,9 @@ interface ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
-    channel?: ChannelObject
-    status?: StatusObject
-    statuses?: StatusObject[]
+    channel?: ChannelObjectT
+    status?: StatusObjectT
+    statuses?: StatusObjectT[]
 }
 
 export class Response implements ResponseInterface {
@@ -35,9 +35,9 @@ export class Response implements ResponseInterface {
     argument?: string
     error_code: string
     ok: boolean
-    channel?: ChannelObject
-    status?: StatusObject
-    statuses?: StatusObject[]
+    channel?: ChannelObjectT
+    status?: StatusObjectT
+    statuses?: StatusObjectT[]
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()

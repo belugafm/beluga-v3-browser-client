@@ -2,7 +2,7 @@ import { ColumnTypes, ColumnStateT, AppStateT } from "../../app"
 import { DomainDataT, fetch } from "../../data"
 import { StoreT } from "../../reducer"
 import * as WebAPI from "../../../../api"
-import { ChannelObject, StatusObject } from "../../../../api/object"
+import { ChannelObjectT, StatusObjectT } from "../../../../api/object"
 import equals from "deep-equal"
 
 const _fetch = (
@@ -14,8 +14,8 @@ const _fetch = (
     [
         DomainDataT,
         {
-            channel: ChannelObject
-            statuses: StatusObject[]
+            channel: ChannelObjectT
+            statuses: StatusObjectT[]
         }
     ]
 > => {
@@ -104,7 +104,28 @@ export const updateTimeline = async (
         channel_id: query.channelId,
     })
     const { statuses } = response
-    store.appState.columns.forEach((column) => {
+
+    const nextAppState: AppStateT = {
+        columns: store.appState.columns.map(
+            (column): ColumnStateT => {
+                return {
+                    index: column.index,
+                    type: column.type,
+                    postbox: {
+                        enabled: column.postbox.enabled,
+                        query: Object.assign({}, column.postbox.query),
+                    },
+                    timeline: {
+                        statusIds: column.timeline.statusIds.concat(),
+                        query: Object.assign({}, column.timeline.query),
+                    },
+                    context: Object.assign({}, column.context),
+                }
+            }
+        ),
+    }
+
+    nextAppState.columns.forEach((column) => {
         if (column.type !== ColumnTypes.Channel) {
             return
         }
@@ -114,9 +135,6 @@ export const updateTimeline = async (
         column.timeline.statusIds = statuses.map((status) => status.id)
     })
 
-    const nextAppState: AppStateT = {
-        columns: store.appState.columns.map((column) => column),
-    }
     return [
         {
             domainData: nextDomainData,

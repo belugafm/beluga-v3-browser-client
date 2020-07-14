@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useReducer, useContext } from "react"
 import { useTheme } from "./theme"
 import { PostboxContext, usePostboxState } from "../state/postbox"
 import { ColumnStateT } from "../state/chat/app"
 import * as reducers from "../state/chat/reducers"
-import { useChatStoreContext } from "../state/chat"
+import { ChatReducerContext } from "../state/chat/reducer"
 
 export const PostboxComponent = ({
     column,
@@ -16,11 +16,11 @@ export const PostboxComponent = ({
     const { textField, updateTextValue, updateStatus } = usePostboxState({
         query: column.postbox.query,
     })
-    const [store, { reducer }] = useChatStoreContext()
+    const { reducer } = useContext(ChatReducerContext)
     const onClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
         await updateStatus()
-        await reducer(store, reducers.columns.channel.updateTimeline, column.timeline.query)
+        await reducer(reducers.columns.channel.updateTimeline, column.timeline.query)
     }
     return (
         <PostboxContext.Provider value={{ textField, updateTextValue, updateStatus }}>

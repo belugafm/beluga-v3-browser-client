@@ -18,6 +18,8 @@ export const useChatStoreContext = (): [StoreT, ReducersT] => {
     ]
 }
 
+let _currentStore: StoreT = null
+
 export const useChatStore = ({
     context,
 }: {
@@ -37,37 +39,40 @@ export const useChatStore = ({
         domainData: domainDataSetActions,
         appState: appStateSetActions,
     }
-
+    _currentStore = { domainData, appState }
     const reducer = async (
-        prevStore: StoreT,
         method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
         query: Record<string, any>
     ): Promise<Response | null> => {
-        const [nextStore, response] = await method(prevStore, query)
-        udpateStore(storeSetActions, prevStore, nextStore)
-        return response
+        try {
+            const [nextStore, response] = await method(_currentStore, query)
+            _currentStore = udpateStore(storeSetActions, _currentStore, nextStore)
+            return response
+        } catch (error) {
+            console.error(error)
+            alert(error)
+        }
+        return null
     }
 
     const orderedReducers = async (
-        store: StoreT,
         reducers: {
             method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response]>
             query: Record<string, any>
         }[]
     ): Promise<void> => {
-        const prevStore = store
+        const prevStore = _currentStore
         for (let index = 0; index < reducers.length; index++) {
             const { method, query } = reducers[index]
-            const [nextStore, response] = await method(store, query)
-            store = nextStore
+            const [nextStore, response] = await method(_currentStore, query)
+            _currentStore = nextStore
         }
-        udpateStore(storeSetActions, prevStore, store)
+        udpateStore(storeSetActions, prevStore, _currentStore)
     }
 
     if (needsInitialize) {
-        const store = { domainData, appState }
         if (context.channelId) {
-            orderedReducers(store, [
+            orderedReducers([
                 {
                     method: reducers.columns.channel.create,
                     query: {

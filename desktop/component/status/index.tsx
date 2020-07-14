@@ -1,11 +1,29 @@
-import { StatusObject } from "../../api/object"
+import { StatusObjectT, UserObjectT } from "../../api/object"
 import equals from "deep-equal"
-import { useContext } from "react"
-import { StatusMethods, StatusMethodsT } from "../../state/status"
+import { StatusMethodsT } from "../../state/status"
 
 type PropsT = {
-    status: StatusObject
+    status: StatusObjectT
     methods: StatusMethodsT
+}
+
+const StatusLikesComponent = ({ count, users }: { count: number; users: UserObjectT[] }) => {
+    if (count == 0) {
+        return null
+    }
+    const components = []
+    for (let index = 0; index < count; index++) {
+        components.push(<span key={index}>★</span>)
+    }
+    return (
+        <div className="likes">
+            {components}
+            <style jsx>{`
+                .likes {
+                }
+            `}</style>
+        </div>
+    )
 }
 
 export const StatusComponent = React.memo(
@@ -18,6 +36,7 @@ export const StatusComponent = React.memo(
             <div className="status">
                 {status.text}
                 <div className="footer">
+                    <StatusLikesComponent count={status.likes.count} users={status.likes.users} />
                     <span className="action like" onClick={methods.like(status)}>
                         いいね
                     </span>
@@ -33,7 +52,7 @@ export const StatusComponent = React.memo(
             </div>
         )
     },
-    (prevProps: { status: StatusObject }, nextProps: { status: StatusObject }) => {
+    (prevProps: { status: StatusObjectT }, nextProps: { status: StatusObjectT }) => {
         return equals(prevProps.status, nextProps.status)
     }
 )

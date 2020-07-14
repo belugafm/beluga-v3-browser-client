@@ -1,34 +1,34 @@
 import { createContext, MouseEvent } from "react"
-import { StatusObject } from "../api/object"
+import { StatusObjectT } from "../api/object"
 import * as reducers from "../state/chat/reducers"
 import { StoreT, ReducersT } from "./chat/reducer"
 
-export const useStatusMethods = (store: StoreT, { reducer, orderedReducers }: ReducersT) => {
-    const edit = (status: StatusObject) => {
-        return async (event: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
+    const edit = (status: StatusObjectT) => {
+        return (event: MouseEvent<Element>) => {
             event.preventDefault()
         }
     }
-    const destroy = (status: StatusObject) => {
-        return async (event: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const destroy = (status: StatusObjectT) => {
+        return (event: MouseEvent<Element>) => {
             event.preventDefault()
         }
     }
-    const like = (status: StatusObject) => {
-        return async (event: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const like = (status: StatusObjectT) => {
+        return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(store, reducers.statuses.like, {
+            reducer(reducers.statuses.like, {
                 status_id: status.id,
             })
         }
     }
-    const createFavorite = (status: StatusObject) => {
-        return async (event: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const createFavorite = (status: StatusObjectT) => {
+        return (event: MouseEvent<Element>) => {
             event.preventDefault()
         }
     }
-    const destroyFavorite = (status: StatusObject) => {
-        return async (event: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const destroyFavorite = (status: StatusObjectT) => {
+        return (event: MouseEvent<Element>) => {
             event.preventDefault()
         }
     }
@@ -42,21 +42,11 @@ export const useStatusMethods = (store: StoreT, { reducer, orderedReducers }: Re
 }
 
 export type StatusMethodsT = {
-    edit: (
-        status: StatusObject
-    ) => (event: MouseEvent<HTMLSpanElement, MouseEvent>) => Promise<void>
-    destroy: (
-        status: StatusObject
-    ) => (event: MouseEvent<HTMLSpanElement, MouseEvent>) => Promise<void>
-    like: (
-        status: StatusObject
-    ) => (event: MouseEvent<HTMLSpanElement, MouseEvent>) => Promise<void>
-    createFavorite: (
-        status: StatusObject
-    ) => (event: MouseEvent<HTMLSpanElement, MouseEvent>) => Promise<void>
-    destroyFavorite: (
-        status: StatusObject
-    ) => (event: MouseEvent<HTMLSpanElement, MouseEvent>) => Promise<void>
+    edit: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    destroy: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    like: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    createFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    destroyFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
 }
 
 const methods: StatusMethodsT = {

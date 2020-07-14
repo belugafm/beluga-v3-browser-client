@@ -8,16 +8,13 @@ import { Response } from "../../api"
 export const useChatStoreContext = (): [StoreT, ReducersT] => {
     const domainData = useContext(ChatDomainDataContext)
     const appState = useContext(ChatAppStateContext)
-    const { reducer, orderedReducers } = useContext(ChatReducerContext)
+    const reducers = useContext(ChatReducerContext)
     return [
         {
             domainData,
             appState,
         },
-        {
-            reducer,
-            orderedReducers,
-        },
+        reducers,
     ]
 }
 

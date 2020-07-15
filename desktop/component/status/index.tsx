@@ -1,11 +1,9 @@
 import { StatusObjectT, UserObjectT } from "../../api/object"
 import equals from "deep-equal"
-import { StatusMethodsT } from "../../state/status"
-
-type PropsT = {
-    status: StatusObjectT
-    methods: StatusMethodsT
-}
+import HeaderComponent from "./header"
+import BodyComponent from "./body"
+import FooterComponent from "./footer"
+import { CommonPropsT } from "./types"
 
 const StatusLikesComponent = ({ count, users }: { count: number; users: UserObjectT[] }) => {
     if (count == 0) {
@@ -27,26 +25,20 @@ const StatusLikesComponent = ({ count, users }: { count: number; users: UserObje
 }
 
 export const StatusComponent = React.memo(
-    ({ status, methods }: PropsT) => {
+    (props: CommonPropsT) => {
         console.info("StatusComponent::render")
+        const { status } = props
         if (status.is_deleted) {
             return null
         }
         return (
             <div className="status">
-                {status.text}
-                <div className="footer">
-                    <StatusLikesComponent count={status.likes.count} users={status.likes.users} />
-                    <span className="action like" onClick={methods.like(status)}>
-                        いいね
-                    </span>
-                </div>
+                <HeaderComponent {...props} />
+                <BodyComponent {...props} />
+                <FooterComponent {...props} />
                 <style jsx>{`
                     .status {
                         min-height: 30px;
-                    }
-                    .footer .action {
-                        cursor: pointer;
                     }
                 `}</style>
             </div>

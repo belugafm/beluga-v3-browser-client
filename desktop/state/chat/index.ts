@@ -26,7 +26,7 @@ type ReducerMethodT = (
 class State {
     currentStore: StoreT = null
     storeSetActions: StoreSetActionsT = null
-    use() {
+    use(): [StoreT, StoreSetActionsT] {
         const [domainData, domainDataSetActions] = useChatDomainData()
         const [appState, appStateSetActions] = useChatAppState()
         const store: StoreT = { domainData, appState }
@@ -94,20 +94,6 @@ export const useChatStore = ({
                     query: {
                         channelId: context.channelId,
                         columnIndex: 0,
-                    },
-                },
-                {
-                    method: reducers.columns.channel.create,
-                    query: {
-                        channelId: context.channelId,
-                        columnIndex: 1,
-                    },
-                },
-                {
-                    method: reducers.columns.channel.create,
-                    query: {
-                        channelId: context.channelId,
-                        columnIndex: 2,
                     },
                 },
             ])

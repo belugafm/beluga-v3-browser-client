@@ -12,6 +12,9 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
     const destroy = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
+            reducer(reducers.statuses.destroy, {
+                status_id: status.id,
+            })
         }
     }
     const like = (status: StatusObjectT) => {

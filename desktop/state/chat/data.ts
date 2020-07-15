@@ -225,15 +225,10 @@ export type DomainDataSetActionT = {
 
 export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
     console.info("useChatDomainData")
-    const [statusesById, _setStatusesById] = useState<Record<string, StatusObjectT>>({})
+    const [statusesById, setStatusesById] = useState<Record<string, StatusObjectT>>({})
     const [usersById, setUsersById] = useState<Record<string, UserObjectT>>({})
     const [channelsById, setChannelsById] = useState<Record<string, ChannelObjectT>>({})
     const [communitiesById, setCommunitiesById] = useState<Record<string, CommunityObjectT>>({})
-
-    const setStatusesById = (value: any) => {
-        console.log("setStatusesById")
-        _setStatusesById(value)
-    }
 
     return [
         {

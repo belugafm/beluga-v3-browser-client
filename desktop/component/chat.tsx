@@ -19,7 +19,6 @@ export const ChatComponent = ({
     const { domainData, appState, reducer, orderedReducers } = useChatStore({
         context,
     })
-    const store = { domainData, appState }
     const reducers = { reducer, orderedReducers }
     const statusMethods = useStatusMethods(reducers)
     return (

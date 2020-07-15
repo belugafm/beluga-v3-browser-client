@@ -29,3 +29,19 @@ export const like = async (
         response,
     ]
 }
+
+export const destroy = async (
+    store: StoreT,
+    query: Record<string, any>
+): Promise<[StoreT, WebAPI.Response]> => {
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.destroy, query)
+    const { status_id } = query
+    nextDomainData.statusesById[status_id].is_deleted = true
+    return [
+        {
+            domainData: nextDomainData,
+            appState: store.appState,
+        },
+        response,
+    ]
+}

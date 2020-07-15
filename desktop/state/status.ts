@@ -1,7 +1,7 @@
 import { createContext, MouseEvent } from "react"
 import { StatusObjectT } from "../api/object"
 import * as reducers from "../state/chat/reducers"
-import { StoreT, ReducersT } from "./chat/reducer"
+import { ReducersT } from "./chat/reducer"
 
 export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
     const edit = (status: StatusObjectT) => {
@@ -20,7 +20,7 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
     const like = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.statuses.like, {
+            reducer(reducers.likes.create, {
                 status_id: status.id,
             })
         }

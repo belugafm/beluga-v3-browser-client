@@ -16,20 +16,6 @@ export const update = async (
     ]
 }
 
-export const like = async (
-    store: StoreT,
-    query: Record<string, any>
-): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.like, query)
-    return [
-        {
-            domainData: nextDomainData,
-            appState: store.appState,
-        },
-        response,
-    ]
-}
-
 export const destroy = async (
     store: StoreT,
     query: Record<string, any>

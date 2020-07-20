@@ -2,7 +2,7 @@ import { StoreT } from "../reducer"
 import * as WebAPI from "../../../api"
 import { fetch } from "../data"
 
-export const create = async (
+const create = async (
     store: StoreT,
     query: Record<string, any>
 ): Promise<[StoreT, WebAPI.Response]> => {
@@ -15,3 +15,5 @@ export const create = async (
         response,
     ]
 }
+
+export const likes = { create }

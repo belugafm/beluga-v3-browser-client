@@ -1,4 +1,4 @@
-import { Response, post } from "../classes"
+import { Response, post, UnexpectedResponseError } from "../classes"
 
 export async function update(body: {
     text: string

@@ -4,8 +4,14 @@ export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => 
     return (
         <>
             <div className="buttons">
-                <span className="action like" onClick={methods.like(status)}>
+                <span className="action create-like" onClick={methods.createLike(status)}>
                     いいね
+                </span>
+                <span className="action create-favorite" onClick={methods.createFavorite(status)}>
+                    ふぁぼ
+                </span>
+                <span className="action destroy-favorite" onClick={methods.destroyFavorite(status)}>
+                    ふぁぼ解除
                 </span>
                 {loggedInUser && loggedInUser.id === status.user_id ? (
                     <span className="action destroy" onClick={methods.destroy(status)}>

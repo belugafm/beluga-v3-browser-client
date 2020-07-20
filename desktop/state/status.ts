@@ -3,7 +3,7 @@ import { StatusObjectT } from "../api/object"
 import * as reducers from "../state/chat/reducers"
 import { ReducersT } from "./chat/reducer"
 
-export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
+export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): StatusMethodsT => {
     const edit = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
@@ -17,7 +17,7 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
             })
         }
     }
-    const like = (status: StatusObjectT) => {
+    const createLike = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
             reducer(reducers.likes.create, {
@@ -28,17 +28,23 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
     const createFavorite = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
+            reducer(reducers.favorites.create, {
+                status_id: status.id,
+            })
         }
     }
     const destroyFavorite = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
+            reducer(reducers.favorites.destroy, {
+                status_id: status.id,
+            })
         }
     }
     return {
         edit,
         destroy,
-        like,
+        createLike,
         createFavorite,
         destroyFavorite,
     }
@@ -47,7 +53,7 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT) => {
 export type StatusMethodsT = {
     edit: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     destroy: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
-    like: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    createLike: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     createFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     destroyFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
 }
@@ -55,7 +61,7 @@ export type StatusMethodsT = {
 const methods: StatusMethodsT = {
     edit: null,
     destroy: null,
-    like: null,
+    createLike: null,
     createFavorite: null,
     destroyFavorite: null,
 }

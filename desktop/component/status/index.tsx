@@ -1,4 +1,5 @@
-import { StatusObjectT, UserObjectT } from "../../api/object"
+import React from "react"
+import { UserObjectT } from "../../api/object"
 import equals from "deep-equal"
 import HeaderComponent from "./header"
 import BodyComponent from "./body"
@@ -28,7 +29,7 @@ export const StatusComponent = React.memo(
     (props: CommonPropsT) => {
         console.info("StatusComponent::render")
         const { status } = props
-        if (status.is_deleted) {
+        if (status.deleted) {
             return null
         }
         return (
@@ -44,7 +45,12 @@ export const StatusComponent = React.memo(
             </div>
         )
     },
-    (prevProps: { status: StatusObjectT }, nextProps: { status: StatusObjectT }) => {
+    (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
+        const prevUser = prevProps.domainData.usersById[prevProps.status.user_id]
+        const nextUser = nextProps.domainData.usersById[nextProps.status.user_id]
+        if (prevUser.muted !== nextUser.muted) {
+            return false
+        }
         return equals(prevProps.status, nextProps.status)
     }
 )

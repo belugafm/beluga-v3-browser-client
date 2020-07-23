@@ -102,9 +102,9 @@ function copy_statuses(statuses: Record<string, StatusObjectT>) {
             community: null,
             text: status.text,
             created_at: status.created_at,
-            is_public: status.is_public,
-            is_edited: status.is_edited,
-            is_deleted: status.is_deleted,
+            public: status.public,
+            edited: status.edited,
+            deleted: status.deleted,
             likes: {
                 count: status.likes.count,
                 users: [],
@@ -139,8 +139,10 @@ function copy_users(users: Record<string, UserObjectT>) {
                 statuses_count: user.stats.statuses_count,
             },
             created_at: user.created_at,
-            is_active: user.is_active,
-            is_dormant: user.is_dormant,
+            active: user.active,
+            dormant: user.dormant,
+            muted: user.muted,
+            blocked: user.blocked,
             last_activity_date: user.last_activity_date,
         }
     })
@@ -161,7 +163,7 @@ function copy_channels(channels: Record<string, ChannelObjectT>) {
             created_at: channel.created_at,
             creator_id: channel.creator_id,
             creator: null,
-            is_public: channel.is_public,
+            public: channel.public,
             community_id: channel.community_id,
             community: null,
         }
@@ -203,6 +205,9 @@ export async function fetch(
     }
     if (response.status) {
         nextDomainData = normalizeStatus(response.status, nextDomainData)
+    }
+    if (response.user) {
+        nextDomainData = normalizeUser(response.user, nextDomainData)
     }
     if (response.statuses) {
         response.statuses.forEach((status) => {

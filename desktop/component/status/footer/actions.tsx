@@ -1,6 +1,8 @@
 import { CommonPropsT } from "../types"
+import MenuComponent from "./menu"
 
-export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => {
+export default (props: CommonPropsT) => {
+    const { status, methods, domainData, loggedInUser } = props
     return (
         <>
             <div className="buttons">
@@ -18,6 +20,7 @@ export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => 
                         削除
                     </span>
                 ) : null}
+                <MenuComponent {...props} />
             </div>
             <style jsx>{`
                 .buttons {
@@ -25,6 +28,7 @@ export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => 
                 }
                 .action {
                     cursor: pointer;
+                    margin-right: 4px;
                 }
             `}</style>
         </>

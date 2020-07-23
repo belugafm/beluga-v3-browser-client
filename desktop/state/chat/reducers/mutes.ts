@@ -2,11 +2,11 @@ import { StoreT } from "../reducer"
 import * as WebAPI from "../../../api"
 import { fetch } from "../data"
 
-const update = async (
+const create = async (
     store: StoreT,
     query: Record<string, any>
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.update, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.mutes.create, query)
     return [
         {
             domainData: nextDomainData,
@@ -20,9 +20,7 @@ const destroy = async (
     store: StoreT,
     query: Record<string, any>
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.destroy, query)
-    const { status_id } = query
-    nextDomainData.statusesById[status_id].deleted = true
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.mutes.destroy, query)
     return [
         {
             domainData: nextDomainData,
@@ -32,4 +30,4 @@ const destroy = async (
     ]
 }
 
-export const statuses = { update, destroy }
+export const mutes = { create, destroy }

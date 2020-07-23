@@ -1,5 +1,5 @@
 import { createContext, MouseEvent } from "react"
-import { StatusObjectT } from "../api/object"
+import { StatusObjectT, UserObjectT } from "../api/object"
 import * as reducers from "../state/chat/reducers"
 import { ReducersT } from "./chat/reducer"
 
@@ -41,12 +41,30 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): Statu
             })
         }
     }
+    const createMutes = (user: UserObjectT) => {
+        return (event: MouseEvent<Element>) => {
+            event.preventDefault()
+            reducer(reducers.mutes.create, {
+                user_id: user.id,
+            })
+        }
+    }
+    const destroyMutes = (user: UserObjectT) => {
+        return (event: MouseEvent<Element>) => {
+            event.preventDefault()
+            reducer(reducers.mutes.destroy, {
+                user_id: user.id,
+            })
+        }
+    }
     return {
         edit,
         destroy,
         createLike,
         createFavorite,
         destroyFavorite,
+        createMutes,
+        destroyMutes,
     }
 }
 
@@ -56,6 +74,8 @@ export type StatusMethodsT = {
     createLike: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     createFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     destroyFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
+    createMutes: (user: UserObjectT) => (event: MouseEvent<Element>) => void
+    destroyMutes: (user: UserObjectT) => (event: MouseEvent<Element>) => void
 }
 
 const methods: StatusMethodsT = {
@@ -64,6 +84,8 @@ const methods: StatusMethodsT = {
     createLike: null,
     createFavorite: null,
     destroyFavorite: null,
+    createMutes: null,
+    destroyMutes: null,
 }
 
 export const StatusMethods = createContext(methods)

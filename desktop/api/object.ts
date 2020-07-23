@@ -13,8 +13,10 @@ export type UserObjectT = {
         statuses_count: number
     }
     created_at: Date
-    is_active: boolean
-    is_dormant: boolean
+    active: boolean
+    dormant: boolean
+    muted: boolean
+    blocked: boolean
     last_activity_date: Date | null
 }
 
@@ -41,7 +43,7 @@ export type ChannelObjectT = {
     created_at: Date
     creator_id: string
     creator: UserObjectT | null
-    is_public: boolean
+    public: boolean
     community_id: string | null
     community: CommunityObjectT | null
 }
@@ -56,9 +58,9 @@ export type StatusObjectT = {
     community: CommunityObjectT | null
     text: string
     created_at: Date
-    is_public: boolean
-    is_edited: boolean
-    is_deleted: boolean
+    public: boolean
+    edited: boolean
+    deleted: boolean
     likes: {
         count: number
         users: UserObjectT[]

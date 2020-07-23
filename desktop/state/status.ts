@@ -57,6 +57,22 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): Statu
             })
         }
     }
+    const createBlocks = (user: UserObjectT) => {
+        return (event: MouseEvent<Element>) => {
+            event.preventDefault()
+            reducer(reducers.blocks.create, {
+                user_id: user.id,
+            })
+        }
+    }
+    const destroyBlocks = (user: UserObjectT) => {
+        return (event: MouseEvent<Element>) => {
+            event.preventDefault()
+            reducer(reducers.blocks.destroy, {
+                user_id: user.id,
+            })
+        }
+    }
     return {
         edit,
         destroy,
@@ -65,6 +81,8 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): Statu
         destroyFavorite,
         createMutes,
         destroyMutes,
+        createBlocks,
+        destroyBlocks,
     }
 }
 
@@ -76,6 +94,8 @@ export type StatusMethodsT = {
     destroyFavorite: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     createMutes: (user: UserObjectT) => (event: MouseEvent<Element>) => void
     destroyMutes: (user: UserObjectT) => (event: MouseEvent<Element>) => void
+    createBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => void
+    destroyBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => void
 }
 
 const methods: StatusMethodsT = {
@@ -86,6 +106,8 @@ const methods: StatusMethodsT = {
     destroyFavorite: null,
     createMutes: null,
     destroyMutes: null,
+    createBlocks: null,
+    destroyBlocks: null,
 }
 
 export const StatusMethods = createContext(methods)

@@ -51,6 +51,9 @@ export const StatusComponent = React.memo(
         if (prevUser.muted !== nextUser.muted) {
             return false
         }
+        if (prevUser.blocked !== nextUser.blocked) {
+            return false
+        }
         return equals(prevProps.status, nextProps.status)
     }
 )

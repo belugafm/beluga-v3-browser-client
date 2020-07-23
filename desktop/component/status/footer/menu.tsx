@@ -18,9 +18,15 @@ export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => 
                                     <span>{`@${user.name}`}</span>をミュートする
                                 </li>
                             )}
-                            <li>
-                                <span>{`@${user.name}`}</span>をブロックする
-                            </li>
+                            {user.blocked ? (
+                                <li onClick={methods.destroyBlocks(user)}>
+                                    <span>{`@${user.name}`}</span>のブロックを解除
+                                </li>
+                            ) : (
+                                <li onClick={methods.createBlocks(user)}>
+                                    <span>{`@${user.name}`}</span>をブロックする
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

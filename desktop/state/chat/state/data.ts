@@ -17,11 +17,30 @@ class Map<T> {
     }
 }
 
+class StringSet extends Set<string> {
+    equals(target: StringSet) {
+        let ok = true
+        this.forEach((id) => {
+            if (target.has(id) === false) {
+                ok = false
+            }
+        })
+        target.forEach((id) => {
+            if (this.has(id) === false) {
+                ok = false
+            }
+        })
+        return ok
+    }
+}
+
 export type DomainDataT = {
     statuses: Map<StatusObjectT>
     users: Map<UserObjectT>
     channels: Map<ChannelObjectT>
     communities: Map<CommunityObjectT>
+    mutedUserIds: StringSet
+    blockedUserIds: StringSet
 }
 
 const context: DomainDataT = {
@@ -29,6 +48,8 @@ const context: DomainDataT = {
     users: null,
     channels: null,
     communities: null,
+    mutedUserIds: null,
+    blockedUserIds: null,
 }
 
 export const ChatDomainDataContext = createContext(context)
@@ -84,6 +105,19 @@ function normalize_user(user: UserObjectT | null, nextDomainData: DomainDataT): 
         return nextDomainData
     }
     nextDomainData.users.set(user.id, copy_user(user))
+
+    if (user.muted) {
+        nextDomainData.mutedUserIds.add(user.id)
+    } else {
+        nextDomainData.mutedUserIds.delete(user.id)
+    }
+
+    if (user.blocked) {
+        nextDomainData.blockedUserIds.add(user.id)
+    } else {
+        nextDomainData.blockedUserIds.delete(user.id)
+    }
+
     return nextDomainData
 }
 
@@ -233,11 +267,13 @@ export async function fetch(
     query: any
 ): Promise<[DomainDataT, Response]> {
     const response = await method(query)
-    let nextDomainData = {
+    let nextDomainData: DomainDataT = {
         statuses: copy_statuses(prevDomainData.statuses),
         users: copy_users(prevDomainData.users),
         channels: copy_channels(prevDomainData.channels),
         communities: copy_communities(prevDomainData.communities),
+        mutedUserIds: new StringSet(prevDomainData.mutedUserIds),
+        blockedUserIds: new StringSet(prevDomainData.blockedUserIds),
     }
     if (response.status) {
         nextDomainData = normalize_status(response.status, nextDomainData)
@@ -262,6 +298,8 @@ export type DomainDataSetActionT = {
     setUsers: Dispatch<SetStateAction<Map<UserObjectT>>>
     setChannels: Dispatch<SetStateAction<Map<ChannelObjectT>>>
     setCommunities: Dispatch<SetStateAction<Map<CommunityObjectT>>>
+    setMutedUserIds: Dispatch<SetStateAction<StringSet>>
+    setBlockedUserIds: Dispatch<SetStateAction<StringSet>>
 }
 
 export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
@@ -270,6 +308,8 @@ export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
     const [users, setUsers] = useState(new Map<UserObjectT>())
     const [channels, setChannels] = useState(new Map<ChannelObjectT>())
     const [communities, setCommunities] = useState(new Map<CommunityObjectT>())
+    const [mutedUserIds, setMutedUserIds] = useState(new StringSet())
+    const [blockedUserIds, setBlockedUserIds] = useState(new StringSet())
 
     return [
         {
@@ -277,12 +317,16 @@ export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
             users,
             channels,
             communities,
+            mutedUserIds,
+            blockedUserIds,
         },
         {
             setStatuses,
             setUsers,
             setChannels,
             setCommunities,
+            setMutedUserIds,
+            setBlockedUserIds,
         },
     ]
 }

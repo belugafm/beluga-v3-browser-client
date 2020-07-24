@@ -26,17 +26,6 @@ type ReducerMethodT = (
     query: Record<string, any>
 ) => Promise<[StoreT, Response | null]>
 
-type WebsocketMessage = {
-    operation: string
-    model: string
-    document_id: any
-    status?: {
-        user_id: string
-        channel_id: string
-        community_id: string
-    }
-}
-
 const state = new ChatState()
 
 export const useChatStore = ({

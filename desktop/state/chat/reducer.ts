@@ -56,6 +56,12 @@ function updateDomainData(
         nextDomainData.communities.lastModified = Date.now()
         setActions.setCommunities(nextDomainData.communities)
     }
+    if (prevDomainData.mutedUserIds.equals(nextDomainData.mutedUserIds) !== true) {
+        setActions.setMutedUserIds(nextDomainData.mutedUserIds)
+    }
+    if (prevDomainData.blockedUserIds.equals(nextDomainData.blockedUserIds) !== true) {
+        setActions.setMutedUserIds(nextDomainData.blockedUserIds)
+    }
 }
 
 function updateAppState(

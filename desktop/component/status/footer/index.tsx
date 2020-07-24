@@ -12,7 +12,11 @@ export default (props: CommonPropsT) => {
                 counts={status.likes.counts}
                 domainData={props.domainData}
             />
-            <FavoritesComponent count={status.favorites.count} users={status.favorites.users} />
+            <FavoritesComponent
+                count={status.favorites.count}
+                userIds={status.favorites.user_ids}
+                domainData={props.domainData}
+            />
             <ActionsComponent {...props} />
         </div>
     )

@@ -5,6 +5,17 @@ import config from "../../config"
 
 type EventListener = (this: WebSocket, ev: WebSocketEventMap[K]) => any
 
+type WebsocketMessage = {
+    operation: string
+    model: string
+    document_id: any
+    status?: {
+        user_id: string
+        channel_id: string
+        community_id: string
+    }
+}
+
 class WebSocketState {
     uri: string
     ws: WebSocket = null

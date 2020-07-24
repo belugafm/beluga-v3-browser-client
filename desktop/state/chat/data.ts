@@ -1,7 +1,6 @@
 import { createContext, useState, Dispatch, SetStateAction } from "react"
 import { StatusObjectT, UserObjectT, ChannelObjectT, CommunityObjectT } from "../../api/object"
 import { Response } from "../../api"
-import { channel } from "../../api/methods/timeline/channel"
 
 export type DomainDataT = {
     statusesById: Record<string, StatusObjectT>
@@ -19,36 +18,36 @@ const context: DomainDataT = {
 
 export const ChatDomainDataContext = createContext(context)
 
-function normalizeStatus(status: StatusObjectT | null, nextDomainData: DomainDataT): DomainDataT {
+function normalize_status(status: StatusObjectT | null, nextDomainData: DomainDataT): DomainDataT {
     if (status == null) {
         return nextDomainData
     }
 
     if (status.user) {
-        nextDomainData = normalizeUser(status.user, nextDomainData)
+        nextDomainData = normalize_user(status.user, nextDomainData)
         status.user = null
     }
 
     if (status.channel) {
-        nextDomainData = normalizeChannel(status.channel, nextDomainData)
+        nextDomainData = normalize_channel(status.channel, nextDomainData)
         status.channel = null
     }
 
     if (status.community) {
-        nextDomainData = normalizeCommunity(status.community, nextDomainData)
+        nextDomainData = normalize_community(status.community, nextDomainData)
         status.community = null
     }
 
     status.likes.user_ids = []
     status.likes.users.forEach((user) => {
-        nextDomainData = normalizeUser(user, nextDomainData)
+        nextDomainData = normalize_user(user, nextDomainData)
         status.likes.user_ids.push(user.id)
     })
     status.likes.users = []
 
     status.favorites.user_ids = []
     status.favorites.users.forEach((user) => {
-        nextDomainData = normalizeUser(user, nextDomainData)
+        nextDomainData = normalize_user(user, nextDomainData)
         status.favorites.user_ids.push(user.id)
     })
     status.favorites.users = []
@@ -58,7 +57,7 @@ function normalizeStatus(status: StatusObjectT | null, nextDomainData: DomainDat
     return nextDomainData
 }
 
-function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
+function normalize_user(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
     if (user == null) {
         return nextDomainData
     }
@@ -66,7 +65,7 @@ function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): D
     return nextDomainData
 }
 
-function normalizeChannel(
+function normalize_channel(
     channel: ChannelObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -77,7 +76,7 @@ function normalizeChannel(
     return nextDomainData
 }
 
-function normalizeCommunity(
+function normalize_community(
     community: CommunityObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -88,7 +87,7 @@ function normalizeCommunity(
     return nextDomainData
 }
 
-function copy_statuses(statuses: Record<string, StatusObjectT>) {
+export function copy_statuses(statuses: Record<string, StatusObjectT>) {
     const ret: Record<string, StatusObjectT> = {}
     Object.keys(statuses).forEach((status_id) => {
         const status = statuses[status_id]
@@ -120,7 +119,7 @@ function copy_statuses(statuses: Record<string, StatusObjectT>) {
     return ret
 }
 
-function copy_users(users: Record<string, UserObjectT>) {
+export function copy_users(users: Record<string, UserObjectT>) {
     const ret: Record<string, UserObjectT> = {}
     Object.keys(users).forEach((user_id) => {
         const user = users[user_id]
@@ -149,7 +148,7 @@ function copy_users(users: Record<string, UserObjectT>) {
     return ret
 }
 
-function copy_channels(channels: Record<string, ChannelObjectT>) {
+export function copy_channels(channels: Record<string, ChannelObjectT>) {
     const ret: Record<string, ChannelObjectT> = {}
     Object.keys(channels).forEach((channel_id) => {
         const channel = channels[channel_id]
@@ -171,7 +170,7 @@ function copy_channels(channels: Record<string, ChannelObjectT>) {
     return ret
 }
 
-function copy_communities(communities: Record<string, CommunityObjectT>) {
+export function copy_communities(communities: Record<string, CommunityObjectT>) {
     const ret: Record<string, CommunityObjectT> = {}
     Object.keys(communities).forEach((community_id) => {
         const community = communities[community_id]
@@ -204,18 +203,18 @@ export async function fetch(
         communitiesById: copy_communities(prevDomainData.communitiesById),
     }
     if (response.status) {
-        nextDomainData = normalizeStatus(response.status, nextDomainData)
+        nextDomainData = normalize_status(response.status, nextDomainData)
     }
     if (response.user) {
-        nextDomainData = normalizeUser(response.user, nextDomainData)
+        nextDomainData = normalize_user(response.user, nextDomainData)
     }
     if (response.statuses) {
         response.statuses.forEach((status) => {
-            nextDomainData = normalizeStatus(status, nextDomainData)
+            nextDomainData = normalize_status(status, nextDomainData)
         })
     }
     if (response.channel) {
-        nextDomainData = normalizeChannel(response.channel, nextDomainData)
+        nextDomainData = normalize_channel(response.channel, nextDomainData)
     }
 
     return [nextDomainData, response]

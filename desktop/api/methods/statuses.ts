@@ -1,4 +1,4 @@
-import { Response, post, UnexpectedResponseError } from "../classes"
+import { Response, post, UnexpectedResponseError, get } from "../classes"
 
 export async function update(body: {
     text: string
@@ -15,7 +15,16 @@ export async function update(body: {
 async function destroy(body: { status_id: string }): Promise<Response> {
     return await post("statuses/destroy", body)
 }
+
+async function show(body: { status_id: string }): Promise<Response> {
+    try {
+        const response = await get("statuses/show", body)
+        return response
+    } catch (error) {}
+}
+
 export const statuses = {
+    show,
     update,
     destroy,
 }

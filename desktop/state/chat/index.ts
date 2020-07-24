@@ -26,6 +26,7 @@ type ReducerMethodT = (
 class State {
     currentStore: StoreT = null
     storeSetActions: StoreSetActionsT = null
+    queue: Promise<void> = new Promise((resolve) => resolve())
     use(): [StoreT, StoreSetActionsT] {
         const [domainData, domainDataSetActions] = useChatDomainData()
         const [appState, appStateSetActions] = useChatAppState()
@@ -39,15 +40,23 @@ class State {
         return [store, storeSetActions]
     }
     async reduce(method: ReducerMethodT, query: Record<string, any>): Promise<Response | null> {
-        try {
-            const [nextStore, response] = await method(this.currentStore, query)
-            this.currentStore = udpateStore(this.storeSetActions, this.currentStore, nextStore)
-            return response
-        } catch (error) {
-            console.error(error)
-            alert(error)
-        }
-        return null
+        return new Promise((resolve) => {
+            this.queue = this.queue.then(async () => {
+                try {
+                    const [nextStore, response] = await method(this.currentStore, query)
+                    this.currentStore = udpateStore(
+                        this.storeSetActions,
+                        this.currentStore,
+                        nextStore
+                    )
+                    resolve(response)
+                } catch (error) {
+                    console.error(error)
+                    alert(error)
+                }
+                resolve(null)
+            })
+        })
     }
     async orderedReducers(
         reducers: {
@@ -71,6 +80,12 @@ class State {
 }
 
 const state = new State()
+
+type WebsocketMessage = {
+    operation: string
+    model: string
+    document_id: any
+}
 
 export const useChatStore = ({
     context,
@@ -99,6 +114,30 @@ export const useChatStore = ({
             ])
         }
         setNeedsInitialize(false)
+        const ws = new WebSocket("ws://localhost.beluga.fm:9001")
+        ws.addEventListener("open", (event) => {
+            console.log("open websocket")
+        })
+        ws.addEventListener("message", (event) => {
+            try {
+                const data: WebsocketMessage = JSON.parse(event.data)
+                console.log("websocket")
+                console.log(data)
+                if (data.model === "status") {
+                    const status_id = data.document_id
+                    if (data.operation === "delete") {
+                        state.reduce(reducers.statuses.mark_as_deleted, {
+                            status_id,
+                        })
+                    } else if (data.operation === "insert") {
+                    } else if (data.operation === "update") {
+                        state.reduce(reducers.statuses.show, {
+                            status_id,
+                        })
+                    }
+                }
+            } catch (error) {}
+        })
     }
 
     return {

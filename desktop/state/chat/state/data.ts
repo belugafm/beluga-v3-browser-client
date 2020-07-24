@@ -74,7 +74,7 @@ function normalize_status(status: StatusObjectT | null, nextDomainData: DomainDa
     })
     status.favorites.users = []
 
-    nextDomainData.statuses.set(status.id, status)
+    nextDomainData.statuses.set(status.id, copy_status(status))
 
     return nextDomainData
 }
@@ -83,7 +83,7 @@ function normalize_user(user: UserObjectT | null, nextDomainData: DomainDataT): 
     if (user == null) {
         return nextDomainData
     }
-    nextDomainData.users.set(user.id, user)
+    nextDomainData.users.set(user.id, copy_user(user))
     return nextDomainData
 }
 
@@ -94,7 +94,7 @@ function normalize_channel(
     if (channel == null) {
         return nextDomainData
     }
-    nextDomainData.channels.set(channel.id, channel)
+    nextDomainData.channels.set(channel.id, copy_channel(channel))
     return nextDomainData
 }
 
@@ -109,86 +109,98 @@ function normalize_community(
     return nextDomainData
 }
 
+function copy_status(status: StatusObjectT) {
+    return {
+        id: status.id,
+        user_id: status.user_id,
+        user: null,
+        channel_id: status.channel_id,
+        channel: null,
+        community_id: status.community_id,
+        community: null,
+        text: status.text,
+        created_at: status.created_at,
+        public: status.public,
+        edited: status.edited,
+        deleted: status.deleted,
+        likes: {
+            count: status.likes.count,
+            counts: status.likes.counts.concat(),
+        },
+        favorites: {
+            count: status.favorites.count,
+            users: [],
+            user_ids: status.favorites.user_ids.concat(),
+        },
+    }
+}
+
 export function copy_statuses(statuses: Map<StatusObjectT>) {
     const ret = new Map<StatusObjectT>()
     Object.keys(statuses.data).forEach((status_id) => {
         const status = statuses.get(status_id)
-        ret.set(status_id, {
-            id: status.id,
-            user_id: status.user_id,
-            user: null,
-            channel_id: status.channel_id,
-            channel: null,
-            community_id: status.community_id,
-            community: null,
-            text: status.text,
-            created_at: status.created_at,
-            public: status.public,
-            edited: status.edited,
-            deleted: status.deleted,
-            likes: {
-                count: status.likes.count,
-                counts: status.likes.counts.concat(),
-            },
-            favorites: {
-                count: status.favorites.count,
-                users: [],
-                user_ids: status.favorites.user_ids.concat(),
-            },
-        })
+        ret.set(status_id, copy_status(status))
     })
     ret.lastModified = statuses.lastModified
     return ret
+}
+
+function copy_user(user: UserObjectT) {
+    return {
+        id: user.id,
+        name: user.name,
+        display_name: user.display_name,
+        profile: {
+            avatar_image_url: user.profile.avatar_image_url,
+            location: user.profile.location,
+            description: user.profile.description,
+            theme_color: user.profile.theme_color,
+            background_image_url: user.profile.background_image_url,
+        },
+        stats: {
+            statuses_count: user.stats.statuses_count,
+        },
+        created_at: user.created_at,
+        active: user.active,
+        dormant: user.dormant,
+        muted: user.muted,
+        blocked: user.blocked,
+        last_activity_date: user.last_activity_date,
+    }
 }
 
 export function copy_users(users: Map<UserObjectT>) {
     const ret = new Map<UserObjectT>()
     Object.keys(users.data).forEach((user_id) => {
         const user = users.get(user_id)
-        ret.set(user_id, {
-            id: user.id,
-            name: user.name,
-            display_name: user.display_name,
-            profile: {
-                avatar_image_url: user.profile.avatar_image_url,
-                location: user.profile.location,
-                description: user.profile.description,
-                theme_color: user.profile.theme_color,
-                background_image_url: user.profile.background_image_url,
-            },
-            stats: {
-                statuses_count: user.stats.statuses_count,
-            },
-            created_at: user.created_at,
-            active: user.active,
-            dormant: user.dormant,
-            muted: user.muted,
-            blocked: user.blocked,
-            last_activity_date: user.last_activity_date,
-        })
+        ret.set(user_id, copy_user(user))
     })
     ret.lastModified = users.lastModified
     return ret
+}
+
+function copy_channel(channel: ChannelObjectT) {
+    return {
+        id: channel.id,
+        name: channel.name,
+        description: channel.description,
+        stats: {
+            statuses_count: channel.stats.statuses_count,
+        },
+        created_at: channel.created_at,
+        creator_id: channel.creator_id,
+        creator: null,
+        public: channel.public,
+        community_id: channel.community_id,
+        community: null,
+    }
 }
 
 export function copy_channels(channels: Map<ChannelObjectT>) {
     const ret = new Map<ChannelObjectT>()
     Object.keys(channels.data).forEach((channel_id) => {
         const channel = channels.get(channel_id)
-        ret.set(channel_id, {
-            id: channel.id,
-            name: channel.name,
-            description: channel.description,
-            stats: {
-                statuses_count: channel.stats.statuses_count,
-            },
-            created_at: channel.created_at,
-            creator_id: channel.creator_id,
-            creator: null,
-            public: channel.public,
-            community_id: channel.community_id,
-            community: null,
-        })
+        ret.set(channel_id, copy_channel(channel))
     })
     ret.lastModified = channels.lastModified
     return ret

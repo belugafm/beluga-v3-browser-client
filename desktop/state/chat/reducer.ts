@@ -3,6 +3,7 @@ import { AppStateT, AppStateSetActionT } from "./state/app"
 import equals from "deep-equal"
 import { createContext } from "react"
 import { Response } from "../../api"
+import next from "next"
 
 export type StoreT = {
     domainData: DomainDataT
@@ -39,19 +40,19 @@ function updateDomainData(
     prevDomainData: DomainDataT,
     nextDomainData: DomainDataT
 ) {
-    if (equals(prevDomainData.statuses, nextDomainData.statuses) !== true) {
+    if (prevDomainData.statuses.equals(nextDomainData.statuses) !== true) {
         nextDomainData.statuses.lastModified = Date.now()
         setActions.setStatuses(nextDomainData.statuses)
     }
-    if (equals(prevDomainData.users, nextDomainData.users) !== true) {
+    if (prevDomainData.users.equals(nextDomainData.users) !== true) {
         nextDomainData.users.lastModified = Date.now()
         setActions.setUsers(nextDomainData.users)
     }
-    if (equals(prevDomainData.channels, nextDomainData.channels) !== true) {
+    if (prevDomainData.channels.equals(nextDomainData.channels) !== true) {
         nextDomainData.channels.lastModified = Date.now()
         setActions.setChannels(nextDomainData.channels)
     }
-    if (equals(prevDomainData.communities, nextDomainData.communities) !== true) {
+    if (prevDomainData.communities.equals(nextDomainData.communities) !== true) {
         nextDomainData.communities.lastModified = Date.now()
         setActions.setCommunities(nextDomainData.communities)
     }

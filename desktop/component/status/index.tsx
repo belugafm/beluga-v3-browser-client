@@ -27,7 +27,7 @@ const StatusLikesComponent = ({ count, users }: { count: number; users: UserObje
 
 export const StatusComponent = React.memo(
     (props: CommonPropsT) => {
-        console.info("StatusComponent::render")
+        console.info("StatusComponent::render", props.status.id)
         const { status } = props
         if (status.deleted) {
             return null

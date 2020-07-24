@@ -1,8 +1,8 @@
 import React from "react"
-import { ChatAppStateContext } from "../state/chat/app"
+import { ChatAppStateContext } from "../state/chat/state/app"
 import { ChatColumnContainerComponent } from "./chat/columns"
 import { useChatStore } from "../state/chat"
-import { ChatDomainDataContext } from "../state/chat/data"
+import { ChatDomainDataContext } from "../state/chat/state/data"
 import { ChatReducerContext } from "../state/chat/reducer"
 import { StatusMethods, useStatusMethods } from "../state/status"
 

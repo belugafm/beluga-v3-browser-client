@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { ChatAppStateContext } from "../../state/chat/app"
+import { ChatAppStateContext } from "../../state/chat/state/app"
 import { ChatColumnComponent } from "./column"
 import { ThemeSettingComponent } from "../sidebar/settings/theme"
 

@@ -1,6 +1,6 @@
 import { StoreT } from "../reducer"
 import * as WebAPI from "../../../api"
-import { fetch } from "../data"
+import { fetch } from "../state/data"
 
 const create = async (
     store: StoreT,

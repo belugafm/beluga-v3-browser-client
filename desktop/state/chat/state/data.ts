@@ -1,6 +1,6 @@
 import { createContext, useState, Dispatch, SetStateAction } from "react"
-import { StatusObjectT, UserObjectT, ChannelObjectT, CommunityObjectT } from "../../api/object"
-import { Response } from "../../api"
+import { StatusObjectT, UserObjectT, ChannelObjectT, CommunityObjectT } from "../../../api/object"
+import { Response } from "../../../api"
 
 export type DomainDataT = {
     statusesById: Record<string, StatusObjectT>

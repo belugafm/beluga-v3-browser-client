@@ -1,6 +1,6 @@
 import { StoreT } from "../reducer"
 import * as WebAPI from "../../../api"
-import { fetch, copy_statuses, copy_users, copy_channels, copy_communities } from "../data"
+import { fetch, copy_statuses, copy_users, copy_channels, copy_communities } from "../state/data"
 
 const show = async (
     store: StoreT,

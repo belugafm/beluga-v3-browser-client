@@ -48,12 +48,6 @@ export const StatusComponent = React.memo(
     (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
         const prevUser = prevProps.domainData.usersById[prevProps.status.user_id]
         const nextUser = nextProps.domainData.usersById[nextProps.status.user_id]
-        if (prevUser.muted !== nextUser.muted) {
-            return false
-        }
-        if (prevUser.blocked !== nextUser.blocked) {
-            return false
-        }
-        return equals(prevProps.status, nextProps.status)
+        return equals(prevProps.status, nextProps.status) && equals(prevUser, nextUser)
     }
 )

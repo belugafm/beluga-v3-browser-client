@@ -3,11 +3,17 @@ import * as reducer_methods from "./reducers"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
 
+type EventListener = (this: WebSocket, ev: WebSocketEventMap[K]) => any
+
 class WebSocketState {
     uri: string
     ws: WebSocket = null
     reducers: ReducersT
     loggedInUser: UserObjectT
+    eventListeners: {
+        type: keyof WebSocketEventMap
+        listener: EventListener
+    }[] = []
     constructor(uri: string) {
         this.uri = uri
     }
@@ -18,24 +24,33 @@ class WebSocketState {
             this.connect()
         }
     }
+    addEventListener<K extends keyof WebSocketEventMap>(type: K, listener: EventListener) {
+        this.eventListeners.push({ type, listener })
+        this.ws.addEventListener(type, listener)
+    }
+    removeAllEventListeners() {
+        this.eventListeners.forEach(({ type, listener }) => {
+            this.ws.removeEventListener(type, listener)
+        })
+        this.eventListeners = []
+    }
     connect() {
+        this.removeAllEventListeners()
         this.ws = new WebSocket(this.uri)
-        this.ws.addEventListener("open", (event) => {
+        this.addEventListener("open", (event) => {
             console.info("open websocket")
         })
-        this.ws.addEventListener("close", (event) => {
+        this.addEventListener("close", (event) => {
             console.info("close websocket")
             setTimeout(() => {
                 this.connect()
             }, 2000)
         })
-        this.ws.addEventListener("error", (event) => {
+        this.addEventListener("error", (event) => {
             console.info("error websocket")
-            setTimeout(() => {
-                this.connect()
-            }, 2000)
+            this.ws.close()
         })
-        this.ws.addEventListener("message", (event) => {
+        this.addEventListener("message", (event) => {
             try {
                 const data: WebsocketMessage = JSON.parse(event.data)
                 console.info("websocket")

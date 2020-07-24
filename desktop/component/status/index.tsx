@@ -46,8 +46,12 @@ export const StatusComponent = React.memo(
         )
     },
     (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
-        const prevUser = prevProps.domainData.usersById[prevProps.status.user_id]
-        const nextUser = nextProps.domainData.usersById[nextProps.status.user_id]
-        return equals(prevProps.status, nextProps.status) && equals(prevUser, nextUser)
+        if (equals(prevProps.status, nextProps.status) === false) {
+            return false
+        }
+        if (prevProps.domainData.users.lastModified !== nextProps.domainData.users.lastModified) {
+            return false
+        }
+        return true
     }
 )

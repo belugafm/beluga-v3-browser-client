@@ -1,6 +1,6 @@
 import { StatusObjectT, UserObjectT } from "../../api/object"
 import { StatusMethodsT } from "../../state/status"
-import { DomainDataT } from "../../state/chat/data"
+import { DomainDataT } from "../../state/chat/state/data"
 
 export type CommonPropsT = {
     status: StatusObjectT

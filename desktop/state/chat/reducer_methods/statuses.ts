@@ -36,7 +36,9 @@ const destroy = async (
 ): Promise<[StoreT, WebAPI.Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.destroy, query)
     const { status_id } = query
-    nextDomainData.statusesById[status_id].deleted = true
+    const status = nextDomainData.statuses.get(status_id)
+    status.deleted = true
+    nextDomainData.statuses.set(status_id, status)
     return [
         {
             domainData: nextDomainData,
@@ -51,16 +53,24 @@ const mark_as_deleted = async (
     query: Record<string, any>
 ): Promise<[StoreT, null]> => {
     const { status_id } = query
-    if (store.domainData.statusesById[status_id].deleted) {
-        return [store, null]
+    {
+        const status = store.domainData.statuses.get(status_id)
+        if (status == null) {
+            return [store, null]
+        }
+        if (status.deleted) {
+            return [store, null]
+        }
     }
-    let nextDomainData = {
-        statusesById: copy_statuses(store.domainData.statusesById),
-        usersById: copy_users(store.domainData.usersById),
-        channelsById: copy_channels(store.domainData.channelsById),
-        communitiesById: copy_communities(store.domainData.communitiesById),
+    const nextDomainData = {
+        statuses: copy_statuses(store.domainData.statuses),
+        users: copy_users(store.domainData.users),
+        channels: copy_channels(store.domainData.channels),
+        communities: copy_communities(store.domainData.communities),
     }
-    nextDomainData.statusesById[status_id].deleted = true
+    const status = nextDomainData.statuses.get(status_id)
+    status.deleted = true
+    nextDomainData.statuses.set(status_id, status)
     return [
         {
             domainData: nextDomainData,

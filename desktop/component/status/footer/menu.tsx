@@ -1,7 +1,7 @@
 import { CommonPropsT } from "../types"
 
 export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => {
-    const user = domainData.usersById[status.user_id]
+    const user = domainData.users.get(status.user_id)
     return (
         <>
             <div className="menu">

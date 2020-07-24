@@ -7,7 +7,11 @@ export default (props: CommonPropsT) => {
     const { status } = props
     return (
         <div className="footer">
-            <LikesComponent count={status.likes.count} users={status.likes.users} />
+            <LikesComponent
+                count={status.likes.count}
+                counts={status.likes.counts}
+                domainData={props.domainData}
+            />
             <FavoritesComponent count={status.favorites.count} users={status.favorites.users} />
             <ActionsComponent {...props} />
         </div>

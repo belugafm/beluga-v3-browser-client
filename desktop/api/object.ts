@@ -63,8 +63,11 @@ export type StatusObjectT = {
     deleted: boolean
     likes: {
         count: number
-        users: UserObjectT[]
-        user_ids: string[]
+        counts: {
+            count: number
+            user: UserObjectT | null
+            user_id: string
+        }[]
     }
     favorites: {
         count: number

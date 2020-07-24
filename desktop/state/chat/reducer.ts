@@ -39,17 +39,21 @@ function updateDomainData(
     prevDomainData: DomainDataT,
     nextDomainData: DomainDataT
 ) {
-    if (equals(prevDomainData.statusesById, nextDomainData.statusesById) !== true) {
-        setActions.setStatusesById(nextDomainData.statusesById)
+    if (equals(prevDomainData.statuses, nextDomainData.statuses) !== true) {
+        nextDomainData.statuses.lastModified = Date.now()
+        setActions.setStatuses(nextDomainData.statuses)
     }
-    if (equals(prevDomainData.usersById, nextDomainData.usersById) !== true) {
-        setActions.setUsersById(nextDomainData.usersById)
+    if (equals(prevDomainData.users, nextDomainData.users) !== true) {
+        nextDomainData.users.lastModified = Date.now()
+        setActions.setUsers(nextDomainData.users)
     }
-    if (equals(prevDomainData.channelsById, nextDomainData.channelsById) !== true) {
-        setActions.setChannelsById(nextDomainData.channelsById)
+    if (equals(prevDomainData.channels, nextDomainData.channels) !== true) {
+        nextDomainData.channels.lastModified = Date.now()
+        setActions.setChannels(nextDomainData.channels)
     }
-    if (equals(prevDomainData.communitiesById, nextDomainData.communitiesById) !== true) {
-        setActions.setCommunitiesById(nextDomainData.communitiesById)
+    if (equals(prevDomainData.communities, nextDomainData.communities) !== true) {
+        nextDomainData.communities.lastModified = Date.now()
+        setActions.setCommunities(nextDomainData.communities)
     }
 }
 

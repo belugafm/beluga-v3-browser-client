@@ -1,4 +1,4 @@
-import { DomainDataT, DomainDataSetActionT } from "./data"
+import { DomainDataT, DomainDataSetActionT } from "./state/data"
 import { AppStateT, AppStateSetActionT } from "./state/app"
 import equals from "deep-equal"
 import { createContext } from "react"

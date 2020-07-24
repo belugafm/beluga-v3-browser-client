@@ -1,5 +1,5 @@
 import { ReducersT } from "./reducer"
-import * as reducer_methods from "./reducers"
+import * as reducer_methods from "./reducer_methods"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
 

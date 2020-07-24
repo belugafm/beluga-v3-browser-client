@@ -1,7 +1,7 @@
 import { ChatAppStateContext } from "./state/app"
 import { ChatDomainDataContext } from "./state/data"
 import { useState, useContext } from "react"
-import * as reducer_methods from "./reducers"
+import * as reducer_methods from "./reducer_methods"
 import { StoreT, ChatReducerContext, ReducersT } from "./reducer"
 import { Response } from "../../api"
 import { useLoggedInUser } from "../session"

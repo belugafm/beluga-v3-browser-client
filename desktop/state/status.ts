@@ -1,6 +1,6 @@
 import { createContext, MouseEvent } from "react"
 import { StatusObjectT, UserObjectT } from "../api/object"
-import * as reducers from "../state/chat/reducers"
+import * as reducers from "./chat/reducer_methods"
 import { ReducersT } from "./chat/reducer"
 
 export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): StatusMethodsT => {

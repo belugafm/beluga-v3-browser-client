@@ -2,7 +2,7 @@ import React, { useReducer, useContext } from "react"
 import { useTheme } from "./theme"
 import { PostboxContext, usePostboxState } from "../state/postbox"
 import { ColumnStateT } from "../state/chat/state/app"
-import * as reducers from "../state/chat/reducers"
+import * as reducers from "../state/chat/reducer_methods"
 import { ChatReducerContext } from "../state/chat/reducer"
 
 export const PostboxComponent = ({

@@ -18,7 +18,7 @@ export const useChannelCreateFormState = () => {
         errorMessage: [],
         hint: [],
     })
-    const [isPublicField, setIsPublicField] = useState({
+    const [publicField, setPublicField] = useState({
         errorMessage: [],
         hint: [],
         checked: true,
@@ -41,9 +41,9 @@ export const useChannelCreateFormState = () => {
     }
 
     const handleUpdateIsPublicChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsPublicField({
-            errorMessage: isPublicField.errorMessage,
-            hint: isPublicField.hint,
+        setPublicField({
+            errorMessage: publicField.errorMessage,
+            hint: publicField.hint,
             checked: event.target.checked,
         })
     }
@@ -53,7 +53,7 @@ export const useChannelCreateFormState = () => {
             return await WebAPI.channels.create({
                 name: nameField.value,
                 description: descriptionField.value,
-                is_public: isPublicField.checked,
+                public: publicField.checked,
             })
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
@@ -148,7 +148,7 @@ export const useChannelCreateFormState = () => {
         nameField,
         descriptionField,
         globalErrorMessageField,
-        isPublicField,
+        isPublicField: publicField,
         handleUpdateNameValue,
         handleUpdateDescriptionValue,
         handleUpdateIsPublicChecked,

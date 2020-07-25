@@ -2,8 +2,14 @@ import { createContext, MouseEvent } from "react"
 import { StatusObjectT, UserObjectT } from "../api/object"
 import * as reducers from "./chat/reducer_methods"
 import { ReducersT } from "./chat/reducer"
+import { Response } from "../api"
+import { ReducerMethodT } from "./chat/state"
 
 export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): StatusMethodsT => {
+    function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
+        return reducer(method, query)
+    }
+
     const edit = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
@@ -12,64 +18,64 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): Statu
     const destroy = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.statuses.destroy, {
-                status_id: status.id,
+            reduce(reducers.statuses.destroy, {
+                statusId: status.id,
             })
         }
     }
     const createLike = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.likes.create, {
-                status_id: status.id,
+            reduce(reducers.likes.create, {
+                statusId: status.id,
             })
         }
     }
     const createFavorite = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.favorites.create, {
-                status_id: status.id,
+            reduce(reducers.favorites.create, {
+                statusId: status.id,
             })
         }
     }
     const destroyFavorite = (status: StatusObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.favorites.destroy, {
-                status_id: status.id,
+            reduce(reducers.favorites.destroy, {
+                statusId: status.id,
             })
         }
     }
     const createMutes = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.mutes.create, {
-                user_id: user.id,
+            reduce(reducers.mutes.create, {
+                userId: user.id,
             })
         }
     }
     const destroyMutes = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.mutes.destroy, {
-                user_id: user.id,
+            reduce(reducers.mutes.destroy, {
+                userId: user.id,
             })
         }
     }
     const createBlocks = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.blocks.create, {
-                user_id: user.id,
+            reduce(reducers.blocks.create, {
+                userId: user.id,
             })
         }
     }
     const destroyBlocks = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reducer(reducers.blocks.destroy, {
-                user_id: user.id,
+            reduce(reducers.blocks.destroy, {
+                userId: user.id,
             })
         }
     }

@@ -44,7 +44,7 @@ export const useChatStore = ({
     const { loggedInUser } = useLoggedInUser()
 
     websocket.use(loggedInUser, {
-        reducer: state.reduce,
+        reducer: state.reducer,
         orderedReducers: state.orderedReducers,
     })
 
@@ -67,7 +67,7 @@ export const useChatStore = ({
         domainData: store.domainData,
         appState: store.appState,
         reducer: (method: ReducerMethodT, query: Record<string, any>) =>
-            state.reduce(method, query),
+            state.reducer(method, query),
         orderedReducers: (
             reducers: {
                 method: ReducerMethodT

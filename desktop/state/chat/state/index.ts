@@ -17,10 +17,7 @@ export const useChatStoreContext = (): [StoreT, ReducersT] => {
     ]
 }
 
-type ReducerMethodT = (
-    store: StoreT,
-    query: Record<string, any>
-) => Promise<[StoreT, Response | null]>
+export type ReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 
 export class ChatState {
     currentStore: StoreT = null
@@ -38,7 +35,7 @@ export class ChatState {
         this.storeSetActions = storeSetActions
         return [store, storeSetActions]
     }
-    reduce = (method: ReducerMethodT, query: Record<string, any>): Promise<Response | null> => {
+    reducer = <T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> => {
         return new Promise((resolve) => {
             this.queue = this.queue.then(async () => {
                 try {
@@ -57,10 +54,10 @@ export class ChatState {
             })
         })
     }
-    orderedReducers = async (
+    orderedReducers = async <T>(
         reducers: {
-            method: ReducerMethodT
-            query: Record<string, any>
+            method: ReducerMethodT<T>
+            query: T
         }[]
     ): Promise<void> => {
         const prevStore = this.currentStore

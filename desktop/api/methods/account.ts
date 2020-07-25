@@ -7,10 +7,15 @@ function signin(body: { name: string; password: string }): Promise<Response> {
 function signup(body: {
     name: string
     password: string
-    confirmed_password: string
+    confirmedPassword: string
     fingerprint?: string
 }): Promise<Response> {
-    return post("account/signup", body)
+    return post("account/signup", {
+        name: body.name,
+        password: body.password,
+        confirmed_password: body.confirmedPassword,
+        fingerprint: body.fingerprint,
+    })
 }
 
 export const account = {

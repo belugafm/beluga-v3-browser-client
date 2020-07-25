@@ -95,7 +95,7 @@ export const useSignupFormState = () => {
             return await WebAPI.account.signup({
                 name: nameField.value,
                 password: passwordField.value,
-                confirmed_password: confirmedPasswordField.value,
+                confirmedPassword: confirmedPasswordField.value,
                 fingerprint: fingerprint,
             })
         } catch (error) {

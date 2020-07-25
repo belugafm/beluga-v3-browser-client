@@ -7,9 +7,7 @@ import equals from "deep-equal"
 
 const _fetch = (
     prevDomainData: DomainDataT,
-    query: {
-        channel_id: string
-    }
+    query: Parameters<typeof WebAPI.channels.show>[0]
 ): Promise<
     [
         DomainDataT,
@@ -21,13 +19,13 @@ const _fetch = (
 > => {
     return new Promise((resolve, reject) => {
         fetch(prevDomainData, WebAPI.channels.show, {
-            channel_id: query.channel_id,
+            channelId: query.channelId,
         })
             .then(([nextDomainData, response]) => {
                 const prevDomainData = nextDomainData
                 const { channel } = response
                 fetch(prevDomainData, WebAPI.timeline.channel, {
-                    channel_id: query.channel_id,
+                    channelId: query.channelId,
                 })
                     .then(([nextDomainData, response]) => {
                         const { statuses } = response
@@ -53,7 +51,7 @@ export const create = async (
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await _fetch(store.domainData, {
-        channel_id: query.channelId,
+        channelId: query.channelId,
     })
     const { channel, statuses } = response
 
@@ -63,7 +61,7 @@ export const create = async (
         postbox: {
             enabled: true,
             query: {
-                channel_id: channel.id,
+                channelId: channel.id,
             },
         },
         context: {
@@ -101,7 +99,7 @@ export const updateTimeline = async (
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
-        channel_id: query.channelId,
+        channelId: query.channelId,
     })
     const { statuses } = response
 

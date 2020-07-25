@@ -3,9 +3,14 @@ import * as WebAPI from "../api"
 import { WebAPIUnavailableResponse, UnexpectedResponseError } from "../api/classes"
 import * as reducers from "./chat/reducer_methods"
 import { ChatReducerContext } from "./chat/reducer"
+import { ReducerMethodT } from "./chat/state"
 
 export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
     const { reducer } = useContext(ChatReducerContext)
+
+    function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<WebAPI.Response | null> {
+        return reducer(method, query)
+    }
 
     const [textField, setTextField] = useState({
         errorMessage: [],
@@ -21,7 +26,7 @@ export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
 
     const update = async () => {
         try {
-            return await reducer(
+            return await reduce(
                 reducers.statuses.update,
                 Object.assign({}, query, {
                     text: textField.value,

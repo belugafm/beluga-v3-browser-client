@@ -2,8 +2,8 @@ import { ReducersT } from "./reducer"
 import * as reducer_methods from "./reducer_methods"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
-
-type EventListener = (this: WebSocket, ev: WebSocketEventMap[K]) => any
+import { ReducerMethodT } from "./state"
+import { Response } from "../../api"
 
 type WebsocketMessage = {
     operation: string
@@ -23,7 +23,7 @@ class WebSocketState {
     loggedInUser: UserObjectT
     eventListeners: {
         type: keyof WebSocketEventMap
-        listener: EventListener
+        listener: any
     }[] = []
     constructor(uri: string) {
         this.uri = uri
@@ -35,7 +35,10 @@ class WebSocketState {
             this.connect()
         }
     }
-    addEventListener<K extends keyof WebSocketEventMap>(type: K, listener: EventListener) {
+    addEventListener<K extends keyof WebSocketEventMap>(
+        type: K,
+        listener: (this: WebSocket, ev: WebSocketEventMap[K]) => any
+    ) {
         this.eventListeners.push({ type, listener })
         this.ws.addEventListener(type, listener)
     }
@@ -44,6 +47,9 @@ class WebSocketState {
             this.ws.removeEventListener(type, listener)
         })
         this.eventListeners = []
+    }
+    reduce = <T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> => {
+        return this.reducers.reducer(method, query)
     }
     connect() {
         this.removeAllEventListeners()
@@ -69,8 +75,8 @@ class WebSocketState {
                 if (data.model === "status") {
                     const status_id = data.document_id
                     if (data.operation === "delete") {
-                        this.reducers.reducer(reducer_methods.statuses.mark_as_deleted, {
-                            status_id,
+                        this.reduce(reducer_methods.statuses.mark_as_deleted, {
+                            statusId: status_id,
                         })
                     } else if (data.operation === "insert") {
                         const { status } = data
@@ -78,20 +84,23 @@ class WebSocketState {
                             if (status.user_id !== this.loggedInUser.id) {
                                 const { channel_id, community_id } = status
                                 if (channel_id) {
-                                    this.reducers.reducer(
-                                        reducer_methods.columns.channel.updateTimeline,
-                                        {
-                                            channelId: channel_id,
-                                        }
-                                    )
+                                    this.reduce(reducer_methods.columns.channel.updateTimeline, {
+                                        channelId: channel_id,
+                                    })
                                 }
                             }
                         }
                     } else if (data.operation === "update") {
-                        this.reducers.reducer(reducer_methods.statuses.show, {
-                            status_id,
+                        this.reduce(reducer_methods.statuses.show, {
+                            statusId: status_id,
                         })
                     }
+                }
+                if (data.model === "user") {
+                    const user_id = data.document_id
+                    this.reduce(reducer_methods.users.show, {
+                        userId: user_id,
+                    })
                 }
             } catch (error) {}
         })

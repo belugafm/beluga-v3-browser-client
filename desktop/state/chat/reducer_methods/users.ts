@@ -2,11 +2,11 @@ import { StoreT } from "../reducer"
 import * as WebAPI from "../../../api"
 import { fetch } from "../state/data"
 
-const create = async (
+const show = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.likes.create>[0]
+    query: Parameters<typeof WebAPI.users.show>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.likes.create, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.users.show, query)
     return [
         {
             domainData: nextDomainData,
@@ -16,4 +16,4 @@ const create = async (
     ]
 }
 
-export const likes = { create }
+export const users = { show }

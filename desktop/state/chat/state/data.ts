@@ -17,7 +17,7 @@ class Map<T> {
     }
 }
 
-class StringSet extends Set<string> {
+export class StringSet extends Set<string> {
     equals(target: StringSet) {
         let ok = true
         this.forEach((id) => {
@@ -261,10 +261,10 @@ export function copy_communities(communities: Map<CommunityObjectT>) {
     return ret
 }
 
-export async function fetch(
+export async function fetch<T>(
     prevDomainData: DomainDataT,
-    method: (query: any) => Promise<Response>,
-    query: any
+    method: (query: T) => Promise<Response>,
+    query: T
 ): Promise<[DomainDataT, Response]> {
     const response = await method(query)
     let nextDomainData: DomainDataT = {

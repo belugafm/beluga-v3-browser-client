@@ -4,7 +4,7 @@ import { fetch } from "../state/data"
 
 const create = async (
     store: StoreT,
-    query: Record<string, any>
+    query: Parameters<typeof WebAPI.blocks.create>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.blocks.create, query)
     return [
@@ -18,7 +18,7 @@ const create = async (
 
 const destroy = async (
     store: StoreT,
-    query: Record<string, any>
+    query: Parameters<typeof WebAPI.blocks.destroy>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.blocks.destroy, query)
     return [

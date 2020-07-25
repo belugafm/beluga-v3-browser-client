@@ -47,16 +47,17 @@ export const create = async (
     store: StoreT,
     query: {
         channelId: string
-        columnIndex: number
+        columnIndex?: number
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await _fetch(store.domainData, {
         channelId: query.channelId,
     })
     const { channel, statuses } = response
+    const columnIndex = query.columnIndex ? query.columnIndex : store.appState.columns.length
 
     const column: ColumnStateT = {
-        index: query.columnIndex,
+        index: columnIndex,
         type: ColumnTypes.Channel,
         postbox: {
             enabled: true,

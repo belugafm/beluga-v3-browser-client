@@ -1,16 +1,23 @@
 type Props = {
     href: string
     hidden?: boolean
+    onClick?: () => any
 }
 
 export default (props: Props) => {
-    const { hidden, href } = props
+    const { hidden, href, onClick } = props
     if (hidden) {
         return null
     }
     return (
         <>
-            <a href={href} target="_blank">
+            <a
+                href={href}
+                target="_blank"
+                onClick={(event) => {
+                    event.preventDefault()
+                    onClick()
+                }}>
                 {href}
             </a>
             <style jsx>{`

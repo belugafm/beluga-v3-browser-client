@@ -1,21 +1,7 @@
-import { useChatAppState, ChatAppStateContext } from "./app"
-import { useChatDomainData, ChatDomainDataContext } from "./data"
-import { useContext } from "react"
-import { StoreT, udpateStore, StoreSetActionsT, ChatReducerContext, ReducersT } from "../reducer"
+import { useChatAppState } from "./app"
+import { useChatDomainData } from "./data"
+import { StoreT, udpateStore, StoreSetActionsT } from "../reducer"
 import { Response } from "../../../api"
-
-export const useChatStoreContext = (): [StoreT, ReducersT] => {
-    const domainData = useContext(ChatDomainDataContext)
-    const appState = useContext(ChatAppStateContext)
-    const reducers = useContext(ChatReducerContext)
-    return [
-        {
-            domainData,
-            appState,
-        },
-        reducers,
-    ]
-}
 
 export type ReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 

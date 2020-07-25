@@ -5,7 +5,7 @@ import { ReducersT } from "./chat/reducer"
 import { Response } from "../api"
 import { ReducerMethodT } from "./chat/state"
 
-export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): StatusMethodsT => {
+export const useStatusActions = ({ reducer, orderedReducers }: ReducersT): StatusActionsT => {
     function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducer(method, query)
     }
@@ -92,7 +92,7 @@ export const useStatusMethods = ({ reducer, orderedReducers }: ReducersT): Statu
     }
 }
 
-export type StatusMethodsT = {
+export type StatusActionsT = {
     edit: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     destroy: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
     createLike: (status: StatusObjectT) => (event: MouseEvent<Element>) => void
@@ -104,7 +104,7 @@ export type StatusMethodsT = {
     destroyBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => void
 }
 
-const methods: StatusMethodsT = {
+const actions: StatusActionsT = {
     edit: null,
     destroy: null,
     createLike: null,
@@ -116,4 +116,4 @@ const methods: StatusMethodsT = {
     destroyBlocks: null,
 }
 
-export const StatusMethods = createContext(methods)
+export const StatusActions = createContext(actions)

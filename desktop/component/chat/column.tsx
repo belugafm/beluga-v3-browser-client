@@ -3,13 +3,15 @@ import { ColumnStateT } from "../../state/chat/state/app"
 import { PostboxComponent } from "../postbox"
 import { ChatDomainDataContext } from "../../state/chat/state/data"
 import { StatusComponent } from "../status"
-import { StatusMethods } from "../../state/status"
+import { StatusActions } from "../../state/status"
 import { useLoggedInUser } from "../../state/session"
+import { ChatActions } from "../../state/chat"
 
 export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     console.info("ChatColumnComponent::render")
     const domainData = useContext(ChatDomainDataContext)
-    const methods = useContext(StatusMethods)
+    const statusActions = useContext(StatusActions)
+    const chatActions = useContext(ChatActions)
     const { loggedInUser } = useLoggedInUser()
     return (
         <div className="column">
@@ -24,9 +26,11 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
                     <StatusComponent
                         key={status_id}
                         status={status}
-                        methods={methods}
+                        statusActions={statusActions}
+                        chatActions={chatActions}
                         domainData={domainData}
                         loggedInUser={loggedInUser}
+                        column={column}
                     />
                 )
             })}

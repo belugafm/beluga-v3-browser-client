@@ -1,8 +1,8 @@
 import { CommonPropsT } from "../types"
 import { AttributedTextComponent, defaultOption } from "../../attributed_text"
-import { StatusObjectT } from "../../../api/object"
+import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../../api/object"
 
-export default ({ status, domainData }: CommonPropsT) => {
+export default ({ status, domainData, chatActions, column }: CommonPropsT) => {
     const user = domainData.users.get(status.user_id)
     if (user.muted) {
         return <div>ミュート中の投稿</div>
@@ -26,6 +26,17 @@ export default ({ status, domainData }: CommonPropsT) => {
         }),
     }
     return (
-        <AttributedTextComponent text={status.text} entities={entities} options={defaultOption} />
+        <AttributedTextComponent
+            text={status.text}
+            entities={entities}
+            options={defaultOption}
+            callbacks={{
+                handleClickChannel: async (channel: ChannelObjectT) => {
+                    chatActions.channel.open(channel, column.index + 1)
+                },
+                handleClickStatus: async (status: StatusObjectT) => {},
+                handleClickUser: async (user: UserObjectT) => {},
+            }}
+        />
     )
 }

@@ -1,25 +1,11 @@
-import { ChatAppStateContext } from "./state/app"
-import { ChatDomainDataContext } from "./state/data"
-import { useState, useContext } from "react"
+import { useState, createContext } from "react"
 import * as reducer_methods from "./reducer_methods"
-import { StoreT, ChatReducerContext, ReducersT } from "./reducer"
+import { StoreT, ReducersT } from "./reducer"
 import { Response } from "../../api"
 import { useLoggedInUser } from "../session"
 import { ChatState } from "./state"
 import { websocket } from "./websocket"
-
-export const useChatStoreContext = (): [StoreT, ReducersT] => {
-    const domainData = useContext(ChatDomainDataContext)
-    const appState = useContext(ChatAppStateContext)
-    const reducers = useContext(ChatReducerContext)
-    return [
-        {
-            domainData,
-            appState,
-        },
-        reducers,
-    ]
-}
+import { ChannelObjectT } from "../../api/object"
 
 type ReducerMethodT = (
     store: StoreT,
@@ -74,5 +60,43 @@ export const useChatStore = ({
                 query: Record<string, any>
             }[]
         ) => state.orderedReducers(reducers),
+    }
+}
+
+export type ChatActionsT = {
+    column: {
+        close: (columnIndex: number) => void
+    }
+    channel: {
+        open: (channel: ChannelObjectT, insertColumnIndex?: number) => void
+    }
+}
+
+export const ChatActions = createContext({
+    column: {
+        close: null,
+    },
+    channel: {
+        open: null,
+    },
+})
+
+export const useChatActions = ({ reducer, orderedReducers }: ReducersT): ChatActionsT => {
+    function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
+        return reducer(method, query)
+    }
+
+    return {
+        column: {
+            close: (columnIndex: number) => {},
+        },
+        channel: {
+            open: (channel: ChannelObjectT, insertColumnIndex?: number) => {
+                reduce(reducer_methods.columns.channel.create, {
+                    channelId: channel.id,
+                    columnIndex: insertColumnIndex,
+                })
+            },
+        },
     }
 }

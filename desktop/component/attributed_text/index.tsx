@@ -1,5 +1,5 @@
 import React from "react"
-import { StatusObjectT } from "../../api/object"
+import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../api/object"
 import {
     splitTextIntoAtributedTextSequence,
     convertAttributedTextSequenceToRPN,
@@ -14,11 +14,13 @@ import InlineMarkdownComponent from "./components/markdown"
 import TextLinkComponent from "./components/link"
 import TweetComponent from "./components/tweet"
 import YouTubeComponent from "./components/youtube"
+import ChannelComponent from "./components/channel"
 
 type Props = {
     text: string
     entities: StatusObjectT["entities"]
     options: AttributedTextOptions
+    callbacks: AttributedTextCallbacks
 }
 
 export type AttributedTextOptions = {
@@ -35,8 +37,14 @@ export const defaultOption: AttributedTextOptions = {
     detectAsciiArt: true,
 } as const
 
+export type AttributedTextCallbacks = {
+    handleClickChannel: (channel: ChannelObjectT) => Promise<void>
+    handleClickStatus: (status: StatusObjectT) => Promise<void>
+    handleClickUser: (user: UserObjectT) => Promise<void>
+}
+
 export const AttributedTextComponent = React.memo(
-    ({ text, entities, options }: Props) => {
+    ({ text, entities, options, callbacks }: Props) => {
         console.info("AttributedTextComponent::render")
         const sequence = splitTextIntoAtributedTextSequence(text, entities)
         const rpn = convertAttributedTextSequenceToRPN(sequence)
@@ -86,7 +94,15 @@ export const AttributedTextComponent = React.memo(
             if (attributedText.type === AttributedTextType.Channel) {
                 const { channel } = attributedText
                 if (channel) {
-                    components.push(<div key={k}>{channel.name}</div>)
+                    components.push(
+                        <ChannelComponent
+                            key={k}
+                            url={attributedText.substr}
+                            channel={channel}
+                            showOriginalUrl={options.showOriginalUrl}
+                            callback={callbacks.handleClickChannel}
+                        />
+                    )
                     continue
                 }
             }

@@ -38,7 +38,7 @@ export default (props: Props) => {
                             padding: "10px",
                             borderRadius: "6px",
                         }}>
-                        {code}
+                        {code.trim()}
                     </SyntaxHighlighter>
                 </div>
                 <style jsx>{`

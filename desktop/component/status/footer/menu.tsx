@@ -1,6 +1,6 @@
 import { CommonPropsT } from "../types"
 
-export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => {
+export default ({ status, statusActions, domainData, loggedInUser }: CommonPropsT) => {
     const user = domainData.users.get(status.user_id)
     return (
         <>
@@ -10,20 +10,20 @@ export default ({ status, methods, domainData, loggedInUser }: CommonPropsT) => 
                     <div className="items">
                         <ul>
                             {user.muted ? (
-                                <li onClick={methods.destroyMutes(user)}>
+                                <li onClick={statusActions.destroyMutes(user)}>
                                     <span>{`@${user.name}`}</span>のミュートを解除
                                 </li>
                             ) : (
-                                <li onClick={methods.createMutes(user)}>
+                                <li onClick={statusActions.createMutes(user)}>
                                     <span>{`@${user.name}`}</span>をミュートする
                                 </li>
                             )}
                             {user.blocked ? (
-                                <li onClick={methods.destroyBlocks(user)}>
+                                <li onClick={statusActions.destroyBlocks(user)}>
                                     <span>{`@${user.name}`}</span>のブロックを解除
                                 </li>
                             ) : (
-                                <li onClick={methods.createBlocks(user)}>
+                                <li onClick={statusActions.createBlocks(user)}>
                                     <span>{`@${user.name}`}</span>をブロックする
                                 </li>
                             )}

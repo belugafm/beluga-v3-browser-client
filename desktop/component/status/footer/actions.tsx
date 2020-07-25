@@ -2,28 +2,28 @@ import { CommonPropsT } from "../types"
 import MenuComponent from "./menu"
 
 export default (props: CommonPropsT) => {
-    const { status, methods, domainData, loggedInUser } = props
+    const { status, statusActions: statusActions, loggedInUser } = props
     return (
         <>
             <div className="buttons">
-                <span className="action create-like" onClick={methods.createLike(status)}>
+                <span className="action create-like" onClick={statusActions.createLike(status)}>
                     いいね
                 </span>
                 {status.favorited ? (
                     <span
                         className="action destroy-favorite"
-                        onClick={methods.destroyFavorite(status)}>
+                        onClick={statusActions.destroyFavorite(status)}>
                         ふぁぼ解除
                     </span>
                 ) : (
                     <span
                         className="action create-favorite"
-                        onClick={methods.createFavorite(status)}>
+                        onClick={statusActions.createFavorite(status)}>
                         ふぁぼ
                     </span>
                 )}
                 {loggedInUser && loggedInUser.id === status.user_id ? (
-                    <span className="action destroy" onClick={methods.destroy(status)}>
+                    <span className="action destroy" onClick={statusActions.destroy(status)}>
                         削除
                     </span>
                 ) : null}

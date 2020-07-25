@@ -53,14 +53,14 @@ type PropTypes = {
 }
 
 export default (props: PropTypes) => {
-    const { url, showOriginalUrl: show_original_url } = props
+    const { url, showOriginalUrl } = props
     const { videoId, queryString } = detectVideoIdAndQuery(url)
     if (videoId === null) {
-        return <LinkTextComponent href={url} hidden={!show_original_url} />
+        return <LinkTextComponent href={url} hidden={!showOriginalUrl} />
     }
     return (
         <Fragment>
-            <LinkTextComponent href={url} hidden={!show_original_url} />
+            <LinkTextComponent href={url} hidden={!showOriginalUrl} />
             <div className="container attributed-text-youtube-container">
                 <iframe
                     src={`https://www.youtube.com/embed/${videoId}?${queryString}`}

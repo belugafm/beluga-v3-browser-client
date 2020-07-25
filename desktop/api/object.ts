@@ -61,6 +61,19 @@ export type StatusObjectT = {
     public: boolean
     edited: boolean
     deleted: boolean
+    favorited: boolean
+    entities: {
+        channels: {
+            channel_id: string
+            channel: ChannelObjectT | null
+            indices: [number, number]
+        }[]
+        statuses: {
+            status_id: string
+            status: StatusObjectT | null
+            indices: [number, number]
+        }[]
+    }
     likes: {
         count: number
         counts: {

@@ -9,12 +9,19 @@ export default (props: CommonPropsT) => {
                 <span className="action create-like" onClick={methods.createLike(status)}>
                     いいね
                 </span>
-                <span className="action create-favorite" onClick={methods.createFavorite(status)}>
-                    ふぁぼ
-                </span>
-                <span className="action destroy-favorite" onClick={methods.destroyFavorite(status)}>
-                    ふぁぼ解除
-                </span>
+                {status.favorited ? (
+                    <span
+                        className="action destroy-favorite"
+                        onClick={methods.destroyFavorite(status)}>
+                        ふぁぼ解除
+                    </span>
+                ) : (
+                    <span
+                        className="action create-favorite"
+                        onClick={methods.createFavorite(status)}>
+                        ふぁぼ
+                    </span>
+                )}
                 {loggedInUser && loggedInUser.id === status.user_id ? (
                     <span className="action destroy" onClick={methods.destroy(status)}>
                         削除

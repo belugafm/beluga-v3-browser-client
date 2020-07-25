@@ -95,6 +95,22 @@ function normalize_status(status: StatusObjectT | null, nextDomainData: DomainDa
     })
     status.favorites.users = []
 
+    status.entities.channels.forEach((entity) => {
+        if (entity.channel == null) {
+            return
+        }
+        nextDomainData = normalize_channel(entity.channel, nextDomainData)
+        entity.channel = null
+    })
+
+    status.entities.statuses.forEach((entity) => {
+        if (entity.status == null) {
+            return
+        }
+        nextDomainData = normalize_status(entity.status, nextDomainData)
+        entity.status = null
+    })
+
     nextDomainData.statuses.set(status.id, copy_status(status))
 
     return nextDomainData
@@ -157,6 +173,8 @@ function copy_status(status: StatusObjectT) {
         public: status.public,
         edited: status.edited,
         deleted: status.deleted,
+        favorited: status.favorited,
+        entities: status.entities,
         likes: {
             count: status.likes.count,
             counts: status.likes.counts.concat(),

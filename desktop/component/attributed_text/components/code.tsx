@@ -1,5 +1,6 @@
 import SyntaxHighlighter from "react-syntax-highlighter"
 import monokai from "./styles/monokai"
+import vs2015 from "./styles/vs2015"
 
 type Props = {
     code: string
@@ -33,7 +34,7 @@ export default (props: Props) => {
                 <div className="code">
                     <SyntaxHighlighter
                         language={language}
-                        style={monokai}
+                        style={vs2015}
                         customStyle={{
                             padding: "10px",
                             borderRadius: "6px",

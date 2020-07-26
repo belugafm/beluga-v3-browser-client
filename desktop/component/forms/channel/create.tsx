@@ -122,7 +122,6 @@ const NameInputForm = () => {
     return (
         <InputComponent
             label="チャンネル名"
-            type="text"
             value={nameField.value}
             errorMessage={nameField.errorMessage}
             hint={nameField.hint}

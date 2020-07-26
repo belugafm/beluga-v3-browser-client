@@ -1,34 +1,26 @@
 import LinkTextComponent from "./link"
-import { ChannelObjectT } from "../../../api/object"
+import { StatusObjectT } from "../../../api/object"
 
 type PropTypes = {
-    channel: ChannelObjectT
+    status: StatusObjectT
     url: string
     showOriginalUrl: boolean
-    callback: (channel: ChannelObjectT) => Promise<void>
+    callback: (status: StatusObjectT) => Promise<void>
 }
 
 export default (props: PropTypes) => {
-    const { url, channel, showOriginalUrl, callback } = props
+    const { url, status, showOriginalUrl, callback } = props
     return (
         <>
             <LinkTextComponent
                 href={url}
                 hidden={!showOriginalUrl}
                 onClick={() => {
-                    callback(channel)
+                    callback(status)
                 }}
             />
             <div>
-                <a
-                    href={url}
-                    onClick={(event) => {
-                        event.preventDefault()
-                        callback(channel)
-                    }}>
-                    <span>#</span>
-                    <span>{channel.name}</span>
-                </a>
+                <span>{status.text}</span>
             </div>
             <style jsx>{`
                 div {

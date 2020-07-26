@@ -81,13 +81,11 @@ class WebSocketState {
                     } else if (data.operation === "insert") {
                         const { status } = data
                         if (status) {
-                            if (status.user_id !== this.loggedInUser.id) {
-                                const { channel_id, community_id } = status
-                                if (channel_id) {
-                                    this.reduce(reducer_methods.columns.channel.updateTimeline, {
-                                        channelId: channel_id,
-                                    })
-                                }
+                            const { channel_id, community_id } = status
+                            if (channel_id) {
+                                this.reduce(reducer_methods.columns.channel.updateTimeline, {
+                                    channelId: channel_id,
+                                })
                             }
                         }
                     } else if (data.operation === "update") {

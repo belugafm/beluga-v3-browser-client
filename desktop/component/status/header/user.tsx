@@ -1,4 +1,3 @@
-import { StatusObjectT } from "../../../api/object"
 import { CommonPropsT } from "../types"
 
 export default ({ status, domainData }: CommonPropsT) => {

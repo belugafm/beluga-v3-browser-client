@@ -14,26 +14,33 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     const chatActions = useContext(ChatActions)
     const { loggedInUser } = useLoggedInUser()
     return (
-        <div className="column">
-            <p>{column.context.channelId}</p>
-            <PostboxComponent column={column} channelId={column.context.channelId} />
-            {column.timeline.statusIds.map((status_id, index) => {
-                const status = domainData.statuses.get(status_id)
-                if (status == null) {
-                    return null
+        <>
+            <div className="column">
+                <p>{column.context.channelId}</p>
+                <PostboxComponent column={column} channelId={column.context.channelId} />
+                {column.timeline.statusIds.map((status_id, index) => {
+                    const status = domainData.statuses.get(status_id)
+                    if (status == null) {
+                        return null
+                    }
+                    return (
+                        <StatusComponent
+                            key={status_id}
+                            status={status}
+                            statusActions={statusActions}
+                            chatActions={chatActions}
+                            domainData={domainData}
+                            loggedInUser={loggedInUser}
+                            column={column}
+                        />
+                    )
+                })}
+            </div>
+            <style jsx>{`
+                .column {
+                    margin-right: 10px;
                 }
-                return (
-                    <StatusComponent
-                        key={status_id}
-                        status={status}
-                        statusActions={statusActions}
-                        chatActions={chatActions}
-                        domainData={domainData}
-                        loggedInUser={loggedInUser}
-                        column={column}
-                    />
-                )
-            })}
-        </div>
+            `}</style>
+        </>
     )
 }

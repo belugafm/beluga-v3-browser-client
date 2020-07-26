@@ -3,14 +3,9 @@ import * as reducer_methods from "./reducer_methods"
 import { StoreT, ReducersT } from "./reducer"
 import { Response } from "../../api"
 import { useLoggedInUser } from "../session"
-import { ChatState } from "./state"
+import { ChatState, ReducerMethodT } from "./state"
 import { websocket } from "./websocket"
 import { ChannelObjectT } from "../../api/object"
-
-type ReducerMethodT = (
-    store: StoreT,
-    query: Record<string, any>
-) => Promise<[StoreT, Response | null]>
 
 const state = new ChatState()
 
@@ -52,12 +47,11 @@ export const useChatStore = ({
     return {
         domainData: store.domainData,
         appState: store.appState,
-        reducer: (method: ReducerMethodT, query: Record<string, any>) =>
-            state.reducer(method, query),
-        orderedReducers: (
+        reducer: <T>(method: ReducerMethodT<T>, query: T) => state.reducer(method, query),
+        orderedReducers: <T>(
             reducers: {
-                method: ReducerMethodT
-                query: Record<string, any>
+                method: ReducerMethodT<T>
+                query: T
             }[]
         ) => state.orderedReducers(reducers),
     }

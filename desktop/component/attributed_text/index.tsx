@@ -15,6 +15,7 @@ import TextLinkComponent from "./components/link"
 import TweetComponent from "./components/tweet"
 import YouTubeComponent from "./components/youtube"
 import ChannelComponent from "./components/channel"
+import StatusComponent from "./components/status"
 
 type Props = {
     text: string
@@ -112,7 +113,15 @@ export const AttributedTextComponent = React.memo(
             if (attributedText.type === AttributedTextType.Status) {
                 const { status } = attributedText
                 if (status) {
-                    components.push(<div key={k}>{status.text}</div>)
+                    components.push(
+                        <StatusComponent
+                            key={k}
+                            status={status}
+                            url={attributedText.substr}
+                            showOriginalUrl={options.showOriginalUrl}
+                            callback={callbacks.handleClickStatus}
+                        />
+                    )
                     continue
                 }
             }

@@ -1,6 +1,6 @@
 import { useState, createContext } from "react"
 import * as reducer_methods from "./reducer_methods"
-import { StoreT, ReducersT } from "./reducer"
+import { ReducersT } from "./reducer"
 import { Response } from "../../api"
 import { useLoggedInUser } from "../session"
 import { ChatState, ReducerMethodT } from "./state"
@@ -74,6 +74,9 @@ export const ChatActions = createContext({
         close: null,
     },
     channel: {
+        open: null,
+    },
+    thread: {
         open: null,
     },
 })

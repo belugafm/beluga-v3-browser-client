@@ -38,7 +38,8 @@ const destroy = async (
     const { statusId } = query
     const status = nextDomainData.statuses.get(statusId)
     status.deleted = true
-    nextDomainData.statuses.set(statusId, status)
+    status.updated_at = Date.now()
+    nextDomainData.statuses.update(statusId, status)
     return [
         {
             domainData: nextDomainData,
@@ -72,7 +73,8 @@ const mark_as_deleted = async (
     }
     const status = nextDomainData.statuses.get(statusId)
     status.deleted = true
-    nextDomainData.statuses.set(statusId, status)
+    status.updated_at = Date.now()
+    nextDomainData.statuses.update(statusId, status)
     return [
         {
             domainData: nextDomainData,

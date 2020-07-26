@@ -3,7 +3,6 @@ import { AppStateT, AppStateSetActionT } from "./state/app"
 import equals from "deep-equal"
 import { createContext } from "react"
 import { Response } from "../../api"
-import { update } from "../../api/methods/statuses"
 
 export type StoreT = {
     domainData: DomainDataT
@@ -40,26 +39,26 @@ function updateDomainData(
     prevDomainData: DomainDataT,
     nextDomainData: DomainDataT
 ) {
-    if (prevDomainData.statuses.equals(nextDomainData.statuses) !== true) {
+    if (nextDomainData.statuses.equals(prevDomainData.statuses) !== true) {
         nextDomainData.statuses.lastModified = Date.now()
         setActions.setStatuses(nextDomainData.statuses)
     }
-    if (prevDomainData.users.equals(nextDomainData.users) !== true) {
+    if (nextDomainData.users.equals(prevDomainData.users) !== true) {
         nextDomainData.users.lastModified = Date.now()
         setActions.setUsers(nextDomainData.users)
     }
-    if (prevDomainData.channels.equals(nextDomainData.channels) !== true) {
+    if (nextDomainData.channels.equals(prevDomainData.channels) !== true) {
         nextDomainData.channels.lastModified = Date.now()
         setActions.setChannels(nextDomainData.channels)
     }
-    if (prevDomainData.communities.equals(nextDomainData.communities) !== true) {
+    if (nextDomainData.communities.equals(prevDomainData.communities) !== true) {
         nextDomainData.communities.lastModified = Date.now()
         setActions.setCommunities(nextDomainData.communities)
     }
-    if (prevDomainData.mutedUserIds.equals(nextDomainData.mutedUserIds) !== true) {
+    if (nextDomainData.mutedUserIds.equals(prevDomainData.mutedUserIds) !== true) {
         setActions.setMutedUserIds(nextDomainData.mutedUserIds)
     }
-    if (prevDomainData.blockedUserIds.equals(nextDomainData.blockedUserIds) !== true) {
+    if (nextDomainData.blockedUserIds.equals(prevDomainData.blockedUserIds) !== true) {
         setActions.setMutedUserIds(nextDomainData.blockedUserIds)
     }
 }

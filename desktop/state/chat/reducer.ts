@@ -3,6 +3,7 @@ import { AppStateT, AppStateSetActionT } from "./state/app"
 import equals from "deep-equal"
 import { createContext } from "react"
 import { Response } from "../../api"
+import { update } from "../../api/methods/statuses"
 
 export type StoreT = {
     domainData: DomainDataT

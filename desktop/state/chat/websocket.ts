@@ -13,6 +13,7 @@ type WebsocketMessage = {
         user_id: string
         channel_id: string
         community_id: string
+        thread_status_id: string
     }
 }
 
@@ -81,8 +82,12 @@ class WebSocketState {
                     } else if (data.operation === "insert") {
                         const { status } = data
                         if (status) {
-                            const { channel_id, community_id } = status
-                            if (channel_id) {
+                            const { channel_id, community_id, thread_status_id } = status
+                            if (thread_status_id) {
+                                this.reduce(reducer_methods.columns.thread.updateTimeline, {
+                                    statusId: thread_status_id,
+                                })
+                            } else if (channel_id) {
                                 this.reduce(reducer_methods.columns.channel.updateTimeline, {
                                     channelId: channel_id,
                                 })

@@ -62,6 +62,7 @@ export type StatusObjectT = {
     edited: boolean
     deleted: boolean
     favorited: boolean
+    comment_count: number
     entities: {
         channels: {
             channel_id: string

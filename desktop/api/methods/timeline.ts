@@ -20,6 +20,27 @@ async function channel(query: {
     return responce
 }
 
+async function thread(query: {
+    statusId: string
+    sinceId?: string
+    maxId?: string
+    sinceDate?: string
+    untilDate?: string
+}): Promise<Response> {
+    const responce = await get("timeline/thread", {
+        status_id: query.statusId,
+        since_id: query.sinceId,
+        max_id: query.maxId,
+        since_date: query.sinceDate,
+        until_date: query.untilDate,
+    })
+    if (responce.statuses == null) {
+        throw new UnexpectedResponseError()
+    }
+    return responce
+}
+
 export const timeline = {
     channel,
+    thread,
 }

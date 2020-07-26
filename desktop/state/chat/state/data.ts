@@ -111,7 +111,7 @@ function normalize_status(status: StatusObjectT | null, nextDomainData: DomainDa
         entity.status = null
     })
 
-    nextDomainData.statuses.set(status.id, copy_status(status))
+    nextDomainData.statuses.set(status.id, status)
 
     return nextDomainData
 }
@@ -120,7 +120,7 @@ function normalize_user(user: UserObjectT | null, nextDomainData: DomainDataT): 
     if (user == null) {
         return nextDomainData
     }
-    nextDomainData.users.set(user.id, copy_user(user))
+    nextDomainData.users.set(user.id, user)
 
     if (user.muted) {
         nextDomainData.mutedUserIds.add(user.id)
@@ -144,7 +144,7 @@ function normalize_channel(
     if (channel == null) {
         return nextDomainData
     }
-    nextDomainData.channels.set(channel.id, copy_channel(channel))
+    nextDomainData.channels.set(channel.id, channel)
     return nextDomainData
 }
 
@@ -159,15 +159,18 @@ function normalize_community(
     return nextDomainData
 }
 
-function copy_status(status: StatusObjectT) {
+function copy_status(status: StatusObjectT | null): StatusObjectT {
+    if (status === null) {
+        return null
+    }
     return {
         id: status.id,
         user_id: status.user_id,
-        user: null,
+        user: copy_user(status.user),
         channel_id: status.channel_id,
-        channel: null,
+        channel: copy_channel(status.channel),
         community_id: status.community_id,
-        community: null,
+        community: copy_community(status.community),
         text: status.text,
         created_at: status.created_at,
         public: status.public,
@@ -175,14 +178,17 @@ function copy_status(status: StatusObjectT) {
         deleted: status.deleted,
         favorited: status.favorited,
         entities: status.entities,
+        comment_count: status.comment_count,
         likes: {
             count: status.likes.count,
             counts: status.likes.counts.concat(),
         },
         favorites: {
             count: status.favorites.count,
-            users: [],
-            user_ids: status.favorites.user_ids.concat(),
+            users: status.favorites.users.map((user) => copy_user(user)),
+            user_ids: status.favorites.user_ids
+                ? status.favorites.user_ids.concat()
+                : status.favorites.users.map((user) => user.id),
         },
     }
 }
@@ -197,7 +203,10 @@ export function copy_statuses(statuses: Map<StatusObjectT>) {
     return ret
 }
 
-function copy_user(user: UserObjectT) {
+function copy_user(user: UserObjectT | null): UserObjectT {
+    if (user === null) {
+        return null
+    }
     return {
         id: user.id,
         name: user.name,
@@ -231,7 +240,10 @@ export function copy_users(users: Map<UserObjectT>) {
     return ret
 }
 
-function copy_channel(channel: ChannelObjectT) {
+function copy_channel(channel: ChannelObjectT | null): ChannelObjectT {
+    if (channel === null) {
+        return null
+    }
     return {
         id: channel.id,
         name: channel.name,
@@ -241,10 +253,10 @@ function copy_channel(channel: ChannelObjectT) {
         },
         created_at: channel.created_at,
         creator_id: channel.creator_id,
-        creator: null,
+        creator: copy_user(channel.creator),
         public: channel.public,
         community_id: channel.community_id,
-        community: null,
+        community: copy_community(channel.community),
     }
 }
 
@@ -258,22 +270,29 @@ export function copy_channels(channels: Map<ChannelObjectT>) {
     return ret
 }
 
+function copy_community(community: CommunityObjectT | null): CommunityObjectT {
+    if (community === null) {
+        return null
+    }
+    return {
+        id: community.id,
+        name: community.name,
+        description: community.description,
+        stats: {
+            statuses_count: community.stats.statuses_count,
+            channels_count: community.stats.channels_count,
+        },
+        created_at: community.created_at,
+        creator_id: community.creator_id,
+        creator: copy_user(community.creator),
+    }
+}
+
 export function copy_communities(communities: Map<CommunityObjectT>) {
     const ret = new Map<CommunityObjectT>()
     Object.keys(communities.data).forEach((community_id) => {
         const community = communities.get(community_id)
-        ret.set(community_id, {
-            id: community.id,
-            name: community.name,
-            description: community.description,
-            stats: {
-                statuses_count: community.stats.statuses_count,
-                channels_count: community.stats.channels_count,
-            },
-            created_at: community.created_at,
-            creator_id: community.creator_id,
-            creator: null,
-        })
+        ret.set(community_id, copy_community(community))
     })
     ret.lastModified = communities.lastModified
     return ret
@@ -294,18 +313,18 @@ export async function fetch<T>(
         blockedUserIds: new StringSet(prevDomainData.blockedUserIds),
     }
     if (response.status) {
-        nextDomainData = normalize_status(response.status, nextDomainData)
+        nextDomainData = normalize_status(copy_status(response.status), nextDomainData)
     }
     if (response.user) {
-        nextDomainData = normalize_user(response.user, nextDomainData)
+        nextDomainData = normalize_user(copy_user(response.user), nextDomainData)
     }
     if (response.statuses) {
         response.statuses.forEach((status) => {
-            nextDomainData = normalize_status(status, nextDomainData)
+            nextDomainData = normalize_status(copy_status(status), nextDomainData)
         })
     }
     if (response.channel) {
-        nextDomainData = normalize_channel(response.channel, nextDomainData)
+        nextDomainData = normalize_channel(copy_channel(response.channel), nextDomainData)
     }
 
     return [nextDomainData, response]

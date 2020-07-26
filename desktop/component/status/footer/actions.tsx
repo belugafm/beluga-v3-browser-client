@@ -2,7 +2,7 @@ import { CommonPropsT } from "../types"
 import MenuComponent from "./menu"
 
 export default (props: CommonPropsT) => {
-    const { status, statusActions: statusActions, loggedInUser } = props
+    const { status, statusActions: statusActions, chatActions, loggedInUser } = props
     return (
         <>
             <div className="buttons">
@@ -22,6 +22,13 @@ export default (props: CommonPropsT) => {
                         ふぁぼ
                     </span>
                 )}
+                <span
+                    className="action create-like"
+                    onClick={(event) => {
+                        chatActions.thread.open(status)
+                    }}>
+                    コメント
+                </span>
                 {loggedInUser && loggedInUser.id === status.user_id ? (
                     <span className="action destroy" onClick={statusActions.destroy(status)}>
                         削除

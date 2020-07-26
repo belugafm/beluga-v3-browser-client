@@ -5,7 +5,7 @@ import { Response } from "../../api"
 import { useLoggedInUser } from "../session"
 import { ChatState, ReducerMethodT } from "./state"
 import { websocket } from "./websocket"
-import { ChannelObjectT } from "../../api/object"
+import { ChannelObjectT, StatusObjectT } from "../../api/object"
 
 const state = new ChatState()
 
@@ -64,6 +64,9 @@ export type ChatActionsT = {
     channel: {
         open: (channel: ChannelObjectT, insertColumnIndex?: number) => void
     }
+    thread: {
+        open: (status: StatusObjectT, insertColumnIndex?: number) => void
+    }
 }
 
 export const ChatActions = createContext({
@@ -88,6 +91,14 @@ export const useChatActions = ({ reducer, orderedReducers }: ReducersT): ChatAct
             open: (channel: ChannelObjectT, insertColumnIndex?: number) => {
                 reduce(reducer_methods.columns.channel.create, {
                     channelId: channel.id,
+                    columnIndex: insertColumnIndex,
+                })
+            },
+        },
+        thread: {
+            open: (status: StatusObjectT, insertColumnIndex?: number) => {
+                reduce(reducer_methods.columns.thread.create, {
+                    statusId: status.id,
                     columnIndex: insertColumnIndex,
                 })
             },

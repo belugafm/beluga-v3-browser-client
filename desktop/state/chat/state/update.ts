@@ -1,38 +1,7 @@
-import { DomainDataT, DomainDataSetActionT } from "./state/data"
-import { AppStateT, AppStateSetActionT } from "./state/app"
+import { DomainDataT, DomainDataSetActionT } from "./data"
+import { AppStateT, AppStateSetActionT } from "./app"
 import equals from "deep-equal"
-import { createContext } from "react"
-import { Response } from "../../api"
-
-export type StoreT = {
-    domainData: DomainDataT
-    appState: AppStateT
-}
-
-export type ReducersT = {
-    reducer: ReducerT
-    orderedReducers: OrderedReducerT
-}
-
-export type StoreSetActionsT = {
-    domainData: DomainDataSetActionT
-    appState: AppStateSetActionT
-}
-
-export type ReducerT = (
-    method: (storeData: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
-    query: Record<string, any>
-) => Promise<Response | null>
-
-export type OrderedReducerT = (
-    reducers: {
-        method: (
-            storeData: StoreT,
-            query: Record<string, any>
-        ) => Promise<[StoreT, Response | null]>
-        query: Record<string, any>
-    }[]
-) => Promise<void>
+import { StoreSetActionsT, StoreT } from "./reducer"
 
 function updateDomainData(
     setActions: DomainDataSetActionT,
@@ -59,7 +28,7 @@ function updateDomainData(
         setActions.setMutedUserIds(nextDomainData.mutedUserIds)
     }
     if (nextDomainData.blockedUserIds.equals(prevDomainData.blockedUserIds) !== true) {
-        setActions.setMutedUserIds(nextDomainData.blockedUserIds)
+        setActions.setBlockedUserIds(nextDomainData.blockedUserIds)
     }
 }
 
@@ -82,13 +51,3 @@ export const udpateStore = (
     updateAppState(storeSetActions.appState, prevStore.appState, nextStore.appState)
     return nextStore
 }
-
-const context: {
-    reducer: ReducerT
-    orderedReducers: OrderedReducerT
-} = {
-    reducer: null,
-    orderedReducers: null,
-}
-
-export const ChatReducerContext = createContext(context)

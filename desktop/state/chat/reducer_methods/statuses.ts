@@ -1,4 +1,4 @@
-import { StoreT } from "../reducer"
+import { StoreT } from "../state/reducer"
 import * as WebAPI from "../../../api"
 import { fetch, copy_statuses, DomainDataT } from "../state/data"
 

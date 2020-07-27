@@ -1,9 +1,10 @@
 import { useState, createContext } from "react"
 import * as reducer_methods from "./reducer_methods"
-import { ReducersT } from "./reducer"
+import { ReducersT } from "./state/reducer"
 import { Response } from "../../api"
 import { useLoggedInUser } from "../session"
-import { ChatState, ReducerMethodT } from "./state"
+import { ChatState } from "./state"
+import { ReducerMethodT } from "./state/reducer"
 import { websocket } from "./websocket"
 import { ChannelObjectT, StatusObjectT } from "../../api/object"
 

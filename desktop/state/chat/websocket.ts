@@ -1,8 +1,7 @@
-import { ReducersT } from "./reducer"
+import { ReducersT, ReducerMethodT } from "./state/reducer"
 import * as reducer_methods from "./reducer_methods"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
-import { ReducerMethodT } from "./state"
 import { Response } from "../../api"
 
 type WebsocketMessage = {

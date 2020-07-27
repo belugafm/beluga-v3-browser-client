@@ -1,9 +1,8 @@
 import { useChatAppState } from "./app"
 import { useChatDomainData } from "./data"
-import { StoreT, udpateStore, StoreSetActionsT } from "../reducer"
+import { StoreT, StoreSetActionsT, ReducerMethodT } from "./reducer"
+import { udpateStore } from "./update"
 import { Response } from "../../../api"
-
-export type ReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 
 export class ChatState {
     currentStore: StoreT = null

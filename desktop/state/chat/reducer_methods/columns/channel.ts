@@ -1,6 +1,6 @@
 import { ColumnTypes, ColumnStateT, AppStateT } from "../../state/app"
 import { DomainDataT, fetch } from "../../state/data"
-import { StoreT } from "../../reducer"
+import { StoreT } from "../../state/reducer"
 import * as WebAPI from "../../../../api"
 import { ChannelObjectT, StatusObjectT } from "../../../../api/object"
 import equals from "deep-equal"

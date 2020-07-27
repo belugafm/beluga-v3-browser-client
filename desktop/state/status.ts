@@ -1,9 +1,8 @@
 import { createContext, MouseEvent } from "react"
 import { StatusObjectT, UserObjectT } from "../api/object"
 import * as reducers from "./chat/reducer_methods"
-import { ReducersT } from "./chat/reducer"
+import { ReducersT, ReducerMethodT } from "./chat/state/reducer"
 import { Response } from "../api"
-import { ReducerMethodT } from "./chat/state"
 
 export const useStatusActions = ({ reducer, orderedReducers }: ReducersT): StatusActionsT => {
     function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {

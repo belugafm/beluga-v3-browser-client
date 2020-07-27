@@ -7,7 +7,7 @@ export default (props: CommonPropsT) => {
     return (
         <div>
             <UserComponent {...props} />
-            <a href={`${config.server.get_base_url()}/status/${status.id}`}>.</a>
+            <a href={`${config.server.getBaseUrl()}/status/${status.id}`}>.</a>
         </div>
     )
 }

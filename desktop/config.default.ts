@@ -2,16 +2,16 @@ const config: {
     server: {
         domain: string
         https: boolean
-        get_base_url: () => string
+        getBaseUrl: () => string
     }
     websocket: {
         uri: string
     }
-    site_name: string
+    siteName: string
     markdown: {
         code: string
         big: string
-        inline_code: string
+        inlineCode: string
         italic: string
         underline: string
         bold: string
@@ -21,7 +21,7 @@ const config: {
     server: {
         domain: "localhost.beluga.fm",
         https: false,
-        get_base_url: () => {
+        getBaseUrl: () => {
             if (config.server.https) {
                 return `https://${config.server.domain}`
             } else {
@@ -32,11 +32,11 @@ const config: {
     websocket: {
         uri: "ws://localhost.beluga.fm:9001",
     },
-    site_name: "Beluga",
+    siteName: "Beluga",
     markdown: {
         code: "```",
         big: "++",
-        inline_code: "`",
+        inlineCode: "`",
         italic: "*",
         underline: "__",
         bold: "**",

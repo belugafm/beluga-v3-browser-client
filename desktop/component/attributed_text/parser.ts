@@ -105,7 +105,7 @@ const getEntityTypeByMarkdown = (markdown: string): string => {
     if (markdown === config.markdown.code) {
         return AttributedTextType.MarkdownCode
     }
-    if (markdown === config.markdown.inline_code) {
+    if (markdown === config.markdown.inlineCode) {
         return AttributedTextType.MarkdownInlineCode
     }
     if (markdown === config.markdown.italic) {
@@ -126,7 +126,7 @@ const splitTextIntoEntitiesBySingleLineMarkdown = (
 ): AttributedText[] => {
     const sequence: AttributedText[] = []
     const mk = config.markdown
-    const base = `(${e(mk.big)}|${e(mk.bold)}|${e(mk.inline_code)}|${e(mk.italic)}|${e(
+    const base = `(${e(mk.big)}|${e(mk.bold)}|${e(mk.inlineCode)}|${e(mk.italic)}|${e(
         mk.strikethrough
     )}|${e(mk.underline)})(.+)`
     const pattern = new RegExp(
@@ -432,7 +432,7 @@ export const splitTextIntoAtributedTextSequence = (
     sequence = applySplitOperatorToTextEntities(sequence, splitTextIntoEntitiesByLineBreaks)
 
     const pattern_markdown = new RegExp(
-        `${e(mk.big)}|${e(mk.bold)}|${e(mk.inline_code)}|${e(mk.italic)}|${e(mk.strikethrough)}|${e(
+        `${e(mk.big)}|${e(mk.bold)}|${e(mk.inlineCode)}|${e(mk.italic)}|${e(mk.strikethrough)}|${e(
             mk.underline
         )}`
     )

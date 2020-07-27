@@ -45,17 +45,15 @@ export class ChatState {
             query: T
         }[]
     ): Promise<void> => {
-        const prevStore = this.currentStore
         try {
             for (let index = 0; index < reducers.length; index++) {
                 const { method, query } = reducers[index]
                 const [nextStore] = await method(this.currentStore, query)
-                this.currentStore = nextStore
+                this.currentStore = udpateStore(this.storeSetActions, this.currentStore, nextStore)
             }
         } catch (error) {
             console.error(error)
             alert(error)
         }
-        udpateStore(this.storeSetActions, prevStore, this.currentStore)
     }
 }

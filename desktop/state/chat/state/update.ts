@@ -1,8 +1,7 @@
-import { DomainDataSetActionT } from "./data"
 import { AppStateT, AppStateSetActionT } from "./app"
 import equals from "deep-equal"
 import { StoreSetActionsT, StoreT } from "./reducer"
-import { DomainDataT } from "./data/types"
+import { DomainDataT, DomainDataSetActionT } from "./data/types"
 
 function updateDomainData(
     setActions: DomainDataSetActionT,

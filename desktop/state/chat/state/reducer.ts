@@ -1,8 +1,7 @@
-import { DomainDataSetActionT } from "./data"
 import { AppStateT, AppStateSetActionT } from "./app"
 import { createContext } from "react"
 import { Response } from "../../../api"
-import { DomainDataT } from "./data/types"
+import { DomainDataT, DomainDataSetActionT } from "./data/types"
 
 export type StoreT = {
     domainData: DomainDataT

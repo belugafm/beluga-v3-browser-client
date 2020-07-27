@@ -1,7 +1,7 @@
-import { createContext, useState, Dispatch, SetStateAction } from "react"
+import { createContext, useState } from "react"
 import { StatusObjectT, UserObjectT, ChannelObjectT, CommunityObjectT } from "../../../api/object"
 import { Response } from "../../../api"
-import { DomainDataT, StringSet, ObjectMap } from "./data/types"
+import { DomainDataT, StringSet, ObjectMap, DomainDataSetActionT } from "./data/types"
 import copy from "./data/copy"
 import normalize from "./data/normalize"
 
@@ -46,15 +46,6 @@ export async function fetch<T>(
     }
 
     return [nextDomainData, response]
-}
-
-export type DomainDataSetActionT = {
-    setStatuses: Dispatch<SetStateAction<ObjectMap<StatusObjectT>>>
-    setUsers: Dispatch<SetStateAction<ObjectMap<UserObjectT>>>
-    setChannels: Dispatch<SetStateAction<ObjectMap<ChannelObjectT>>>
-    setCommunities: Dispatch<SetStateAction<ObjectMap<CommunityObjectT>>>
-    setMutedUserIds: Dispatch<SetStateAction<StringSet>>
-    setBlockedUserIds: Dispatch<SetStateAction<StringSet>>
 }
 
 export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {

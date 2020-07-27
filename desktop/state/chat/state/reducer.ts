@@ -1,16 +1,12 @@
-import { DomainDataT, DomainDataSetActionT } from "./data"
+import { DomainDataSetActionT } from "./data"
 import { AppStateT, AppStateSetActionT } from "./app"
 import { createContext } from "react"
 import { Response } from "../../../api"
+import { DomainDataT } from "./data/types"
 
 export type StoreT = {
     domainData: DomainDataT
     appState: AppStateT
-}
-
-export type ReducersT = {
-    reducer: ReducerT
-    orderedReducers: OrderedReducerT
 }
 
 export type StoreSetActionsT = {
@@ -32,6 +28,11 @@ export type OrderedReducerT = (
         query: Record<string, any>
     }[]
 ) => Promise<void>
+
+export type ReducersT = {
+    reducer: ReducerT
+    orderedReducers: OrderedReducerT
+}
 
 export type ReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 

@@ -1,6 +1,8 @@
 import { StoreT } from "../state/reducer"
 import * as WebAPI from "../../../api"
-import { fetch, copy_statuses, DomainDataT } from "../state/data"
+import { fetch } from "../state/data"
+import copy from "../state/data/copy"
+import { DomainDataT } from "../state/data/types"
 
 const show = async (
     store: StoreT,
@@ -64,7 +66,7 @@ const mark_as_deleted = async (
         }
     }
     const nextDomainData: DomainDataT = {
-        statuses: copy_statuses(store.domainData.statuses),
+        statuses: copy.statuses(store.domainData.statuses),
         users: store.domainData.users,
         channels: store.domainData.channels,
         communities: store.domainData.communities,

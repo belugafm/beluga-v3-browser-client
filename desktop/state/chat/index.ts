@@ -7,6 +7,7 @@ import { ChatState } from "./state"
 import { ReducerMethodT } from "./state/reducer"
 import { websocket } from "./websocket"
 import { ChannelObjectT, StatusObjectT } from "../../api/object"
+import { AppStateT } from "./state/app"
 
 const state = new ChatState()
 
@@ -25,9 +26,13 @@ export const useChatStore = ({
     const [needsInitialize, setNeedsInitialize] = useState(true)
     const { loggedInUser } = useLoggedInUser()
 
-    websocket.use(loggedInUser, {
-        reducer: state.reducer,
-        orderedReducers: state.orderedReducers,
+    websocket.use({
+        loggedInUser,
+        reducers: {
+            reducer: state.reducer,
+            orderedReducers: state.orderedReducers,
+        },
+        appState: store.appState,
     })
 
     if (needsInitialize) {
@@ -37,7 +42,7 @@ export const useChatStore = ({
                     method: reducer_methods.columns.channel.create,
                     query: {
                         channelId: context.channelId,
-                        columnIndex: 0,
+                        insertColumnAfter: 0,
                     },
                 },
             ])
@@ -63,10 +68,10 @@ export type ChatActionsT = {
         close: (columnIndex: number) => void
     }
     channel: {
-        open: (channel: ChannelObjectT, insertColumnIndex?: number) => void
+        open: (channel: ChannelObjectT, insertColumnAfter?: number) => void
     }
     thread: {
-        open: (status: StatusObjectT, insertColumnIndex?: number) => void
+        open: (status: StatusObjectT, insertColumnAfter?: number) => void
     }
 }
 
@@ -82,9 +87,15 @@ export const ChatActions = createContext({
     },
 })
 
-export const useChatActions = ({ reducer, orderedReducers }: ReducersT): ChatActionsT => {
+export const useChatActions = ({
+    appState,
+    reducers,
+}: {
+    appState: AppStateT
+    reducers: ReducersT
+}): ChatActionsT => {
     function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
-        return reducer(method, query)
+        return reducers.reducer(method, query)
     }
 
     return {
@@ -92,18 +103,18 @@ export const useChatActions = ({ reducer, orderedReducers }: ReducersT): ChatAct
             close: (columnIndex: number) => {},
         },
         channel: {
-            open: (channel: ChannelObjectT, insertColumnIndex?: number) => {
+            open: (channel: ChannelObjectT, insertColumnAfter?: number) => {
                 reduce(reducer_methods.columns.channel.create, {
                     channelId: channel.id,
-                    columnIndex: insertColumnIndex,
+                    insertColumnAfter: insertColumnAfter,
                 })
             },
         },
         thread: {
-            open: (status: StatusObjectT, insertColumnIndex?: number) => {
+            open: (status: StatusObjectT, insertColumnAfter?: number) => {
                 reduce(reducer_methods.columns.thread.create, {
                     statusId: status.id,
-                    columnIndex: insertColumnIndex,
+                    insertColumnAfter: insertColumnAfter,
                 })
             },
         },

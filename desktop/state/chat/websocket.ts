@@ -1,8 +1,9 @@
-import { ReducersT, ReducerMethodT } from "./state/reducer"
+import { ReducersT, ReducerMethodT, OrderedReducerT } from "./state/reducer"
 import * as reducer_methods from "./reducer_methods"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
 import { Response } from "../../api"
+import { AppStateT, ColumnTypes } from "./state/app"
 
 type WebsocketMessage = {
     operation: string
@@ -20,6 +21,7 @@ class WebSocketState {
     uri: string
     ws: WebSocket = null
     reducers: ReducersT
+    appState: AppStateT
     loggedInUser: UserObjectT
     eventListeners: {
         type: keyof WebSocketEventMap
@@ -28,8 +30,17 @@ class WebSocketState {
     constructor(uri: string) {
         this.uri = uri
     }
-    use(loggedInUser: UserObjectT, reducers: ReducersT) {
+    use({
+        reducers,
+        appState,
+        loggedInUser,
+    }: {
+        reducers: ReducersT
+        appState: AppStateT
+        loggedInUser: UserObjectT
+    }) {
         this.reducers = reducers
+        this.appState = appState
         this.loggedInUser = loggedInUser
         if (this.ws === null) {
             this.connect()
@@ -58,13 +69,13 @@ class WebSocketState {
             console.info("open websocket")
         })
         this.addEventListener("close", (event) => {
-            console.info("close websocket")
+            console.info("close websocket", event)
             setTimeout(() => {
                 this.connect()
             }, 2000)
         })
         this.addEventListener("error", (event) => {
-            console.info("error websocket")
+            console.info("error websocket", event)
             this.ws.close()
         })
         this.addEventListener("message", (event) => {
@@ -86,9 +97,18 @@ class WebSocketState {
                                 this.reduce(reducer_methods.columns.thread.updateTimeline, {
                                     statusId: thread_status_id,
                                 })
-                            } else if (channel_id) {
-                                this.reduce(reducer_methods.columns.channel.updateTimeline, {
-                                    channelId: channel_id,
+                            }
+                            if (channel_id) {
+                                this.appState.columns.forEach((column) => {
+                                    if (column.type !== ColumnTypes.Channel) {
+                                        return
+                                    }
+                                    if (column.context.channelId === channel_id) {
+                                        this.reduce(
+                                            reducer_methods.columns.channel.updateTimeline,
+                                            column
+                                        )
+                                    }
                                 })
                             }
                         }

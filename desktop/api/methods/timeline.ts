@@ -6,6 +6,7 @@ async function channel(query: {
     maxId?: string
     sinceDate?: string
     untilDate?: string
+    includeComments?: boolean
 }): Promise<Response> {
     const responce = await get("timeline/channel", {
         channel_id: query.channelId,
@@ -13,6 +14,7 @@ async function channel(query: {
         max_id: query.maxId,
         since_date: query.sinceDate,
         until_date: query.untilDate,
+        include_comments: !!query.includeComments,
     })
     if (responce.statuses == null) {
         throw new UnexpectedResponseError()

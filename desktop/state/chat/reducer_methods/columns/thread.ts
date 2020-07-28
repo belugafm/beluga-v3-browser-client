@@ -1,9 +1,10 @@
 import { ColumnTypes, ColumnStateT, AppStateT } from "../../state/app"
-import { DomainDataT, fetch } from "../../state/data"
+import { fetch } from "../../state/data"
 import { StoreT } from "../../state/reducer"
 import * as WebAPI from "../../../../api"
 import { StatusObjectT } from "../../../../api/object"
 import equals from "deep-equal"
+import { DomainDataT } from "../../state/data/types"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -47,7 +48,7 @@ export const create = async (
     store: StoreT,
     query: {
         statusId: string
-        columnIndex?: number
+        insertColumnAfter?: number
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await _fetch(store.domainData, {
@@ -55,7 +56,7 @@ export const create = async (
     })
     const { status, statuses } = response
     const { channel } = status
-    const columnIndex = query.columnIndex ? query.columnIndex : store.appState.columns.length
+    const columnIndex = store.appState.columns.length
 
     const column: ColumnStateT = {
         index: columnIndex,
@@ -78,9 +79,22 @@ export const create = async (
         },
     }
 
-    const nextAppState: AppStateT = {
-        columns: store.appState.columns.concat(column),
+    const insertColumnAfter = Number.isInteger(query.insertColumnAfter)
+        ? query.insertColumnAfter
+        : columnIndex
+    const nextColumns = []
+    for (let index = 0; index <= insertColumnAfter; index++) {
+        nextColumns.push(store.appState.columns[index])
     }
+    nextColumns.push(column)
+    for (let index = insertColumnAfter + 1; index < store.appState.columns.length; index++) {
+        nextColumns.push(store.appState.columns[index])
+    }
+
+    const nextAppState: AppStateT = {
+        columns: nextColumns,
+    }
+
     return [
         {
             domainData: nextDomainData,

@@ -1,13 +1,14 @@
 import { ColumnTypes, ColumnStateT, AppStateT } from "../../state/app"
-import { DomainDataT, fetch } from "../../state/data"
+import { fetch } from "../../state/data"
+import { DomainDataT } from "../../state/data/types"
 import { StoreT } from "../../state/reducer"
 import * as WebAPI from "../../../../api"
 import { ChannelObjectT, StatusObjectT } from "../../../../api/object"
-import equals from "deep-equal"
 
 const _fetch = (
     prevDomainData: DomainDataT,
-    query: Parameters<typeof WebAPI.channels.show>[0]
+    query: Parameters<typeof WebAPI.channels.show>[0] &
+        Parameters<typeof WebAPI.timeline.channel>[0]
 ): Promise<
     [
         DomainDataT,
@@ -26,6 +27,7 @@ const _fetch = (
                 const { channel } = response
                 fetch(prevDomainData, WebAPI.timeline.channel, {
                     channelId: query.channelId,
+                    includeComments: !!query.includeComments,
                 })
                     .then(([nextDomainData, response]) => {
                         const { statuses } = response
@@ -47,14 +49,16 @@ export const create = async (
     store: StoreT,
     query: {
         channelId: string
-        columnIndex?: number
+        insertColumnAfter?: number
     }
 ): Promise<[StoreT, WebAPI.Response | null]> => {
-    const [nextDomainData, response] = await _fetch(store.domainData, {
+    const timelineQuery = {
         channelId: query.channelId,
-    })
+        includeComments: true,
+    }
+    const [nextDomainData, response] = await _fetch(store.domainData, timelineQuery)
     const { channel, statuses } = response
-    const columnIndex = query.columnIndex ? query.columnIndex : store.appState.columns.length
+    const columnIndex = store.appState.columns.length
 
     const column: ColumnStateT = {
         index: columnIndex,
@@ -71,15 +75,26 @@ export const create = async (
         },
         timeline: {
             statusIds: statuses.map((status) => status.id),
-            query: {
-                channelId: channel.id,
-            },
+            query: timelineQuery,
         },
     }
 
-    const nextAppState: AppStateT = {
-        columns: store.appState.columns.concat(column),
+    const insertColumnAfter = Number.isInteger(query.insertColumnAfter)
+        ? query.insertColumnAfter
+        : columnIndex
+    const nextColumns = []
+    for (let index = 0; index < insertColumnAfter; index++) {
+        nextColumns.push(store.appState.columns[index])
     }
+    nextColumns.push(column)
+    for (let index = insertColumnAfter; index < store.appState.columns.length; index++) {
+        nextColumns.push(store.appState.columns[index])
+    }
+
+    const nextAppState: AppStateT = {
+        columns: nextColumns,
+    }
+
     return [
         {
             domainData: nextDomainData,
@@ -89,18 +104,23 @@ export const create = async (
     ]
 }
 
+function findColumnByIndex(columns: ColumnStateT[], index: number): ColumnStateT | null {
+    for (let n = 0; n < columns.length; n++) {
+        const column = columns[n]
+        if (column.index === index) {
+            return column
+        }
+    }
+    return null
+}
+
 export const updateTimeline = async (
     store: StoreT,
-    query: {
-        channelId?: string
-        maxId?: string
-        sinceId?: string
-        maxDate?: string
-        untilDate?: string
-    }
+    prevTargetColumn: ColumnStateT
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
-        channelId: query.channelId,
+        channelId: prevTargetColumn.timeline.query.channelId,
+        includeComments: !!prevTargetColumn.timeline.query.includeComments,
     })
     const { statuses } = response
 
@@ -123,16 +143,10 @@ export const updateTimeline = async (
             }
         ),
     }
-
-    nextAppState.columns.forEach((column) => {
-        if (column.type !== ColumnTypes.Channel) {
-            return
-        }
-        if (equals(query, column.timeline.query) !== true) {
-            return
-        }
-        column.timeline.statusIds = statuses.map((status) => status.id)
-    })
+    const nextTargetColumn = findColumnByIndex(nextAppState.columns, prevTargetColumn.index)
+    if (nextTargetColumn) {
+        nextTargetColumn.timeline.statusIds = statuses.map((status) => status.id)
+    }
 
     return [
         {

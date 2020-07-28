@@ -1,5 +1,5 @@
 import { UserObjectT } from "../../../api/object"
-import { DomainDataT } from "../../../state/chat/state/data"
+import { DomainDataT } from "../../../state/chat/state/data/types"
 
 function sum(array: number[]) {
     if (array.length == 0) {

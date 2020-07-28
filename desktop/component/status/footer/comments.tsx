@@ -1,4 +1,4 @@
-import { DomainDataT } from "../../../state/chat/state/data"
+import { DomainDataT } from "../../../state/chat/state/data/types"
 
 export default ({ count, domainData }: { count: number; domainData: DomainDataT }) => {
     if (count == 0) {

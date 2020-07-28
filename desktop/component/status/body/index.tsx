@@ -34,7 +34,7 @@ export default React.memo(
                 options={defaultOption}
                 callbacks={{
                     handleClickChannel: async (channel: ChannelObjectT) => {
-                        chatActions.channel.open(channel, column.index + 1)
+                        chatActions.channel.open(channel, column.index)
                     },
                     handleClickStatus: async (status: StatusObjectT) => {},
                     handleClickUser: async (user: UserObjectT) => {},

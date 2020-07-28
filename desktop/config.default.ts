@@ -30,7 +30,7 @@ const config: {
         },
     },
     websocket: {
-        uri: "ws://localhost.beluga.fm:9001",
+        uri: "ws://localhost.beluga.fm/ws/",
     },
     siteName: "Beluga",
     markdown: {

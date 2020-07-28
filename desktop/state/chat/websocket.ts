@@ -94,8 +94,16 @@ class WebSocketState {
                         if (status) {
                             const { channel_id, community_id, thread_status_id } = status
                             if (thread_status_id) {
-                                this.reduce(reducer_methods.columns.thread.updateTimeline, {
-                                    statusId: thread_status_id,
+                                this.appState.columns.forEach((column) => {
+                                    if (column.type !== ColumnTypes.Thread) {
+                                        return
+                                    }
+                                    if (column.context.statusId === thread_status_id) {
+                                        this.reduce(
+                                            reducer_methods.columns.thread.updateTimeline,
+                                            column
+                                        )
+                                    }
                                 })
                             }
                             if (channel_id) {

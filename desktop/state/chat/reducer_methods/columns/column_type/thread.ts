@@ -1,0 +1,126 @@
+import { ColumnTypes, ColumnStateT, AppStateT } from "../../../state/app"
+import { fetch } from "../../../state/data"
+import { StoreT } from "../../../state/reducer"
+import * as WebAPI from "../../../../../api"
+import { StatusObjectT } from "../../../../../api/object"
+import { DomainDataT } from "../../../state/data/types"
+import { AbstractColumnActions } from "../class"
+
+const _fetch = (
+    prevDomainData: DomainDataT,
+    query: Parameters<typeof WebAPI.statuses.show>[0]
+): Promise<
+    [
+        DomainDataT,
+        {
+            status: StatusObjectT
+            statuses: StatusObjectT[]
+        }
+    ]
+> => {
+    return new Promise((resolve, reject) => {
+        fetch(prevDomainData, WebAPI.statuses.show, {
+            statusId: query.statusId,
+        })
+            .then(([nextDomainData, response]) => {
+                const prevDomainData = nextDomainData
+                const { status } = response
+                fetch(prevDomainData, WebAPI.timeline.thread, {
+                    statusId: query.statusId,
+                })
+                    .then(([nextDomainData, response]) => {
+                        const { statuses } = response
+                        resolve([
+                            nextDomainData,
+                            {
+                                status,
+                                statuses,
+                            },
+                        ])
+                    })
+                    .catch((error) => reject(error))
+            })
+            .catch((error) => reject(error))
+    })
+}
+
+class ColumnActions extends AbstractColumnActions {
+    create = async (
+        store: StoreT,
+        query: {
+            statusId: string
+            insertColumnAfter?: number
+        }
+    ): Promise<[StoreT, WebAPI.Response | null]> => {
+        const [nextDomainData, response] = await _fetch(store.domainData, {
+            statusId: query.statusId,
+        })
+        const { status, statuses } = response
+        const { channel } = status
+        const columnKey = Date.now()
+
+        const column: ColumnStateT = {
+            id: columnKey,
+            type: ColumnTypes.Thread,
+            postbox: {
+                enabled: true,
+                query: {
+                    threadStatusId: status.id,
+                },
+            },
+            context: {
+                statusId: status.id,
+                communityId: channel.community_id,
+            },
+            options: {
+                showMutedStatuses: false,
+            },
+            timeline: {
+                statusIds: statuses.map((status) => status.id),
+                query: {
+                    statusId: query.statusId,
+                },
+            },
+        }
+
+        const nextAppState: AppStateT = {
+            columns: this.insert(column, store.appState.columns, query.insertColumnAfter),
+        }
+
+        return [
+            {
+                domainData: nextDomainData,
+                appState: nextAppState,
+            },
+            null,
+        ]
+    }
+
+    updateTimeline = async (
+        store: StoreT,
+        desiredColumn: ColumnStateT
+    ): Promise<[StoreT, WebAPI.Response | null]> => {
+        const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.thread, {
+            statusId: desiredColumn.timeline.query.statusId,
+        })
+        const { statuses } = response
+
+        const nextAppState: AppStateT = {
+            columns: this.copyColumns(store.appState.columns),
+        }
+        const nextTargetColumn = this.findByIndex(nextAppState.columns, desiredColumn.id)
+        if (nextTargetColumn) {
+            nextTargetColumn.timeline.statusIds = statuses.map((status) => status.id)
+        }
+
+        return [
+            {
+                domainData: nextDomainData,
+                appState: nextAppState,
+            },
+            response,
+        ]
+    }
+}
+
+export const thread = new ColumnActions()

@@ -17,7 +17,7 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     return (
         <>
             <div className="column">
-                <p>カラム{column.index}</p>
+                <p>カラム{column.id}</p>
                 <MenuComponent column={column} chatActions={chatActions} />
                 <PostboxComponent column={column} channelId={column.context.channelId} />
                 {column.timeline.statusIds.map((status_id, index) => {

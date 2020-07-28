@@ -38,7 +38,6 @@ export const useChatStore = ({
                     method: reducer_methods.columns.channel.create,
                     query: {
                         channelId: context.channelId,
-                        insertColumnAfter: 0,
                     },
                 },
             ])

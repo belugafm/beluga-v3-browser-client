@@ -7,7 +7,7 @@ import * as reducer_methods from "./reducer_methods"
 
 export type ChatActionsT = {
     column: {
-        close: (columnIndex: number) => void
+        close: (column: ColumnStateT) => void
         setTimelineQuery: (column: ColumnStateT, query: Record<string, any>) => void
         setOptions: (column: ColumnStateT, options: Record<string, any>) => void
     }
@@ -46,7 +46,14 @@ export const useChatActions = ({
 
     return {
         column: {
-            close: (columnIndex: number) => {},
+            close: (column: ColumnStateT) => {
+                if (column.type === ColumnTypes.Channel) {
+                    return reduce(reducer_methods.columns.channel.close, column)
+                }
+                if (column.type === ColumnTypes.Thread) {
+                    return reduce(reducer_methods.columns.thread.close, column)
+                }
+            },
             setTimelineQuery: (column: ColumnStateT, query: Record<string, any>) => {
                 if (column.type === ColumnTypes.Channel) {
                     return reduce(reducer_methods.columns.channel.setTimelineQuery, {
@@ -55,17 +62,25 @@ export const useChatActions = ({
                     })
                 }
                 if (column.type === ColumnTypes.Thread) {
-                    return reduce(reducer_methods.columns.channel.setTimelineQuery, {
+                    return reduce(reducer_methods.columns.thread.setTimelineQuery, {
                         column,
                         query,
                     })
                 }
             },
             setOptions: (column: ColumnStateT, options: ColumnStateT["options"]) => {
-                reduce(reducer_methods.columns.setOptions, {
-                    column,
-                    options,
-                })
+                if (column.type === ColumnTypes.Channel) {
+                    return reduce(reducer_methods.columns.channel.setOptions, {
+                        column,
+                        options,
+                    })
+                }
+                if (column.type === ColumnTypes.Thread) {
+                    return reduce(reducer_methods.columns.thread.setOptions, {
+                        column,
+                        options,
+                    })
+                }
             },
         },
         channel: {

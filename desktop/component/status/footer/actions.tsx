@@ -25,7 +25,7 @@ export default (props: CommonPropsT) => {
                 <span
                     className="action create-like"
                     onClick={(event) => {
-                        chatActions.thread.open(status, column.index)
+                        chatActions.thread.open(status, column.id)
                     }}>
                     コメント
                 </span>

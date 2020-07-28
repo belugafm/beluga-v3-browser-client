@@ -51,6 +51,13 @@ export default ({ column, chatActions }: { column: ColumnStateT; chatActions: Ch
                                     ミュート中のユーザーの投稿を表示する
                                 </li>
                             )}
+                            <li
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    chatActions.column.close(column)
+                                }}>
+                                閉じる
+                            </li>
                         </ul>
                     </div>
                 </div>

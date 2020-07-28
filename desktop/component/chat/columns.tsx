@@ -8,8 +8,8 @@ export const ChatColumnContainerComponent = () => {
     return (
         <div className="column-container">
             <>
-                {columns.map((column, index) => {
-                    return <ChatColumnComponent key={index} column={column} />
+                {columns.map((column) => {
+                    return <ChatColumnComponent key={column.id} column={column} />
                 })}
                 <ThemeSettingComponent />
             </>

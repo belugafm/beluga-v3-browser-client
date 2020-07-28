@@ -8,7 +8,7 @@ export const ColumnTypes = {
 } as const
 
 export type ColumnStateT = {
-    index: number
+    id: number
     type: keyof typeof ColumnTypes
     postbox: {
         enabled: boolean

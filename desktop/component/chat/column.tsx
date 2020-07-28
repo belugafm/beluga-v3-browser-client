@@ -5,7 +5,8 @@ import { ChatDomainDataContext } from "../../state/chat/state/data"
 import { StatusComponent } from "../status"
 import { StatusActions } from "../../state/status"
 import { useLoggedInUser } from "../../state/session"
-import { ChatActions } from "../../state/chat"
+import { ChatActions } from "../../state/chat/actions"
+import MenuComponent from "./column/menu"
 
 export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     console.info("ChatColumnComponent::render")
@@ -16,7 +17,8 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     return (
         <>
             <div className="column">
-                <p>{column.context.channelId}</p>
+                <p>カラム{column.index}</p>
+                <MenuComponent column={column} chatActions={chatActions} />
                 <PostboxComponent column={column} channelId={column.context.channelId} />
                 {column.timeline.statusIds.map((status_id, index) => {
                     const status = domainData.statuses.get(status_id)

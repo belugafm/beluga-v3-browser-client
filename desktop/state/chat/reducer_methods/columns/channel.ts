@@ -7,8 +7,7 @@ import { ChannelObjectT, StatusObjectT } from "../../../../api/object"
 
 const _fetch = (
     prevDomainData: DomainDataT,
-    query: Parameters<typeof WebAPI.channels.show>[0] &
-        Parameters<typeof WebAPI.timeline.channel>[0]
+    query: Parameters<typeof WebAPI.timeline.channel>[0]
 ): Promise<
     [
         DomainDataT,
@@ -147,6 +146,51 @@ export const updateTimeline = async (
     if (nextTargetColumn) {
         nextTargetColumn.timeline.statusIds = statuses.map((status) => status.id)
     }
+
+    return [
+        {
+            domainData: nextDomainData,
+            appState: nextAppState,
+        },
+        response,
+    ]
+}
+
+export const setTimelineQuery = async (
+    store: StoreT,
+    params: {
+        column: ColumnStateT
+        query: ColumnStateT["timeline"]["query"]
+    }
+): Promise<[StoreT, WebAPI.Response | null]> => {
+    const nextAppState: AppStateT = {
+        columns: store.appState.columns.map(
+            (column): ColumnStateT => {
+                return {
+                    index: column.index,
+                    type: column.type,
+                    postbox: {
+                        enabled: column.postbox.enabled,
+                        query: Object.assign({}, column.postbox.query),
+                    },
+                    timeline: {
+                        statusIds: column.timeline.statusIds.concat(),
+                        query: Object.assign({}, column.timeline.query),
+                    },
+                    context: Object.assign({}, column.context),
+                }
+            }
+        ),
+    }
+
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
+        channelId: params.query.channelId,
+        includeComments: !!params.query.includeComments,
+    })
+
+    const column = findColumnByIndex(nextAppState.columns, params.column.index)
+    column.timeline.query = params.query
+    column.timeline.statusIds = response.statuses.map((status) => status.id)
 
     return [
         {

@@ -21,6 +21,7 @@ const destroy = async (
     query: Parameters<typeof WebAPI.mutes.destroy>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, WebAPI.mutes.destroy, query)
+
     return [
         {
             domainData: nextDomainData,

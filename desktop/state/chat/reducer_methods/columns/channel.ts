@@ -53,7 +53,7 @@ export const create = async (
 ): Promise<[StoreT, WebAPI.Response | null]> => {
     const timelineQuery = {
         channelId: query.channelId,
-        includeComments: true,
+        includeComments: false,
     }
     const [nextDomainData, response] = await _fetch(store.domainData, timelineQuery)
     const { channel, statuses } = response
@@ -71,6 +71,9 @@ export const create = async (
         context: {
             channelId: channel.id,
             communityId: channel.community_id,
+        },
+        options: {
+            showMutedStatuses: false,
         },
         timeline: {
             statusIds: statuses.map((status) => status.id),
@@ -133,6 +136,9 @@ export const updateTimeline = async (
                         enabled: column.postbox.enabled,
                         query: Object.assign({}, column.postbox.query),
                     },
+                    options: {
+                        showMutedStatuses: column.options.showMutedStatuses,
+                    },
                     timeline: {
                         statusIds: column.timeline.statusIds.concat(),
                         query: Object.assign({}, column.timeline.query),
@@ -172,6 +178,9 @@ export const setTimelineQuery = async (
                     postbox: {
                         enabled: column.postbox.enabled,
                         query: Object.assign({}, column.postbox.query),
+                    },
+                    options: {
+                        showMutedStatuses: column.options.showMutedStatuses,
                     },
                     timeline: {
                         statusIds: column.timeline.statusIds.concat(),

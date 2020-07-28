@@ -30,6 +30,27 @@ export default ({ column, chatActions }: { column: ColumnStateT; chatActions: Ch
                                     コメントを含める
                                 </li>
                             )}
+                            {column.options.showMutedStatuses ? (
+                                <li
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        const newOptions = Object.assign({}, column.options)
+                                        newOptions.showMutedStatuses = false
+                                        chatActions.column.setOptions(column, newOptions)
+                                    }}>
+                                    ミュート中のユーザーの投稿を非表示にする
+                                </li>
+                            ) : (
+                                <li
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        const newOptions = Object.assign({}, column.options)
+                                        newOptions.showMutedStatuses = true
+                                        chatActions.column.setOptions(column, newOptions)
+                                    }}>
+                                    ミュート中のユーザーの投稿を表示する
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

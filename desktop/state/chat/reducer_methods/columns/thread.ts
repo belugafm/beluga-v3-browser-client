@@ -71,6 +71,9 @@ export const create = async (
             statusId: status.id,
             communityId: channel.community_id,
         },
+        options: {
+            showMutedStatuses: false,
+        },
         timeline: {
             statusIds: statuses.map((status) => status.id),
             query: {
@@ -128,6 +131,9 @@ export const updateTimeline = async (
                     postbox: {
                         enabled: column.postbox.enabled,
                         query: Object.assign({}, column.postbox.query),
+                    },
+                    options: {
+                        showMutedStatuses: false,
                     },
                     timeline: {
                         statusIds: column.timeline.statusIds.concat(),

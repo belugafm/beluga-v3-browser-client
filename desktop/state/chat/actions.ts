@@ -9,6 +9,7 @@ export type ChatActionsT = {
     column: {
         close: (columnIndex: number) => void
         setTimelineQuery: (column: ColumnStateT, query: Record<string, any>) => void
+        setOptions: (column: ColumnStateT, options: Record<string, any>) => void
     }
     channel: {
         open: (channel: ChannelObjectT, insertColumnAfter?: number) => void
@@ -22,6 +23,7 @@ export const ChatActions = createContext({
     column: {
         close: null,
         setTimelineQuery: null,
+        setOptions: null,
     },
     channel: {
         open: null,
@@ -58,6 +60,12 @@ export const useChatActions = ({
                         query,
                     })
                 }
+            },
+            setOptions: (column: ColumnStateT, options: ColumnStateT["options"]) => {
+                reduce(reducer_methods.columns.setOptions, {
+                    column,
+                    options,
+                })
             },
         },
         channel: {

@@ -63,6 +63,16 @@ export class ObjectMap<T> {
                 if (getUpdateTime(a) !== getUpdateTime(b)) {
                     throw new Error()
                 }
+                // authUserの操作による更新を検出
+                if (a.muted !== b.muted) {
+                    throw new Error()
+                }
+                if (a.blocked !== b.blocked) {
+                    throw new Error()
+                }
+                if (a.favorited !== b.favorited) {
+                    throw new Error()
+                }
             })
         } catch (error) {
             return false

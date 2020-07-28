@@ -5,9 +5,11 @@ import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../../api/object"
 
 export default React.memo(
     ({ status, domainData, chatActions, column }: CommonPropsT) => {
-        const user = domainData.users.get(status.user_id)
-        if (user.muted) {
-            return <div>ミュート中の投稿</div>
+        if (column.options.showMutedStatuses === false) {
+            const user = domainData.users.get(status.user_id)
+            if (user.muted) {
+                return <div>ミュート中の投稿</div>
+            }
         }
         const entities: StatusObjectT["entities"] = {
             channels: status.entities.channels.map((entity) => {
@@ -52,6 +54,12 @@ export default React.memo(
             return false
         }
         if (prevProps.status.text !== nextProps.status.text) {
+            return false
+        }
+        if (
+            prevProps.column.options.showMutedStatuses !==
+            nextProps.column.options.showMutedStatuses
+        ) {
             return false
         }
         return true

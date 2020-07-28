@@ -19,6 +19,9 @@ export type ColumnStateT = {
         channelId?: string
         statusId?: string
     }
+    options: {
+        showMutedStatuses: boolean
+    }
     timeline: {
         statusIds: string[]
         query: {

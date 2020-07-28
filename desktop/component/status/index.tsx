@@ -49,6 +49,12 @@ export const StatusComponent = React.memo(
         if (prevProps.status.text !== nextProps.status.text) {
             return false
         }
+        if (
+            prevProps.column.options.showMutedStatuses !==
+            nextProps.column.options.showMutedStatuses
+        ) {
+            return false
+        }
         return true
     }
 )

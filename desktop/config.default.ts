@@ -8,6 +8,9 @@ const config: {
         uri: string
     }
     siteName: string
+    timeline: {
+        maxNumStatuses: number
+    }
     markdown: {
         code: string
         big: string
@@ -33,6 +36,9 @@ const config: {
         uri: "ws://localhost.beluga.fm/ws/",
     },
     siteName: "Beluga",
+    timeline: {
+        maxNumStatuses: 10,
+    },
     markdown: {
         code: "```",
         big: "++",

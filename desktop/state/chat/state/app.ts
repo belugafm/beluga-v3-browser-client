@@ -32,6 +32,7 @@ export type ColumnStateT = {
             sinceId?: string
             maxDate?: number
             untilDate?: number
+            limit?: number
             includeComments?: boolean
         }
     }

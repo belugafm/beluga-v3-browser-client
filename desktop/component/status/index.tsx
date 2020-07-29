@@ -12,7 +12,7 @@ export const StatusComponent = React.memo(
             return null
         }
         return (
-            <div className="status">
+            <div className="status" status-id={status.id}>
                 <HeaderComponent {...props} />
                 <BodyComponent {...props} />
                 <FooterComponent {...props} />

@@ -5,6 +5,7 @@ import { StoreT } from "../../../state/reducer"
 import * as WebAPI from "../../../../../api"
 import { ChannelObjectT, StatusObjectT } from "../../../../../api/object"
 import { AbstractColumnActions } from "../class"
+import config from "../../../../../config"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -25,10 +26,16 @@ const _fetch = (
             .then(([nextDomainData, response]) => {
                 const prevDomainData = nextDomainData
                 const { channel } = response
-                fetch(prevDomainData, WebAPI.timeline.channel, {
-                    channelId: query.channelId,
-                    includeComments: !!query.includeComments,
-                })
+                fetch(
+                    prevDomainData,
+                    WebAPI.timeline.channel,
+                    Object.assign(
+                        {
+                            channelId: query.channelId,
+                        },
+                        query
+                    )
+                )
                     .then(([nextDomainData, response]) => {
                         const { statuses } = response
                         resolve([
@@ -48,14 +55,15 @@ const _fetch = (
 class ColumnActions extends AbstractColumnActions {
     create = async (
         store: StoreT,
-        query: {
+        params: {
             channelId: string
             insertColumnAfter?: number
         }
     ): Promise<[StoreT, WebAPI.Response | null]> => {
         const timelineQuery = {
-            channelId: query.channelId,
+            channelId: params.channelId,
             includeComments: false,
+            limit: config.timeline.maxNumStatuses,
         }
         const [nextDomainData, response] = await _fetch(store.domainData, timelineQuery)
         const { channel, statuses } = response
@@ -84,7 +92,7 @@ class ColumnActions extends AbstractColumnActions {
         }
 
         const nextAppState: AppStateT = {
-            columns: this.insert(column, store.appState.columns, query.insertColumnAfter),
+            columns: this.insert(column, store.appState.columns, params.insertColumnAfter),
         }
 
         return [
@@ -95,15 +103,49 @@ class ColumnActions extends AbstractColumnActions {
             null,
         ]
     }
+    setTimelineQuery = async (
+        store: StoreT,
+        params: {
+            column: ColumnStateT
+            query: ColumnStateT["timeline"]["query"]
+        }
+    ): Promise<[StoreT, WebAPI.Response | null]> => {
+        const nextAppState: AppStateT = {
+            columns: this.copyColumns(store.appState.columns),
+        }
 
+        const [nextDomainData, response] = await fetch(
+            store.domainData,
+            WebAPI.timeline.channel,
+            Object.assign({ channelId: params.query.channelId }, params.query)
+        )
+
+        const column = this.findByIndex(nextAppState.columns, params.column.id)
+        column.timeline.query = params.query
+        column.timeline.statusIds = response.statuses.map((status) => status.id)
+
+        return [
+            {
+                domainData: nextDomainData,
+                appState: nextAppState,
+            },
+            response,
+        ]
+    }
     updateTimeline = async (
         store: StoreT,
         desiredColumn: ColumnStateT
     ): Promise<[StoreT, WebAPI.Response | null]> => {
-        const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
-            channelId: desiredColumn.timeline.query.channelId,
-            includeComments: !!desiredColumn.timeline.query.includeComments,
-        })
+        const [nextDomainData, response] = await fetch(
+            store.domainData,
+            WebAPI.timeline.channel,
+            Object.assign(
+                {
+                    channelId: desiredColumn.timeline.query.channelId,
+                },
+                desiredColumn.timeline.query
+            )
+        )
         const { statuses } = response
 
         const nextAppState: AppStateT = {

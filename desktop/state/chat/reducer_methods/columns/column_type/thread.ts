@@ -25,9 +25,16 @@ const _fetch = (
             .then(([nextDomainData, response]) => {
                 const prevDomainData = nextDomainData
                 const { status } = response
-                fetch(prevDomainData, WebAPI.timeline.thread, {
-                    statusId: query.statusId,
-                })
+                fetch(
+                    prevDomainData,
+                    WebAPI.timeline.thread,
+                    Object.assign(
+                        {
+                            statusId: query.statusId,
+                        },
+                        query
+                    )
+                )
                     .then(([nextDomainData, response]) => {
                         const { statuses } = response
                         resolve([
@@ -47,13 +54,13 @@ const _fetch = (
 class ColumnActions extends AbstractColumnActions {
     create = async (
         store: StoreT,
-        query: {
+        params: {
             statusId: string
             insertColumnAfter?: number
         }
     ): Promise<[StoreT, WebAPI.Response | null]> => {
         const [nextDomainData, response] = await _fetch(store.domainData, {
-            statusId: query.statusId,
+            statusId: params.statusId,
         })
         const { status, statuses } = response
         const { channel } = status
@@ -78,13 +85,13 @@ class ColumnActions extends AbstractColumnActions {
             timeline: {
                 statusIds: statuses.map((status) => status.id),
                 query: {
-                    statusId: query.statusId,
+                    statusId: params.statusId,
                 },
             },
         }
 
         const nextAppState: AppStateT = {
-            columns: this.insert(column, store.appState.columns, query.insertColumnAfter),
+            columns: this.insert(column, store.appState.columns, params.insertColumnAfter),
         }
 
         return [
@@ -95,14 +102,49 @@ class ColumnActions extends AbstractColumnActions {
             null,
         ]
     }
+    setTimelineQuery = async (
+        store: StoreT,
+        params: {
+            column: ColumnStateT
+            query: ColumnStateT["timeline"]["query"]
+        }
+    ): Promise<[StoreT, WebAPI.Response | null]> => {
+        const nextAppState: AppStateT = {
+            columns: this.copyColumns(store.appState.columns),
+        }
 
+        const [nextDomainData, response] = await fetch(
+            store.domainData,
+            WebAPI.timeline.thread,
+            Object.assign({ statusId: params.query.statusId }, params.query)
+        )
+
+        const column = this.findByIndex(nextAppState.columns, params.column.id)
+        column.timeline.query = params.query
+        column.timeline.statusIds = response.statuses.map((status) => status.id)
+
+        return [
+            {
+                domainData: nextDomainData,
+                appState: nextAppState,
+            },
+            response,
+        ]
+    }
     updateTimeline = async (
         store: StoreT,
         desiredColumn: ColumnStateT
     ): Promise<[StoreT, WebAPI.Response | null]> => {
-        const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.thread, {
-            statusId: desiredColumn.timeline.query.statusId,
-        })
+        const [nextDomainData, response] = await fetch(
+            store.domainData,
+            WebAPI.timeline.thread,
+            Object.assign(
+                {
+                    statusId: desiredColumn.timeline.query.statusId,
+                },
+                desiredColumn.timeline.query
+            )
+        )
         const { statuses } = response
 
         const nextAppState: AppStateT = {

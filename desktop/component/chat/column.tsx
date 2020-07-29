@@ -1,12 +1,82 @@
-import React, { useContext } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { ColumnStateT } from "../../state/chat/state/app"
 import { PostboxComponent } from "../postbox"
 import { ChatDomainDataContext } from "../../state/chat/state/data"
 import { StatusComponent } from "../status"
 import { StatusActions } from "../../state/status"
 import { useLoggedInUser } from "../../state/session"
-import { ChatActions } from "../../state/chat/actions"
+import { ChatActions, ChatActionsT } from "../../state/chat/actions"
 import MenuComponent from "./column/menu"
+import config from "../../config"
+
+function findMaxId(statusIds: string[]) {
+    if (statusIds.length > config.timeline.maxNumStatuses) {
+        return statusIds[statusIds.length - config.timeline.maxNumStatuses - 1]
+    }
+    return null
+}
+
+class Scroller {
+    ref: React.MutableRefObject<any>
+    column: ColumnStateT
+    chatActions: ChatActionsT
+    reqeustedMaxId: string
+    loading: boolean = false
+    hasReachedBottom: boolean = false
+    use = ({
+        ref,
+        column,
+        chatActions,
+    }: {
+        ref: React.MutableRefObject<any>
+        column: ColumnStateT
+        chatActions: ChatActionsT
+    }) => {
+        this.ref = ref
+        this.column = column
+        this.chatActions = chatActions
+        this.reqeustedMaxId = "000000000000"
+    }
+    handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        if (this.loading) {
+            return
+        }
+        const { column, chatActions } = this
+        const container = event.target as HTMLDivElement
+        const scroller = this.ref.current as HTMLDivElement
+        const threashold = 100
+        if (container) {
+            const scrollBottom =
+                scroller.clientHeight - container.clientHeight - container.scrollTop
+            if (scrollBottom < threashold) {
+                if (this.hasReachedBottom) {
+                    return
+                }
+                const maxId = findMaxId(column.timeline.statusIds)
+                if (maxId === this.reqeustedMaxId) {
+                    return
+                }
+                this.loading = true
+                const limit = config.timeline.maxNumStatuses * 2
+                const responce = await chatActions.column.setTimelineQuery(
+                    column,
+                    Object.assign({}, column.timeline.query, {
+                        maxId,
+                        limit,
+                    })
+                )
+                const { statuses } = responce
+                if (statuses.length < limit) {
+                    this.hasReachedBottom = true
+                }
+                this.reqeustedMaxId = maxId
+                this.loading = false
+            }
+        }
+    }
+}
+
+const scroller = new Scroller()
 
 export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     console.info("ChatColumnComponent::render")
@@ -14,6 +84,12 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     const statusActions = useContext(StatusActions)
     const chatActions = useContext(ChatActions)
     const { loggedInUser } = useLoggedInUser()
+    const scrollerRef = useRef(null)
+    scroller.use({
+        ref: scrollerRef,
+        column: column,
+        chatActions: chatActions,
+    })
     return (
         <>
             <div className="column-container">
@@ -25,8 +101,8 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
                     <div className="postbox">
                         <PostboxComponent column={column} channelId={column.context.channelId} />
                     </div>
-                    <div className="scroller-container">
-                        <div className="scroller">
+                    <div className="scroller-container" onScroll={scroller.handleScroll}>
+                        <div className="scroller" ref={scrollerRef}>
                             {column.timeline.statusIds.map((status_id, index) => {
                                 const status = domainData.statuses.get(status_id)
                                 if (status == null) {
@@ -76,23 +152,23 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
                     display: flex;
                     flex-direction: column;
                     flex: 1 1 auto;
-                }
-                .scroller {
                     overflow-x: hidden;
                     overflow-y: scroll;
-                    flex: 1 1 auto;
                 }
-                .scroller::-webkit-scrollbar {
+                .scroller-container::-webkit-scrollbar {
                     width: 0px;
                 }
-                .scroller::-webkit-scrollbar-thumb {
+                .scroller-container::-webkit-scrollbar-thumb {
                     border-radius: 10px;
                     background-color: gray;
                 }
-                .scroller::-webkit-scrollbar-track-piece {
+                .scroller-container::-webkit-scrollbar-track-piece {
                     background-clip: padding-box;
                     background-color: transparent;
                     border-color: transparent;
+                }
+                .scroller {
+                    flex: 1 1 auto;
                 }
             `}</style>
         </>

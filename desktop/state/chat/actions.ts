@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import { createContext, Context } from "react"
 import { AppStateT, ColumnStateT, ColumnTypes } from "./state/app"
 import { ReducersT, ReducerMethodT } from "./state/reducer"
 import { ChannelObjectT, StatusObjectT } from "../../api/object"
@@ -8,18 +8,21 @@ import * as reducer_methods from "./reducer_methods"
 export type ChatActionsT = {
     column: {
         close: (column: ColumnStateT) => void
-        setTimelineQuery: (column: ColumnStateT, query: Record<string, any>) => void
-        setOptions: (column: ColumnStateT, options: Record<string, any>) => void
+        setTimelineQuery: (
+            column: ColumnStateT,
+            query: Record<string, any>
+        ) => Promise<Response | null>
+        setOptions: (column: ColumnStateT, options: Record<string, any>) => Promise<Response | null>
     }
     channel: {
-        open: (channel: ChannelObjectT, insertColumnAfter?: number) => void
+        open: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
     }
     thread: {
-        open: (status: StatusObjectT, insertColumnAfter?: number) => void
+        open: (status: StatusObjectT, insertColumnAfter?: number) => Promise<Response | null>
     }
 }
 
-export const ChatActions = createContext({
+export const ChatActions: Context<ChatActionsT> = createContext({
     column: {
         close: null,
         setTimelineQuery: null,

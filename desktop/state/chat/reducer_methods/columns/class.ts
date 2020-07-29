@@ -68,34 +68,6 @@ export abstract class AbstractColumnActions {
 
         return nextColumns
     }
-    setTimelineQuery = async (
-        store: StoreT,
-        params: {
-            column: ColumnStateT
-            query: ColumnStateT["timeline"]["query"]
-        }
-    ): Promise<[StoreT, WebAPI.Response | null]> => {
-        const nextAppState: AppStateT = {
-            columns: this.copyColumns(store.appState.columns),
-        }
-
-        const [nextDomainData, response] = await fetch(store.domainData, WebAPI.timeline.channel, {
-            channelId: params.query.channelId,
-            includeComments: !!params.query.includeComments,
-        })
-
-        const column = this.findByIndex(nextAppState.columns, params.column.id)
-        column.timeline.query = params.query
-        column.timeline.statusIds = response.statuses.map((status) => status.id)
-
-        return [
-            {
-                domainData: nextDomainData,
-                appState: nextAppState,
-            },
-            response,
-        ]
-    }
     setOptions = async (
         store: StoreT,
         params: {

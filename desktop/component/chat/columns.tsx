@@ -6,7 +6,7 @@ import { ThemeSettingComponent } from "../sidebar/settings/theme"
 export const ChatColumnContainerComponent = () => {
     const { columns } = useContext(ChatAppStateContext)
     return (
-        <div className="column-container">
+        <div className="columns">
             <>
                 {columns.map((column) => {
                     return <ChatColumnComponent key={column.id} column={column} />
@@ -14,8 +14,11 @@ export const ChatColumnContainerComponent = () => {
                 <ThemeSettingComponent />
             </>
             <style jsx>{`
-                .column-container {
+                .columns {
                     display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                    overflow-x: auto;
                 }
             `}</style>
         </div>

@@ -29,7 +29,52 @@ export const ChatComponent = ({
                 <ChatReducerContext.Provider value={reducers}>
                     <ChatActions.Provider value={chatActions}>
                         <StatusActions.Provider value={statusActions}>
-                            <ChatColumnContainerComponent />
+                            <div className="sidebar"></div>
+                            <div className="columns">
+                                <ChatColumnContainerComponent />
+                            </div>
+                            <style jsx>{`
+                                .sidebar {
+                                    width: 72px;
+                                    background-color: black;
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    bottom: 0;
+                                    display: flex;
+                                }
+                                .columns {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 72px;
+                                    right: 0;
+                                    bottom: 0;
+                                    display: flex;
+                                    flex: 1 1 auto;
+                                }
+                            `}</style>
+                            <style jsx global>{`
+                                html,
+                                body {
+                                    width: 100%;
+                                    height: 100%;
+                                    line-height: 1;
+                                    margin: 0;
+                                    padding: 0;
+                                }
+                                #__next {
+                                    overflow: hidden;
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                                #__next > div {
+                                    position: relative;
+                                    flex: 1 1 auto;
+                                    z-index: auto;
+                                }
+                            `}</style>
                         </StatusActions.Provider>
                     </ChatActions.Provider>
                 </ChatReducerContext.Provider>

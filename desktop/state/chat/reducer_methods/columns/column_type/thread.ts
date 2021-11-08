@@ -1,10 +1,12 @@
-import { ColumnTypes, ColumnStateT, AppStateT } from "../../../state/app"
-import { fetch } from "../../../state/data"
-import { StoreT } from "../../../state/reducer"
 import * as WebAPI from "../../../../../api"
-import { StatusObjectT } from "../../../../../api/object"
-import { DomainDataT } from "../../../state/data/types"
+
+import { AppStateT, ColumnStateT, ColumnTypes } from "../../../state/app"
+
 import { AbstractColumnActions } from "../class"
+import { DomainDataT } from "../../../state/data/types"
+import { StatusObjectT } from "../../../../../api/object"
+import { StoreT } from "../../../state/reducer"
+import { fetch } from "../../../state/data"
 
 const _fetch = (
     prevDomainData: DomainDataT,

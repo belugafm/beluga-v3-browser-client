@@ -1,7 +1,8 @@
+import { ChannelObjectT, CommunityObjectT, StatusObjectT, UserObjectT } from "../../../api/object"
+import { DomainDataSetActionT, DomainDataT, ObjectMap, StringSet } from "./data/types"
 import { createContext, useState } from "react"
-import { StatusObjectT, UserObjectT, ChannelObjectT, CommunityObjectT } from "../../../api/object"
+
 import { Response } from "../../../api"
-import { DomainDataT, StringSet, ObjectMap, DomainDataSetActionT } from "./data/types"
 import copy from "./data/copy"
 import normalize from "./data/normalize"
 

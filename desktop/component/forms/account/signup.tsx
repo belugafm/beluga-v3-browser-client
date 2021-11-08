@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
+import { SignupFormContext, useSignupFormState } from "../../../state/account/signup"
+
 import classnames from "classnames"
-import { useTheme } from "../../theme"
-import { useSignupFormState, SignupFormContext } from "../../../state/account/signup"
 import { useLoggedInUser } from "../../../state/session"
+import { useTheme } from "../../theme"
 
 type InputComponentAttributes = {
     name: string
@@ -98,27 +99,25 @@ const PasswordInputForm = () => {
     )
 }
 const ConfirmedPasswordInputForm = () => {
-    const { confirmedPasswordField, handleUpdateConfirmedPasswordValue } = useContext(
-        SignupFormContext
-    )
+    const { confirmedPasswordField, handleUpdateConfirmationPasswordValue } =
+        useContext(SignupFormContext)
     return (
         <InputComponent
             label="パスワードの確認"
             type="password"
-            name="confirmed_password"
+            name="confirmation_password"
             value={confirmedPasswordField.value}
             errorMessage={confirmedPasswordField.errorMessage}
             hint={confirmedPasswordField.hint}
-            onChange={handleUpdateConfirmedPasswordValue}
+            onChange={handleUpdateConfirmationPasswordValue}
         />
     )
 }
 
 const TermsOfServiceCheckbox = () => {
     const [theme] = useTheme()
-    const { termsOfServiceAgreementField, handleTermsOfServiceAgreementChecked } = useContext(
-        SignupFormContext
-    )
+    const { termsOfServiceAgreementField, handleTermsOfServiceAgreementChecked } =
+        useContext(SignupFormContext)
     return (
         <div>
             <a
@@ -207,7 +206,7 @@ export const SignupFormComponent = () => {
         termsOfServiceAgreementField,
         handleUpdateNameValue,
         handleUpdatePasswordValue,
-        handleUpdateConfirmedPasswordValue,
+        handleUpdateConfirmationPasswordValue,
         handleTermsOfServiceAgreementChecked,
         handleSubmit,
     } = useSignupFormState()
@@ -222,7 +221,7 @@ export const SignupFormComponent = () => {
                 termsOfServiceAgreementField,
                 handleUpdateNameValue,
                 handleUpdatePasswordValue,
-                handleUpdateConfirmedPasswordValue,
+                handleUpdateConfirmationPasswordValue,
                 handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>

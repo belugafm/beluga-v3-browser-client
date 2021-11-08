@@ -1,9 +1,10 @@
 import {
-    StatusObjectT,
-    UserObjectT,
     ChannelObjectT,
     CommunityObjectT,
+    StatusObjectT,
+    UserObjectT,
 } from "../../../../api/object"
+
 import { ObjectMap } from "./types"
 
 function copy_status(status: StatusObjectT | null): StatusObjectT {

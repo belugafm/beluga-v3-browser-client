@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
+import { SigninFormContext, useSigninFormState } from "../../../state/account/signin"
+
 import classnames from "classnames"
-import { useTheme } from "../../theme"
-import { useSigninFormState, SigninFormContext } from "../../../state/account/signin"
 import { useLoggedInUser } from "../../../state/session"
+import { useTheme } from "../../theme"
 
 type InputComponentAttributes = {
     name: string

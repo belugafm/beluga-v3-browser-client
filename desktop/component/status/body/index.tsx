@@ -1,7 +1,8 @@
-import React from "react"
-import { CommonPropsT } from "../types"
 import { AttributedTextComponent, defaultOption } from "../../attributed_text"
-import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../../api/object"
+import { ChannelObjectT, StatusObjectT, UserObjectT } from "../../../api/object"
+
+import { CommonPropsT } from "../types"
+import React from "react"
 
 export default React.memo(
     ({ status, domainData, chatActions, column }: CommonPropsT) => {

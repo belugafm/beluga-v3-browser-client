@@ -1,8 +1,9 @@
+import { AsyncReducerMethodT, StoreSetActionsT, StoreT } from "./reducer"
+
+import { Response } from "../../../api"
+import { udpateStore } from "./update"
 import { useChatAppState } from "./app"
 import { useChatDomainData } from "./data"
-import { StoreT, StoreSetActionsT, ReducerMethodT } from "./reducer"
-import { udpateStore } from "./update"
-import { Response } from "../../../api"
 
 export class ChatState {
     currentStore: StoreT = null
@@ -20,7 +21,7 @@ export class ChatState {
         this.storeSetActions = storeSetActions
         return [store, storeSetActions]
     }
-    reducer = <T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> => {
+    asyncReduce = <T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> => {
         return new Promise((resolve) => {
             this.queue = this.queue.then(async () => {
                 try {
@@ -39,12 +40,13 @@ export class ChatState {
             })
         })
     }
-    orderedReducers = async <T>(
+    asyncOrderedReduce = async <T>(
         reducers: {
-            method: ReducerMethodT<T>
+            method: AsyncReducerMethodT<T>
             query: T
         }[]
     ): Promise<void> => {
+        // TODO: queueの更新は？
         try {
             for (let index = 0; index < reducers.length; index++) {
                 const { method, query } = reducers[index]

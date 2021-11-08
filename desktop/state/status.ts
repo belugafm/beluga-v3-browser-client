@@ -1,11 +1,13 @@
-import { createContext, MouseEvent } from "react"
-import { StatusObjectT, UserObjectT } from "../api/object"
 import * as reducers from "./chat/reducer_methods"
-import { ReducersT, ReducerMethodT } from "./chat/state/reducer"
+
+import { AsyncReducerMethodT, AsyncReducersT } from "./chat/state/reducer"
+import { MouseEvent, createContext } from "react"
+import { StatusObjectT, UserObjectT } from "../api/object"
+
 import { Response } from "../api"
 
-export const useStatusActions = ({ reducer, orderedReducers }: ReducersT): StatusActionsT => {
-    function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
+export const useStatusActions = ({ reducer, orderedReducers }: AsyncReducersT): StatusActionsT => {
+    function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducer(method, query)
     }
 

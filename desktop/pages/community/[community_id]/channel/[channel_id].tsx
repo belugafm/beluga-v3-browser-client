@@ -1,5 +1,5 @@
-import Head from "next/head"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 
 export default ({ params }) => {
     return (

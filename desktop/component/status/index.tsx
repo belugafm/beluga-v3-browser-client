@@ -1,8 +1,8 @@
-import React from "react"
-import HeaderComponent from "./header"
 import BodyComponent from "./body"
-import FooterComponent from "./footer"
 import { CommonPropsT } from "./types"
+import FooterComponent from "./footer"
+import HeaderComponent from "./header"
+import React from "react"
 
 export const StatusComponent = React.memo(
     (props: CommonPropsT) => {

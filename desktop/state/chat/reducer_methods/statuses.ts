@@ -1,8 +1,9 @@
-import { StoreT } from "../state/reducer"
 import * as WebAPI from "../../../api"
-import { fetch } from "../state/data"
-import copy from "../state/data/copy"
+
 import { DomainDataT } from "../state/data/types"
+import { StoreT } from "../state/reducer"
+import copy from "../state/data/copy"
+import { fetch } from "../state/data"
 
 const show = async (
     store: StoreT,

@@ -1,7 +1,8 @@
+import { CreateChannelFormContext, useChannelCreateFormState } from "../../../state/channel/create"
 import React, { useContext } from "react"
+
 import classnames from "classnames"
 import { useTheme } from "../../theme"
-import { useChannelCreateFormState, CreateChannelFormContext } from "../../../state/channel/create"
 
 type InputComponentAttributes = {
     value: string

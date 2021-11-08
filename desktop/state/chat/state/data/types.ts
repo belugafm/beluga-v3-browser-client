@@ -1,8 +1,8 @@
 import {
-    StatusObjectT,
-    UserObjectT,
     ChannelObjectT,
     CommunityObjectT,
+    StatusObjectT,
+    UserObjectT,
 } from "../../../../api/object"
 import { Dispatch, SetStateAction } from "react"
 

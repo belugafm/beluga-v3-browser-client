@@ -1,11 +1,29 @@
 import React from "react"
+import { useLoggedInUser } from "../state/session"
 import { useTheme } from "./theme"
+
+const AlreadyLoggedInMessageComponent = () => {
+    const { loggedInUser, authenticityToken } = useLoggedInUser()
+    console.log(loggedInUser)
+    console.log(authenticityToken)
+    if (loggedInUser && authenticityToken) {
+        return (
+            <div>
+                <p>{`name: ${loggedInUser.name}`}</p>
+                <p>{`token: ${authenticityToken}`}</p>
+            </div>
+        )
+    } else {
+        return null
+    }
+}
 
 export const WelcomeComponent = () => {
     const [theme] = useTheme()
     return (
         <div className="welcome">
             <div>Belugaへようこそ！</div>
+            <AlreadyLoggedInMessageComponent />
             <div>
                 <ul>
                     <li>

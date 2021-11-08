@@ -1,7 +1,7 @@
-import { SignupFormComponent } from "./signup"
 import { SigninFormComponent } from "./signin"
-import { useTheme } from "../../theme"
+import { SignupFormComponent } from "./signup"
 import classnames from "classnames"
+import { useTheme } from "../../theme"
 
 function getInnerComponent(active: string) {
     if (active === "signup") {

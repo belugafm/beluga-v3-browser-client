@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react"
+import React, { createContext, useContext, useState } from "react"
+
 import Cookie from "cookie"
 
 type GlobalTheme = {
@@ -75,10 +76,8 @@ type Themes = {
 const ThemeContext = createContext(null)
 
 export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) => {
-    const [currentGlobalThemeName, setCurrentGlobalThemeName]: [
-        string,
-        (key: string) => any
-    ] = useState(defaultGlobalThemeName ? defaultGlobalThemeName : "light")
+    const [currentGlobalThemeName, setCurrentGlobalThemeName]: [string, (key: string) => any] =
+        useState(defaultGlobalThemeName ? defaultGlobalThemeName : "light")
     return (
         <ThemeContext.Provider
             value={{

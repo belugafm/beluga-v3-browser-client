@@ -1,11 +1,12 @@
-import React from "react"
+import { ChatActions, useChatActions } from "../state/chat/actions"
+import { StatusActions, useStatusActions } from "../state/status"
+
 import { ChatAppStateContext } from "../state/chat/state/app"
 import { ChatColumnContainerComponent } from "./chat/columns"
-import { useChatStore } from "../state/chat"
-import { useChatActions, ChatActions } from "../state/chat/actions"
 import { ChatDomainDataContext } from "../state/chat/state/data"
 import { ChatReducerContext } from "../state/chat/state/reducer"
-import { StatusActions, useStatusActions } from "../state/status"
+import React from "react"
+import { useChatStore } from "../state/chat"
 
 export const ChatComponent = ({
     context,

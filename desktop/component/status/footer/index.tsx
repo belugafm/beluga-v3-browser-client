@@ -1,9 +1,9 @@
-import React from "react"
-import { CommonPropsT } from "../types"
-import LikesComponent from "./likes"
-import FavoritesComponent from "./favorites"
-import CommentsComponent from "./comments"
 import ActionsComponent from "./actions"
+import CommentsComponent from "./comments"
+import { CommonPropsT } from "../types"
+import FavoritesComponent from "./favorites"
+import LikesComponent from "./likes"
+import React from "react"
 
 export default React.memo(
     (props: CommonPropsT) => {

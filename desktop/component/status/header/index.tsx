@@ -1,5 +1,5 @@
-import UserComponent from "./user"
 import { CommonPropsT } from "../types"
+import UserComponent from "./user"
 import config from "../../../config"
 
 export default (props: CommonPropsT) => {

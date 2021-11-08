@@ -1,7 +1,8 @@
-import React, { useRef } from "react"
-import { useTheme } from "./theme"
 import { PostboxContext, usePostboxState } from "../state/postbox"
+import React, { useRef } from "react"
+
 import { ColumnStateT } from "../state/chat/state/app"
+import { useTheme } from "./theme"
 
 export const PostboxComponent = ({
     column,

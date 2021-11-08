@@ -1,6 +1,8 @@
 import * as TypeCheck from "../lib/type_check"
+
+import { ChannelObjectT, StatusObjectT, UserObjectT } from "./object"
+
 import config from "../config"
-import { StatusObjectT, ChannelObjectT, UserObjectT } from "./object"
 
 export class UnexpectedResponseError extends Error {
     constructor() {
@@ -27,6 +29,7 @@ interface ResponseInterface {
     status?: StatusObjectT
     user?: UserObjectT
     statuses?: StatusObjectT[]
+    authenticity_token?: string
 }
 
 export class Response implements ResponseInterface {
@@ -40,6 +43,7 @@ export class Response implements ResponseInterface {
     status?: StatusObjectT
     user?: UserObjectT
     statuses?: StatusObjectT[]
+    authenticity_token?: string
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
@@ -80,16 +84,19 @@ export class Response implements ResponseInterface {
         if (response.status) {
             this.status = response.status
         }
+        if (response.authenticity_token) {
+            this.authenticity_token = response.authenticity_token
+        }
     }
     getErrorMessage() {
-        const error_message = []
+        const errorMessage = []
         this.description.forEach((line) => {
-            error_message.push(line)
+            errorMessage.push(line)
         })
         if (this.additional_message) {
-            error_message.push(this.additional_message)
+            errorMessage.push(this.additional_message)
         }
-        return error_message
+        return errorMessage
     }
     getHint() {
         return this.hint
@@ -117,9 +124,9 @@ export function get(method_url: string, query: any): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
         const params = new URLSearchParams(query)
-        const endpoint_url = new URL(`${protocol}://${config.server.domain}/api/v1/${method_url}`)
-        endpoint_url.search = params.toString()
-        fetch(endpoint_url.toString(), {
+        const endpointUrl = new URL(`${protocol}://${config.server.domain}/api/v1/${method_url}`)
+        endpointUrl.search = params.toString()
+        fetch(endpointUrl.toString(), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -137,7 +144,7 @@ export function get(method_url: string, query: any): Promise<Response> {
                 }
             })
             .catch((error) => {
-                console.error(endpoint_url)
+                console.error(endpointUrl)
                 console.error(error)
                 reject(error)
             })
@@ -147,8 +154,8 @@ export function get(method_url: string, query: any): Promise<Response> {
 export function post(method_url: string, body: object): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
-        const endpoint_url = `${protocol}://${config.server.domain}/api/v1/${method_url}`
-        fetch(endpoint_url, {
+        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        fetch(endpointUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -169,7 +176,7 @@ export function post(method_url: string, body: object): Promise<Response> {
                 }
             })
             .catch((error) => {
-                console.error(endpoint_url)
+                console.error(endpointUrl)
                 console.error(error)
                 reject(error)
             })

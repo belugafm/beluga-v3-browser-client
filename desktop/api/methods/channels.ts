@@ -1,4 +1,4 @@
-import { Response, post, get, UnexpectedResponseError } from "../classes"
+import { Response, UnexpectedResponseError, get, post } from "../classes"
 
 function create(body: {
     name: string

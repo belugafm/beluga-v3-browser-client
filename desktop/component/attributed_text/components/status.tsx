@@ -1,5 +1,5 @@
-import React from "react"
 import LinkTextComponent from "./link"
+import React from "react"
 import { StatusObjectT } from "../../../api/object"
 
 type Props = {

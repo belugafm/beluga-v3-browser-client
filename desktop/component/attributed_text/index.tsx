@@ -1,21 +1,22 @@
-import React from "react"
-import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../api/object"
 import {
-    splitTextIntoAtributedTextSequence,
-    convertAttributedTextSequenceToRPN,
     AttributedTextType,
-    isAttributeTextMarkdown,
-    detectUrlType,
     UrlType,
+    convertAttributedTextSequenceToRPN,
+    detectUrlType,
+    isAttributeTextMarkdown,
+    splitTextIntoAtributedTextSequence,
 } from "./parser"
-import PlainTextComponent from "./components/text"
+import { ChannelObjectT, StatusObjectT, UserObjectT } from "../../api/object"
+
+import ChannelComponent from "./components/channel"
 import CodeComponent from "./components/code"
 import InlineMarkdownComponent from "./components/markdown"
+import PlainTextComponent from "./components/text"
+import React from "react"
+import StatusComponent from "./components/status"
 import TextLinkComponent from "./components/link"
 import TweetComponent from "./components/tweet"
 import YouTubeComponent from "./components/youtube"
-import ChannelComponent from "./components/channel"
-import StatusComponent from "./components/status"
 
 type Props = {
     text: string

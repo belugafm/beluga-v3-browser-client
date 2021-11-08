@@ -1,17 +1,25 @@
-import React, { useContext, useRef, useState } from "react"
-import { ColumnStateT } from "../../state/chat/state/app"
-import { PostboxComponent } from "../postbox"
-import { ChatDomainDataContext } from "../../state/chat/state/data"
-import { StatusComponent } from "../status"
-import { StatusActions } from "../../state/status"
-import { useLoggedInUser } from "../../state/session"
 import { ChatActions, ChatActionsT } from "../../state/chat/actions"
+import React, { useContext, useRef } from "react"
+
+import { ChatDomainDataContext } from "../../state/chat/state/data"
+import { ColumnStateT } from "../../state/chat/state/app"
 import MenuComponent from "./column/menu"
+import { PostboxComponent } from "../postbox"
+import { StatusActions } from "../../state/status"
+import { StatusComponent } from "../status"
 import config from "../../config"
+import { useLoggedInUser } from "../../state/session"
 
 function findMaxId(statusIds: string[]) {
     if (statusIds.length > config.timeline.maxNumStatuses) {
         return statusIds[statusIds.length - config.timeline.maxNumStatuses - 1]
+    }
+    return null
+}
+
+function findSinceId(statusIds: string[]) {
+    if (statusIds.length > config.timeline.maxNumStatuses) {
+        return statusIds[config.timeline.maxNumStatuses + 1]
     }
     return null
 }
@@ -21,8 +29,12 @@ class Scroller {
     column: ColumnStateT
     chatActions: ChatActionsT
     reqeustedMaxId: string
+    reqeustedSinceId: string
     loading: boolean = false
+    hasReachedTop: boolean = false
     hasReachedBottom: boolean = false
+    scrolled: boolean = false
+    prevScrollTop: number = 0
     use = ({
         ref,
         column,
@@ -48,29 +60,75 @@ class Scroller {
         if (container) {
             const scrollBottom =
                 scroller.clientHeight - container.clientHeight - container.scrollTop
-            if (scrollBottom < threashold) {
-                if (this.hasReachedBottom) {
+            const direction = container.scrollTop - this.prevScrollTop
+            this.prevScrollTop = container.scrollTop
+            console.log(container.scrollTop, scrollBottom, direction)
+            if (direction > 0) {
+                if (scrollBottom < threashold) {
+                    if (this.hasReachedBottom) {
+                        return
+                    }
+                    const maxId = findMaxId(column.timeline.statusIds)
+                    if (maxId === this.reqeustedMaxId) {
+                        return
+                    }
+                    this.loading = true
+                    const limit = config.timeline.maxNumStatuses * 2
+                    const responce = await chatActions.column.setTimelineQuery(
+                        column,
+                        Object.assign({}, column.timeline.query, {
+                            maxId,
+                            limit,
+                            sinceId: null,
+                        })
+                    )
+                    const { statuses } = responce
+                    if (statuses.length < limit) {
+                        this.hasReachedBottom = true
+                    }
+                    this.reqeustedMaxId = maxId
+                    this.loading = false
+                    this.hasReachedTop = false
+                    this.scrolled = true
                     return
                 }
-                const maxId = findMaxId(column.timeline.statusIds)
-                if (maxId === this.reqeustedMaxId) {
+            } else {
+                if (container.scrollTop < threashold) {
+                    if (this.scrolled === false) {
+                        console.log("this.scrolled === false")
+                        return
+                    }
+                    if (this.hasReachedTop) {
+                        console.log("this.hasReachedTop")
+                        return
+                    }
+                    const sinceId = findSinceId(column.timeline.statusIds)
+                    if (sinceId === this.reqeustedSinceId) {
+                        console.log("sinceId === this.reqeustedSinceId")
+                        return
+                    }
+                    this.loading = true
+                    const limit = config.timeline.maxNumStatuses * 2
+                    const responce = await chatActions.column.setTimelineQuery(
+                        column,
+                        Object.assign({}, column.timeline.query, {
+                            sinceId,
+                            limit,
+                            maxId: null,
+                        })
+                    )
+                    const { statuses } = responce
+                    if (statuses.length < limit) {
+                        this.hasReachedTop = true
+                    }
+                    this.reqeustedSinceId = sinceId
+                    this.loading = false
+                    this.hasReachedBottom = false
                     return
                 }
-                this.loading = true
-                const limit = config.timeline.maxNumStatuses * 2
-                const responce = await chatActions.column.setTimelineQuery(
-                    column,
-                    Object.assign({}, column.timeline.query, {
-                        maxId,
-                        limit,
-                    })
-                )
-                const { statuses } = responce
-                if (statuses.length < limit) {
-                    this.hasReachedBottom = true
+                if (container.scrollTop > 400) {
+                    this.scrolled = true
                 }
-                this.reqeustedMaxId = maxId
-                this.loading = false
             }
         }
     }

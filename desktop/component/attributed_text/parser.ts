@@ -1,4 +1,5 @@
-import { StatusObjectT, ChannelObjectT, UserObjectT } from "../../api/object"
+import { ChannelObjectT, StatusObjectT, UserObjectT } from "../../api/object"
+
 import config from "../../config"
 
 export type AttributedText = {

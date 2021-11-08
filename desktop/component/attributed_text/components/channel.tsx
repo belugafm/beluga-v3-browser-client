@@ -1,5 +1,5 @@
-import LinkTextComponent from "./link"
 import { ChannelObjectT } from "../../../api/object"
+import LinkTextComponent from "./link"
 
 type PropTypes = {
     channel: ChannelObjectT

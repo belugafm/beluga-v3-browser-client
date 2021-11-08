@@ -1,9 +1,11 @@
-import { createContext, Context } from "react"
-import { AppStateT, ColumnStateT, ColumnTypes } from "./state/app"
-import { ReducersT, ReducerMethodT } from "./state/reducer"
-import { ChannelObjectT, StatusObjectT } from "../../api/object"
-import { Response } from "../../api"
 import * as reducer_methods from "./reducer_methods"
+
+import { AppStateT, ColumnStateT, ColumnTypes } from "./state/app"
+import { AsyncReducerMethodT, AsyncReducersT } from "./state/reducer"
+import { ChannelObjectT, StatusObjectT } from "../../api/object"
+import { Context, createContext } from "react"
+
+import { Response } from "../../api"
 
 export type ChatActionsT = {
     column: {
@@ -41,9 +43,9 @@ export const useChatActions = ({
     reducers,
 }: {
     appState: AppStateT
-    reducers: ReducersT
+    reducers: AsyncReducersT
 }): ChatActionsT => {
-    function reduce<T>(method: ReducerMethodT<T>, query: T): Promise<Response | null> {
+    function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducers.reducer(method, query)
     }
 
@@ -88,7 +90,7 @@ export const useChatActions = ({
         },
         channel: {
             open: (channel: ChannelObjectT, insertColumnAfter?: number) => {
-                reduce(reducer_methods.columns.channel.create, {
+                return reduce(reducer_methods.columns.channel.create, {
                     channelId: channel.id,
                     insertColumnAfter: insertColumnAfter,
                 })
@@ -96,7 +98,7 @@ export const useChatActions = ({
         },
         thread: {
             open: (status: StatusObjectT, insertColumnAfter?: number) => {
-                reduce(reducer_methods.columns.thread.create, {
+                return reduce(reducer_methods.columns.thread.create, {
                     statusId: status.id,
                     insertColumnAfter: insertColumnAfter,
                 })

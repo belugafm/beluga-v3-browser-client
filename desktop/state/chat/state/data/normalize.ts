@@ -1,9 +1,10 @@
 import {
-    StatusObjectT,
-    UserObjectT,
     ChannelObjectT,
     CommunityObjectT,
+    StatusObjectT,
+    UserObjectT,
 } from "../../../../api/object"
+
 import { DomainDataT } from "./types"
 
 function normalize_status(status: StatusObjectT | null, nextDomainData: DomainDataT): DomainDataT {

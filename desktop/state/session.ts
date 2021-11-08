@@ -1,9 +1,11 @@
-import useSWR from "swr"
 import * as WebAPI from "../api"
+
 import { UserObjectT } from "../api/object"
+import useSWR from "swr"
 
 type ReturnT = {
     loggedInUser: UserObjectT | null
+    authenticityToken: string | null
     needsLogin: boolean
     error: any
     isLoading: boolean
@@ -15,6 +17,7 @@ export const useLoggedInUser = (): ReturnT => {
     })
     return {
         loggedInUser: data ? data["user"] : null,
+        authenticityToken: data ? data["authenticity_token"] : null,
         needsLogin: data ? data["logged_out"] === true : false,
         error: error,
         isLoading: data == null && error == null,

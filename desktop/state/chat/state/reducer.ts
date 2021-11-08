@@ -1,7 +1,8 @@
-import { AppStateT, AppStateSetActionT } from "./app"
-import { createContext } from "react"
+import { AppStateSetActionT, AppStateT } from "./app"
+import { DomainDataSetActionT, DomainDataT } from "./data/types"
+
 import { Response } from "../../../api"
-import { DomainDataT, DomainDataSetActionT } from "./data/types"
+import { createContext } from "react"
 
 export type StoreT = {
     domainData: DomainDataT
@@ -13,12 +14,12 @@ export type StoreSetActionsT = {
     appState: AppStateSetActionT
 }
 
-export type ReducerT = (
+export type AsyncReducerT = (
     method: (storeData: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>,
     query: Record<string, any>
 ) => Promise<Response | null>
 
-export type OrderedReducerT = (
+export type AsyncOrderedReducerT = (
     reducers: {
         method: (
             storeData: StoreT,
@@ -28,16 +29,16 @@ export type OrderedReducerT = (
     }[]
 ) => Promise<void>
 
-export type ReducersT = {
-    reducer: ReducerT
-    orderedReducers: OrderedReducerT
+export type AsyncReducersT = {
+    reducer: AsyncReducerT
+    orderedReducers: AsyncOrderedReducerT
 }
 
-export type ReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
+export type AsyncReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 
 const context: {
-    reducer: ReducerT
-    orderedReducers: OrderedReducerT
+    reducer: AsyncReducerT
+    orderedReducers: AsyncOrderedReducerT
 } = {
     reducer: null,
     orderedReducers: null,

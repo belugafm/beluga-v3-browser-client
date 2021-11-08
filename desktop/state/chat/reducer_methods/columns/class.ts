@@ -1,7 +1,9 @@
-import { ColumnStateT, AppStateT } from "../../state/app"
-import { fetch } from "../../state/data"
-import { StoreT } from "../../state/reducer"
 import * as WebAPI from "../../../../api"
+
+import { AppStateT, ColumnStateT } from "../../state/app"
+
+import { StoreT } from "../../state/reducer"
+import { fetch } from "../../state/data"
 
 export abstract class AbstractColumnActions {
     splitColumns = (columns: ColumnStateT[], splitId) => {
@@ -17,26 +19,24 @@ export abstract class AbstractColumnActions {
         return [before, after]
     }
     copyColumns = (columns: ColumnStateT[]) => {
-        return columns.map(
-            (column): ColumnStateT => {
-                return {
-                    id: column.id,
-                    type: column.type,
-                    postbox: {
-                        enabled: column.postbox.enabled,
-                        query: Object.assign({}, column.postbox.query),
-                    },
-                    options: {
-                        showMutedStatuses: column.options.showMutedStatuses,
-                    },
-                    timeline: {
-                        statusIds: column.timeline.statusIds.concat(),
-                        query: Object.assign({}, column.timeline.query),
-                    },
-                    context: Object.assign({}, column.context),
-                }
+        return columns.map((column): ColumnStateT => {
+            return {
+                id: column.id,
+                type: column.type,
+                postbox: {
+                    enabled: column.postbox.enabled,
+                    query: Object.assign({}, column.postbox.query),
+                },
+                options: {
+                    showMutedStatuses: column.options.showMutedStatuses,
+                },
+                timeline: {
+                    statusIds: column.timeline.statusIds.concat(),
+                    query: Object.assign({}, column.timeline.query),
+                },
+                context: Object.assign({}, column.context),
             }
-        )
+        })
     }
     findByIndex = (columns: ColumnStateT[], index: number): ColumnStateT | null => {
         for (let n = 0; n < columns.length; n++) {

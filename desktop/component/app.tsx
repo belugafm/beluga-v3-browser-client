@@ -1,7 +1,7 @@
-import { useTheme } from "./theme"
-import { useLoggedInUser } from "../state/session"
-import { GetServerSideProps } from "next"
 import Cookie from "cookie"
+import { GetServerSideProps } from "next"
+import { useLoggedInUser } from "../state/session"
+import { useTheme } from "./theme"
 
 export const App = ({ children }) => {
     const [theme] = useTheme()

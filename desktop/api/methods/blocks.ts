@@ -1,4 +1,4 @@
-import { post, Response, UnexpectedResponseError } from "../classes"
+import { Response, UnexpectedResponseError, post } from "../classes"
 
 async function create(body: { userId: string }): Promise<Response> {
     const responce = await post("blocks/create", {

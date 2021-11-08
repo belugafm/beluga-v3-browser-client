@@ -1,8 +1,9 @@
-import { useState } from "react"
 import * as reducer_methods from "./reducer_methods"
-import { useLoggedInUser } from "../session"
+
+import { AsyncReducerMethodT } from "./state/reducer"
 import { ChatState } from "./state"
-import { ReducerMethodT } from "./state/reducer"
+import { useLoggedInUser } from "../session"
+import { useState } from "react"
 import { websocket } from "./websocket"
 
 const state = new ChatState()
@@ -25,15 +26,15 @@ export const useChatStore = ({
     websocket.use({
         loggedInUser,
         reducers: {
-            reducer: state.reducer,
-            orderedReducers: state.orderedReducers,
+            reducer: state.asyncReduce,
+            orderedReducers: state.asyncOrderedReduce,
         },
         appState: store.appState,
     })
 
     if (needsInitialize) {
         if (context.channelId) {
-            state.orderedReducers([
+            state.asyncOrderedReduce([
                 {
                     method: reducer_methods.columns.channel.create,
                     query: {
@@ -48,12 +49,12 @@ export const useChatStore = ({
     return {
         domainData: store.domainData,
         appState: store.appState,
-        reducer: <T>(method: ReducerMethodT<T>, query: T) => state.reducer(method, query),
+        reducer: <T>(method: AsyncReducerMethodT<T>, query: T) => state.asyncReduce(method, query),
         orderedReducers: <T>(
             reducers: {
-                method: ReducerMethodT<T>
+                method: AsyncReducerMethodT<T>
                 query: T
             }[]
-        ) => state.orderedReducers(reducers),
+        ) => state.asyncOrderedReduce(reducers),
     }
 }

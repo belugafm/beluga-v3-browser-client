@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { SignupFormContext, useSignupFormState } from "../../../state/account/signup"
 
+import { LoginWithTwitterButton } from "../../buttons/login_with_twitter"
 import classnames from "classnames"
 import { useLoggedInUser } from "../../../state/session"
 import { useTheme } from "../../theme"
@@ -70,20 +71,6 @@ const InputComponent = ({
     )
 }
 
-const NameInputForm = () => {
-    const { nameField, handleUpdateNameValue } = useContext(SignupFormContext)
-    return (
-        <InputComponent
-            label="ユーザー名"
-            type="text"
-            name="name"
-            value={nameField.value}
-            errorMessage={nameField.errorMessage}
-            hint={nameField.hint}
-            onChange={handleUpdateNameValue}
-        />
-    )
-}
 const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(SignupFormContext)
     return (
@@ -191,20 +178,46 @@ const GlobalErrorMessageComponent = () => {
 const AlreadyLoggedInMessageComponent = () => {
     const { loggedInUser } = useLoggedInUser()
     if (loggedInUser) {
-        return <div>{`${loggedInUser.name}としてログイン中です`}</div>
+        return (
+            <div>
+                <p>{`${loggedInUser.name}としてログイン中です`}</p>
+            </div>
+        )
     } else {
         return null
     }
 }
 
+const TrollsComponent = () => {
+    return (
+        <div>
+            <p>
+                荒らし対策のため「Twitterでログイン」機能を使わずに登録したユーザーの機能を制限しています
+            </p>
+            <p>
+                詳細は<a href="/arashi_taisaku">荒らし対策について</a>をお読みください
+            </p>
+            <p>
+                <LoginWithTwitterButton />
+            </p>
+        </div>
+    )
+}
+
+const InviteLinkComponent = () => {
+    return (
+        <div>
+            <p>招待リンクについて書く</p>
+        </div>
+    )
+}
+
 export const SignupFormComponent = () => {
     const {
-        nameField,
         passwordField,
         confirmedPasswordField,
         globalErrorMessageField,
         termsOfServiceAgreementField,
-        handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmationPasswordValue,
         handleTermsOfServiceAgreementChecked,
@@ -214,20 +227,19 @@ export const SignupFormComponent = () => {
     return (
         <SignupFormContext.Provider
             value={{
-                nameField,
                 passwordField,
                 confirmedPasswordField,
                 globalErrorMessageField,
                 termsOfServiceAgreementField,
-                handleUpdateNameValue,
                 handleUpdatePasswordValue,
                 handleUpdateConfirmationPasswordValue,
                 handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
+                <TrollsComponent />
+                <InviteLinkComponent />
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
-                <NameInputForm />
                 <PasswordInputForm />
                 <ConfirmedPasswordInputForm />
                 <TermsOfServiceCheckbox />

@@ -16,8 +16,8 @@ export const useLoggedInUser = (): ReturnT => {
         return WebAPI.auth.cookie.authenticate()
     })
     return {
-        loggedInUser: data ? data["user"] : null,
-        authenticityToken: data ? data["authenticity_token"] : null,
+        loggedInUser: data ? data.user : null,
+        authenticityToken: data ? data.authenticityToken : null,
         needsLogin: data ? data["logged_out"] === true : false,
         error: error,
         isLoading: data == null && error == null,

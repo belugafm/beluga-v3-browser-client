@@ -30,6 +30,8 @@ interface ResponseInterface {
     user?: UserObjectT
     statuses?: StatusObjectT[]
     authenticity_token?: string
+    oauth_token?: string
+    oauth_token_secret?: string
 }
 
 export class Response implements ResponseInterface {
@@ -43,7 +45,9 @@ export class Response implements ResponseInterface {
     status?: StatusObjectT
     user?: UserObjectT
     statuses?: StatusObjectT[]
-    authenticity_token?: string
+    authenticityToken?: string
+    oauthToken?: string
+    oauthTokenSecret?: string
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
@@ -85,7 +89,13 @@ export class Response implements ResponseInterface {
             this.status = response.status
         }
         if (response.authenticity_token) {
-            this.authenticity_token = response.authenticity_token
+            this.authenticityToken = response.authenticity_token
+        }
+        if (response.oauth_token) {
+            this.oauthToken = response.oauth_token
+        }
+        if (response.oauth_token_secret) {
+            this.oauthTokenSecret = response.oauth_token_secret
         }
     }
     getErrorMessage() {

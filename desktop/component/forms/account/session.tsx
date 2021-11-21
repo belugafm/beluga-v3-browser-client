@@ -65,6 +65,7 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                     height: 40px;
                     line-height: 40px;
                     font-weight: bold;
+                    border-bottom: 3px solid transparent;
                 }
                 .form {
                     padding: 40px;

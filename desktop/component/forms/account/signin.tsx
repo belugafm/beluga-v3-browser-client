@@ -127,6 +127,16 @@ const GlobalErrorMessageComponent = () => {
     )
 }
 
+const LoginWithTwitterComponent = () => {
+    return (
+        <div>
+            <p>
+                <a href="/login_with_twitter">Twitterでログインする</a>
+            </p>
+        </div>
+    )
+}
+
 const AlreadyLoggedInMessageComponent = () => {
     const { loggedInUser } = useLoggedInUser()
     if (loggedInUser) {
@@ -156,6 +166,7 @@ export const SigninFormComponent = () => {
                 handleUpdatePasswordValue,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
+                <LoginWithTwitterComponent />
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <NameInputForm />

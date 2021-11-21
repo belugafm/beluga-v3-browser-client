@@ -4,17 +4,18 @@ import { AccountSessionComponent } from "../component/forms/account/session"
 import { App } from "../component/app"
 import Head from "next/head"
 import { ThemeProvider } from "../component/theme"
-import { ThemeSettingComponent } from "../component/sidebar/settings/theme"
 
 export default ({ theme }) => {
     return (
         <div>
             <Head>
-                <title>アカウント登録</title>
+                <title>荒らし対策について</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
                 <App>
-                    <AccountSessionComponent active="signup" />
+                    <div>
+                        <p>荒らし対策について書く</p>
+                    </div>
                 </App>
             </ThemeProvider>
         </div>

@@ -9,7 +9,6 @@ export const useSignupFormState = () => {
         hint: [],
         value: "",
     }
-    const [nameField, setNameField] = useState(initialState)
     const [passwordField, setPasswordField] = useState(initialState)
     const [confirmationPasswordField, setConfirmationPasswordField] = useState(initialState)
     const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
@@ -21,14 +20,6 @@ export const useSignupFormState = () => {
         hint: [],
         checked: false,
     })
-
-    const handleUpdateNameValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNameField({
-            errorMessage: nameField.errorMessage,
-            hint: nameField.hint,
-            value: event.target.value,
-        })
-    }
 
     const handleUpdatePasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordField({
@@ -65,7 +56,6 @@ export const useSignupFormState = () => {
         }
         try {
             return await WebAPI.account.signup({
-                name: nameField.value,
                 password: passwordField.value,
                 confirmationPassword: confirmationPasswordField.value,
             })
@@ -84,11 +74,6 @@ export const useSignupFormState = () => {
             setGlobalErrorMessageField({
                 errorMessage: [],
                 hint: [],
-            })
-            setNameField({
-                errorMessage: [],
-                hint: [],
-                value: nameField.value,
             })
             setPasswordField({
                 errorMessage: [],
@@ -127,11 +112,6 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmationPasswordField.value,
             })
-            setNameField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: nameField.value,
-            })
             setTermsOfServiceAgreementField({
                 errorMessage: [],
                 hint: [],
@@ -143,11 +123,6 @@ export const useSignupFormState = () => {
             setGlobalErrorMessageField({
                 errorMessage: [],
                 hint: [],
-            })
-            setNameField({
-                errorMessage: [],
-                hint: [],
-                value: nameField.value,
             })
             setConfirmationPasswordField({
                 errorMessage: [],
@@ -170,11 +145,6 @@ export const useSignupFormState = () => {
             setGlobalErrorMessageField({
                 errorMessage: [],
                 hint: [],
-            })
-            setNameField({
-                errorMessage: [],
-                hint: [],
-                value: nameField.value,
             })
             setPasswordField({
                 errorMessage: [],
@@ -208,11 +178,6 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmationPasswordField.value,
             })
-            setNameField({
-                errorMessage: response.getErrorMessage(),
-                hint: response.getHint(),
-                value: nameField.value,
-            })
             setTermsOfServiceAgreementField({
                 errorMessage: [],
                 hint: [],
@@ -235,11 +200,6 @@ export const useSignupFormState = () => {
                 hint: [],
                 value: confirmationPasswordField.value,
             })
-            setNameField({
-                errorMessage: [],
-                hint: [],
-                value: nameField.value,
-            })
             setTermsOfServiceAgreementField({
                 errorMessage: response.getErrorMessage(),
                 hint: response.getHint(),
@@ -259,11 +219,6 @@ export const useSignupFormState = () => {
             hint: [],
             value: confirmationPasswordField.value,
         })
-        setNameField({
-            errorMessage: [],
-            hint: [],
-            value: nameField.value,
-        })
         setGlobalErrorMessageField({
             errorMessage: response.getErrorMessage(),
             hint: response.getHint(),
@@ -276,12 +231,10 @@ export const useSignupFormState = () => {
     }
 
     return {
-        nameField,
         passwordField,
         confirmedPasswordField: confirmationPasswordField,
         globalErrorMessageField,
         termsOfServiceAgreementField,
-        handleUpdateNameValue,
         handleUpdatePasswordValue,
         handleUpdateConfirmationPasswordValue,
         handleTermsOfServiceAgreementChecked,
@@ -290,11 +243,6 @@ export const useSignupFormState = () => {
 }
 
 const context = {
-    nameField: {
-        errorMessage: [],
-        hint: [],
-        value: "",
-    },
     passwordField: {
         errorMessage: [],
         hint: [],
@@ -314,7 +262,6 @@ const context = {
         hint: [],
         checked: false,
     },
-    handleUpdateNameValue: null,
     handleUpdatePasswordValue: null,
     handleUpdateConfirmationPasswordValue: null,
     handleTermsOfServiceAgreementChecked: null,

@@ -7,7 +7,7 @@ export const Index01Component = () => {
             <div className="hero">
                 <div className="description-area">
                     <div className="inner">
-                        <h1 className="title">Beluga</h1>
+                        <div className="title"></div>
                         <div className="description">
                             <p>Belugaは文章や画像を投稿して楽しむチャット型SNSです。</p>
                             <p>リアルタイムなコミュニケーションを楽しむことができます。</p>
@@ -54,19 +54,17 @@ export const Index01Component = () => {
                 .description-area {
                     width: 50%;
                     flex: 1 1 auto;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-end;
                 }
                 .description-area > .inner {
                     min-width: 700px;
                     width: 100%;
                 }
                 .title {
-                    font-size: 100px;
-                    font-family: "Bungee", cursive;
-                    color: white;
-                    text-align: center;
+                    background-image: url("/assets/svg/logo.svg?1637570884");
+                    background-repeat: no-repeat;
+                    background-size: 400px auto;
+                    background-position: top;
+                    height: 100px;
                     margin: 0;
                     padding: 0;
                     margin-top: 150px;
@@ -91,9 +89,7 @@ export const Index01Component = () => {
                 }
                 .already-have-account {
                     text-align: center;
-                    display: flex;
                     flex-direction: row;
-                    justify-content: center;
                     margin-top: 20px;
                     color: rgba(255, 255, 255, 0.8);
                     font-size: 16px;

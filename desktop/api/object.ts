@@ -17,6 +17,7 @@ export type UserObjectT = {
     dormant: boolean
     muted: boolean
     blocked: boolean
+    trust_level: number
     last_activity_time: number | null
 }
 

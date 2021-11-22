@@ -10,6 +10,7 @@ const AlreadyLoggedInMessageComponent = () => {
         return (
             <div>
                 <p>{`name: ${loggedInUser.name}`}</p>
+                <p>{`trust_level: ${loggedInUser.trust_level}`}</p>
                 <p>{`token: ${authenticityToken}`}</p>
             </div>
         )

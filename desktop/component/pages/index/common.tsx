@@ -30,11 +30,13 @@ export const Button = ({ onClick, children, className, themeColor }) => {
                     border-radius: 30px;
                     height: 60px;
                     color: white;
-                    transition: background-color 0.1s ease-in 0s, color 0.1s ease-in 0s;
+                    transition: background-color 0.1s ease-in 0s, color 0.1s ease-in 0s,
+                        filter 0.1s ease-in 0s;
                 }
                 button:hover {
                     background-color: white;
                     color: ${themeColor};
+                    filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.3));
                 }
             `}</style>
         </>

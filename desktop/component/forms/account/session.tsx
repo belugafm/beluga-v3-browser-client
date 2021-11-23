@@ -38,6 +38,7 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                     margin: auto;
                     border-radius: 6px;
                     font-size: 15px;
+                    filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
                 }
                 .tab-menu {
                     display: flex;
@@ -70,6 +71,34 @@ export const AccountSessionComponent = ({ active }: { active: string }) => {
                 .form {
                     padding: 40px;
                     margin: 0;
+                }
+            `}</style>
+            <style global jsx>{`
+                body {
+                    background-image: url("/assets/images/bg_03_1920.png?1637570884");
+                    background-position-y: -150px;
+                    background-size: 100% auto;
+                    background-repeat: no-repeat;
+                    background-color: #1547c5;
+                    height: 100vh;
+                    width: 100vw;
+                    margin: 0;
+                    padding: 0;
+                }
+                @media screen and (min-width: 1920px) {
+                    body {
+                        background-image: url("/assets/images/bg_03_3840.png?1637570884");
+                    }
+                }
+                #__next {
+                    height: 100%;
+                    width: 100%;
+                    position: relative;
+                }
+                #__next > div {
+                    height: 100%;
+                    width: 100%;
+                    position: relative;
                 }
             `}</style>
             <style jsx>{`

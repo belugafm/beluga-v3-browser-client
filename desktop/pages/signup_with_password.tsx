@@ -1,19 +1,9 @@
 export { getServerSideProps } from "../component/app"
 
-import * as WebAPI from "../api"
-
 import { App } from "../component/app"
 import Head from "next/head"
+import { SignupFormComponent } from "../component/pages/signup/signup_with_password"
 import { ThemeProvider } from "../component/theme"
-
-async function loginWithTwitter() {
-    const res = await WebAPI.auth.twitter.requestToken()
-    if (res.ok) {
-        location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${res.oauthToken}`
-        return
-    }
-    alert("Error")
-}
 
 const Button = ({ onClick, children, className }) => {
     return (
@@ -88,19 +78,39 @@ const RiskyUserSection = () => {
     )
 }
 
+const InviteLinkSection = () => {
+    return (
+        <>
+            <div className="friends"></div>
+            <div className="about-risky-user">
+                あなたの友だちがすでにBelugaをやっている場合、招待リンクを発行してもらうことができます。招待リンクから登録すると機能制限を受けません。
+            </div>
+            <style jsx>{`
+                .friends {
+                    background-image: url("/assets/svg/friends.svg");
+                    background-repeat: no-repeat;
+                    background-size: 80px;
+                    background-position: center;
+                    width: 80px;
+                    flex: 0 0 auto;
+                }
+                .about-risky-user {
+                    margin-left: 20px;
+                    flex: 1 1 auto;
+                }
+            `}</style>
+        </>
+    )
+}
+
 const StartBelugaSection = () => {
     return (
         <>
             <h1>アカウント作成</h1>
-            <p>Twitterアカウントでログインすれば2クリックで完了します。</p>
-            <Button className="twitter" onClick={() => loginWithTwitter()}>
+            <Button className="twitter" onClick={() => {}}>
                 Twitterでログイン
             </Button>
-            <Button
-                className="signup-without-twitter"
-                onClick={() => {
-                    location.href = "/signup_with_password"
-                }}>
+            <Button className="signup-without-twitter" onClick={() => {}}>
                 Twitterアカウントを持っていない
             </Button>
             <style jsx>{`
@@ -137,8 +147,13 @@ export default ({ theme }) => {
                             </div>
                         </div>
                         <div className="section">
+                            <div className="border-white section-invite-link">
+                                <InviteLinkSection />
+                            </div>
+                        </div>
+                        <div className="section">
                             <div className="border-white section-start-beluga">
-                                <StartBelugaSection />
+                                <SignupFormComponent />
                             </div>
                         </div>
                         <div className="section section-already-have-account">
@@ -165,6 +180,10 @@ export default ({ theme }) => {
                             filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
                         }
                         .section-risky-user {
+                            display: flex;
+                            flex-direction: row;
+                        }
+                        .section-invite-link {
                             display: flex;
                             flex-direction: row;
                         }
@@ -203,7 +222,6 @@ export default ({ theme }) => {
                             }
                         }
                         #__next {
-                            position: relative;
                             width: 100%;
                             height: 100%;
                             justify-content: center;

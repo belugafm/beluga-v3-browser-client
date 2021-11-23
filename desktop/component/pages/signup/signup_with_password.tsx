@@ -236,7 +236,6 @@ export const SignupFormComponent = () => {
                 handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
-                <TrollsComponent />
                 <InviteLinkComponent />
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />

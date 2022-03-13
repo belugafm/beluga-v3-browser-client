@@ -1,9 +1,7 @@
 export { getServerSideProps } from "../component/app"
 
-import { App } from "../component/app"
 import Head from "next/head"
 import { SignupFormComponent } from "../component/pages/signup/signup_with_password"
-import { ThemeProvider } from "../component/theme"
 
 const Button = ({ onClick, children, className }) => {
     return (
@@ -83,7 +81,9 @@ const InviteLinkSection = () => {
         <>
             <div className="friends"></div>
             <div className="about-risky-user">
-                あなたの友だちがすでにBelugaを利用している場合、招待リンクを発行してもらうことができます。招待リンクから登録すると機能制限を受けません。
+                あなたの友だちがすでにBelugaを利用している場合、
+                <a href="/what-is-invite-link">招待リンク</a>
+                を発行してもらうことができます。招待リンクから登録すると機能制限を受けません。
             </div>
             <style jsx>{`
                 .friends {
@@ -103,107 +103,148 @@ const InviteLinkSection = () => {
     )
 }
 
-export default ({ theme }) => {
+export default () => {
     return (
         <>
             <Head>
                 <title>アカウント作成</title>
             </Head>
-            <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <App>
-                    <div className="session-container">
-                        <div className="section">
-                            <div className="border-white section-risky-user">
-                                <RiskyUserSection />
-                            </div>
+            <div className="session-container">
+                <div className="session-inside">
+                    <div className="session-bg"></div>
+                    <div className="session-main">
+                        <div className="section risky-user">
+                            <RiskyUserSection />
                         </div>
-                        <div className="section">
-                            <div className="border-white section-invite-link">
-                                <InviteLinkSection />
-                            </div>
+                        <div className="sep"></div>
+                        <div className="section invite-link">
+                            <InviteLinkSection />
                         </div>
-                        <div className="section">
-                            <div className="border-white section-start-beluga">
-                                <SignupFormComponent />
-                            </div>
+                        <div className="sep"></div>
+                        <div className="section title">
+                            <h1>アカウント作成</h1>
                         </div>
-                        <div className="section section-already-have-account">
-                            <a href="/login" className="login-link">
-                                すでにアカウントをお持ちですか？
-                            </a>
+                        <div className="section start-beluga">
+                            <SignupFormComponent />
                         </div>
                     </div>
-                    <style jsx>{`
-                        .session-container {
-                            width: 500px;
-                            flex: 0 0 auto;
-                            font-size: 16px;
-                            line-height: 24px;
-                        }
-                        .section {
-                            margin-bottom: 30px;
-                        }
-                        .border-white {
-                            background-color: white;
-                            border-radius: 8px;
-                            box-sizing: border-box;
-                            padding: 30px;
-                            filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
-                        }
-                        .section-risky-user {
-                            display: flex;
-                            flex-direction: row;
-                        }
-                        .section-invite-link {
-                            display: flex;
-                            flex-direction: row;
-                        }
-                        .section-already-have-account {
-                            text-align: center;
-                        }
-                        .login-link {
-                            color: rgba(255, 255, 255, 0.8);
-                            font-weight: normal;
-                        }
-                        .login-link:hover {
-                            color: white;
-                        }
-                    `}</style>
-                    <style global jsx>{`
-                        a {
-                            color: #1547c5;
-                        }
-                        a:hover {
-                            text-decoration: underline;
-                        }
-                        body {
-                            background-image: url("/assets/images/bg_04_1920.png?1637570884");
-                            background-position-y: -150px;
-                            background-size: 100% auto;
-                            background-repeat: no-repeat;
-                            background-color: #1547c5;
-                            height: 100vh;
-                            width: 100vw;
-                            margin: 0;
-                            padding: 0;
-                        }
-                        @media screen and (min-width: 1920px) {
-                            body {
-                                background-image: url("/assets/images/bg_04_3840.png?1637570884");
-                            }
-                        }
-                        #__next {
-                            width: 100%;
-                            height: 100%;
-                            justify-content: center;
-                            align-items: center;
-                            margin: 0 auto;
-                            display: flex;
-                            flex-direction: column;
-                        }
-                    `}</style>
-                </App>
-            </ThemeProvider>
+                </div>
+                <div className="already-have-account">
+                    <a href="/login" className="login-link">
+                        すでにアカウントをお持ちですか？
+                    </a>
+                </div>
+            </div>
+            <style jsx>{`
+                .session-container {
+                    width: 500px;
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin: 0 auto;
+                    margin-top: 100px;
+                }
+                .session-inside {
+                    position: relative;
+                    z-index: 0;
+                }
+                .session-bg {
+                    transform: rotate(-4deg);
+                    position: absolute;
+                    top: 60px;
+                    left: -60px;
+                    right: -60px;
+                    bottom: 60px;
+                    border-radius: 20px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    background: linear-gradient(
+                        -135deg,
+                        rgba(255, 255, 255, 0.2) 0%,
+                        rgba(255, 255, 255, 0.7) 75%,
+                        rgba(255, 255, 255, 0.2) 100%
+                    );
+                    backdrop-filter: blur(50px);
+                    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+                }
+                .session-main {
+                    border-radius: 10px;
+                    overflow: hidden;
+                    position: relative;
+                    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+                }
+                .section {
+                    box-sizing: border-box;
+                    padding: 40px;
+                    background-color: white;
+                }
+                .sep {
+                    height: 1px;
+                    background-color: rgba(255, 255, 255, 0.8);
+                }
+                .section.title {
+                    padding: 0;
+                    padding-top: 40px;
+                }
+                h1 {
+                    font-size: 20px;
+                    text-align: center;
+                    margin: 0;
+                    padding: 0;
+                }
+                .section.risky-user {
+                    display: flex;
+                    flex-direction: row;
+                }
+                .section.invite-link {
+                    display: flex;
+                    flex-direction: row;
+                }
+                .section.start-beluga {
+                    padding-top: 20px;
+                }
+                .already-have-account {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                .login-link {
+                    color: black;
+                    text-decoration: none;
+                    font-weight: normal;
+                }
+                .login-link:hover {
+                    color: black;
+                    text-decoration: underline;
+                }
+            `}</style>
+            <style global jsx>{`
+                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
+                a {
+                    color: #1547c5;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+                body {
+                    font-family: "M PLUS 1", sans-serif;
+                    background-image: url("/assets/images/bg_02_1920.png?1637570884");
+                    background-size: 1920px auto;
+                    background-repeat: no-repeat;
+                    background-position-x: center;
+                    margin: 0;
+                    padding: 0;
+                }
+                @media screen and (min-width: 1920px) {
+                    body {
+                        background-image: url("/assets/images/bg_02_3840.png?1637570884");
+                    }
+                }
+                #__next {
+                    width: 100%;
+                    height: 100%;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 auto;
+                }
+            `}</style>
         </>
     )
 }

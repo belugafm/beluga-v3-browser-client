@@ -4,7 +4,6 @@ import { SignupFormContext, useSignupFormState } from "../../../state/account/si
 import { LoginWithTwitterButton } from "../../buttons/login_with_twitter"
 import classnames from "classnames"
 import { useLoggedInUser } from "../../../state/session"
-import { useTheme } from "../../theme"
 
 type InputComponentAttributes = {
     name: string
@@ -25,7 +24,6 @@ const InputComponent = ({
     errorMessage,
     hint,
 }: InputComponentAttributes) => {
-    const [theme] = useTheme()
     return (
         <div
             className={classnames("input-component", {
@@ -49,8 +47,16 @@ const InputComponent = ({
                 )
             })}
             <style jsx>{`
+                input {
+                    border-radius: 6px;
+                    border-width: 1px;
+                    font-size: 16px;
+                    padding: 6px;
+                    width: 100%;
+                }
                 .input-component {
                     margin: auto;
+                    margin-bottom: 20px;
                 }
                 .label {
                     display: block;
@@ -64,7 +70,7 @@ const InputComponent = ({
             `}</style>
             <style jsx>{`
                 .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
+                    color: red;
                 }
             `}</style>
         </div>
@@ -102,11 +108,15 @@ const ConfirmedPasswordInputForm = () => {
 }
 
 const TermsOfServiceCheckbox = () => {
-    const [theme] = useTheme()
     const { termsOfServiceAgreementField, handleTermsOfServiceAgreementChecked } =
         useContext(SignupFormContext)
     return (
         <div>
+            <input
+                type="checkbox"
+                checked={termsOfServiceAgreementField.checked}
+                onChange={handleTermsOfServiceAgreementChecked}
+            />
             <a
                 href="https://raw.githubusercontent.com/belugafm/beluga-v2-core/master/terms_of_service.md"
                 target="_blank">
@@ -119,11 +129,6 @@ const TermsOfServiceCheckbox = () => {
                 プライバシーポリシー
             </a>
             を読み、同意します
-            <input
-                type="checkbox"
-                checked={termsOfServiceAgreementField.checked}
-                onChange={handleTermsOfServiceAgreementChecked}
-            />
             {termsOfServiceAgreementField.errorMessage.map((line, index) => {
                 return (
                     <p key={index} className="error-message">
@@ -140,7 +145,7 @@ const TermsOfServiceCheckbox = () => {
             })}
             <style jsx>{`
                 .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
+                    color: red;
                 }
             `}</style>
         </div>
@@ -148,7 +153,6 @@ const TermsOfServiceCheckbox = () => {
 }
 
 const GlobalErrorMessageComponent = () => {
-    const [theme] = useTheme()
     const { globalErrorMessageField } = useContext(SignupFormContext)
     return (
         <div className="global-error">
@@ -168,7 +172,7 @@ const GlobalErrorMessageComponent = () => {
             })}
             <style jsx>{`
                 .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
+                    color: red;
                 }
             `}</style>
         </div>
@@ -186,22 +190,6 @@ const AlreadyLoggedInMessageComponent = () => {
     } else {
         return null
     }
-}
-
-const TrollsComponent = () => {
-    return (
-        <div>
-            <p>
-                荒らし対策のため「Twitterでログイン」機能を使わずに登録したユーザーの機能を制限しています
-            </p>
-            <p>
-                詳細は<a href="/arashi_taisaku">荒らし対策について</a>をお読みください
-            </p>
-            <p>
-                <LoginWithTwitterButton />
-            </p>
-        </div>
-    )
 }
 
 export const SignupFormComponent = () => {
@@ -232,7 +220,35 @@ export const SignupFormComponent = () => {
                 <PasswordInputForm />
                 <ConfirmedPasswordInputForm />
                 <TermsOfServiceCheckbox />
-                <button type="submit">登録する</button>
+                <div className="button-container">
+                    <button type="submit">登録する</button>
+                </div>
+                <style jsx>{`
+                    .button-container {
+                        text-align: right;
+                    }
+                    button {
+                        font-family: "M PLUS 1", sans-serif;
+                        font-weight: 700;
+                        width: 160px;
+                        font-size: 16px;
+                        flex: 0 0 auto;
+                        box-sizing: border-box;
+                        margin: 10px;
+                        padding: 0 16px;
+                        cursor: pointer;
+                        border: 1px solid rgb(0, 0, 0);
+                        border-radius: 50px;
+                        height: 50px;
+                        background-color: rgba(0, 0, 0, 0.9);
+                        color: white;
+                        transition: 0.3s;
+                    }
+                    button:hover {
+                        transform: translateY(-3px);
+                        background-color: rgb(50, 50, 50);
+                    }
+                `}</style>
             </form>
         </SignupFormContext.Provider>
     )

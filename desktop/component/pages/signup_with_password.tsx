@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
-import { SignupFormContext, useSignupFormState } from "../../../state/account/signup"
+import { SignupFormContext, useSignupFormState } from "../../state/account/signup"
 
-import { LoginWithTwitterButton } from "../../buttons/login_with_twitter"
+import { LoginWithTwitterButton } from "../buttons/login_with_twitter"
 import classnames from "classnames"
-import { useLoggedInUser } from "../../../state/session"
+import { useLoggedInUser } from "../../state/session"
 
 type InputComponentAttributes = {
     name: string
@@ -53,6 +53,7 @@ const InputComponent = ({
                     font-size: 16px;
                     padding: 6px;
                     width: 100%;
+                    box-sizing: border-box;
                 }
                 .input-component {
                     margin: auto;
@@ -230,16 +231,17 @@ export const SignupFormComponent = () => {
                     button {
                         font-family: "M PLUS 1", sans-serif;
                         font-weight: 700;
-                        width: 160px;
+                        width: 140px;
                         font-size: 16px;
                         flex: 0 0 auto;
                         box-sizing: border-box;
                         margin: 10px;
+                        margin-right: 0;
                         padding: 0 16px;
                         cursor: pointer;
                         border: 1px solid rgb(0, 0, 0);
                         border-radius: 50px;
-                        height: 50px;
+                        height: 44px;
                         background-color: rgba(0, 0, 0, 0.9);
                         color: white;
                         transition: 0.3s;

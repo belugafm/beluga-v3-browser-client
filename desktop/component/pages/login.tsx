@@ -1,9 +1,8 @@
 import React, { useContext } from "react"
-import { SigninFormContext, useSigninFormState } from "../../../state/account/signin"
+import { SigninFormContext, useSigninFormState } from "../../state/account/signin"
 
 import classnames from "classnames"
-import { useLoggedInUser } from "../../../state/session"
-import { useTheme } from "../../theme"
+import { useLoggedInUser } from "../../state/session"
 
 type InputComponentAttributes = {
     name: string
@@ -24,7 +23,6 @@ const InputComponent = ({
     errorMessage,
     hint,
 }: InputComponentAttributes) => {
-    const [theme] = useTheme()
     return (
         <div
             className={classnames("input-component", {
@@ -48,8 +46,17 @@ const InputComponent = ({
                 )
             })}
             <style jsx>{`
+                input {
+                    border-radius: 6px;
+                    border-width: 1px;
+                    font-size: 16px;
+                    padding: 6px;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
                 .input-component {
                     margin: auto;
+                    margin-bottom: 20px;
                 }
                 .label {
                     display: block;
@@ -63,7 +70,7 @@ const InputComponent = ({
             `}</style>
             <style jsx>{`
                 .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
+                    color: red;
                 }
             `}</style>
         </div>
@@ -100,7 +107,6 @@ const PasswordInputForm = () => {
 }
 
 const GlobalErrorMessageComponent = () => {
-    const [theme] = useTheme()
     const { globalErrorMessageField } = useContext(SigninFormContext)
     return (
         <div className="global-error">
@@ -120,19 +126,9 @@ const GlobalErrorMessageComponent = () => {
             })}
             <style jsx>{`
                 .error-message {
-                    color: ${theme.global.current.errorMessageFontColor};
+                    color: red;
                 }
             `}</style>
-        </div>
-    )
-}
-
-const LoginWithTwitterComponent = () => {
-    return (
-        <div>
-            <p>
-                <a href="/login_with_twitter">Twitterでログインする</a>
-            </p>
         </div>
     )
 }
@@ -166,12 +162,41 @@ export const SigninFormComponent = () => {
                 handleUpdatePasswordValue,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
-                <LoginWithTwitterComponent />
                 <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <NameInputForm />
                 <PasswordInputForm />
-                <button type="submit">ログイン</button>
+                <div className="button-container">
+                    <button type="submit">ログイン</button>
+                </div>
+                <style jsx>{`
+                    .button-container {
+                        text-align: right;
+                        margin-top: 20px;
+                    }
+                    button {
+                        font-family: "M PLUS 1", sans-serif;
+                        font-weight: 700;
+                        width: 140px;
+                        font-size: 16px;
+                        flex: 0 0 auto;
+                        box-sizing: border-box;
+                        margin: 10px;
+                        margin-right: 0;
+                        padding: 0 16px;
+                        cursor: pointer;
+                        border: 1px solid rgb(0, 0, 0);
+                        border-radius: 50px;
+                        height: 44px;
+                        background-color: rgba(0, 0, 0, 0.9);
+                        color: white;
+                        transition: 0.3s;
+                    }
+                    button:hover {
+                        transform: translateY(-3px);
+                        background-color: rgb(50, 50, 50);
+                    }
+                `}</style>
             </form>
         </SigninFormContext.Provider>
     )

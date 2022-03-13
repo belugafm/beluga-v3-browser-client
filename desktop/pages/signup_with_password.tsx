@@ -1,53 +1,7 @@
 export { getServerSideProps } from "../component/app"
 
 import Head from "next/head"
-import { SignupFormComponent } from "../component/pages/signup/signup_with_password"
-
-const Button = ({ onClick, children, className }) => {
-    return (
-        <>
-            <button className={className} onClick={onClick}>
-                {children}
-            </button>
-            <style jsx>{`
-                button {
-                    width: 100%;
-                    font-size: 16px;
-                    font-weight: bold;
-                    flex: 0 0 auto;
-                    box-sizing: border-box;
-                    margin: 0;
-                    margin-bottom: 10px;
-                    padding: 0 20px;
-                    cursor: pointer;
-                    background: #1651ce;
-                    border: none;
-                    border-radius: 6px;
-                    height: 44px;
-                    color: white;
-                    transition: background-color 0.1s ease-in 0s;
-                }
-                button:last-child {
-                    margin: 0;
-                }
-                button.twitter {
-                    background-color: #1da1f2;
-                    background-color: hsl(203, 89%, 53%);
-                }
-                button.signup-without-twitter {
-                    background-color: #657786;
-                    background-color: hsl(207, 14%, 46%);
-                }
-                button.twitter:hover {
-                    background-color: hsl(203, 89%, 48%);
-                }
-                button.signup-without-twitter:hover {
-                    background-color: hsl(207, 14%, 41%);
-                }
-            `}</style>
-        </>
-    )
-}
+import { SignupFormComponent } from "../component/pages/signup_with_password"
 
 const RiskyUserSection = () => {
     return (
@@ -141,7 +95,7 @@ export default () => {
                     font-size: 16px;
                     line-height: 24px;
                     margin: 0 auto;
-                    margin-top: 100px;
+                    margin-top: 70px;
                 }
                 .session-inside {
                     position: relative;
@@ -182,7 +136,7 @@ export default () => {
                 }
                 .section.title {
                     padding: 0;
-                    padding-top: 40px;
+                    padding-top: 30px;
                 }
                 h1 {
                     font-size: 20px;

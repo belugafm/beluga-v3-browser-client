@@ -21,7 +21,7 @@ export const Button = ({ onClick, children, className, themeColor }) => {
             </button>
             <style jsx>{`
                 button {
-                    font-weight: bold;
+                    font-weight: 700;
                     width: 220px;
                     font-size: 16px;
                     flex: 0 0 auto;
@@ -221,7 +221,7 @@ export default () => {
                 }
             `}</style>
             <style global jsx>{`
-                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400&display=swap");
+                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
                 button {
                     font-family: "M PLUS 1", sans-serif;
                 }

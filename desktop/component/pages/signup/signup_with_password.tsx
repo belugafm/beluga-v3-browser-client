@@ -204,14 +204,6 @@ const TrollsComponent = () => {
     )
 }
 
-const InviteLinkComponent = () => {
-    return (
-        <div>
-            <p>招待リンクについて書く</p>
-        </div>
-    )
-}
-
 export const SignupFormComponent = () => {
     const {
         passwordField,
@@ -236,8 +228,6 @@ export const SignupFormComponent = () => {
                 handleTermsOfServiceAgreementChecked,
             }}>
             <form method="POST" action="" onSubmit={handleSubmit}>
-                <InviteLinkComponent />
-                <AlreadyLoggedInMessageComponent />
                 <GlobalErrorMessageComponent />
                 <PasswordInputForm />
                 <ConfirmedPasswordInputForm />

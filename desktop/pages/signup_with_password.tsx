@@ -83,7 +83,7 @@ const InviteLinkSection = () => {
         <>
             <div className="friends"></div>
             <div className="about-risky-user">
-                あなたの友だちがすでにBelugaをやっている場合、招待リンクを発行してもらうことができます。招待リンクから登録すると機能制限を受けません。
+                あなたの友だちがすでにBelugaを利用している場合、招待リンクを発行してもらうことができます。招待リンクから登録すると機能制限を受けません。
             </div>
             <style jsx>{`
                 .friends {
@@ -97,35 +97,6 @@ const InviteLinkSection = () => {
                 .about-risky-user {
                     margin-left: 20px;
                     flex: 1 1 auto;
-                }
-            `}</style>
-        </>
-    )
-}
-
-const StartBelugaSection = () => {
-    return (
-        <>
-            <h1>アカウント作成</h1>
-            <Button className="twitter" onClick={() => {}}>
-                Twitterでログイン
-            </Button>
-            <Button className="signup-without-twitter" onClick={() => {}}>
-                Twitterアカウントを持っていない
-            </Button>
-            <style jsx>{`
-                h1 {
-                    color: #222222;
-                    font-size: 24px;
-                    margin: 0;
-                    padding: 0;
-                    text-align: center;
-                    margin: 10px 0 30px 0;
-                }
-                p {
-                    margin: 0;
-                    padding: 0;
-                    margin-bottom: 20px;
                 }
             `}</style>
         </>
@@ -206,7 +177,7 @@ export default ({ theme }) => {
                             text-decoration: underline;
                         }
                         body {
-                            background-image: url("/assets/images/bg_03_1920.png?1637570884");
+                            background-image: url("/assets/images/bg_04_1920.png?1637570884");
                             background-position-y: -150px;
                             background-size: 100% auto;
                             background-repeat: no-repeat;
@@ -218,7 +189,7 @@ export default ({ theme }) => {
                         }
                         @media screen and (min-width: 1920px) {
                             body {
-                                background-image: url("/assets/images/bg_03_3840.png?1637570884");
+                                background-image: url("/assets/images/bg_04_3840.png?1637570884");
                             }
                         }
                         #__next {

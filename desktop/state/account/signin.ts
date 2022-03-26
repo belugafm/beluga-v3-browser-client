@@ -3,13 +3,18 @@ import * as WebAPI from "../../api"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/classes"
 import { createContext, useState } from "react"
 
-export const useSigninFormState = () => {
+export const useSigninFormState = (userNamePlaceholder: string) => {
     const initialState = {
         errorMessage: [],
         hint: [],
         value: "",
     }
-    const [nameField, setNameField] = useState(initialState)
+
+    const [nameField, setNameField] = useState({
+        errorMessage: [],
+        hint: [],
+        value: userNamePlaceholder,
+    })
     const [passwordField, setPasswordField] = useState(initialState)
     const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
         errorMessage: [],

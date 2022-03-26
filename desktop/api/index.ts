@@ -1,5 +1,6 @@
 export { account } from "./methods/account"
 export { channels } from "./methods/channels"
+export { channelGroups } from "./methods/channel_groups"
 export { auth } from "./methods/auth"
 export { statuses } from "./methods/statuses"
 export { users } from "./methods/users"

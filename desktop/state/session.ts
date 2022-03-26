@@ -1,4 +1,4 @@
-import * as WebAPI from "../api"
+import * as api from "../api"
 
 import { UserObjectT } from "../api/object"
 import useSWR from "swr"
@@ -13,7 +13,7 @@ type ReturnT = {
 
 export const useLoggedInUser = (): ReturnT => {
     const { data, error } = useSWR("logged_in_user", () => {
-        return WebAPI.auth.cookie.authenticate()
+        return api.auth.cookie.authenticate()
     })
     return {
         loggedInUser: data ? data.user : null,

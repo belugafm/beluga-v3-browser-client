@@ -1,7 +1,8 @@
-export { getServerSideProps } from "../component/app"
+export { getServerSideProps } from "../component/app/next"
 
 import Head from "next/head"
 import { SignupFormComponent } from "../component/pages/signup_with_password"
+import { ThemeProvider } from "../component/theme"
 
 const RiskyUserSection = () => {
     return (
@@ -63,142 +64,149 @@ export default () => {
             <Head>
                 <title>アカウント作成</title>
             </Head>
-            <div className="session-container">
-                <div className="session-inside">
-                    <div className="session-bg"></div>
-                    <div className="session-main">
-                        <div className="section risky-user">
-                            <RiskyUserSection />
-                        </div>
-                        <div className="sep"></div>
-                        <div className="section invite-link">
-                            <InviteLinkSection />
-                        </div>
-                        <div className="sep"></div>
-                        <div className="section title">
-                            <h1>アカウント作成</h1>
-                        </div>
-                        <div className="section start-beluga">
-                            <SignupFormComponent />
+            <ThemeProvider userTheme={null} defaultGlobalThemeName={null}>
+                <div className="session-container">
+                    <div className="session-inside">
+                        <div className="session-bg"></div>
+                        <div className="session-main">
+                            <div className="section risky-user">
+                                <RiskyUserSection />
+                            </div>
+                            <div className="sep"></div>
+                            <div className="section invite-link">
+                                <InviteLinkSection />
+                            </div>
+                            <div className="sep"></div>
+                            <div className="section title">
+                                <h1>アカウント作成</h1>
+                            </div>
+                            <div className="section start-beluga">
+                                <SignupFormComponent />
+                            </div>
                         </div>
                     </div>
+                    <div className="already-have-account">
+                        <a href="/login" className="login-link">
+                            すでにアカウントをお持ちですか？
+                        </a>
+                    </div>
                 </div>
-                <div className="already-have-account">
-                    <a href="/login" className="login-link">
-                        すでにアカウントをお持ちですか？
-                    </a>
-                </div>
-            </div>
-            <style jsx>{`
-                .session-container {
-                    width: 500px;
-                    font-size: 16px;
-                    line-height: 24px;
-                    margin: 0 auto;
-                    margin-top: 70px;
-                }
-                .session-inside {
-                    position: relative;
-                    z-index: 0;
-                }
-                .session-bg {
-                    transform: rotate(-4deg);
-                    position: absolute;
-                    top: 60px;
-                    left: -60px;
-                    right: -60px;
-                    bottom: 60px;
-                    border-radius: 20px;
-                    background-color: rgba(255, 255, 255, 0.5);
-                    background: linear-gradient(
-                        -135deg,
-                        rgba(255, 255, 255, 0.2) 0%,
-                        rgba(255, 255, 255, 0.7) 75%,
-                        rgba(255, 255, 255, 0.2) 100%
-                    );
-                    backdrop-filter: blur(50px);
-                    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
-                }
-                .session-main {
-                    border-radius: 10px;
-                    overflow: hidden;
-                    position: relative;
-                    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
-                }
-                .section {
-                    box-sizing: border-box;
-                    padding: 40px;
-                    background-color: white;
-                }
-                .sep {
-                    height: 1px;
-                    background-color: rgba(255, 255, 255, 0.8);
-                }
-                .section.title {
-                    padding: 0;
-                    padding-top: 30px;
-                }
-                h1 {
-                    font-size: 20px;
-                    text-align: center;
-                    margin: 0;
-                    padding: 0;
-                }
-                .section.risky-user {
-                    display: flex;
-                    flex-direction: row;
-                }
-                .section.invite-link {
-                    display: flex;
-                    flex-direction: row;
-                }
-                .section.start-beluga {
-                    padding-top: 20px;
-                }
-                .already-have-account {
-                    text-align: center;
-                    margin-top: 20px;
-                }
-                .login-link {
-                    color: black;
-                    text-decoration: none;
-                    font-weight: normal;
-                }
-                .login-link:hover {
-                    color: black;
-                    text-decoration: underline;
-                }
-            `}</style>
-            <style global jsx>{`
-                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
-                a {
-                    color: #1547c5;
-                }
-                a:hover {
-                    text-decoration: underline;
-                }
-                body {
-                    font-family: "M PLUS 1", sans-serif;
-                    background-image: url("/assets/images/bg_02_1920.png?1637570884");
-                    background-size: 1920px auto;
-                    background-repeat: no-repeat;
-                    background-position-x: center;
-                    margin: 0;
-                    padding: 0;
-                }
-                @media screen and (min-width: 1920px) {
-                    body {
-                        background-image: url("/assets/images/bg_02_3840.png?1637570884");
+                <style jsx>{`
+                    .session-container {
+                        width: 500px;
+                        font-size: 16px;
+                        line-height: 24px;
+                        margin: 0 auto;
+                        margin-top: 70px;
                     }
-                }
-                #__next {
-                    width: 100%;
-                    height: 100%;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 auto;
-                }
-            `}</style>
+                    .session-inside {
+                        position: relative;
+                        z-index: 0;
+                    }
+                    .session-bg {
+                        transform: rotate(-4deg);
+                        position: absolute;
+                        top: 60px;
+                        left: -60px;
+                        right: -60px;
+                        bottom: 60px;
+                        border-radius: 20px;
+                        background-color: rgba(255, 255, 255, 0.5);
+                        background: linear-gradient(
+                            -135deg,
+                            rgba(255, 255, 255, 0.2) 0%,
+                            rgba(255, 255, 255, 0.5) 75%,
+                            rgba(255, 255, 255, 0.1) 100%
+                        );
+                        backdrop-filter: blur(50px);
+                        filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+                    }
+                    .session-main {
+                        border-radius: 10px;
+                        overflow: hidden;
+                        position: relative;
+                        filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+                    }
+                    .section {
+                        box-sizing: border-box;
+                        padding: 40px;
+                        background-color: white;
+                    }
+                    .sep {
+                        height: 1px;
+                        background-color: rgba(255, 255, 255, 0.8);
+                    }
+                    .section.title {
+                        padding: 0;
+                        padding-top: 30px;
+                    }
+                    h1 {
+                        font-size: 20px;
+                        text-align: center;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .section.risky-user {
+                        display: flex;
+                        flex-direction: row;
+                    }
+                    .section.invite-link {
+                        display: flex;
+                        flex-direction: row;
+                    }
+                    .section.start-beluga {
+                        padding-top: 20px;
+                    }
+                    .already-have-account {
+                        text-align: center;
+                        margin-top: 20px;
+                    }
+                    .login-link {
+                        color: black;
+                        text-decoration: none;
+                        font-weight: normal;
+                    }
+                    .login-link:hover {
+                        color: black;
+                        text-decoration: underline;
+                    }
+                `}</style>
+                <style global jsx>{`
+                    @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
+                    a {
+                        color: #1547c5;
+                        text-decoration: none;
+                    }
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                    body {
+                        font-family: "M PLUS 1", sans-serif;
+                        background-image: url("/assets/images/bg_02_1920.png?1637570884");
+                        background-size: 1920px auto;
+                        background-repeat: no-repeat;
+                        background-position-x: center;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    @media screen and (min-width: 1920px) {
+                        body {
+                            background-image: url("/assets/images/bg_02_3840.png?1637570884");
+                        }
+                    }
+                    input,
+                    button {
+                        outline: none;
+                    }
+                    #__next {
+                        width: 100%;
+                        height: 100%;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0 auto;
+                    }
+                `}</style>
+            </ThemeProvider>
         </>
     )
 }

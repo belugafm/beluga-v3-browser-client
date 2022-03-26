@@ -3,14 +3,8 @@ import React, { createContext, useContext, useState } from "react"
 import Cookie from "cookie"
 
 type GlobalTheme = {
-    backgroundPrimaryColor: string
-    backgroundSecondaryColor: string
-    fontPrimaryColor: string
-    fontSecondaryColor: string
-    borderPrimaryColor: string
-    errorMessageFontColor: string
-    boxShadow: string
-    transitionDuration: string
+    light: boolean
+    dark: boolean
 }
 
 type UserTheme = {
@@ -18,25 +12,13 @@ type UserTheme = {
 }
 
 const defaultGlobalDarkTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#202020",
-    backgroundSecondaryColor: "#2d2d2d",
-    fontPrimaryColor: "#FFFFFF",
-    fontSecondaryColor: "#717171",
-    borderPrimaryColor: "#4c4c4c",
-    errorMessageFontColor: "#DC162F",
-    boxShadow: "0px 1px 2px rgba(0,0,0,0.2)",
-    transitionDuration: "0.05s",
+    light: false,
+    dark: true,
 }
 
 const defaultGlobalLightTheme: GlobalTheme = {
-    backgroundPrimaryColor: "#f6f6f6",
-    backgroundSecondaryColor: "#fefefe",
-    fontPrimaryColor: "#222222",
-    fontSecondaryColor: "#c5c5c5",
-    borderPrimaryColor: "#efefef",
-    errorMessageFontColor: "#DC162F",
-    boxShadow: "0px 1px 2px rgba(0,0,0,0.08)",
-    transitionDuration: "0.05s",
+    light: true,
+    dark: false,
 }
 
 export const defaultUserDarkTheme: UserTheme = {
@@ -63,7 +45,7 @@ const defaultGlobalThemes = {
     setCurrentTheme: null,
 }
 
-type Themes = {
+export type Themes = {
     global: {
         dark: GlobalTheme
         light: GlobalTheme

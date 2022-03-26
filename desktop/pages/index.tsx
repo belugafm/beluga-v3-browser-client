@@ -1,4 +1,4 @@
-export { getServerSideProps } from "../component/app"
+export { getServerSideProps } from "../component/app/next"
 
 import * as api from "../api"
 
@@ -13,13 +13,21 @@ async function loginWithTwitter() {
     alert("Error")
 }
 
-export const Button = ({ onClick, children, className, themeColor }) => {
+export const Button = ({ onClick, children, className }) => {
     return (
         <>
             <button className={className} onClick={onClick}>
                 {children}
             </button>
             <style jsx>{`
+                .black {
+                    background-color: rgba(0, 0, 0, 0.9);
+                    color: white;
+                }
+                .white {
+                    background-color: transparent;
+                    color: rgb(0, 0, 0);
+                }
                 button {
                     font-weight: 700;
                     width: 220px;
@@ -29,25 +37,23 @@ export const Button = ({ onClick, children, className, themeColor }) => {
                     margin: 10px;
                     padding: 0 20px;
                     cursor: pointer;
-                    background-color: transparent;
                     border: 1px solid rgb(0, 0, 0);
                     border-radius: 30px;
                     height: 50px;
-                    color: rgb(0, 0, 0);
                     backdrop-filter: blur(10px);
+                    transition: 0.3s;
                 }
                 button:hover {
-                    background-color: rgba(0, 0, 0, 0.9);
-                    color: white;
+                    transform: translateY(-3px);
                 }
             `}</style>
         </>
     )
 }
 
-export const LoginWithTwitterButton = ({ themeColor }) => {
+export const LoginWithTwitterButton = () => {
     return (
-        <Button className="login-with-twitter" onClick={loginWithTwitter} themeColor={themeColor}>
+        <Button className="login-with-twitter black" onClick={loginWithTwitter}>
             Twitterでログイン
         </Button>
     )
@@ -69,11 +75,10 @@ export default () => {
                             <p>リアルタイムなコミュニケーションを楽しむことができます。</p>
                         </div>
                         <div className="start-beluga">
-                            <LoginWithTwitterButton themeColor="#0c31b3" />
+                            <LoginWithTwitterButton />
                             <Button
-                                className="signup"
-                                onClick={() => (location.href = "/signup_with_password")}
-                                themeColor="#0c31b3">
+                                className="signup white"
+                                onClick={() => (location.href = "/signup_with_password")}>
                                 新規登録
                             </Button>
                         </div>
@@ -156,8 +161,7 @@ export default () => {
                 }
                 .already-have-account > a {
                     color: rgb(0, 0, 0);
-                    text-decoration: underline;
-                    font-weight: bold;
+                    font-weight: 700;
                 }
                 .app-area {
                     width: 50%;
@@ -224,6 +228,12 @@ export default () => {
                 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
                 button {
                     font-family: "M PLUS 1", sans-serif;
+                }
+                a {
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
                 }
                 body {
                     font-family: "M PLUS 1", sans-serif;

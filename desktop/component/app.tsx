@@ -11,8 +11,7 @@ export const App = ({ children }) => {
             {isLoading ? null : children}
             <style jsx global>{`
                 body {
-                    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-                        "Hiragino Sans", Meiryo, sans-serif;
+                    font-family: Arial, sans-serif;
                 }
             `}</style>
             <style jsx global>{`
@@ -33,16 +32,4 @@ export const App = ({ children }) => {
             `}</style>
         </>
     )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const cookie = Cookie.parse(context.req.headers.cookie || "")
-    const { theme } = cookie
-    const { params } = context
-    return {
-        props: {
-            theme: theme ? theme : null,
-            params: params ? params : {},
-        },
-    }
 }

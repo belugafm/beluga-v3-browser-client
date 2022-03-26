@@ -1,82 +1,8 @@
 import React, { useContext } from "react"
 import { SignupFormContext, useSignupFormState } from "../../state/account/signup"
 
-import { LoginWithTwitterButton } from "../buttons/login_with_twitter"
-import classnames from "classnames"
+import { InputComponent } from "../forms/input"
 import { useLoggedInUser } from "../../state/session"
-
-type InputComponentAttributes = {
-    name: string
-    type: string
-    value: string
-    onChange: any
-    label: string
-    errorMessage: string[]
-    hint: string[]
-}
-
-const InputComponent = ({
-    name,
-    type,
-    value,
-    onChange,
-    label,
-    errorMessage,
-    hint,
-}: InputComponentAttributes) => {
-    return (
-        <div
-            className={classnames("input-component", {
-                error: errorMessage.length > 0,
-                hint: hint.length > 0,
-            })}>
-            <label className="label">{label}</label>
-            <input name={name} value={value} type={type} onChange={onChange} />
-            {errorMessage.map((line, index) => {
-                return (
-                    <p key={index} className="error-message">
-                        {line}
-                    </p>
-                )
-            })}
-            {hint.map((line, index) => {
-                return (
-                    <p key={index} className="hint">
-                        {line}
-                    </p>
-                )
-            })}
-            <style jsx>{`
-                input {
-                    border-radius: 6px;
-                    border-width: 1px;
-                    font-size: 16px;
-                    padding: 6px;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-                .input-component {
-                    margin: auto;
-                    margin-bottom: 20px;
-                }
-                .label {
-                    display: block;
-                }
-                .error-message {
-                    display: none;
-                }
-                .input-component.error .error-message {
-                    display: block;
-                }
-            `}</style>
-            <style jsx>{`
-                .error-message {
-                    color: red;
-                }
-            `}</style>
-        </div>
-    )
-}
 
 const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(SignupFormContext)
@@ -241,7 +167,7 @@ export const SignupFormComponent = () => {
                         cursor: pointer;
                         border: 1px solid rgb(0, 0, 0);
                         border-radius: 50px;
-                        height: 44px;
+                        height: 48px;
                         background-color: rgba(0, 0, 0, 0.9);
                         color: white;
                         transition: 0.3s;
@@ -249,6 +175,9 @@ export const SignupFormComponent = () => {
                     button:hover {
                         transform: translateY(-3px);
                         background-color: rgb(50, 50, 50);
+                    }
+                    button:active {
+                        background-color: rgb(90, 90, 90);
                     }
                 `}</style>
             </form>

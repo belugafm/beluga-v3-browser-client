@@ -1,14 +1,14 @@
-import { Response, UnexpectedResponseError, get, post } from "../classes"
+import { Response, UnexpectedResponseError, get, post } from "../fetch"
 
 function create(body: { name: string; parentChannelGroupId: number }): Promise<Response> {
-    return post("channels/create", {
+    return post("channel/create", {
         name: body.name,
         parent_channel_group_id: body.parentChannelGroupId,
     })
 }
 
 async function show(query: { channelId: string }): Promise<Response> {
-    const responce = await get("channels/show", {
+    const responce = await get("channel/show", {
         channel_id: query.channelId,
     })
     if (responce.channel == null) {
@@ -17,7 +17,7 @@ async function show(query: { channelId: string }): Promise<Response> {
     return responce
 }
 
-export const channels = {
+export const channel = {
     show,
     create,
 }

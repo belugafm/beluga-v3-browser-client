@@ -1,6 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
 
-import { ChannelObjectT, StatusObjectT, UserObjectT } from "./object"
+import { ChannelGroupObjectT, ChannelObjectT, StatusObjectT, UserObjectT } from "./object"
 
 import config from "../config"
 
@@ -26,6 +26,9 @@ interface ResponseInterface {
     error_code: string
     ok: boolean
     channel?: ChannelObjectT
+    channels?: ChannelObjectT[]
+    channel_group?: ChannelGroupObjectT
+    channel_groups?: ChannelGroupObjectT[]
     status?: StatusObjectT
     user?: UserObjectT
     statuses?: StatusObjectT[]
@@ -42,6 +45,9 @@ export class Response implements ResponseInterface {
     error_code: string
     ok: boolean
     channel?: ChannelObjectT
+    channels?: ChannelObjectT[]
+    channel_group?: ChannelGroupObjectT
+    channel_groups?: ChannelGroupObjectT[]
     status?: StatusObjectT
     user?: UserObjectT
     statuses?: StatusObjectT[]
@@ -76,8 +82,17 @@ export class Response implements ResponseInterface {
         this.error_code = response.error_code
         this.ok = response.ok
 
+        if (response.channel_group) {
+            this.channel_group = response.channel_group
+        }
+        if (response.channel_groups) {
+            this.channel_groups = response.channel_groups
+        }
         if (response.channel) {
             this.channel = response.channel
+        }
+        if (response.channels) {
+            this.channels = response.channels
         }
         if (response.user) {
             this.user = response.user
@@ -140,6 +155,8 @@ export function get(method_url: string, query: any): Promise<Response> {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-From": location.href,
             },
         })
             .then(async (data) => {

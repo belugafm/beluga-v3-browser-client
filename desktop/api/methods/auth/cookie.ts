@@ -1,4 +1,4 @@
-import { Response, post } from "../../classes"
+import { Response, post } from "../../fetch"
 
 export function authenticate(): Promise<Response> {
     return post("auth/cookie/authenticate", {})

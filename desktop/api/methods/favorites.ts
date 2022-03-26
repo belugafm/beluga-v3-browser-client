@@ -1,4 +1,4 @@
-import { Response, UnexpectedResponseError, post } from "../classes"
+import { Response, UnexpectedResponseError, post } from "../fetch"
 
 async function create(body: { statusId: string }): Promise<Response> {
     const responce = await post("favorites/create", {

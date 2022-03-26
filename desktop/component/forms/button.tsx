@@ -4,7 +4,6 @@ export const BlueButton = ({ type, children }) => {
             <button type={type}>{children}</button>
             <style jsx>{`
                 button {
-                    font-family: "M PLUS 1", sans-serif;
                     font-weight: 700;
                     width: 140px;
                     font-size: 16px;

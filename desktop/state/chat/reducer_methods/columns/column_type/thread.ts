@@ -10,7 +10,7 @@ import { fetch } from "../../../state/data"
 
 const _fetch = (
     prevDomainData: DomainDataT,
-    query: Parameters<typeof WebAPI.statuses.show>[0]
+    query: Parameters<typeof WebAPI.status.show>[0]
 ): Promise<
     [
         DomainDataT,
@@ -21,7 +21,7 @@ const _fetch = (
     ]
 > => {
     return new Promise((resolve, reject) => {
-        fetch(prevDomainData, WebAPI.statuses.show, {
+        fetch(prevDomainData, WebAPI.status.show, {
             statusId: query.statusId,
         })
             .then(([nextDomainData, response]) => {

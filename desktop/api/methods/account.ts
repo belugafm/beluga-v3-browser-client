@@ -1,4 +1,4 @@
-import { Response, post } from "../classes"
+import { Response, post } from "../fetch"
 
 function signin(body: { name: string; password: string }): Promise<Response> {
     return post("account/signin", body)

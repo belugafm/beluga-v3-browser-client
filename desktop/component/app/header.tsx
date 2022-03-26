@@ -1,7 +1,7 @@
 import { HeaderStateContext, useHeaderComponentState } from "../../state/component/header"
 import { Themes, useTheme } from "../theme"
 
-import { useLoggedInUser } from "../../state/session"
+import { swrShowLoggedInUser } from "../../swr/session"
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -31,7 +31,7 @@ const displayName = (user) => {
 export const HeaderComponent = () => {
     const [theme] = useTheme()
     const state = useHeaderComponentState()
-    const { loggedInUser } = useLoggedInUser()
+    const { loggedInUser } = swrShowLoggedInUser()
     return (
         <>
             <HeaderStateContext.Provider value={state}>

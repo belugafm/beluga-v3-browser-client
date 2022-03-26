@@ -7,9 +7,9 @@ import { fetch } from "../state/data"
 
 const show = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.statuses.show>[0]
+    query: Parameters<typeof WebAPI.status.show>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.show, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.status.show, query)
     return [
         {
             domainData: nextDomainData,
@@ -21,9 +21,9 @@ const show = async (
 
 const update = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.statuses.update>[0]
+    query: Parameters<typeof WebAPI.status.update>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.update, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.status.update, query)
     return [
         {
             domainData: nextDomainData,
@@ -37,7 +37,7 @@ const destroy = async (
     store: StoreT,
     query: { statusId: string }
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.statuses.destroy, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.status.destroy, query)
     const { statusId } = query
     const status = nextDomainData.statuses.get(statusId)
     status.deleted = true

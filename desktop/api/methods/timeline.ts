@@ -1,4 +1,4 @@
-import { Response, UnexpectedResponseError, get } from "../classes"
+import { Response, UnexpectedResponseError, get } from "../fetch"
 
 function removeUndefined(query: any) {
     const ret = {}

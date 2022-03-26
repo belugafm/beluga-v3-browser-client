@@ -2,7 +2,7 @@ import * as WebAPI from "../api"
 import * as reducers from "./chat/reducer_methods"
 
 import { AsyncReducerMethodT, ChatReducerContext } from "./chat/state/reducer"
-import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../api/classes"
+import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../api/fetch"
 import { createContext, useContext, useState } from "react"
 
 export const usePostboxState = ({ query }: { query: Record<string, any> }) => {

@@ -2,7 +2,7 @@ import { Themes, useTheme } from "../theme"
 
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"
-import { useLoggedInUser } from "../../state/session"
+import { swrShowLoggedInUser } from "../../swr/session"
 
 const LoadingComponent = () => {
     return <></>
@@ -35,9 +35,36 @@ const getStyleForTheme = (theme: Themes) => {
     }
 }
 
+const getFontStyle = () => {
+    if (true) {
+        return (
+            <style jsx global>{`
+                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@300;400;500;700&display=swap");
+                body {
+                    font-family: "M PLUS 1", sans-serif;
+                    font-weight: 400;
+                    padding: 0;
+                    margin: 0;
+                }
+            `}</style>
+        )
+    }
+    return (
+        <style jsx global>{`
+            @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap");
+            body {
+                font-family: "Noto Sans JP", sans-serif;
+                font-weight: 400;
+                padding: 0;
+                margin: 0;
+            }
+        `}</style>
+    )
+}
+
 export const ContainerComponent = ({ children }) => {
     const [theme] = useTheme()
-    const { isLoading, loggedInUser } = useLoggedInUser()
+    const { isLoading, loggedInUser } = swrShowLoggedInUser()
     if (isLoading) {
         return <LoadingComponent />
     }
@@ -61,14 +88,13 @@ export const ContainerComponent = ({ children }) => {
                 }
             `}</style>
             <style jsx global>{`
-                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;700&display=swap");
                 body {
-                    font-family: "M PLUS 1", sans-serif;
                     font-weight: 400;
                     padding: 0;
                     margin: 0;
                 }
             `}</style>
+            {getFontStyle()}
             {getStyleForTheme(theme)}
         </>
     )

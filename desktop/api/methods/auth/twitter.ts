@@ -1,4 +1,4 @@
-import { Response, post } from "../../classes"
+import { Response, post } from "../../fetch"
 
 export function requestToken(): Promise<Response> {
     return post("auth/twitter/request_token", {})

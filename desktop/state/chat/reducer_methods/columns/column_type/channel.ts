@@ -22,7 +22,7 @@ const _fetch = (
     ]
 > => {
     return new Promise((resolve, reject) => {
-        fetch(prevDomainData, WebAPI.channels.show, {
+        fetch(prevDomainData, WebAPI.channel.show, {
             channelId: query.channelId,
         })
             .then(([nextDomainData, response]) => {

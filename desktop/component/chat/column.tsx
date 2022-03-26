@@ -8,7 +8,7 @@ import { PostboxComponent } from "../postbox"
 import { StatusActions } from "../../state/status"
 import { StatusComponent } from "../status"
 import config from "../../config"
-import { useLoggedInUser } from "../../state/session"
+import { swrShowLoggedInUser } from "../../swr/session"
 
 function findMaxId(statusIds: string[]) {
     if (statusIds.length > config.timeline.maxNumStatuses) {
@@ -141,7 +141,7 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     const domainData = useContext(ChatDomainDataContext)
     const statusActions = useContext(StatusActions)
     const chatActions = useContext(ChatActions)
-    const { loggedInUser } = useLoggedInUser()
+    const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     scroller.use({
         ref: scrollerRef,

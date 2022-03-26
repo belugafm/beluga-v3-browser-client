@@ -5,9 +5,9 @@ import { fetch } from "../state/data"
 
 const show = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.users.show>[0]
+    query: Parameters<typeof WebAPI.user.show>[0]
 ): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.users.show, query)
+    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.user.show, query)
     return [
         {
             domainData: nextDomainData,

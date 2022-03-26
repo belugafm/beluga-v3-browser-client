@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { SignupFormContext, useSignupFormState } from "../../state/account/signup"
 
 import { InputComponent } from "../forms/input"
-import { useLoggedInUser } from "../../state/session"
+import { swrShowLoggedInUser } from "../../swr/session"
 
 const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(SignupFormContext)
@@ -107,7 +107,7 @@ const GlobalErrorMessageComponent = () => {
 }
 
 const AlreadyLoggedInMessageComponent = () => {
-    const { loggedInUser } = useLoggedInUser()
+    const { loggedInUser } = swrShowLoggedInUser()
     if (loggedInUser) {
         return (
             <div>

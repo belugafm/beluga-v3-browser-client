@@ -2,7 +2,7 @@ import * as reducer_methods from "./reducer_methods"
 
 import { AsyncReducerMethodT } from "./state/reducer"
 import { ChatState } from "./state"
-import { useLoggedInUser } from "../session"
+import { swrShowLoggedInUser } from "../../swr/session"
 import { useState } from "react"
 import { websocket } from "./websocket"
 
@@ -21,7 +21,7 @@ export const useChatStore = ({
     console.info("useChatState")
     const [store] = state.use()
     const [needsInitialize, setNeedsInitialize] = useState(true)
-    const { loggedInUser } = useLoggedInUser()
+    const { loggedInUser } = swrShowLoggedInUser()
 
     websocket.use({
         loggedInUser,

@@ -1,6 +1,6 @@
 import * as WebAPI from "../../api"
 
-import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/classes"
+import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { createContext, useState } from "react"
 
 export const useSigninFormState = (userNamePlaceholder: string) => {

@@ -1,64 +1,63 @@
 export type UserObjectT = {
-    id: string
+    id: number
     name: string
+    twitter_user_id: string | null
     display_name: string | null
-    profile: {
-        avatar_image_url: string
-        location: string | null
-        description: string | null
-        theme_color: string | null
-        background_image_url: string | null
-    }
-    stats: {
-        statuses_count: number
-    }
-    created_at: number
+    profile_image_url: string | null
+    location: string | null
+    url: string | null
+    description: string | null
+    themeColor: string | null
+    background_image_url: string | null
+    default_profile: boolean
+    statuses_count: number
+    favorites_count: number
+    favorited_count: number
+    likes_count: number
+    liked_count: number
+    created_at: Date
+    bot: boolean
     active: boolean
     dormant: boolean
-    muted: boolean
-    blocked: boolean
-    trust_level: number
-    last_activity_time: number | null
+    suspended: boolean
+    trustLevel: number
+    last_activity_date: Date
+    terms_of_service_agreement_date: Date
+    terms_of_service_agreement_version: string
+    registration_ip_address: string
 }
 
-export type CommunityObjectT = {
-    id: string
+export type ChannelGroupObjectT = {
+    id: number
     name: string
-    description: string | null
-    stats: {
-        statuses_count: number
-        channels_count: number
-    }
-    created_at: number
-    updated_at: number
-    creator_id: string
+    unique_name: string
+    created_at: Date
+    created_by: number
+    level: number
+    channels_count: number
+    statuses_count: number
     creator: UserObjectT | null
 }
 
 export type ChannelObjectT = {
-    id: string
+    id: number
     name: string
-    description: string | null
-    stats: {
-        statuses_count: number
-    }
+    unique_name: string
     created_at: number
-    updated_at: number
-    creator_id: string
+    created_by: number
+    channels_count: number
+    statuses_count: number
+    parent_channel_group_id: number
     creator: UserObjectT | null
-    public: boolean
-    community_id: string | null
-    community: CommunityObjectT | null
+    parent_channel_group: ChannelGroupObjectT | null
 }
 
 export type StatusObjectT = {
-    id: string
+    id: number
     user_id: string
     user: UserObjectT | null
     channel_id: string
     channel: ChannelObjectT | null
-    community_id: string | null
-    community: CommunityObjectT | null
     text: string
     created_at: number
     updated_at: number
@@ -68,24 +67,24 @@ export type StatusObjectT = {
     favorited: boolean
     comment_count: number
     entities: {
+        channel_groups: {
+            channel_group_id: number
+            channel_group: ChannelGroupObjectT | null
+            indices: [number, number]
+        }[]
         channels: {
-            channel_id: string
+            channel_id: number
             channel: ChannelObjectT | null
             indices: [number, number]
         }[]
         statuses: {
-            status_id: string
+            status_id: number
             status: StatusObjectT | null
             indices: [number, number]
         }[]
     }
     likes: {
         count: number
-        counts: {
-            count: number
-            user: UserObjectT | null
-            user_id: string
-        }[]
     }
     favorites: {
         count: number

@@ -1,6 +1,6 @@
 import * as api from "../../api"
 
-import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/classes"
+import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { createContext, useState } from "react"
 
 export const useCreateChannelGroupFormState = (parentId: number) => {
@@ -26,7 +26,7 @@ export const useCreateChannelGroupFormState = (parentId: number) => {
 
     const create = async () => {
         try {
-            return await api.channelGroups.create({
+            return await api.channelGroup.create({
                 name: nameField.value,
                 parentId: parentId,
             })

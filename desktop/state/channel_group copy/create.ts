@@ -3,7 +3,7 @@ import * as api from "../../api"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { createContext, useState } from "react"
 
-export const useCreateChannelFormState = (parentChannelGroupId: number) => {
+export const useCreateChannelGroupFormState = (parentIdPlaceholder: number) => {
     const initialState = {
         errorMessage: [],
         hint: [],
@@ -26,9 +26,9 @@ export const useCreateChannelFormState = (parentChannelGroupId: number) => {
 
     const create = async () => {
         try {
-            return await api.channel.create({
+            return await api.channelGroup.create({
                 name: nameField.value,
-                parentChannelGroupId: parentChannelGroupId,
+                parentId: parentIdPlaceholder,
             })
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
@@ -115,4 +115,4 @@ const context = {
     handleUpdateNameValue: null,
 }
 
-export const CreateChannelFormContext = createContext(context)
+export const CreateChannelGroupContext = createContext(context)

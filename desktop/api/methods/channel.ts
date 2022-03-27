@@ -7,10 +7,21 @@ function create(body: { name: string; parentChannelGroupId: number }): Promise<R
     })
 }
 
-async function show(query: { channelId: string }): Promise<Response> {
-    const responce = await get("channel/show", {
-        channel_id: query.channelId,
-    })
+function buildPayload(query: { id?: number; uniqueName?: string }) {
+    if (query.id) {
+        return { id: query.id }
+    }
+    if (query.uniqueName) {
+        return { unique_name: query.uniqueName }
+    }
+    return {}
+}
+
+async function show(query: { id?: number; uniqueName?: string }): Promise<Response> {
+    if (query.id == null && query.uniqueName == null) {
+        throw new UnexpectedResponseError()
+    }
+    const responce = await get("channel/show", buildPayload(query))
     if (responce.channel == null) {
         throw new UnexpectedResponseError()
     }

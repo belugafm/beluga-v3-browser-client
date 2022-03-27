@@ -7,7 +7,7 @@ export type UserObjectT = {
     location: string | null
     url: string | null
     description: string | null
-    themeColor: string | null
+    theme_color: string | null
     background_image_url: string | null
     default_profile: boolean
     statuses_count: number
@@ -43,6 +43,7 @@ export type ChannelObjectT = {
     id: number
     name: string
     unique_name: string
+    status_string: string
     created_at: number
     created_by: number
     channels_count: number

@@ -1,8 +1,8 @@
 import { CreateChannelFormContext, useCreateChannelFormState } from "../../../state/channel/create"
 import { Themes, useTheme } from "../../theme"
 
-import { BlueButton } from "../../forms/button"
-import { InputComponent } from "../../forms/input"
+import { BlueButton } from "../../form/button"
+import { InputComponent } from "../../form/input"
 import { useContext } from "react"
 
 const getStyleForTheme = (theme: Themes) => {

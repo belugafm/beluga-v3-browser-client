@@ -12,10 +12,10 @@ import { SVGComponent } from "../../component/app/svg"
 import { SidebarComponent } from "../../component/app/sidebar"
 import { SidebarThemeComponent } from "../../component/app/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
-import { swrListAllForChannelGroup } from "../../swr/channel_group/combined/list_all"
+import { swrListAllForChannel } from "../../swr/channel/combined/list_all"
 
 export default ({ theme, query }) => {
-    const { isLoading, errors, channels, channelGroup, channelGroups } = swrListAllForChannelGroup({
+    const { isLoading, errors, channels, channel, channelGroups } = swrListAllForChannel({
         uniqueName: query.uniqueName,
     })
     if (isLoading) {
@@ -39,7 +39,7 @@ export default ({ theme, query }) => {
     return (
         <>
             <Head>
-                <title>{channelGroup.name}</title>
+                <title>{channel.name}</title>
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
@@ -49,6 +49,7 @@ export default ({ theme, query }) => {
                         <LogoSidebarComponent />
                         <AccountMenuSidebarComponent />
                         <ChannelGroupSidebarComponent
+                            activeChannel={channel}
                             channels={channels}
                             channelGroups={channelGroups}
                         />

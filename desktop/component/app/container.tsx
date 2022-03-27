@@ -5,7 +5,8 @@ import { GetServerSideProps } from "next"
 import { swrShowLoggedInUser } from "../../swr/session"
 
 const LoadingComponent = () => {
-    return <></>
+    const [theme] = useTheme()
+    return getStyleForTheme(theme)
 }
 
 const getStyleForTheme = (theme: Themes) => {
@@ -13,8 +14,6 @@ const getStyleForTheme = (theme: Themes) => {
         return (
             <style jsx global>{`
                 body {
-                    transition-duration: 0.3s;
-                    transition-property: background-color;
                     background-color: #f4f4f4;
                     color: #1a1a1a;
                 }
@@ -25,8 +24,6 @@ const getStyleForTheme = (theme: Themes) => {
         return (
             <style jsx global>{`
                 body {
-                    transition-duration: 0.3s;
-                    transition-property: background-color;
                     background-color: #111315;
                     color: #fafafa;
                 }

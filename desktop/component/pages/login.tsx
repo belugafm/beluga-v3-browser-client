@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { SigninFormContext, useSigninFormState } from "../../state/account/signin"
 
-import { InputComponent } from "../forms/input"
+import { InputComponent } from "../form/input"
 import { swrShowLoggedInUser } from "../../swr/session"
 
 const NameInputForm = () => {

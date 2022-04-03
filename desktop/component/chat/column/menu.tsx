@@ -1,5 +1,5 @@
-import { ChatActionsT } from "../../../state/chat/actions"
-import { ColumnStateT } from "../../../state/chat/state/app"
+import { ChatActionsT } from "../../../state/chat/store/actions"
+import { ColumnStateT } from "../../../state/chat/store/app_state"
 
 export default ({ column, chatActions }: { column: ColumnStateT; chatActions: ChatActionsT }) => {
     return (

@@ -1,12 +1,12 @@
 import LinkTextComponent from "./link"
+import { MessageObjectT } from "../../../api/object"
 import React from "react"
-import { StatusObjectT } from "../../../api/object"
 
 type Props = {
-    status: StatusObjectT
+    status: MessageObjectT
     url: string
     showOriginalUrl: boolean
-    callback: (status: StatusObjectT) => Promise<void>
+    callback: (status: MessageObjectT) => Promise<void>
 }
 
 export default React.memo(

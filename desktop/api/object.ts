@@ -20,11 +20,10 @@ export type UserObjectT = {
     active: boolean
     dormant: boolean
     suspended: boolean
-    trustLevel: number
+    muted: boolean
+    blocked: boolean
+    trust_level: number
     last_activity_date: Date
-    terms_of_service_agreement_date: Date
-    terms_of_service_agreement_version: string
-    registration_ip_address: string
 }
 
 export type ChannelGroupObjectT = {
@@ -53,11 +52,11 @@ export type ChannelObjectT = {
     parent_channel_group: ChannelGroupObjectT | null
 }
 
-export type StatusObjectT = {
+export type MessageObjectT = {
     id: number
-    user_id: string
+    user_id: number
     user: UserObjectT | null
-    channel_id: string
+    channel_id: number
     channel: ChannelObjectT | null
     text: string
     created_at: number
@@ -66,7 +65,8 @@ export type StatusObjectT = {
     edited: boolean
     deleted: boolean
     favorited: boolean
-    comment_count: number
+    reply_count: number
+    like_count: number
     entities: {
         channel_groups: {
             channel_group_id: number
@@ -78,18 +78,15 @@ export type StatusObjectT = {
             channel: ChannelObjectT | null
             indices: [number, number]
         }[]
-        statuses: {
-            status_id: number
-            status: StatusObjectT | null
+        messages: {
+            message_id: number
+            message: MessageObjectT | null
             indices: [number, number]
         }[]
     }
-    likes: {
-        count: number
-    }
-    favorites: {
+    favorite: {
         count: number
         users: UserObjectT[]
-        user_ids: string[]
+        user_ids: number[]
     }
 }

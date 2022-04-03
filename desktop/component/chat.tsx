@@ -1,82 +1,30 @@
-import { ChatActions, useChatActions } from "../state/chat/actions"
-import { StatusActions, useStatusActions } from "../state/status"
+import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT } from "../api/object"
+import { ChatActions, useChatActions } from "../state/chat/store/actions"
+import { Context, useChatStore } from "../state/chat"
+import { MessageActions, useMessageActions } from "../state/chat/components/message"
 
-import { ChatAppStateContext } from "../state/chat/state/app"
+import { ChatAppStateContext } from "../state/chat/store/app_state"
 import { ChatColumnContainerComponent } from "./chat/columns"
-import { ChatDomainDataContext } from "../state/chat/state/data"
-import { ChatReducerContext } from "../state/chat/state/reducer"
+import { ChatDomainDataContext } from "../state/chat/store/domain_data"
+import { ChatReducerContext } from "../state/chat/store/reducer"
 import React from "react"
-import { useChatStore } from "../state/chat"
 
-export const ChatComponent = ({
-    context,
-}: {
-    context: {
-        channelId?: string
-        communityId?: string
-        statusId?: string
-        userId?: string
-    }
-}) => {
-    const { domainData, appState, reducer, orderedReducers } = useChatStore({
-        context,
-    })
+export const ChatComponent = ({ context }: { context: Context }) => {
+    const { domainData, appState, reducer, orderedReducers } = useChatStore(context)
     const reducers = { reducer, orderedReducers }
-    const statusActions = useStatusActions(reducers)
+    const statusActions = useMessageActions(reducers)
     const chatActions = useChatActions({ appState, reducers })
     return (
         <ChatAppStateContext.Provider value={appState}>
             <ChatDomainDataContext.Provider value={domainData}>
                 <ChatReducerContext.Provider value={reducers}>
                     <ChatActions.Provider value={chatActions}>
-                        <StatusActions.Provider value={statusActions}>
+                        <MessageActions.Provider value={statusActions}>
                             <div className="sidebar"></div>
                             <div className="columns">
                                 <ChatColumnContainerComponent />
                             </div>
-                            <style jsx>{`
-                                .sidebar {
-                                    width: 72px;
-                                    background-color: black;
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    bottom: 0;
-                                    display: flex;
-                                }
-                                .columns {
-                                    position: absolute;
-                                    top: 0;
-                                    left: 72px;
-                                    right: 0;
-                                    bottom: 0;
-                                    display: flex;
-                                    flex: 1 1 auto;
-                                }
-                            `}</style>
-                            <style jsx global>{`
-                                html,
-                                body {
-                                    width: 100%;
-                                    height: 100%;
-                                    line-height: 1;
-                                    margin: 0;
-                                    padding: 0;
-                                }
-                                #__next {
-                                    overflow: hidden;
-                                    display: flex;
-                                    flex-direction: column;
-                                    width: 100%;
-                                    height: 100%;
-                                }
-                                #__next > div {
-                                    position: relative;
-                                    flex: 1 1 auto;
-                                    z-index: auto;
-                                }
-                            `}</style>
-                        </StatusActions.Provider>
+                        </MessageActions.Provider>
                     </ChatActions.Provider>
                 </ChatReducerContext.Provider>
             </ChatDomainDataContext.Provider>

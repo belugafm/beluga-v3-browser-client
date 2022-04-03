@@ -11,12 +11,11 @@ function removeUndefined(query: any) {
 }
 
 async function channel(query: {
-    channelId: string
-    sinceId?: string
-    maxId?: string
+    channelId: number
+    sinceId?: number
+    maxId?: number
     sinceDate?: number
     untilDate?: number
-    includeComments?: boolean
     limit?: number
 }): Promise<Response> {
     const responce = await get(
@@ -27,20 +26,19 @@ async function channel(query: {
             max_id: query.maxId,
             since_date: query.sinceDate,
             until_date: query.untilDate,
-            include_comments: !!query.includeComments,
             limit: query.limit,
         })
     )
-    if (responce.statuses == null) {
+    if (responce.messages == null) {
         throw new UnexpectedResponseError()
     }
     return responce
 }
 
 async function thread(query: {
-    statusId: string
-    sinceId?: string
-    maxId?: string
+    messageId: number
+    sinceId?: number
+    maxId?: number
     sinceDate?: number
     untilDate?: number
     limit?: number
@@ -48,7 +46,7 @@ async function thread(query: {
     const responce = await get(
         "timeline/thread",
         removeUndefined({
-            status_id: query.statusId,
+            status_id: query.messageId,
             since_id: query.sinceId,
             max_id: query.maxId,
             since_date: query.sinceDate,
@@ -56,7 +54,7 @@ async function thread(query: {
             limit: query.limit,
         })
     )
-    if (responce.statuses == null) {
+    if (responce.messages == null) {
         throw new UnexpectedResponseError()
     }
     return responce

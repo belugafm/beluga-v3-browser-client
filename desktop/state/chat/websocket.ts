@@ -1,7 +1,7 @@
-import * as reducer_methods from "./reducer_methods"
+import * as reducerMethods from "./reducer_method"
 
-import { AppStateT, ColumnTypes } from "./state/app"
-import { AsyncOrderedReducerT, AsyncReducerMethodT, AsyncReducersT } from "./state/reducer"
+import { AppStateT, ColumnTypes } from "./store/app_state"
+import { AsyncReducerMethodT, AsyncReducersT } from "./store/reducer"
 
 import { Response } from "../../api"
 import { UserObjectT } from "../../api/object"
@@ -88,8 +88,8 @@ class WebSocketState {
                 if (data.model === "status") {
                     const status_id = data.document_id
                     if (data.operation === "delete") {
-                        this.reduce(reducer_methods.statuses.mark_as_deleted, {
-                            statusId: status_id,
+                        this.reduce(reducerMethods.messages.mark_as_deleted, {
+                            messageId: status_id,
                         })
                     } else if (data.operation === "insert") {
                         const { status } = data
@@ -100,9 +100,9 @@ class WebSocketState {
                                     if (column.type !== ColumnTypes.Thread) {
                                         return
                                     }
-                                    if (column.context.statusId === thread_status_id) {
+                                    if (column.context.messageId === thread_status_id) {
                                         this.reduce(
-                                            reducer_methods.columns.thread.updateTimeline,
+                                            reducerMethods.columns.thread.updateTimeline,
                                             column
                                         )
                                     }
@@ -115,7 +115,7 @@ class WebSocketState {
                                     }
                                     if (column.context.channelId === channel_id) {
                                         this.reduce(
-                                            reducer_methods.columns.channel.updateTimeline,
+                                            reducerMethods.columns.channel.updateTimeline,
                                             column
                                         )
                                     }
@@ -123,14 +123,14 @@ class WebSocketState {
                             }
                         }
                     } else if (data.operation === "update") {
-                        this.reduce(reducer_methods.statuses.show, {
-                            statusId: status_id,
+                        this.reduce(reducerMethods.messages.show, {
+                            messageId: status_id,
                         })
                     }
                 }
                 if (data.model === "user") {
                     const user_id = data.document_id
-                    this.reduce(reducer_methods.users.show, {
+                    this.reduce(reducerMethods.users.show, {
                         userId: user_id,
                     })
                 }

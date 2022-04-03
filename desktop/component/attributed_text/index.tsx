@@ -6,7 +6,7 @@ import {
     isAttributeTextMarkdown,
     splitTextIntoAtributedTextSequence,
 } from "./parser"
-import { ChannelObjectT, StatusObjectT, UserObjectT } from "../../api/object"
+import { ChannelObjectT, MessageObjectT, UserObjectT } from "../../api/object"
 
 import ChannelComponent from "./components/channel"
 import CodeComponent from "./components/code"
@@ -20,7 +20,7 @@ import YouTubeComponent from "./components/youtube"
 
 type Props = {
     text: string
-    entities: StatusObjectT["entities"]
+    entities: MessageObjectT["entities"]
     options: AttributedTextOptions
     callbacks: AttributedTextCallbacks
 }
@@ -41,7 +41,7 @@ export const defaultOption: AttributedTextOptions = {
 
 export type AttributedTextCallbacks = {
     handleClickChannel: (channel: ChannelObjectT) => Promise<void>
-    handleClickStatus: (status: StatusObjectT) => Promise<void>
+    handleClickStatus: (status: MessageObjectT) => Promise<void>
     handleClickUser: (user: UserObjectT) => Promise<void>
 }
 

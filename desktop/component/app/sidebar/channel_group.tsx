@@ -1,6 +1,7 @@
 import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
 import { Themes, useTheme } from "../../theme"
 
+import Link from "next/link"
 import classnames from "classnames"
 
 export type ListItemObjectT = {
@@ -35,14 +36,15 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
     const [theme] = useTheme()
     return (
         <>
-            <a
-                href={`/channel/${channel.unique_name}`}
-                className={classnames("item", {
-                    active,
-                })}>
-                <span className="icon">{channel.status_string}</span>
-                <span className="name">{channel.name}</span>
-            </a>
+            <Link href={`/channel/${channel.unique_name}`}>
+                <a
+                    className={classnames("item", {
+                        active,
+                    })}>
+                    <span className="icon">{channel.status_string}</span>
+                    <span className="name">{channel.name}</span>
+                </a>
+            </Link>
             <style jsx>{`
                 a {
                     position: relative;
@@ -58,7 +60,7 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                     text-decoration: none;
                     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                     background-color: transparent;
-                    transition: 0.1s;
+                    transition: 0.05s;
                     overflow: hidden;
                     white-space: nowrap;
                 }
@@ -97,12 +99,14 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
     return (
         <>
             <div className="container">
-                <a href={`/group/${channelGroup.unique_name}`}>
-                    <svg className="icon">
-                        <use href="#icon-direction-right"></use>
-                    </svg>
-                    <span className="name">{channelGroup.name}</span>
-                </a>
+                <Link href={`/group/${channelGroup.unique_name}`}>
+                    <a>
+                        <svg className="icon">
+                            <use href="#icon-direction-right"></use>
+                        </svg>
+                        <span className="name">{channelGroup.name}</span>
+                    </a>
+                </Link>
                 <div className="children hidden"></div>
             </div>
             <style jsx>{`
@@ -120,7 +124,7 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
                     text-decoration: none;
                     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                     background-color: transparent;
-                    transition: 0.1s;
+                    transition: 0.05s;
                     overflow: hidden;
                 }
                 .icon {

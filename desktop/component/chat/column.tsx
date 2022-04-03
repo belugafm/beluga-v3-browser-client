@@ -1,25 +1,25 @@
-import { ChatActions, ChatActionsT } from "../../state/chat/actions"
+import { ChatActions, ChatActionsT } from "../../state/chat/store/actions"
 import React, { useContext, useRef } from "react"
 
-import { ChatDomainDataContext } from "../../state/chat/state/data"
-import { ColumnStateT } from "../../state/chat/state/app"
+import { ChatDomainDataContext } from "../../state/chat/store/domain_data"
+import { ColumnStateT } from "../../state/chat/store/app_state"
 import MenuComponent from "./column/menu"
+import { MessageActions } from "../../state/chat/components/message"
+import { MessageComponent } from "../message"
 import { PostboxComponent } from "../postbox"
-import { StatusActions } from "../../state/status"
-import { StatusComponent } from "../status"
 import config from "../../config"
 import { swrShowLoggedInUser } from "../../swr/session"
 
-function findMaxId(statusIds: string[]) {
-    if (statusIds.length > config.timeline.maxNumStatuses) {
-        return statusIds[statusIds.length - config.timeline.maxNumStatuses - 1]
+function findMaxId(messageIds: string[]) {
+    if (messageIds.length > config.timeline.maxNumStatuses) {
+        return messageIds[messageIds.length - config.timeline.maxNumStatuses - 1]
     }
     return null
 }
 
-function findSinceId(statusIds: string[]) {
-    if (statusIds.length > config.timeline.maxNumStatuses) {
-        return statusIds[config.timeline.maxNumStatuses + 1]
+function findSinceId(messageIds: string[]) {
+    if (messageIds.length > config.timeline.maxNumStatuses) {
+        return messageIds[config.timeline.maxNumStatuses + 1]
     }
     return null
 }
@@ -68,7 +68,7 @@ class Scroller {
                     if (this.hasReachedBottom) {
                         return
                     }
-                    const maxId = findMaxId(column.timeline.statusIds)
+                    const maxId = findMaxId(column.timeline.messageIds)
                     if (maxId === this.reqeustedMaxId) {
                         return
                     }
@@ -82,7 +82,7 @@ class Scroller {
                             sinceId: null,
                         })
                     )
-                    const { statuses } = responce
+                    const { messages: statuses } = responce
                     if (statuses.length < limit) {
                         this.hasReachedBottom = true
                     }
@@ -102,7 +102,7 @@ class Scroller {
                         console.log("this.hasReachedTop")
                         return
                     }
-                    const sinceId = findSinceId(column.timeline.statusIds)
+                    const sinceId = findSinceId(column.timeline.messageIds)
                     if (sinceId === this.reqeustedSinceId) {
                         console.log("sinceId === this.reqeustedSinceId")
                         return
@@ -117,7 +117,7 @@ class Scroller {
                             maxId: null,
                         })
                     )
-                    const { statuses } = responce
+                    const { messages: statuses } = responce
                     if (statuses.length < limit) {
                         this.hasReachedTop = true
                     }
@@ -139,7 +139,7 @@ const scroller = new Scroller()
 export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
     console.info("ChatColumnComponent::render")
     const domainData = useContext(ChatDomainDataContext)
-    const statusActions = useContext(StatusActions)
+    const messageActions = useContext(MessageActions)
     const chatActions = useContext(ChatActions)
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
@@ -161,16 +161,16 @@ export const ChatColumnComponent = ({ column }: { column: ColumnStateT }) => {
                     </div>
                     <div className="scroller-container" onScroll={scroller.handleScroll}>
                         <div className="scroller" ref={scrollerRef}>
-                            {column.timeline.statusIds.map((status_id, index) => {
-                                const status = domainData.statuses.get(status_id)
-                                if (status == null) {
+                            {column.timeline.messageIds.map((messageId, index) => {
+                                const message = domainData.messages.get(messageId)
+                                if (message == null) {
                                     return null
                                 }
                                 return (
-                                    <StatusComponent
-                                        key={status_id}
-                                        status={status}
-                                        statusActions={statusActions}
+                                    <MessageComponent
+                                        key={messageId}
+                                        message={message}
+                                        messageActions={messageActions}
                                         chatActions={chatActions}
                                         domainData={domainData}
                                         loggedInUser={loggedInUser}

@@ -1,7 +1,0 @@
-export { columns } from "./columns"
-export { statuses } from "./statuses"
-export { users } from "./users"
-export { likes } from "./likes"
-export { favorites } from "./favorites"
-export { mutes } from "./mutes"
-export { blocks } from "./blocks"

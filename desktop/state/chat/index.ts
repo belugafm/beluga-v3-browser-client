@@ -1,26 +1,32 @@
-import * as reducer_methods from "./reducer_methods"
+import * as reducerMethods from "./reducer_method"
 
-import { AsyncReducerMethodT } from "./state/reducer"
-import { ChatState } from "./state"
+import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT } from "../../api/object"
+
+import { AsyncReducerMethodT } from "./store/reducer"
+import { ChatState } from "./store"
 import { swrShowLoggedInUser } from "../../swr/session"
-import { useState } from "react"
 import { websocket } from "./websocket"
 
 const state = new ChatState()
 
-export const useChatStore = ({
-    context,
-}: {
-    context: {
-        channelId?: string
-        communityId?: string
-        statusId?: string
-        userId?: string
+export type Context = {
+    channel?: {
+        object: ChannelObjectT
+        messages: MessageObjectT[]
     }
-}) => {
+    channelGroup?: {
+        object: ChannelGroupObjectT
+        messages: MessageObjectT[]
+    }
+    thread?: {
+        object: MessageObjectT
+        messages: MessageObjectT[]
+    }
+}
+
+export const useChatStore = (context: Context) => {
     console.info("useChatState")
-    const [store] = state.use()
-    const [needsInitialize, setNeedsInitialize] = useState(true)
+    let [store] = state.use()
     const { loggedInUser } = swrShowLoggedInUser()
 
     websocket.use({
@@ -32,18 +38,11 @@ export const useChatStore = ({
         appState: store.appState,
     })
 
-    if (needsInitialize) {
-        if (context.channelId) {
-            state.asyncOrderedReduce([
-                {
-                    method: reducer_methods.columns.channel.create,
-                    query: {
-                        channelId: context.channelId,
-                    },
-                },
-            ])
-        }
-        setNeedsInitialize(false)
+    if (context.channel) {
+        store = reducerMethods.app.column.channel.add(store, {
+            channel: context.channel.object,
+            messages: context.channel.messages,
+        })
     }
 
     return {

@@ -1,4 +1,4 @@
-import { ChannelObjectT, StatusObjectT, UserObjectT } from "../../api/object"
+import { ChannelObjectT, MessageObjectT, UserObjectT } from "../../api/object"
 
 import config from "../../config"
 
@@ -11,7 +11,7 @@ export type AttributedText = {
     url?: string
     channel?: ChannelObjectT
     user?: UserObjectT
-    status?: StatusObjectT
+    status?: MessageObjectT
 }
 export const AttributedTextType = {
     Url: "Url",
@@ -366,7 +366,7 @@ const applySplitOperatorToTextEntities = (
 
 export const splitTextIntoAtributedTextSequence = (
     text: string,
-    entities: StatusObjectT["entities"]
+    entities: MessageObjectT["entities"]
 ): AttributedText[] => {
     if (text.length === 0) {
         return []
@@ -389,10 +389,10 @@ export const splitTextIntoAtributedTextSequence = (
             }
         }
     })
-    const { statuses } = entities
+    const { messages: statuses } = entities
     statuses.forEach((entity) => {
         if (Array.isArray(entity.indices) && entity.indices.length === 2) {
-            const { status } = entity
+            const { message: status } = entity
             if (status) {
                 temp.push(
                     Object.assign(

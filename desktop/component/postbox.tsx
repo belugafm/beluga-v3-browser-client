@@ -1,7 +1,7 @@
-import { PostboxContext, usePostboxState } from "../state/postbox"
+import { PostboxContext, usePostboxState } from "../state/chat/components/postbox"
 import React, { useRef } from "react"
 
-import { ColumnStateT } from "../state/chat/state/app"
+import { ColumnStateT } from "../state/chat/store/app_state"
 import { useTheme } from "./theme"
 
 export const PostboxComponent = ({
@@ -9,7 +9,7 @@ export const PostboxComponent = ({
     channelId,
 }: {
     column: ColumnStateT
-    channelId: string
+    channelId: number
 }) => {
     const [theme] = useTheme()
     const { textField, updateTextValue, updateStatus } = usePostboxState({

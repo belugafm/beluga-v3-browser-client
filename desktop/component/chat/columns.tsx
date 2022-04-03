@@ -1,8 +1,7 @@
 import React, { useContext } from "react"
 
-import { ChatAppStateContext } from "../../state/chat/state/app"
+import { ChatAppStateContext } from "../../state/chat/store/app_state"
 import { ChatColumnComponent } from "./column"
-import { ThemeSettingComponent } from "../sidebar/settings/theme"
 
 export const ChatColumnContainerComponent = () => {
     const { columns } = useContext(ChatAppStateContext)
@@ -12,7 +11,6 @@ export const ChatColumnContainerComponent = () => {
                 {columns.map((column) => {
                     return <ChatColumnComponent key={column.id} column={column} />
                 })}
-                <ThemeSettingComponent />
             </>
             <style jsx>{`
                 .columns {

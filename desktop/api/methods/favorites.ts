@@ -1,20 +1,20 @@
 import { Response, UnexpectedResponseError, post } from "../fetch"
 
-async function create(body: { statusId: string }): Promise<Response> {
+async function create(body: { messageId: number }): Promise<Response> {
     const responce = await post("favorites/create", {
-        status_id: body.statusId,
+        status_id: body.messageId,
     })
-    if (responce.status == null) {
+    if (responce.message == null) {
         throw new UnexpectedResponseError()
     }
     return responce
 }
 
-async function destroy(body: { statusId: string }): Promise<Response> {
+async function destroy(body: { messageId: number }): Promise<Response> {
     const responce = await post("favorites/destroy", {
-        status_id: body.statusId,
+        status_id: body.messageId,
     })
-    if (responce.status == null) {
+    if (responce.message == null) {
         throw new UnexpectedResponseError()
     }
     return responce

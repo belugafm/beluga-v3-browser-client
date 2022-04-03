@@ -1,6 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
 
-import { ChannelGroupObjectT, ChannelObjectT, StatusObjectT, UserObjectT } from "./object"
+import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT, UserObjectT } from "./object"
 
 import config from "../config"
 
@@ -29,9 +29,9 @@ interface ResponseInterface {
     channels?: ChannelObjectT[]
     channel_group?: ChannelGroupObjectT
     channel_groups?: ChannelGroupObjectT[]
-    status?: StatusObjectT
+    message?: MessageObjectT
     user?: UserObjectT
-    statuses?: StatusObjectT[]
+    messages?: MessageObjectT[]
     authenticity_token?: string
     oauth_token?: string
     oauth_token_secret?: string
@@ -48,9 +48,9 @@ export class Response implements ResponseInterface {
     channels?: ChannelObjectT[]
     channel_group?: ChannelGroupObjectT
     channel_groups?: ChannelGroupObjectT[]
-    status?: StatusObjectT
+    message?: MessageObjectT
     user?: UserObjectT
-    statuses?: StatusObjectT[]
+    messages?: MessageObjectT[]
     authenticityToken?: string
     oauthToken?: string
     oauthTokenSecret?: string
@@ -97,11 +97,11 @@ export class Response implements ResponseInterface {
         if (response.user) {
             this.user = response.user
         }
-        if (response.statuses) {
-            this.statuses = response.statuses
+        if (response.messages) {
+            this.messages = response.messages
         }
-        if (response.status) {
-            this.status = response.status
+        if (response.message) {
+            this.message = response.message
         }
         if (response.authenticity_token) {
             this.authenticityToken = response.authenticity_token

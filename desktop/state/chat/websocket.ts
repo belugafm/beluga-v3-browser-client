@@ -1,6 +1,6 @@
-import * as reducerMethods from "./reducer_method"
+import * as reducerMethod from "./reducer_method"
 
-import { AppStateT, ColumnTypes } from "./store/app_state"
+import { AppStateT, ContentType } from "./store/app_state"
 import { AsyncReducerMethodT, AsyncReducersT } from "./store/reducer"
 
 import { Response } from "../../api"
@@ -88,7 +88,7 @@ class WebSocketState {
                 if (data.model === "status") {
                     const status_id = data.document_id
                     if (data.operation === "delete") {
-                        this.reduce(reducerMethods.messages.mark_as_deleted, {
+                        this.reduce(reducerMethod.messages.mark_as_deleted, {
                             messageId: status_id,
                         })
                     } else if (data.operation === "insert") {
@@ -96,26 +96,26 @@ class WebSocketState {
                         if (status) {
                             const { channel_id, community_id, thread_status_id } = status
                             if (thread_status_id) {
-                                this.appState.columns.forEach((column) => {
-                                    if (column.type !== ColumnTypes.Thread) {
+                                this.appState.content_grid.forEach((column) => {
+                                    if (column.type !== ContentType.Thread) {
                                         return
                                     }
                                     if (column.context.messageId === thread_status_id) {
                                         this.reduce(
-                                            reducerMethods.columns.thread.updateTimeline,
+                                            reducerMethod.columns.thread.updateTimeline,
                                             column
                                         )
                                     }
                                 })
                             }
                             if (channel_id) {
-                                this.appState.columns.forEach((column) => {
-                                    if (column.type !== ColumnTypes.Channel) {
+                                this.appState.content_grid.forEach((column) => {
+                                    if (column.type !== ContentType.Channel) {
                                         return
                                     }
                                     if (column.context.channelId === channel_id) {
                                         this.reduce(
-                                            reducerMethods.columns.channel.updateTimeline,
+                                            reducerMethod.columns.channel.updateTimeline,
                                             column
                                         )
                                     }
@@ -123,14 +123,14 @@ class WebSocketState {
                             }
                         }
                     } else if (data.operation === "update") {
-                        this.reduce(reducerMethods.messages.show, {
+                        this.reduce(reducerMethod.messages.show, {
                             messageId: status_id,
                         })
                     }
                 }
                 if (data.model === "user") {
                     const user_id = data.document_id
-                    this.reduce(reducerMethods.users.show, {
+                    this.reduce(reducerMethod.users.show, {
                         userId: user_id,
                     })
                 }

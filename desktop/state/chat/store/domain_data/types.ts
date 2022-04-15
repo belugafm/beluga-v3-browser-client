@@ -19,7 +19,7 @@ export type DomainDataSetActionT = {
     setMessages: Dispatch<SetStateAction<ObjectMap<MessageObjectT>>>
     setUsers: Dispatch<SetStateAction<ObjectMap<UserObjectT>>>
     setChannels: Dispatch<SetStateAction<ObjectMap<ChannelObjectT>>>
-    setCommunities: Dispatch<SetStateAction<ObjectMap<ChannelGroupObjectT>>>
+    setChannelGroups: Dispatch<SetStateAction<ObjectMap<ChannelGroupObjectT>>>
     setMutedUserIds: Dispatch<SetStateAction<UserIdSet>>
     setBlockedUserIds: Dispatch<SetStateAction<UserIdSet>>
 }

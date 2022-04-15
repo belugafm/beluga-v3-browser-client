@@ -1,4 +1,4 @@
-export { getServerSideProps } from "../component/app/next"
+export { getServerSideProps } from "../component/chat/next"
 
 import Head from "next/head"
 import { SignupFormComponent } from "../component/pages/signup_with_password"

@@ -38,8 +38,8 @@ function updateAppState(
     prevAppState: AppStateT,
     nextAppState: AppStateT
 ) {
-    if (equals(prevAppState.columns, nextAppState.columns) !== true) {
-        setActions.setColumns(nextAppState.columns)
+    if (equals(prevAppState.content_grid, nextAppState.content_grid) !== true) {
+        setActions.setColumns(nextAppState.content_grid)
     }
 }
 

@@ -44,4 +44,4 @@ const context: {
     orderedReducers: null,
 }
 
-export const ChatReducerContext = createContext(context)
+export const ReducerContext = createContext(context)

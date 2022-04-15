@@ -6,10 +6,7 @@ import { MouseEvent, createContext } from "react"
 
 import { Response } from "../../../api"
 
-export const useMessageActions = ({
-    reducer,
-    orderedReducers,
-}: AsyncReducersT): MessageActionsT => {
+export const useMessageAction = ({ reducer, orderedReducers }: AsyncReducersT): MessageActionT => {
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducer(method, query)
     }
@@ -96,7 +93,7 @@ export const useMessageActions = ({
     }
 }
 
-export type MessageActionsT = {
+export type MessageActionT = {
     edit: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     destroy: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     createLike: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
@@ -108,7 +105,7 @@ export type MessageActionsT = {
     destroyBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => void
 }
 
-const actions: MessageActionsT = {
+const actions: MessageActionT = {
     edit: null,
     destroy: null,
     createLike: null,
@@ -120,4 +117,4 @@ const actions: MessageActionsT = {
     destroyBlocks: null,
 }
 
-export const MessageActions = createContext(actions)
+export const MessageAction = createContext(actions)

@@ -1,4 +1,4 @@
-export { getServerSideProps } from "../component/app/next"
+export { getServerSideProps } from "../component/chat/next"
 
 import * as api from "../api"
 

@@ -1,73 +1,43 @@
-import * as WebAPI from "../../../api"
+import * as api from "../../../api"
 import * as reducers from "../reducer_method"
 
-import { AsyncReducerMethodT, ChatReducerContext } from "../store/reducer"
+import { AsyncReducerMethodT, ReducerContext } from "../store/reducer"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../../api/fetch"
 import { createContext, useContext, useState } from "react"
 
 export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
-    const { reducer } = useContext(ChatReducerContext)
+    const { reducer } = useContext(ReducerContext)
 
-    function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<WebAPI.Response | null> {
+    function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<api.Response | null> {
         return reducer(method, query)
     }
 
-    const [textField, setTextField] = useState({
-        errorMessage: [],
-        value: "",
-    })
-
-    const updateTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setTextField({
-            errorMessage: textField.errorMessage,
-            value: event.target.value,
-        })
-    }
-
-    const update = async () => {
+    const post = async (text: string) => {
         try {
             return await reduce(
-                reducers.api.message.update,
+                reducers.domainData.message.post,
                 Object.assign({}, query, {
-                    text: textField.value,
+                    text: text,
                 })
             )
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
                 throw error
             }
-            return new WebAPI.Response(WebAPIUnavailableResponse)
+            return new api.Response(WebAPIUnavailableResponse)
         }
     }
 
-    const updateStatus = async () => {
-        const response = await update()
+    const handlePostMessage = async (text: string) => {
+        const response = await post(text)
         if (response.ok) {
-            setTextField({
-                errorMessage: [],
-                value: "",
-            })
         } else {
-            handleError(response)
         }
     }
 
-    const handleError = (response: WebAPI.Response) => {}
+    const handleError = (response: api.Response) => {}
 
     return {
-        textField,
-        updateTextValue,
-        updateStatus,
+        handlePostMessage,
     }
 }
-
-const context = {
-    textField: {
-        errorMessage: [],
-        value: "",
-    },
-    updateTextValue: null,
-    updateStatus: null,
-}
-
-export const PostboxContext = createContext(context)

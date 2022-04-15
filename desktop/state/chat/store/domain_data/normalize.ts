@@ -7,7 +7,7 @@ import {
 
 import { DomainDataT } from "./types"
 
-function normalizeMessage(
+export function normalizeMessage(
     message: MessageObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -46,7 +46,7 @@ function normalizeMessage(
     return nextDomainData
 }
 
-function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
+export function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
     if (user == null) {
         return nextDomainData
     }
@@ -67,7 +67,7 @@ function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): D
     return nextDomainData
 }
 
-function normalizeChannel(
+export function normalizeChannel(
     channel: ChannelObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -78,7 +78,7 @@ function normalizeChannel(
     return nextDomainData
 }
 
-function normalizeChannelGroup(
+export function normalizeChannelGroup(
     community: ChannelGroupObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {

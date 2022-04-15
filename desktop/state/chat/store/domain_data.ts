@@ -6,10 +6,15 @@ import {
 } from "../../../api/object"
 import { DomainDataSetActionT, DomainDataT, ObjectMap, UserIdSet } from "./domain_data/types"
 import { createContext, useState } from "react"
+import normalize, {
+    normalizeChannel,
+    normalizeChannelGroup,
+    normalizeMessage,
+    normalizeUser,
+} from "./domain_data/normalize"
 
 import { Response } from "../../../api"
 import copy from "./domain_data/copy"
-import normalize from "./domain_data/normalize"
 
 const context: DomainDataT = {
     messages: null,
@@ -20,7 +25,7 @@ const context: DomainDataT = {
     blockedUserIds: null,
 }
 
-export const ChatDomainDataContext = createContext(context)
+export const DomainDataContext = createContext(context)
 
 export async function fetch<T>(
     prevDomainData: DomainDataT,
@@ -54,68 +59,74 @@ export async function fetch<T>(
     return [nextDomainData, response]
 }
 
-export function merge(
-    prevDomainData: DomainDataT,
-    data: {
-        channel?: ChannelObjectT
-        channels?: ChannelObjectT[]
-        channel_group?: ChannelGroupObjectT
-        channel_groups?: ChannelGroupObjectT[]
-        message?: MessageObjectT
-        messages?: MessageObjectT[]
-        user?: UserObjectT
-        users?: UserObjectT[]
-    }
+let _initialDomainData = null
+function buildInitialDomainData(
+    messages: MessageObjectT[],
+    users: UserObjectT[],
+    channels: ChannelObjectT[],
+    channelGroups: ChannelGroupObjectT[]
 ): DomainDataT {
-    let nextDomainData: DomainDataT = {
-        messages: copy.messages(prevDomainData.messages),
-        users: copy.users(prevDomainData.users),
-        channels: copy.channels(prevDomainData.channels),
-        channelGroups: copy.channelGroups(prevDomainData.channelGroups),
-        mutedUserIds: new UserIdSet(prevDomainData.mutedUserIds),
-        blockedUserIds: new UserIdSet(prevDomainData.blockedUserIds),
+    if (_initialDomainData) {
+        return _initialDomainData
     }
-    if (data.message) {
-        nextDomainData = normalize.message(copy.message(data.message), nextDomainData)
+    let domainData: DomainDataT = {
+        messages: new ObjectMap<MessageObjectT>(),
+        users: new ObjectMap<UserObjectT>(),
+        channels: new ObjectMap<ChannelObjectT>(),
+        channelGroups: new ObjectMap<ChannelGroupObjectT>(),
+        mutedUserIds: new UserIdSet(),
+        blockedUserIds: new UserIdSet(),
     }
-    if (data.user) {
-        nextDomainData = normalize.user(copy.user(data.user), nextDomainData)
-    }
-    if (data.messages) {
-        data.messages.forEach((message) => {
-            nextDomainData = normalize.message(copy.message(message), nextDomainData)
-        })
-    }
-    if (data.channel) {
-        nextDomainData = normalize.channel(copy.channel(data.channel), nextDomainData)
-    }
-
-    return nextDomainData
+    messages.forEach((message) => {
+        domainData = normalizeMessage(message, domainData)
+    })
+    users.forEach((user) => {
+        domainData = normalizeUser(user, domainData)
+    })
+    channels.forEach((channel) => {
+        domainData = normalizeChannel(channel, domainData)
+    })
+    channelGroups.forEach((channelGroup) => {
+        domainData = normalizeChannelGroup(channelGroup, domainData)
+    })
+    _initialDomainData = domainData
+    return domainData
 }
 
-export const useChatDomainData = (): [DomainDataT, DomainDataSetActionT] => {
+export const useDomainData = (
+    initialMessages: MessageObjectT[],
+    initialUsers: UserObjectT[],
+    initialChannels: ChannelObjectT[],
+    initialChannelGroups: ChannelGroupObjectT[]
+): [DomainDataT, DomainDataSetActionT] => {
     console.info("useChatDomainData")
-    const [statuses, setStatuses] = useState(new ObjectMap<MessageObjectT>())
-    const [users, setUsers] = useState(new ObjectMap<UserObjectT>())
-    const [channels, setChannels] = useState(new ObjectMap<ChannelObjectT>())
-    const [communities, setCommunities] = useState(new ObjectMap<ChannelGroupObjectT>())
+    const initialDomainData = buildInitialDomainData(
+        initialMessages,
+        initialUsers,
+        initialChannels,
+        initialChannelGroups
+    )
+    const [messages, setMessages] = useState(initialDomainData.messages)
+    const [users, setUsers] = useState(initialDomainData.users)
+    const [channels, setChannels] = useState(initialDomainData.channels)
+    const [channelGroups, setChannelGroups] = useState(initialDomainData.channelGroups)
     const [mutedUserIds, setMutedUserIds] = useState(new UserIdSet())
     const [blockedUserIds, setBlockedUserIds] = useState(new UserIdSet())
 
     return [
         {
-            messages: statuses,
+            messages,
             users,
             channels,
-            channelGroups: communities,
+            channelGroups,
             mutedUserIds,
             blockedUserIds,
         },
         {
-            setMessages: setStatuses,
+            setMessages,
             setUsers,
             setChannels,
-            setCommunities,
+            setChannelGroups,
             setMutedUserIds,
             setBlockedUserIds,
         },

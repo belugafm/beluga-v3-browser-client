@@ -1,18 +1,16 @@
-export { getServerSideProps } from "../../component/app/next"
+export { getServerSideProps } from "../../component/chat/next"
 
-import { AccountMenuSidebarComponent } from "../../component/app/sidebar/account_menu"
-import { BackgroundImageBackdropFilterComponent } from "../../component/app/background_image"
-import { ChannelGroupSidebarComponent } from "../../component/app/sidebar/channel_group"
-import { ChatAppStateContext } from "../../state/chat/store/app_state"
-import { ChatColumnContainerComponent } from "../../component/chat/columns"
-import { ChatComponent } from "../../component/chat"
-import { ContainerComponent } from "../../component/app/container"
+import { AccountMenuSidebarComponent } from "../../component/chat/sidebar/account_menu"
+import { BackgroundImageBackdropFilterComponent } from "../../component/chat/background_image"
+import { ChannelGroupSidebarComponent } from "../../component/chat/sidebar/channel_group"
+import { ContainerComponent } from "../../component/chat/container"
+import { ContentGridComponent } from "../../component/chat/content/layout"
 import Head from "next/head"
-import { HeaderComponent } from "../../component/app/header"
-import { LogoSidebarComponent } from "../../component/app/sidebar/logo"
-import { SVGComponent } from "../../component/app/svg"
-import { SidebarComponent } from "../../component/app/sidebar"
-import { SidebarThemeComponent } from "../../component/app/sidebar/theme"
+import { HeaderComponent } from "../../component/chat/header"
+import { LogoSidebarComponent } from "../../component/chat/sidebar/logo"
+import { SVGComponent } from "../../component/chat/svg"
+import { SidebarComponent } from "../../component/chat/sidebar"
+import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
 import { swrFetchData } from "../../swr/channel/combined/page"
 
@@ -58,16 +56,14 @@ export default ({ theme, query }) => {
                         <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
-                        <ChatAppStateContext.Provider value={{ columns: [] }}>
-                            <ChatComponent
-                                context={{
-                                    channel: {
-                                        object: channel,
-                                        messages: messages,
-                                    },
-                                }}
-                            />
-                        </ChatAppStateContext.Provider>
+                        <ContentGridComponent
+                            pageContext={{
+                                channel: {
+                                    object: channel,
+                                    messages: messages,
+                                },
+                            }}
+                        />
                     </BackgroundImageBackdropFilterComponent>
                 </ContainerComponent>
             </ThemeProvider>

@@ -16,7 +16,7 @@ export const useChatStore = (
     reducers: AsyncReducersT
 } => {
     console.info("useChatState")
-    let [store, storeSetActions, reducers] = storeProvider.use(pageContext)
+    let [store, reducers] = storeProvider.use(pageContext)
     const { loggedInUser } = swrShowLoggedInUser()
 
     // websocket.use({

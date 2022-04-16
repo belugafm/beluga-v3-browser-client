@@ -1,7 +1,6 @@
 import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
 import { Themes, useTheme } from "../../theme"
 
-import Link from "next/link"
 import classnames from "classnames"
 
 export type ListItemObjectT = {
@@ -36,15 +35,14 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
     const [theme] = useTheme()
     return (
         <>
-            <Link href={`/channel/${channel.unique_name}`}>
-                <a
-                    className={classnames("item", {
-                        active,
-                    })}>
-                    <span className="status">{channel.status_string}</span>
-                    <span className="name">{channel.name}</span>
-                </a>
-            </Link>
+            <a
+                className={classnames("item", {
+                    active,
+                })}
+                href={`/channel/${channel.unique_name}`}>
+                <span className="status">{channel.status_string}</span>
+                <span className="name">{channel.name}</span>
+            </a>
             <style jsx>{`
                 a {
                     position: relative;
@@ -99,14 +97,12 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
     return (
         <>
             <div className="container">
-                <Link href={`/group/${channelGroup.unique_name}`}>
-                    <a>
-                        <svg className="icon">
-                            <use href="#icon-direction-right"></use>
-                        </svg>
-                        <span className="name">{channelGroup.name}</span>
-                    </a>
-                </Link>
+                <a href={`/group/${channelGroup.unique_name}`}>
+                    <svg className="icon">
+                        <use href="#icon-direction-right"></use>
+                    </svg>
+                    <span className="name">{channelGroup.name}</span>
+                </a>
                 <div className="children hidden"></div>
             </div>
             <style jsx>{`

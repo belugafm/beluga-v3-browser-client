@@ -306,7 +306,7 @@ function _useDomainData(pageContext: PageContextObjectT) {
 
 export class StoreProvider {
     queue: Promise<void> = new Promise((resolve) => resolve())
-    use(pageContext: PageContextObjectT): [StoreT, StoreSetActionsT, AsyncReducersT] {
+    use(pageContext: PageContextObjectT): [StoreT, AsyncReducersT] {
         const layoutCacheKey = getLocalStorageKey(pageContext)
         const cachedContents = loadContentsFromCache(layoutCacheKey, pageContext)
         const [appState, appStateSetActions] = useAppState(cachedContents)
@@ -353,6 +353,6 @@ export class StoreProvider {
             })
         }
         const reducers = { reducer, sequentialReducer }
-        return [store, storeSetActions, reducers]
+        return [store, reducers]
     }
 }

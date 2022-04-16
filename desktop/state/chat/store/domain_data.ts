@@ -99,7 +99,6 @@ export const useDomainData = (
     initialChannels: ChannelObjectT[],
     initialChannelGroups: ChannelGroupObjectT[]
 ): [DomainDataT, DomainDataSetActionT] => {
-    console.info("useChatDomainData")
     const initialDomainData = buildInitialDomainData(
         initialMessages,
         initialUsers,
@@ -112,8 +111,6 @@ export const useDomainData = (
     const [channelGroups, setChannelGroups] = useState(initialDomainData.channelGroups)
     const [mutedUserIds, setMutedUserIds] = useState(new UserIdSet())
     const [blockedUserIds, setBlockedUserIds] = useState(new UserIdSet())
-
-    console.log("channels", channels)
 
     return [
         {

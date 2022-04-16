@@ -1,12 +1,24 @@
 import * as api from "../../../api"
 import * as reducers from "../reducer_method"
 
-import { AsyncReducerMethodT, ReducerContext } from "../store/reducer"
+import { AsyncReducerMethodT, ReducerContext } from "../store/types/reducer"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../../api/fetch"
-import { createContext, useContext, useState } from "react"
 
-export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
+import { ContentActionContext } from "../store/app_state/action"
+import { ContentStateT } from "../store/app_state"
+import { EditorState } from "draft-js"
+import { useContext } from "react"
+
+export const usePostboxState = ({
+    query,
+    content,
+}: {
+    query: Record<string, any>
+    content: ContentStateT
+    editorState: EditorState
+}) => {
     const { reducer } = useContext(ReducerContext)
+    const contentActions = useContext(ContentActionContext)
 
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<api.Response | null> {
         return reducer(method, query)
@@ -31,7 +43,10 @@ export const usePostboxState = ({ query }: { query: Record<string, any> }) => {
     const handlePostMessage = async (text: string) => {
         const response = await post(text)
         if (response.ok) {
+            contentActions.content.loadLatestMessagesIfNeeded(content)
+            return true
         } else {
+            return false
         }
     }
 

@@ -1,26 +1,29 @@
 import { ContentComponent } from "./content"
 import { ContentStateT } from "../../../state/chat/store/app_state"
 import React from "react"
+import { useTheme } from "../../theme"
 
 export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentStateT[] }) => {
     console.info("ContentColumnComponent::render")
     return (
         <div className="container">
             <div className="rows">
-                {contentRows.map((content) => {
-                    return <ContentComponent key={content.id} content={content} />
+                {contentRows.map((content, index) => {
+                    return <ContentComponent key={index} content={content} />
                 })}
             </div>
             <style jsx>{`
                 .container {
                     display: flex;
                     flex-direction: column;
-                    flex: 0 0 auto;
+                    flex: 1 1 auto;
+                    min-width: 400px;
+                    max-width: 800px;
                 }
                 .rows {
                     display: flex;
-                    flex-direction: column;
                     flex: 1 1 auto;
+                    flex-direction: column;
                     overflow-y: scroll;
                 }
                 .rows::-webkit-scrollbar {

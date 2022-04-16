@@ -1,6 +1,6 @@
 import * as reducers from "../reducer_method"
 
-import { AsyncReducerMethodT, AsyncReducersT } from "../store/reducer"
+import { AsyncReducerMethodT, AsyncReducersT } from "../store/types/reducer"
 import { MessageObjectT, UserObjectT } from "../../../api/object"
 import { MouseEvent, createContext } from "react"
 
@@ -117,4 +117,4 @@ const actions: MessageActionT = {
     destroyBlocks: null,
 }
 
-export const MessageAction = createContext(actions)
+export const MessageActionContext = createContext(actions)

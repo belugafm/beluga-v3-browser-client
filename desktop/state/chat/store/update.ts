@@ -1,8 +1,8 @@
-import { AppStateSetActionT, AppStateT } from "./app_state"
-import { DomainDataSetActionT, DomainDataT } from "./domain_data/types"
-import { StoreSetActionsT, StoreT } from "./reducer"
+import { AppStateSetActionT, AppStateT } from "./types/app_state"
+import { DomainDataSetActionT, DomainDataT } from "./types/domain_data"
+import { StoreSetActionsT, StoreT } from "./types/store"
 
-import equals from "deep-equal"
+import deepEquals from "fast-deep-equal"
 
 function updateDomainData(
     setActions: DomainDataSetActionT,
@@ -21,10 +21,6 @@ function updateDomainData(
         nextDomainData.channels.lastModified = Date.now()
         setActions.setChannels(nextDomainData.channels)
     }
-    if (nextDomainData.channelGroups.equals(prevDomainData.channelGroups) !== true) {
-        nextDomainData.channelGroups.lastModified = Date.now()
-        setActions.setCommunities(nextDomainData.channelGroups)
-    }
     if (nextDomainData.mutedUserIds.equals(prevDomainData.mutedUserIds) !== true) {
         setActions.setMutedUserIds(nextDomainData.mutedUserIds)
     }
@@ -38,8 +34,8 @@ function updateAppState(
     prevAppState: AppStateT,
     nextAppState: AppStateT
 ) {
-    if (equals(prevAppState.content_grid, nextAppState.content_grid) !== true) {
-        setActions.setColumns(nextAppState.content_grid)
+    if (deepEquals(prevAppState.contents, nextAppState.contents) !== true) {
+        setActions.setContents(nextAppState.contents)
     }
 }
 

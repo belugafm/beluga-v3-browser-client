@@ -1,4 +1,4 @@
-import { ActionT } from "../../../state/chat/store/action"
+import { ActionT } from "../../../state/chat/store/app_state/action"
 import { ContentStateT } from "../../../state/chat/store/app_state"
 
 export default ({ content, chatActions }: { content: ContentStateT; chatActions: ActionT }) => {

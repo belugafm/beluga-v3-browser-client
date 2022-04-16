@@ -1,3 +1,4 @@
+import { ContentActionContext, useContentAction } from "../../state/chat/store/app_state/action"
 import { Editor, EditorState } from "draft-js"
 import React, { useContext, useRef, useState } from "react"
 import { Themes, useTheme } from "../theme"
@@ -86,9 +87,6 @@ const getPlaceholderText = (content: ContentStateT) => {
 
 export const PostboxComponent = ({ content }: { content: ContentStateT }) => {
     const [theme] = useTheme()
-    const { handlePostMessage } = usePostboxState({
-        query: content.postbox.query,
-    })
     // const textarea = useRef(null)
     // const handleClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     //     event.preventDefault()
@@ -100,6 +98,11 @@ export const PostboxComponent = ({ content }: { content: ContentStateT }) => {
     function focusEditor() {
         editor.current.focus()
     }
+    const { handlePostMessage } = usePostboxState({
+        query: content.postbox.query,
+        content,
+        editorState,
+    })
     const [isTextAttributeBlockHidden, setIsTextAttributeBlockHidden] = useState(true)
     return (
         <>
@@ -183,11 +186,15 @@ export const PostboxComponent = ({ content }: { content: ContentStateT }) => {
                                 </button>
                                 <button
                                     className="editor-button send-message active"
-                                    onClick={() =>
-                                        handlePostMessage(
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        const succeeded = handlePostMessage(
                                             editorState.getCurrentContent().getPlainText()
                                         )
-                                    }>
+                                        if (succeeded) {
+                                            setEditorState(EditorState.createEmpty())
+                                        }
+                                    }}>
                                     <svg className="icon">
                                         <use href="#icon-editor-send-fill"></use>
                                     </svg>

@@ -2,13 +2,12 @@ import * as api from "../../../../../api"
 
 import { AppStateT, ContentStateT, ContentType } from "../../../store/app_state"
 import { ChannelObjectT, MessageObjectT } from "../../../../../api/object"
-import { fetch, merge } from "../../../store/domain_data"
+import { copyContents, insertContent } from "../content"
 
-import { AbstractContentAction } from "./class"
-import { DomainDataT } from "../../../store/domain_data/types"
-import { StoreT } from "../../../store/reducer"
+import { DomainDataT } from "../../../store/types/domain_data"
+import { StoreT } from "../../../store/types/reducer"
 import config from "../../../../../config"
-import { insertContent } from "../content"
+import { fetch } from "../../../store/domain_data"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -87,7 +86,7 @@ export const buildContentStateFromData = (data: {
 }
 export const add = (store: StoreT, content: ContentStateT): StoreT => {
     const nextAppState: AppStateT = {
-        content_grid: insertContent(content, store.appState.content_grid, null),
+        contents: insertContent(content, store.appState.contents, null),
     }
     return {
         domainData: store.domainData,
@@ -132,7 +131,7 @@ export const asyncAdd = async (
     }
 
     const nextAppState: AppStateT = {
-        content_grid: insert(column, store.appState.content_grid, params.insertColumnAfter),
+        contents: insert(column, store.appState.contents, params.insertColumnAfter),
     }
 
     return [
@@ -151,7 +150,7 @@ export const setTimelineQuery = async (
     }
 ): Promise<[StoreT, api.Response | null]> => {
     const nextAppState: AppStateT = {
-        content_grid: copyContents(store.appState.content_grid),
+        contents: copyContents(store.appState.contents),
     }
 
     const [nextDomainData, response] = await fetch(
@@ -160,7 +159,7 @@ export const setTimelineQuery = async (
         Object.assign({ channelId: params.query.channelId }, params.query)
     )
 
-    const column = findByIndex(nextAppState.content_grid, params.column.id)
+    const column = findByIndex(nextAppState.contents, params.column.id)
     column.timeline.query = params.query
     column.timeline.messageIds = response.messages.map((status) => status.id)
 
@@ -172,29 +171,35 @@ export const setTimelineQuery = async (
         response,
     ]
 }
-export const updateTimeline = async (
+
+export const loadLatestMessages = async (
     store: StoreT,
-    desiredColumn: ContentStateT
+    prevContent: ContentStateT
 ): Promise<[StoreT, api.Response | null]> => {
     const [nextDomainData, response] = await fetch(
         store.domainData,
         api.timeline.channel,
         Object.assign(
             {
-                channelId: desiredColumn.timeline.query.channelId,
+                channelId: prevContent.timeline.query.channelId,
             },
-            desiredColumn.timeline.query
+            {
+                sinceId:
+                    prevContent.timeline.messageIds.length == 0
+                        ? null
+                        : prevContent.timeline.messageIds[0],
+            }
         )
     )
     const { messages } = response
 
     const nextAppState: AppStateT = {
-        content_grid: copyContents(store.appState.content_grid),
+        contents: copyContents(store.appState.contents),
     }
-    const nextTargetColumn = findByIndex(nextAppState.content_grid, desiredColumn.id)
-    if (nextTargetColumn) {
-        nextTargetColumn.timeline.messageIds = messages.map((status) => status.id)
-    }
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.timeline.messageIds = messages
+        .map((message) => message.id)
+        .concat(nextContent.timeline.messageIds)
 
     return [
         {

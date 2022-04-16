@@ -5,7 +5,7 @@ import {
     UserObjectT,
 } from "../../../../api/object"
 
-import { DomainDataT } from "./types"
+import { DomainDataT } from "../types/domain_data"
 
 export function normalizeMessage(
     message: MessageObjectT | null,
@@ -41,6 +41,7 @@ export function normalizeMessage(
         entity.message = null
     })
 
+    message.created_at = new Date(message.created_at)
     nextDomainData.messages.update(message.id, message)
 
     return nextDomainData

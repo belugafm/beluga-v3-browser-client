@@ -4,7 +4,7 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../api/object"
-import { DomainDataSetActionT, DomainDataT, ObjectMap, UserIdSet } from "./domain_data/types"
+import { DomainDataSetActionT, DomainDataT, ObjectMap, UserIdSet } from "./types/domain_data"
 import { createContext, useState } from "react"
 import normalize, {
     normalizeChannel,

@@ -5,7 +5,7 @@ import { CommonPropsT } from "../types"
 import React from "react"
 
 export default React.memo(
-    ({ message, domainData, chatActions, content }: CommonPropsT) => {
+    ({ message, domainData, contentActions: chatActions, content }: CommonPropsT) => {
         if (content.options.showMutedMessage === false) {
             const user = domainData.users.get(message.user_id)
             if (user.muted) {

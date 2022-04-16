@@ -1,12 +1,14 @@
-import { AsyncReducerMethodT, StoreSetActionsT, StoreT } from "./reducer"
 import {
     ChannelGroupObjectT,
     ChannelObjectT,
     MessageObjectT,
     UserObjectT,
 } from "../../../api/object"
-import { ContentStateT, ContentType, useAppState } from "./app_state"
+import { ContentType, useAppState } from "./app_state"
+import { StoreSetActionsT, StoreT } from "./types/store"
 
+import { AsyncReducerMethodT } from "./types/reducer"
+import { ContentStateT } from "./types/app_state"
 import { Response } from "../../../api"
 import { udpateStore } from "./update"
 import { useDomainData } from "./domain_data"
@@ -81,6 +83,36 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
+                        query: {
+                            channelId: pageContext.channel.object.id,
+                        },
+                    },
+                },
+            ],
+        ]
+        return [
+            [
+                {
+                    id: Date.now(),
+                    column: 0,
+                    row: 0,
+                    type: ContentType.Channel,
+                    postbox: {
+                        enabled: true,
+                        query: {
+                            channelId: pageContext.channel.object.id,
+                        },
+                    },
+                    context: {
+                        channelId: pageContext.channel.object.id,
+                    },
+                    options: {
+                        showMutedMessage: false,
+                    },
+                    timeline: {
+                        messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -105,6 +137,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -129,6 +162,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -155,6 +189,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -179,6 +214,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -207,6 +243,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channelGroup.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.channelGroup.object.id,
                         },
@@ -235,6 +272,7 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.thread.messages.map((message) => message.id),
+                        isLoadingLatestMessagesEnabled: true,
                         query: {
                             channelId: pageContext.thread.object.id,
                         },

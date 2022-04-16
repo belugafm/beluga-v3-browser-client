@@ -1,6 +1,6 @@
 import { PageContextObjectT, StoreProvider } from "./store"
 
-import { AsyncReducerMethodT } from "./store/reducer"
+import { AsyncReducerMethodT } from "./store/types/reducer"
 import { swrShowLoggedInUser } from "../../swr/session"
 import { websocket } from "./websocket"
 

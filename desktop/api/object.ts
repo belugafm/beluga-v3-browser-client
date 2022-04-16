@@ -59,7 +59,7 @@ export type MessageObjectT = {
     channel_id: number
     channel: ChannelObjectT | null
     text: string
-    created_at: number
+    created_at: Date
     updated_at: number
     public: boolean
     edited: boolean

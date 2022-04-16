@@ -5,7 +5,7 @@ import {
     UserObjectT,
 } from "../../../../api/object"
 
-import { ObjectMap } from "./types"
+import { ObjectMap } from "../types/domain_data"
 
 function copyMessage(message: MessageObjectT | null): MessageObjectT {
     if (message == null) {

@@ -1,16 +1,17 @@
-import { Action, ActionT } from "../../../state/chat/store/action"
+import { ActionT, ContentActionContext } from "../../../state/chat/store/app_state/action"
+import { MessageObjectT, UserObjectT } from "../../../api/object"
 import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { HeaderComponent } from "./header"
-import MenuComponent from "../content/menu"
-import { MessageAction } from "../../../state/chat/components/message"
+import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { PostboxComponent } from "../postbox"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
+import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
 
 function findMaxId(messageIds: string[]) {
     if (messageIds.length > config.timeline.maxNumStatuses) {
@@ -155,11 +156,42 @@ const getStyleForTheme = (theme: Themes) => {
     throw new Error()
 }
 
+class CheckIsConsecutivePost {
+    private lastUserId: number | null
+    private lastCreatedAt: number | null
+    private consectivePeriodInSec: number
+    constructor() {
+        this.lastUserId = null
+        this.lastCreatedAt = null
+        this.consectivePeriodInSec = 300
+    }
+    check(message: MessageObjectT): boolean {
+        if (this.lastUserId == null) {
+            this.lastUserId = message.user_id
+            this.lastCreatedAt = message.created_at.getTime()
+            return false
+        }
+        if (this.lastUserId != message.user_id) {
+            this.lastUserId = message.user_id
+            this.lastCreatedAt = message.created_at.getTime()
+            return false
+        }
+        if (message.created_at.getTime() - this.lastCreatedAt > 1000 * this.consectivePeriodInSec) {
+            this.lastUserId = message.user_id
+            this.lastCreatedAt = message.created_at.getTime()
+            return false
+        }
+        this.lastUserId = message.user_id
+        this.lastCreatedAt = message.created_at.getTime()
+        return true
+    }
+}
+
 export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     console.info("ContentComponent::render")
     const domainData = useContext(DomainDataContext)
-    const messageActions = useContext(MessageAction)
-    const chatActions = useContext(Action)
+    const messageActions = useContext(MessageActionContext)
+    const chatActions = useContext(ContentActionContext)
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
@@ -168,6 +200,31 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
         content: content,
         chatActions: chatActions,
     })
+    const consectivePostChecker = new CheckIsConsecutivePost()
+    console.log(content.timeline.messageIds)
+    const messageComponentList = [...content.timeline.messageIds]
+        .reverse()
+        .map((messageId) => {
+            const normalizedMessage = domainData.messages.get(messageId)
+            if (normalizedMessage == null) {
+                return null
+            }
+            const message = unnormalizeMessage(normalizedMessage, domainData)
+            return (
+                <MessageComponent
+                    key={messageId}
+                    message={message}
+                    messageActions={messageActions}
+                    contentActions={chatActions}
+                    domainData={domainData}
+                    loggedInUser={loggedInUser}
+                    content={content}
+                    isConsecutivePost={consectivePostChecker.check(message)}
+                    theme={theme}
+                />
+            )
+        })
+        .reverse()
     return (
         <>
             <div className="content-container">
@@ -177,23 +234,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     </div>
                     <div className="scroller-container" onScroll={scroller.handleScroll}>
                         <div className="scroller" ref={scrollerRef}>
-                            {content.timeline.messageIds.map((messageId) => {
-                                const message = domainData.messages.get(messageId)
-                                if (message == null) {
-                                    return null
-                                }
-                                return (
-                                    <MessageComponent
-                                        key={messageId}
-                                        message={message}
-                                        messageActions={messageActions}
-                                        chatActions={chatActions}
-                                        domainData={domainData}
-                                        loggedInUser={loggedInUser}
-                                        content={content}
-                                    />
-                                )
-                            })}
+                            {messageComponentList}
                         </div>
                     </div>
                     <div className="postbox">
@@ -203,7 +244,6 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
             </div>
             <style jsx>{`
                 .content-container {
-                    width: 400px;
                     flex: 1 1 auto;
                     padding: 8px;
                     display: flex;

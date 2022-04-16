@@ -1,7 +1,8 @@
 import { AppStateT, ContentStateT } from "../../store/app_state"
 
-import { ContentGridT } from "../../store/app_state"
-import { StoreT } from "../../store/reducer"
+import { StoreT } from "../../store/types/reducer"
+
+type ContentGridT = ContentStateT[][]
 
 export const splitContentsInTwo = (
     contentGrid: ContentGridT,
@@ -30,6 +31,8 @@ export const copyContents = (contentGrid: ContentGridT) => {
             return {
                 id: content.id,
                 type: content.type,
+                row: content.row,
+                column: content.column,
                 postbox: {
                     enabled: content.postbox.enabled,
                     query: Object.assign({}, content.postbox.query),
@@ -39,10 +42,11 @@ export const copyContents = (contentGrid: ContentGridT) => {
                 },
                 timeline: {
                     messageIds: content.timeline.messageIds.concat(),
+                    isLoadingLatestMessagesEnabled: content.timeline.isLoadingLatestMessagesEnabled,
                     query: Object.assign({}, content.timeline.query),
                 },
                 context: Object.assign({}, content.context),
-            }
+            } as ContentStateT
         })
     })
 }

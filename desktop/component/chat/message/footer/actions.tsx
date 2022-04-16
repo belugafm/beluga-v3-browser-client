@@ -2,7 +2,7 @@ import { CommonPropsT } from "../types"
 import MenuComponent from "./menu"
 
 export default (props: CommonPropsT) => {
-    const { status, messageActions: statusActions, chatActions, loggedInUser, column } = props
+    const { messageActions: statusActions, contentActions: chatActions, loggedInUser } = props
     return (
         <>
             <div className="buttons">

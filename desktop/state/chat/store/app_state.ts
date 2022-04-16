@@ -1,3 +1,4 @@
+import { AppStateSetActionT, AppStateT, ContentStateT } from "./types/app_state"
 import { createContext, useState } from "react"
 
 export const ContentType = {
@@ -6,52 +7,9 @@ export const ContentType = {
     Thread: "Thread",
 } as const
 
-export type ContentStateT = {
-    id: number
-    column: number
-    row: number
-    type: keyof typeof ContentType
-    postbox: {
-        enabled: boolean
-        query: any
-    }
-    context: {
-        channelGroupId?: number
-        channelId?: number
-        messageId?: number
-    }
-    options: {
-        showMutedMessage: boolean
-    }
-    timeline: {
-        messageIds: number[]
-        query: {
-            channelGroupId?: number
-            channelId?: number
-            messageId?: number
-            maxId?: number
-            sinceId?: number
-            maxDate?: number
-            untilDate?: number
-            limit?: number
-        }
-    }
-}
-
-export type AppStateT = {
-    contents: ContentStateT[][]
-}
-
 export const AppStateContext = createContext<AppStateT>({
     contents: [[]],
 })
-
-export type AppStateSetActionT = {
-    addContentToNewColumn: (content: ContentStateT) => void
-    insertContentBetweenColumn: (content: ContentStateT, beforeColumn: number) => void
-    insertContentBetweenRow: (content: ContentStateT, column: number, beforeRow: number) => void
-    removeContent: (content: ContentStateT) => void
-}
 
 function addContentToNewColumnFactory(
     prevContents: ContentStateT[][],
@@ -149,6 +107,7 @@ export const useAppState = (
             contents,
         },
         {
+            setContents,
             addContentToNewColumn: addContentToNewColumnFactory(contents, setContents),
             insertContentBetweenColumn: insertContentBetweenColumnFactory(contents, setContents),
             insertContentBetweenRow: insertContentBetweenRowFactory(contents, setContents),

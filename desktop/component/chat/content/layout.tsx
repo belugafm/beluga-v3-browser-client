@@ -1,12 +1,12 @@
-import { Action, useAction } from "../../../state/chat/store/action"
-import { MessageAction, useMessageAction } from "../../../state/chat/components/message"
+import { ContentActionContext, useContentAction } from "../../../state/chat/store/app_state/action"
+import { MessageActionContext, useMessageAction } from "../../../state/chat/components/message"
 
 import { AppStateContext } from "../../../state/chat/store/app_state"
 import { ContentColumnComponent } from "./column"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { PageContextObjectT } from "../../../state/chat/store"
 import React from "react"
-import { ReducerContext } from "../../../state/chat/store/reducer"
+import { ReducerContext } from "../../../state/chat/store/types/reducer"
 import { useChatStore } from "../../../state/chat"
 
 export const ContentGridComponent = ({ pageContext }: { pageContext: PageContextObjectT }) => {
@@ -14,19 +14,19 @@ export const ContentGridComponent = ({ pageContext }: { pageContext: PageContext
     const { domainData, appState, reducer, orderedReducers } = useChatStore(pageContext)
     const reducers = { reducer, orderedReducers }
     const messageAction = useMessageAction(reducers)
-    const chatAction = useAction({ appState, reducers })
+    const contentAction = useContentAction({ appState, reducers })
     return (
         <AppStateContext.Provider value={appState}>
             <DomainDataContext.Provider value={domainData}>
                 <ReducerContext.Provider value={reducers}>
-                    <Action.Provider value={chatAction}>
-                        <MessageAction.Provider value={messageAction}>
+                    <ContentActionContext.Provider value={contentAction}>
+                        <MessageActionContext.Provider value={messageAction}>
                             <div className="grid-container">
                                 <div className="grid">
-                                    {appState.contents.map((contentRows, column) => {
+                                    {appState.contents.map((contentRows, index) => {
                                         return (
                                             <ContentColumnComponent
-                                                key={column}
+                                                key={index}
                                                 contentRows={contentRows}
                                             />
                                         )
@@ -63,8 +63,8 @@ export const ContentGridComponent = ({ pageContext }: { pageContext: PageContext
                                     border-color: transparent;
                                 }
                             `}</style>
-                        </MessageAction.Provider>
-                    </Action.Provider>
+                        </MessageActionContext.Provider>
+                    </ContentActionContext.Provider>
                 </ReducerContext.Provider>
             </DomainDataContext.Provider>
         </AppStateContext.Provider>

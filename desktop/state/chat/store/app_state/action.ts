@@ -1,23 +1,24 @@
-import * as reducerMethod from "../reducer_method"
+import * as reducerMethod from "../../reducer_method"
 
-import { AppStateT, ContentStateT, ContentType } from "./app_state"
-import { AsyncReducerMethodT, AsyncReducersT } from "./reducer"
-import { ChannelObjectT, MessageObjectT } from "../../../api/object"
+import { AppStateT, ContentStateT, ContentType } from "../app_state"
+import { AsyncReducerMethodT, AsyncReducersT } from "../types/reducer"
+import { ChannelObjectT, MessageObjectT } from "../../../../api/object"
 import { Context, createContext } from "react"
 
-import { Response } from "../../../api"
+import { Response } from "../../../../api"
 
 export type ActionT = {
     content: {
-        close: (column: ContentStateT) => void
+        close: (content: ContentStateT) => void
         setTimelineQuery: (
-            column: ContentStateT,
+            content: ContentStateT,
             query: Record<string, any>
         ) => Promise<Response | null>
         setOptions: (
-            column: ContentStateT,
+            content: ContentStateT,
             options: Record<string, any>
         ) => Promise<Response | null>
+        loadLatestMessagesIfNeeded: (content: ContentStateT) => void
     }
     channel: {
         open: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
@@ -27,11 +28,12 @@ export type ActionT = {
     }
 }
 
-export const Action: Context<ActionT> = createContext({
+export const ContentActionContext: Context<ActionT> = createContext({
     content: {
         close: null,
         setTimelineQuery: null,
         setOptions: null,
+        loadLatestMessagesIfNeeded: null,
     },
     channel: {
         open: null,
@@ -41,7 +43,7 @@ export const Action: Context<ActionT> = createContext({
     },
 })
 
-export const useAction = ({
+export const useContentAction = ({
     appState,
     reducers,
 }: {
@@ -53,42 +55,51 @@ export const useAction = ({
     }
 
     return {
-        column: {
-            close: (column: ContentStateT) => {
-                if (column.type === ContentType.Channel) {
-                    return reduce(reducerMethod.appState.content.channel.close, column)
+        content: {
+            close: (content: ContentStateT) => {
+                if (content.type === ContentType.Channel) {
+                    return reduce(reducerMethod.appState.content.channel.close, content)
                 }
-                if (column.type === ContentType.Thread) {
-                    return reduce(reducerMethod.appState.content.thread.close, column)
+                if (content.type === ContentType.Thread) {
+                    return reduce(reducerMethod.appState.content.thread.close, content)
                 }
             },
-            setTimelineQuery: (column: ContentStateT, query: Record<string, any>) => {
-                if (column.type === ContentType.Channel) {
+            setTimelineQuery: (content: ContentStateT, query: Record<string, any>) => {
+                if (content.type === ContentType.Channel) {
                     return reduce(reducerMethod.appState.content.channel.setTimelineQuery, {
-                        column,
+                        content,
                         query,
                     })
                 }
-                if (column.type === ContentType.Thread) {
+                if (content.type === ContentType.Thread) {
                     return reduce(reducerMethod.appState.content.thread.setTimelineQuery, {
-                        column,
+                        content,
                         query,
                     })
                 }
             },
-            setOptions: (column: ContentStateT, options: ContentStateT["options"]) => {
-                if (column.type === ContentType.Channel) {
+            setOptions: (content: ContentStateT, options: ContentStateT["options"]) => {
+                if (content.type === ContentType.Channel) {
                     return reduce(reducerMethod.appState.content.channel.setOptions, {
-                        column,
+                        content,
                         options,
                     })
                 }
-                if (column.type === ContentType.Thread) {
+                if (content.type === ContentType.Thread) {
                     return reduce(reducerMethod.appState.content.thread.setOptions, {
-                        column,
+                        content,
                         options,
                     })
                 }
+            },
+            loadLatestMessagesIfNeeded: (content: ContentStateT) => {
+                if (content.timeline.isLoadingLatestMessagesEnabled == false) {
+                    return
+                }
+                return reducers.reducer(
+                    reducerMethod.appState.contentType.channel.loadLatestMessages,
+                    content
+                )
             },
         },
         channel: {

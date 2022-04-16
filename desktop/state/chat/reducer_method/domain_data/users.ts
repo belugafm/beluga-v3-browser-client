@@ -1,6 +1,6 @@
 import * as WebAPI from "../../../../api"
 
-import { StoreT } from "../../store/reducer"
+import { StoreT } from "../../store/types/reducer"
 import { fetch } from "../../store/domain_data"
 
 const show = async (

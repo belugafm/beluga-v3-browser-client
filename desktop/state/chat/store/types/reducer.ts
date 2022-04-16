@@ -7,7 +7,7 @@ export type AsyncReducerT = (
     query: Record<string, any>
 ) => Promise<Response | null>
 
-export type AsyncOrderedReducerT = (
+export type AsyncSequentialReducerT = (
     reducers: {
         method: (store: StoreT, query: Record<string, any>) => Promise<[StoreT, Response | null]>
         query: Record<string, any>
@@ -16,17 +16,12 @@ export type AsyncOrderedReducerT = (
 
 export type AsyncReducersT = {
     reducer: AsyncReducerT
-    orderedReducers: AsyncOrderedReducerT
+    sequentialReducer: AsyncSequentialReducerT
 }
 
 export type AsyncReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 
-const context: {
-    reducer: AsyncReducerT
-    orderedReducers: AsyncOrderedReducerT
-} = {
+export const ReducerContext = createContext<AsyncReducersT>({
     reducer: null,
-    orderedReducers: null,
-}
-
-export const ReducerContext = createContext(context)
+    sequentialReducer: null,
+})

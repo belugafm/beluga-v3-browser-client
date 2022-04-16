@@ -1,12 +1,12 @@
 import * as api from "../../../api"
 import * as reducers from "../reducer_method"
 
-import { AsyncReducerMethodT, ReducerContext } from "../store/types/reducer"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../../api/fetch"
 
 import { ContentActionContext } from "../store/app_state/action"
-import { ContentStateT } from "../store/app_state"
+import { ContentStateT } from "../store/types/app_state"
 import { EditorState } from "draft-js"
+import { ReducerContext } from "../store/types/reducer"
 import { useContext } from "react"
 
 export const usePostboxState = ({
@@ -20,13 +20,9 @@ export const usePostboxState = ({
     const { reducer } = useContext(ReducerContext)
     const contentActions = useContext(ContentActionContext)
 
-    function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<api.Response | null> {
-        return reducer(method, query)
-    }
-
     const post = async (text: string) => {
         try {
-            return await reduce(
+            return await reducer(
                 reducers.domainData.message.post,
                 Object.assign({}, query, {
                     text: text,

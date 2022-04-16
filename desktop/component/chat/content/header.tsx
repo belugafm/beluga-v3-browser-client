@@ -1,6 +1,6 @@
 import { Themes, useTheme } from "../../theme"
 
-import { ContentStateT } from "../../../state/chat/store/app_state"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { useContext } from "react"
 
@@ -47,4 +47,5 @@ export const HeaderComponent = ({ content }: { content: ContentStateT }) => {
             )
         }
     }
+    return null
 }

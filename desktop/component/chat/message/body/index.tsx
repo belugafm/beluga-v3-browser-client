@@ -8,6 +8,9 @@ export default React.memo(
     ({ message, domainData, contentActions: chatActions, content }: CommonPropsT) => {
         if (content.options.showMutedMessage === false) {
             const user = domainData.users.get(message.user_id)
+            if (user == null) {
+                return <div>ユーザーがいません</div>
+            }
             if (user.muted) {
                 return <div>ミュート中の投稿</div>
             }

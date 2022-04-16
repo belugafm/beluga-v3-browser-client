@@ -1,3 +1,4 @@
+import { AsyncReducerMethodT, AsyncReducersT } from "./types/reducer"
 import {
     ChannelGroupObjectT,
     ChannelObjectT,
@@ -7,7 +8,6 @@ import {
 import { ContentType, useAppState } from "./app_state"
 import { StoreSetActionsT, StoreT } from "./types/store"
 
-import { AsyncReducerMethodT } from "./types/reducer"
 import { ContentStateT } from "./types/app_state"
 import { Response } from "../../../api"
 import { udpateStore } from "./update"
@@ -305,10 +305,8 @@ function _useDomainData(pageContext: PageContextObjectT) {
 }
 
 export class StoreProvider {
-    currentStore: StoreT = null
-    storeSetActions: StoreSetActionsT = null
     queue: Promise<void> = new Promise((resolve) => resolve())
-    use(pageContext: PageContextObjectT): [StoreT, StoreSetActionsT] {
+    use(pageContext: PageContextObjectT): [StoreT, StoreSetActionsT, AsyncReducersT] {
         const layoutCacheKey = getLocalStorageKey(pageContext)
         const cachedContents = loadContentsFromCache(layoutCacheKey, pageContext)
         const [appState, appStateSetActions] = useAppState(cachedContents)
@@ -318,45 +316,43 @@ export class StoreProvider {
             domainData: domainDataSetActions,
             appState: appStateSetActions,
         }
-        this.currentStore = store
-        this.storeSetActions = storeSetActions
-        return [store, storeSetActions]
-    }
-    asyncReduce = <T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> => {
-        return new Promise((resolve) => {
+
+        const reducer = <T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> => {
+            return new Promise((resolve) => {
+                this.queue = this.queue.then(async () => {
+                    try {
+                        const [nextStore, response] = await method(store, query)
+                        udpateStore(storeSetActions, store, nextStore)
+                        resolve(response)
+                    } catch (error) {
+                        console.error(error)
+                        alert(error)
+                    }
+                    resolve(null)
+                })
+            })
+        }
+        const sequentialReducer = async <T>(
+            reducers: {
+                method: AsyncReducerMethodT<T>
+                query: T
+            }[]
+        ): Promise<void> => {
             this.queue = this.queue.then(async () => {
                 try {
-                    const [nextStore, response] = await method(this.currentStore, query)
-                    this.currentStore = udpateStore(
-                        this.storeSetActions,
-                        this.currentStore,
-                        nextStore
-                    )
-                    resolve(response)
+                    let currentStore = store
+                    for (let index = 0; index < reducers.length; index++) {
+                        const { method, query } = reducers[index]
+                        const [nextStore] = await method(currentStore, query)
+                        currentStore = udpateStore(storeSetActions, currentStore, nextStore)
+                    }
                 } catch (error) {
                     console.error(error)
                     alert(error)
                 }
-                resolve(null)
             })
-        })
-    }
-    asyncOrderedReduce = async <T>(
-        reducers: {
-            method: AsyncReducerMethodT<T>
-            query: T
-        }[]
-    ): Promise<void> => {
-        // TODO: queueの更新は？
-        try {
-            for (let index = 0; index < reducers.length; index++) {
-                const { method, query } = reducers[index]
-                const [nextStore] = await method(this.currentStore, query)
-                this.currentStore = udpateStore(this.storeSetActions, this.currentStore, nextStore)
-            }
-        } catch (error) {
-            console.error(error)
-            alert(error)
         }
+        const reducers = { reducer, sequentialReducer }
+        return [store, storeSetActions, reducers]
     }
 }

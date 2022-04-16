@@ -1,9 +1,8 @@
-import { ContentActionContext, useContentAction } from "../../state/chat/store/app_state/action"
 import { Editor, EditorState } from "draft-js"
 import React, { useContext, useRef, useState } from "react"
 import { Themes, useTheme } from "../theme"
 
-import { ContentStateT } from "../../state/chat/store/app_state"
+import { ContentStateT } from "../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../state/chat/store/domain_data"
 import classNames from "classnames"
 import { usePostboxState } from "../../state/chat/components/postbox"

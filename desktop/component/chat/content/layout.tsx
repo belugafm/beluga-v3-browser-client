@@ -11,8 +11,7 @@ import { useChatStore } from "../../../state/chat"
 
 export const ContentGridComponent = ({ pageContext }: { pageContext: PageContextObjectT }) => {
     console.info("ContentGridComponent::render")
-    const { domainData, appState, reducer, orderedReducers } = useChatStore(pageContext)
-    const reducers = { reducer, orderedReducers }
+    const { domainData, appState, reducers } = useChatStore(pageContext)
     const messageAction = useMessageAction(reducers)
     const contentAction = useContentAction({ appState, reducers })
     return (

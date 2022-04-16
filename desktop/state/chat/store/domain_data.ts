@@ -113,6 +113,8 @@ export const useDomainData = (
     const [mutedUserIds, setMutedUserIds] = useState(new UserIdSet())
     const [blockedUserIds, setBlockedUserIds] = useState(new UserIdSet())
 
+    console.log("channels", channels)
+
     return [
         {
             messages,

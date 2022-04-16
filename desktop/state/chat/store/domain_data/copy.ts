@@ -35,16 +35,14 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
     }
 }
 
-function copyMessages(messages: ObjectMap<MessageObjectT>) {
-    const ret = new ObjectMap<MessageObjectT>()
-    Object.keys(messages.data).forEach((messageId) => {
+function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
+    const nextMessages = new ObjectMap<MessageObjectT>()
+    prevMessages.data.forEach((message, messageId) => {
         // @ts-ignore
-        const message = messages.get(messageId)
-        // @ts-ignore
-        ret.set(messageId, copyMessage(message))
+        nextMessages.set(messageId, copyMessage(message))
     })
-    ret.lastModified = messages.lastModified
-    return ret
+    nextMessages.lastModified = prevMessages.lastModified
+    return nextMessages
 }
 
 function copyUser(user: UserObjectT | null): UserObjectT {
@@ -80,16 +78,14 @@ function copyUser(user: UserObjectT | null): UserObjectT {
     }
 }
 
-function copyUsers(users: ObjectMap<UserObjectT>) {
-    const ret = new ObjectMap<UserObjectT>()
-    Object.keys(users.data).forEach((userId) => {
+function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
+    const nextUsers = new ObjectMap<UserObjectT>()
+    prevUsers.data.forEach((user, userId) => {
         // @ts-ignore
-        const user = users.get(userId)
-        // @ts-ignore
-        ret.set(userId, copyUser(user))
+        nextUsers.set(userId, copyUser(user))
     })
-    ret.lastModified = users.lastModified
-    return ret
+    nextUsers.lastModified = prevUsers.lastModified
+    return nextUsers
 }
 
 function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
@@ -111,16 +107,14 @@ function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
     }
 }
 
-function copyChannels(channels: ObjectMap<ChannelObjectT>) {
-    const ret = new ObjectMap<ChannelObjectT>()
-    Object.keys(channels.data).forEach((channelId) => {
+function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
+    const nextChannels = new ObjectMap<ChannelObjectT>()
+    prevChannels.data.forEach((channel, channelId) => {
         // @ts-ignore
-        const channel = channels.get(channelId)
-        // @ts-ignore
-        ret.set(channelId, copyChannel(channel))
+        nextChannels.set(channelId, copyChannel(channel))
     })
-    ret.lastModified = channels.lastModified
-    return ret
+    nextChannels.lastModified = prevChannels.lastModified
+    return nextChannels
 }
 
 function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGroupObjectT {
@@ -140,16 +134,14 @@ function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGrou
     }
 }
 
-function copyChannelGroups(channelGroups: ObjectMap<ChannelGroupObjectT>) {
-    const ret = new ObjectMap<ChannelGroupObjectT>()
-    Object.keys(channelGroups.data).forEach((channel_group_id) => {
+function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjectT>) {
+    const nextChannelGroups = new ObjectMap<ChannelGroupObjectT>()
+    prevChannelGroups.data.forEach((channelGroup, channelGroupId) => {
         // @ts-ignore
-        const community = channelGroups.get(channel_group_id)
-        // @ts-ignore
-        ret.set(channel_group_id, copyChannelGroup(community))
+        nextChannelGroups.set(channelGroupId, copyChannelGroup(channelGroup))
     })
-    ret.lastModified = channelGroups.lastModified
-    return ret
+    nextChannelGroups.lastModified = prevChannelGroups.lastModified
+    return nextChannelGroups
 }
 
 export default {

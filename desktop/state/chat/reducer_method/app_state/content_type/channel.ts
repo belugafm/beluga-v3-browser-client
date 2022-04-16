@@ -1,11 +1,12 @@
 import * as api from "../../../../../api"
 
-import { AppStateT, ContentStateT, ContentType } from "../../../store/app_state"
+import { AppStateT, ContentStateT } from "../../../store/types/app_state"
 import { ChannelObjectT, MessageObjectT } from "../../../../../api/object"
 import { copyContents, insertContent } from "../content"
 
+import { ContentType } from "../../../store/app_state"
 import { DomainDataT } from "../../../store/types/domain_data"
-import { StoreT } from "../../../store/types/reducer"
+import { StoreT } from "../../../store/types/store"
 import config from "../../../../../config"
 import { fetch } from "../../../store/domain_data"
 
@@ -77,6 +78,7 @@ export const buildContentStateFromData = (data: {
         },
         timeline: {
             messageIds: messages.map((message) => message.id),
+            isLoadingLatestMessagesEnabled: true,
             query: {
                 channelId: channel.id,
                 limit: config.timeline.maxNumStatuses,
@@ -126,6 +128,7 @@ export const asyncAdd = async (
         },
         timeline: {
             messageIds: messages.map((status) => status.id),
+            isLoadingLatestMessagesEnabled: true,
             query: timelineQuery,
         },
     }
@@ -173,11 +176,11 @@ export const setTimelineQuery = async (
 }
 
 export const loadLatestMessages = async (
-    store: StoreT,
+    prevStore: StoreT,
     prevContent: ContentStateT
 ): Promise<[StoreT, api.Response | null]> => {
     const [nextDomainData, response] = await fetch(
-        store.domainData,
+        prevStore.domainData,
         api.timeline.channel,
         Object.assign(
             {
@@ -194,7 +197,7 @@ export const loadLatestMessages = async (
     const { messages } = response
 
     const nextAppState: AppStateT = {
-        contents: copyContents(store.appState.contents),
+        contents: copyContents(prevStore.appState.contents),
     }
     const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
     nextContent.timeline.messageIds = messages

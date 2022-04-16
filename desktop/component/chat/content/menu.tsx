@@ -1,5 +1,5 @@
 import { ActionT } from "../../../state/chat/store/app_state/action"
-import { ContentStateT } from "../../../state/chat/store/app_state"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
 
 export default ({ content, chatActions }: { content: ContentStateT; chatActions: ActionT }) => {
     return (

@@ -5,7 +5,7 @@ import { CommonPropsT } from "./types"
 import React from "react"
 import { Themes } from "../../theme"
 import classNames from "classnames"
-import deepEqual from "fast-deep-equal"
+import deepEqual from "deep-equal"
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {

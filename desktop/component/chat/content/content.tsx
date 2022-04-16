@@ -1,13 +1,13 @@
 import { ActionT, ContentActionContext } from "../../../state/chat/store/app_state/action"
-import { MessageObjectT, UserObjectT } from "../../../api/object"
 import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
-import { ContentStateT } from "../../../state/chat/store/app_state"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { HeaderComponent } from "./header"
 import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
+import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
@@ -201,7 +201,6 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
         chatActions: chatActions,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
-    console.log(content.timeline.messageIds)
     const messageComponentList = [...content.timeline.messageIds]
         .reverse()
         .map((messageId) => {

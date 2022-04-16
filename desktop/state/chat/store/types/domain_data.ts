@@ -40,13 +40,13 @@ export class ObjectMap<T> {
     lastModified: number = Date.now()
     updatedKeys: Set<number> = new Set()
     get(key: number): T | null {
-        return this.data[key]
+        return this.data.get(key)
     }
     set(key: number, value: T) {
-        this.data[key] = value
+        this.data.set(key, value)
     }
     update(key: number, value: T) {
-        this.data[key] = value
+        this.data.set(key, value)
         this.updatedKeys.add(key)
     }
     equals(target: ObjectMap<T>): boolean {
@@ -55,8 +55,8 @@ export class ObjectMap<T> {
         }
         try {
             this.updatedKeys.forEach((key) => {
-                const a = this.data[key]
-                const b = target.data[key]
+                const a = this.data.get(key)
+                const b = target.data.get(key)
                 if (b == null) {
                     throw new Error()
                 }
@@ -64,15 +64,15 @@ export class ObjectMap<T> {
                     throw new Error()
                 }
                 // authUserの操作による更新を検出
-                if (a.muted !== b.muted) {
-                    throw new Error()
-                }
-                if (a.blocked !== b.blocked) {
-                    throw new Error()
-                }
-                if (a.favorited !== b.favorited) {
-                    throw new Error()
-                }
+                // if (a.muted !== b.muted) {
+                //     throw new Error()
+                // }
+                // if (a.blocked !== b.blocked) {
+                //     throw new Error()
+                // }
+                // if (a.favorited !== b.favorited) {
+                //     throw new Error()
+                // }
             })
         } catch (error) {
             return false

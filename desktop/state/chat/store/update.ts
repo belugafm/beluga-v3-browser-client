@@ -2,7 +2,7 @@ import { AppStateSetActionT, AppStateT } from "./types/app_state"
 import { DomainDataSetActionT, DomainDataT } from "./types/domain_data"
 import { StoreSetActionsT, StoreT } from "./types/store"
 
-import deepEquals from "fast-deep-equal"
+import deepEquals from "deep-equal"
 
 function updateDomainData(
     setActions: DomainDataSetActionT,

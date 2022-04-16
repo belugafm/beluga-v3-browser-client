@@ -6,7 +6,10 @@ import { MouseEvent, createContext } from "react"
 
 import { Response } from "../../../api"
 
-export const useMessageAction = ({ reducer, orderedReducers }: AsyncReducersT): MessageActionT => {
+export const useMessageAction = ({
+    reducer,
+    sequentialReducer: orderedReducers,
+}: AsyncReducersT): MessageActionT => {
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducer(method, query)
     }

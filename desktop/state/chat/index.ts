@@ -1,14 +1,22 @@
 import { PageContextObjectT, StoreProvider } from "./store"
 
-import { AsyncReducerMethodT } from "./store/types/reducer"
+import { AppStateT } from "./store/types/app_state"
+import { AsyncReducersT } from "./store/types/reducer"
+import { DomainDataT } from "./store/types/domain_data"
 import { swrShowLoggedInUser } from "../../swr/session"
 import { websocket } from "./websocket"
 
 const storeProvider = new StoreProvider()
 
-export const useChatStore = (pageContext: PageContextObjectT) => {
+export const useChatStore = (
+    pageContext: PageContextObjectT
+): {
+    domainData: DomainDataT
+    appState: AppStateT
+    reducers: AsyncReducersT
+} => {
     console.info("useChatState")
-    let [store] = storeProvider.use(pageContext)
+    let [store, storeSetActions, reducers] = storeProvider.use(pageContext)
     const { loggedInUser } = swrShowLoggedInUser()
 
     // websocket.use({
@@ -23,13 +31,14 @@ export const useChatStore = (pageContext: PageContextObjectT) => {
     return {
         domainData: store.domainData,
         appState: store.appState,
-        reducer: <T>(method: AsyncReducerMethodT<T>, query: T) =>
-            storeProvider.asyncReduce(method, query),
-        orderedReducers: <T>(
-            reducers: {
-                method: AsyncReducerMethodT<T>
-                query: T
-            }[]
-        ) => storeProvider.asyncOrderedReduce(reducers),
+        reducers: reducers,
+        // reducer: <T>(method: AsyncReducerMethodT<T>, query: T) =>
+        //     storeProvider.asyncReduce(method, query),
+        // orderedReducers: <T>(
+        //     reducers: {
+        //         method: AsyncReducerMethodT<T>
+        //         query: T
+        //     }[]
+        // ) => storeProvider.asyncOrderedReduce(reducers),
     }
 }

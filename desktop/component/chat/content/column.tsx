@@ -1,7 +1,6 @@
 import { ContentComponent } from "./content"
-import { ContentStateT } from "../../../state/chat/store/app_state"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import React from "react"
-import { useTheme } from "../../theme"
 
 export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentStateT[] }) => {
     console.info("ContentColumnComponent::render")

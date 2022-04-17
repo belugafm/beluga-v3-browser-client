@@ -40,12 +40,6 @@ export const WelcomeComponent = () => {
                     font-size: 15px;
                 }
             `}</style>
-            <style jsx>{`
-                .welcome {
-                    box-shadow: ${theme.global.current.boxShadow};
-                    background-color: ${theme.global.current.backgroundSecondaryColor};
-                }
-            `}</style>
         </div>
     )
 }

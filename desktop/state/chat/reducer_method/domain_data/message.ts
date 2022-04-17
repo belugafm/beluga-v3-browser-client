@@ -1,7 +1,7 @@
 import * as api from "../../../../api"
 
 import { DomainDataT } from "../../store/types/domain_data"
-import { StoreT } from "../../store/types/reducer"
+import { StoreT } from "../../store/types/store"
 import copy from "../../store/domain_data/copy"
 import { fetch } from "../../store/domain_data"
 

@@ -1,13 +1,13 @@
-import * as WebAPI from "../../../../api"
+import * as api from "../../../../api"
 
-import { StoreT } from "../../store/types/reducer"
+import { StoreT } from "../../store/types/store"
 import { fetch } from "../../store/domain_data"
 
 const show = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.user.show>[0]
-): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.user.show, query)
+    query: Parameters<typeof api.user.show>[0]
+): Promise<[StoreT, api.Response]> => {
+    const [nextDomainData, response] = await fetch(store.domainData, api.user.show, query)
     return [
         {
             domainData: nextDomainData,

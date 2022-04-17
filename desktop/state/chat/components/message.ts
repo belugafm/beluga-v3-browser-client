@@ -22,7 +22,7 @@ export const useMessageAction = ({
     const destroy = (message: MessageObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.messages.destroy, {
+            reduce(reducers.domainData.message.destroy, {
                 messageId: message.id,
             })
         }
@@ -30,7 +30,7 @@ export const useMessageAction = ({
     const createLike = (message: MessageObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.likes.create, {
+            reduce(reducers.domainData.likes.create, {
                 messageId: message.id,
             })
         }
@@ -38,7 +38,7 @@ export const useMessageAction = ({
     const createFavorite = (message: MessageObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.favorites.create, {
+            reduce(reducers.domainData.favorites.create, {
                 messageId: message.id,
             })
         }
@@ -46,7 +46,7 @@ export const useMessageAction = ({
     const destroyFavorite = (message: MessageObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.favorites.destroy, {
+            reduce(reducers.domainData.favorites.destroy, {
                 messageId: message.id,
             })
         }
@@ -54,7 +54,7 @@ export const useMessageAction = ({
     const createMutes = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.mutes.create, {
+            reduce(reducers.domainData.mutes.create, {
                 userId: user.id,
             })
         }
@@ -62,7 +62,7 @@ export const useMessageAction = ({
     const destroyMutes = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.mutes.destroy, {
+            reduce(reducers.domainData.mutes.destroy, {
                 userId: user.id,
             })
         }
@@ -70,7 +70,7 @@ export const useMessageAction = ({
     const createBlocks = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.blocks.create, {
+            reduce(reducers.domainData.blocks.create, {
                 userId: user.id,
             })
         }
@@ -78,7 +78,7 @@ export const useMessageAction = ({
     const destroyBlocks = (user: UserObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.blocks.destroy, {
+            reduce(reducers.domainData.blocks.destroy, {
                 userId: user.id,
             })
         }

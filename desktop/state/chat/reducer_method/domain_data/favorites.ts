@@ -1,6 +1,6 @@
 import * as api from "../../../../api"
 
-import { StoreT } from "../../store/types/reducer"
+import { StoreT } from "../../store/types/store"
 import { fetch } from "../../store/domain_data"
 
 const create = async (

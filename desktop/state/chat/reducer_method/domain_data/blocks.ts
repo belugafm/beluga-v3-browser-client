@@ -1,13 +1,13 @@
-import * as WebAPI from "../../../../api"
+import * as api from "../../../../api"
 
-import { StoreT } from "../../store/types/reducer"
+import { StoreT } from "../../store/types/store"
 import { fetch } from "../../store/domain_data"
 
 const create = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.blocks.create>[0]
-): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.blocks.create, query)
+    query: Parameters<typeof api.blocks.create>[0]
+): Promise<[StoreT, api.Response]> => {
+    const [nextDomainData, response] = await fetch(store.domainData, api.blocks.create, query)
     return [
         {
             domainData: nextDomainData,
@@ -19,9 +19,9 @@ const create = async (
 
 const destroy = async (
     store: StoreT,
-    query: Parameters<typeof WebAPI.blocks.destroy>[0]
-): Promise<[StoreT, WebAPI.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, WebAPI.blocks.destroy, query)
+    query: Parameters<typeof api.blocks.destroy>[0]
+): Promise<[StoreT, api.Response]> => {
+    const [nextDomainData, response] = await fetch(store.domainData, api.blocks.destroy, query)
     return [
         {
             domainData: nextDomainData,

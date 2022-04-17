@@ -1,5 +1,3 @@
-export { getServerSideProps } from "../component/app"
-
 import * as WebAPI from "../api"
 
 import { App } from "../component/app"

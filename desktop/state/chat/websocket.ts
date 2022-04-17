@@ -1,8 +1,9 @@
 import * as reducerMethod from "./reducer_method"
 
-import { AppStateT, ContentType } from "./store/app_state"
 import { AsyncReducerMethodT, AsyncReducersT } from "./store/types/reducer"
 
+import { AppStateT } from "./store/types/app_state"
+import { ContentType } from "./store/app_state"
 import { Response } from "../../api"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"
@@ -82,58 +83,58 @@ class WebSocketState {
         })
         this.addEventListener("message", (event) => {
             try {
-                const data: WebsocketMessage = JSON.parse(event.data)
-                console.info("websocket")
-                console.info(data)
-                if (data.model === "status") {
-                    const status_id = data.document_id
-                    if (data.operation === "delete") {
-                        this.reduce(reducerMethod.messages.mark_as_deleted, {
-                            messageId: status_id,
-                        })
-                    } else if (data.operation === "insert") {
-                        const { status } = data
-                        if (status) {
-                            const { channel_id, community_id, thread_status_id } = status
-                            if (thread_status_id) {
-                                this.appState.content_grid.forEach((column) => {
-                                    if (column.type !== ContentType.Thread) {
-                                        return
-                                    }
-                                    if (column.context.messageId === thread_status_id) {
-                                        this.reduce(
-                                            reducerMethod.columns.thread.updateTimeline,
-                                            column
-                                        )
-                                    }
-                                })
-                            }
-                            if (channel_id) {
-                                this.appState.content_grid.forEach((column) => {
-                                    if (column.type !== ContentType.Channel) {
-                                        return
-                                    }
-                                    if (column.context.channelId === channel_id) {
-                                        this.reduce(
-                                            reducerMethod.columns.channel.updateTimeline,
-                                            column
-                                        )
-                                    }
-                                })
-                            }
-                        }
-                    } else if (data.operation === "update") {
-                        this.reduce(reducerMethod.messages.show, {
-                            messageId: status_id,
-                        })
-                    }
-                }
-                if (data.model === "user") {
-                    const user_id = data.document_id
-                    this.reduce(reducerMethod.users.show, {
-                        userId: user_id,
-                    })
-                }
+                // const data: WebsocketMessage = JSON.parse(event.data)
+                // console.info("websocket")
+                // console.info(data)
+                // if (data.model === "status") {
+                //     const status_id = data.document_id
+                //     if (data.operation === "delete") {
+                //         this.reduce(reducerMethod.messages.mark_as_deleted, {
+                //             messageId: status_id,
+                //         })
+                //     } else if (data.operation === "insert") {
+                //         const { status } = data
+                //         if (status) {
+                //             const { channel_id, community_id, thread_status_id } = status
+                //             if (thread_status_id) {
+                //                 this.appState.content_grid.forEach((column) => {
+                //                     if (column.type !== ContentType.Thread) {
+                //                         return
+                //                     }
+                //                     if (column.context.messageId === thread_status_id) {
+                //                         this.reduce(
+                //                             reducerMethod.columns.thread.updateTimeline,
+                //                             column
+                //                         )
+                //                     }
+                //                 })
+                //             }
+                //             if (channel_id) {
+                //                 this.appState.content_grid.forEach((column) => {
+                //                     if (column.type !== ContentType.Channel) {
+                //                         return
+                //                     }
+                //                     if (column.context.channelId === channel_id) {
+                //                         this.reduce(
+                //                             reducerMethod.columns.channel.updateTimeline,
+                //                             column
+                //                         )
+                //                     }
+                //                 })
+                //             }
+                //         }
+                //     } else if (data.operation === "update") {
+                //         this.reduce(reducerMethod.messages.show, {
+                //             messageId: status_id,
+                //         })
+                //     }
+                // }
+                // if (data.model === "user") {
+                //     const user_id = data.document_id
+                //     this.reduce(reducerMethod.users.show, {
+                //         userId: user_id,
+                //     })
+                // }
             } catch (error) {}
         })
     }

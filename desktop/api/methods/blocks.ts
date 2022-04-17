@@ -1,6 +1,6 @@
 import { Response, UnexpectedResponseError, post } from "../fetch"
 
-async function create(body: { userId: string }): Promise<Response> {
+async function create(body: { userId: number }): Promise<Response> {
     const responce = await post("blocks/create", {
         user_id: body.userId,
     })
@@ -10,7 +10,7 @@ async function create(body: { userId: string }): Promise<Response> {
     return responce
 }
 
-async function destroy(body: { userId: string }): Promise<Response> {
+async function destroy(body: { userId: number }): Promise<Response> {
     const responce = await post("blocks/destroy", {
         user_id: body.userId,
     })

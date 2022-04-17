@@ -19,7 +19,7 @@ export default (props: PropTypes) => {
         return (
             <>
                 <LinkTextComponent href={url} hidden={!showOriginalUrl} />
-                <TweetComponent id={status_id} className="tweet" />
+                <TweetComponent tweetId={status_id} className="tweet" />
             </>
         )
     }

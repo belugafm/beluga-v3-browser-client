@@ -63,6 +63,8 @@ export const buildContentStateFromData = (data: {
     return {
         id: contentId,
         type: ContentType.Channel,
+        column: -1,
+        row: -1,
         postbox: {
             enabled: true,
             query: {
@@ -110,9 +112,11 @@ export const asyncAdd = async (
     const { channel, messages } = response
     const columnId = Date.now()
 
-    const column: ContentStateT = {
+    const content: ContentStateT = {
         id: columnId,
         type: ContentType.Channel,
+        column: -1,
+        row: -1,
         postbox: {
             enabled: true,
             query: {
@@ -133,9 +137,7 @@ export const asyncAdd = async (
         },
     }
 
-    const nextAppState: AppStateT = {
-        contents: insert(column, store.appState.contents, params.insertColumnAfter),
-    }
+    const nextAppState = store.appState
 
     return [
         {
@@ -152,19 +154,13 @@ export const setTimelineQuery = async (
         query: ContentStateT["timeline"]["query"]
     }
 ): Promise<[StoreT, api.Response | null]> => {
-    const nextAppState: AppStateT = {
-        contents: copyContents(store.appState.contents),
-    }
-
     const [nextDomainData, response] = await fetch(
         store.domainData,
         api.timeline.channel,
         Object.assign({ channelId: params.query.channelId }, params.query)
     )
 
-    const column = findByIndex(nextAppState.contents, params.column.id)
-    column.timeline.query = params.query
-    column.timeline.messageIds = response.messages.map((status) => status.id)
+    const nextAppState = store.appState
 
     return [
         {

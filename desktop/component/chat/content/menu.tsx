@@ -15,7 +15,7 @@ export default ({ content, chatActions }: { content: ContentStateT; chatActions:
                                         event.preventDefault()
                                         const newOptions = Object.assign({}, content.options)
                                         newOptions.showMutedMessage = false
-                                        chatActions.content.setOptions(content, newOptions)
+                                        // chatActions.content.setOptions(content, newOptions)
                                     }}>
                                     ミュート中のユーザーの投稿を非表示にする
                                 </li>
@@ -25,7 +25,7 @@ export default ({ content, chatActions }: { content: ContentStateT; chatActions:
                                         event.preventDefault()
                                         const newOptions = Object.assign({}, content.options)
                                         newOptions.showMutedMessage = true
-                                        chatActions.content.setOptions(content, newOptions)
+                                        // chatActions.content.setOptions(content, newOptions)
                                     }}>
                                     ミュート中のユーザーの投稿を表示する
                                 </li>

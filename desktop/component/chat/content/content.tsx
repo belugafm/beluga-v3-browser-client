@@ -56,85 +56,84 @@ class Scroller {
         if (this.loading) {
             return
         }
-        return
-        const { content, chatActions } = this
-        const container = event.target as HTMLDivElement
-        const scroller = this.ref.current as HTMLDivElement
-        const threashold = 100
-        if (container) {
-            const scrollBottom =
-                scroller.clientHeight - container.clientHeight - container.scrollTop
-            const direction = container.scrollTop - this.prevScrollTop
-            this.prevScrollTop = container.scrollTop
-            console.log(container.scrollTop, scrollBottom, direction)
-            if (direction > 0) {
-                if (scrollBottom < threashold) {
-                    if (this.hasReachedBottom) {
-                        return
-                    }
-                    const maxId = findMaxId(content.timeline.messageIds)
-                    if (maxId === this.reqeustedMaxId) {
-                        return
-                    }
-                    this.loading = true
-                    const limit = config.timeline.maxNumStatuses * 2
-                    const responce = await chatActions.content.setTimelineQuery(
-                        content,
-                        Object.assign({}, content.timeline.query, {
-                            maxId,
-                            limit,
-                            sinceId: null,
-                        })
-                    )
-                    const { messages: statuses } = responce
-                    if (statuses.length < limit) {
-                        this.hasReachedBottom = true
-                    }
-                    this.reqeustedMaxId = maxId
-                    this.loading = false
-                    this.hasReachedTop = false
-                    this.scrolled = true
-                    return
-                }
-            } else {
-                if (container.scrollTop < threashold) {
-                    if (this.scrolled === false) {
-                        console.log("this.scrolled === false")
-                        return
-                    }
-                    if (this.hasReachedTop) {
-                        console.log("this.hasReachedTop")
-                        return
-                    }
-                    const sinceId = findSinceId(content.timeline.messageIds)
-                    if (sinceId === this.reqeustedSinceId) {
-                        console.log("sinceId === this.reqeustedSinceId")
-                        return
-                    }
-                    this.loading = true
-                    const limit = config.timeline.maxNumStatuses * 2
-                    const responce = await chatActions.content.setTimelineQuery(
-                        content,
-                        Object.assign({}, content.timeline.query, {
-                            sinceId,
-                            limit,
-                            maxId: null,
-                        })
-                    )
-                    const { messages: statuses } = responce
-                    if (statuses.length < limit) {
-                        this.hasReachedTop = true
-                    }
-                    this.reqeustedSinceId = sinceId
-                    this.loading = false
-                    this.hasReachedBottom = false
-                    return
-                }
-                if (container.scrollTop > 400) {
-                    this.scrolled = true
-                }
-            }
-        }
+        // const { content, chatActions } = this
+        // const container = event.target as HTMLDivElement
+        // const scroller = this.ref.current as HTMLDivElement
+        // const threashold = 100
+        // if (container) {
+        //     const scrollBottom =
+        //         scroller.clientHeight - container.clientHeight - container.scrollTop
+        //     const direction = container.scrollTop - this.prevScrollTop
+        //     this.prevScrollTop = container.scrollTop
+        //     console.log(container.scrollTop, scrollBottom, direction)
+        //     if (direction > 0) {
+        //         if (scrollBottom < threashold) {
+        //             if (this.hasReachedBottom) {
+        //                 return
+        //             }
+        //             const maxId = "0"
+        //             if (maxId === this.reqeustedMaxId) {
+        //                 return
+        //             }
+        //             this.loading = true
+        //             const limit = config.timeline.maxNumStatuses * 2
+        //             const responce = await chatActions.content.setTimelineQuery(
+        //                 content,
+        //                 Object.assign({}, content.timeline.query, {
+        //                     maxId,
+        //                     limit,
+        //                     sinceId: null,
+        //                 })
+        //             )
+        //             const { messages: statuses } = responce
+        //             if (statuses.length < limit) {
+        //                 this.hasReachedBottom = true
+        //             }
+        //             this.reqeustedMaxId = maxId
+        //             this.loading = false
+        //             this.hasReachedTop = false
+        //             this.scrolled = true
+        //             return
+        //         }
+        //     } else {
+        //         if (container.scrollTop < threashold) {
+        //             if (this.scrolled === false) {
+        //                 console.log("this.scrolled === false")
+        //                 return
+        //             }
+        //             if (this.hasReachedTop) {
+        //                 console.log("this.hasReachedTop")
+        //                 return
+        //             }
+        //             const sinceId = "0"
+        //             if (sinceId === this.reqeustedSinceId) {
+        //                 console.log("sinceId === this.reqeustedSinceId")
+        //                 return
+        //             }
+        //             this.loading = true
+        //             const limit = config.timeline.maxNumStatuses * 2
+        //             const responce = await chatActions.content.setTimelineQuery(
+        //                 content,
+        //                 Object.assign({}, content.timeline.query, {
+        //                     sinceId,
+        //                     limit,
+        //                     maxId: null,
+        //                 })
+        //             )
+        //             const { messages: statuses } = responce
+        //             if (statuses.length < limit) {
+        //                 this.hasReachedTop = true
+        //             }
+        //             this.reqeustedSinceId = sinceId
+        //             this.loading = false
+        //             this.hasReachedBottom = false
+        //             return
+        //         }
+        //         if (container.scrollTop > 400) {
+        //             this.scrolled = true
+        //         }
+        //     }
+        // }
     }
 }
 

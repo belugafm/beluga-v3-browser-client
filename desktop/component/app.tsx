@@ -14,22 +14,7 @@ export const App = ({ children }) => {
                     font-family: Arial, sans-serif;
                 }
             `}</style>
-            <style jsx global>{`
-                html,
-                body {
-                    background-color: ${theme.global.current.backgroundPrimaryColor};
-                    color: ${theme.global.current.fontPrimaryColor};
-                    transition: background-color ${theme.global.current.transitionDuration} linear
-                            0s,
-                        color ${theme.global.current.transitionDuration} linear 0s;
-                }
-                a {
-                    color: ${theme.user.linkPrimaryColor};
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: color ${theme.global.current.transitionDuration} linear 0s;
-                }
-            `}</style>
+            <style jsx global>{``}</style>
         </>
     )
 }

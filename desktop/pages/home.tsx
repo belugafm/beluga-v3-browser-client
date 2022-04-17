@@ -1,5 +1,3 @@
-export { getServerSideProps } from "../component/app"
-
 import { App } from "../component/app"
 import Head from "next/head"
 import { ThemeProvider } from "../component/theme"

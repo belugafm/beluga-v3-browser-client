@@ -1,17 +1,17 @@
-import { AppStateT, ContentStateT } from "../../store/app_state"
+import { AppStateT, ContentStateT } from "../../store/types/app_state"
 
-import { StoreT } from "../../store/types/reducer"
+import { StoreT } from "../../store/types/store"
 
 type ContentGridT = ContentStateT[][]
 
 export const splitContentsInTwo = (
-    contentGrid: ContentGridT,
+    contents: ContentGridT,
     edgeContentId: number
 ): [ContentGridT, ContentGridT] => {
     const before: ContentGridT = []
     const after: ContentGridT = []
     let stack = before
-    contentGrid.forEach((contentRows) => {
+    contents.forEach((contentRows) => {
         let reachedEdge = false
         stack.push(contentRows)
         contentRows.forEach((row) => {
@@ -25,8 +25,8 @@ export const splitContentsInTwo = (
     })
     return [before, after]
 }
-export const copyContents = (contentGrid: ContentGridT) => {
-    return contentGrid.map((contentRows) => {
+export const copyContents = (contents: ContentGridT) => {
+    return contents.map((contentRows) => {
         return contentRows.map((content) => {
             return {
                 id: content.id,
@@ -50,28 +50,17 @@ export const copyContents = (contentGrid: ContentGridT) => {
         })
     })
 }
-export const findByIndex = (contentGrid: ContentGridT, index: number): ContentStateT | null => {
-    for (let n = 0; n < contentGrid.length; n++) {
-        const content = contentGrid[n]
-        if (content.id === index) {
-            return content
-        }
-    }
-    return null
-}
 export const insertContent = (
     newContent: ContentStateT,
-    contentGrid: ContentGridT,
+    contents: ContentGridT,
     insertAfter: number
 ): ContentGridT => {
-    if (contentGrid.length === 0) {
+    if (contents.length === 0) {
         return [[newContent]]
     }
 
-    insertAfter = Number.isInteger(insertAfter)
-        ? insertAfter
-        : contentGrid[contentGrid.length - 1][0].id
-    const [before, after] = splitContentsInTwo(contentGrid, insertAfter)
+    insertAfter = Number.isInteger(insertAfter) ? insertAfter : contents[contents.length - 1][0].id
+    const [before, after] = splitContentsInTwo(contents, insertAfter)
     const nextGrid: ContentGridT = []
     before.forEach((contentRows) => nextGrid.push(contentRows))
     nextGrid.push([newContent])
@@ -86,13 +75,7 @@ export const setOptions = async (
         options: ContentStateT["options"]
     }
 ): Promise<[StoreT, null]> => {
-    const nextAppState: AppStateT = {
-        contentGrid: this.copyContents(store.appState.contentGrid),
-    }
-
-    const content = this.findByIndex(nextAppState.contentGrid, params.content.id)
-    content.options = params.options
-
+    const nextAppState = store.appState
     return [
         {
             domainData: store.domainData,
@@ -105,11 +88,7 @@ export const close = async (
     store: StoreT,
     desiredColumn: ContentStateT
 ): Promise<[StoreT, null]> => {
-    const nextAppState: AppStateT = {
-        contentGrid: copyContents(
-            store.appState.contentGrid.filter((content) => content.id !== desiredColumn.id)
-        ),
-    }
+    const nextAppState = store.appState
 
     return [
         {

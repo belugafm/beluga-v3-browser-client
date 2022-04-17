@@ -78,7 +78,7 @@ const getPlaceholderText = (content: ContentStateT) => {
     if (content.context.channelId) {
         const channel = domainData.channels.get(content.context.channelId)
         if (channel) {
-            return `${channel.status_string}${channel.name} への投稿を入力`
+            return `${channel.status_string}${channel.name} へのメッセージを入力`
         }
     }
     return ""

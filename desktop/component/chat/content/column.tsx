@@ -14,10 +14,10 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
             <style jsx>{`
                 .container {
                     display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
+                    flex-direction: row;
+                    flex: 1 1 600px;
                     min-width: 400px;
-                    max-width: 800px;
+                    max-width: 600px;
                 }
                 .rows {
                     display: flex;

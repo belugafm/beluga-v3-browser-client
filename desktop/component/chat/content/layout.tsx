@@ -22,6 +22,7 @@ export const ContentGridComponent = ({ pageContext }: { pageContext: PageContext
                         <MessageActionContext.Provider value={messageAction}>
                             <div className="grid-container">
                                 <div className="grid">
+                                    <div className="empty-column"></div>
                                     {appState.contents.map((contentRows, index) => {
                                         return (
                                             <ContentColumnComponent
@@ -30,36 +31,39 @@ export const ContentGridComponent = ({ pageContext }: { pageContext: PageContext
                                             />
                                         )
                                     })}
+                                    <div className="empty-column"></div>
                                 </div>
                             </div>
                             <style jsx>{`
                                 .grid-container {
                                     display: flex;
                                     flex-direction: column;
+                                    height: calc(100vh - 80px);
+                                }
+                                .grid {
+                                    display: flex;
+                                    flex-direction: row;
+                                    padding: 0 8px;
+                                    box-sizing: border-box;
+                                    flex: 1 1 0;
                                     overflow-y: hidden;
                                     overflow-x: scroll;
                                 }
-                                .grid {
-                                    overflow: hidden;
-                                    margin: 0 auto;
-                                    display: inline-flex;
-                                    flex-direction: row;
-                                    height: calc(100vh - 80px);
-                                    padding: 0 8px;
-                                    box-sizing: border-box;
-                                }
-                                .grid-container::-webkit-scrollbar {
+                                .grid::-webkit-scrollbar {
                                     width: 0px;
                                     height: 0px;
                                 }
-                                .grid-container::-webkit-scrollbar-thumb {
+                                .grid::-webkit-scrollbar-thumb {
                                     border-radius: 10px;
                                     background-color: gray;
                                 }
-                                .grid-container::-webkit-scrollbar-track-piece {
+                                .grid::-webkit-scrollbar-track-piece {
                                     background-clip: padding-box;
                                     background-color: transparent;
                                     border-color: transparent;
+                                }
+                                .empty-column {
+                                    flex: 1 1 auto;
                                 }
                             `}</style>
                         </MessageActionContext.Provider>

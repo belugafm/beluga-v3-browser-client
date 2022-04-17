@@ -12,6 +12,7 @@ import { SVGComponent } from "../../component/chat/svg"
 import { SidebarComponent } from "../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
+import { TooltipComponent } from "../../component/chat/tooltip"
 import { swrFetchData } from "../../swr/channel/combined/page"
 
 export default ({ theme, query }) => {

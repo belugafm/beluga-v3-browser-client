@@ -15,14 +15,15 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
                 .container {
                     display: flex;
                     flex-direction: row;
-                    flex: 1 1 600px;
+                    flex: 1 1 700px;
                     min-width: 400px;
-                    max-width: 600px;
+                    max-width: 700px;
                 }
                 .rows {
                     display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
+                    overflow-x: visible;
                     overflow-y: scroll;
                 }
                 .rows::-webkit-scrollbar {

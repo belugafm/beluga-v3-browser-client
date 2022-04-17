@@ -1,7 +1,13 @@
-import { ActionT } from "../../../state/chat/store/app_state/action"
+import { ContentActionT } from "../../../state/chat/store/app_state/action"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 
-export default ({ content, chatActions }: { content: ContentStateT; chatActions: ActionT }) => {
+export default ({
+    content,
+    chatActions,
+}: {
+    content: ContentStateT
+    chatActions: ContentActionT
+}) => {
     return (
         <>
             <div className="menu">

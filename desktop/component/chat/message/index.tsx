@@ -2,6 +2,7 @@ import { DateComponent, SenderComponent } from "./sender"
 
 import BodyComponent from "./body"
 import { CommonPropsT } from "./types"
+import { MenuComponent } from "./menu"
 import React from "react"
 import { Themes } from "../../theme"
 import classNames from "classnames"
@@ -62,6 +63,14 @@ export const MessageComponent = React.memo(
                         </div>
                     </div>
                 </div>
+                <div className="menu-container">
+                    <MenuComponent
+                        message={message}
+                        messageActions={props.messageActions}
+                        tooltipActions={props.tooltipActions}
+                        theme={props.theme}
+                    />
+                </div>
                 <style jsx>{`
                     .message {
                         flex: 0 0 auto;
@@ -69,6 +78,7 @@ export const MessageComponent = React.memo(
                         cursor: pointer;
                         padding: 4px 0;
                         margin-top: 4px;
+                        position: relative;
                     }
                     .message.consecutive {
                         margin-top: 0;
@@ -118,6 +128,15 @@ export const MessageComponent = React.memo(
                     }
                     .message.consecutive .text {
                         margin-top: 0;
+                    }
+                    .menu-container {
+                        display: none;
+                        position: absolute;
+                        top: -16px;
+                        right: 8px;
+                    }
+                    .message:hover > .menu-container {
+                        display: block;
                     }
                 `}</style>
                 <style jsx>{`

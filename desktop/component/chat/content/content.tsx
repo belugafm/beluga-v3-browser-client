@@ -1,4 +1,4 @@
-import { ActionT, ContentActionContext } from "../../../state/chat/store/app_state/action"
+import { ContentActionContext, ContentActionT } from "../../../state/chat/store/app_state/action"
 import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
@@ -9,6 +9,7 @@ import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
+import { TooltipActionContext } from "../../../state/component/tooltip"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
@@ -30,7 +31,7 @@ function findSinceId(messageIds: string[]) {
 class Scroller {
     ref: React.MutableRefObject<any>
     content: ContentStateT
-    chatActions: ActionT
+    chatActions: ContentActionT
     reqeustedMaxId: string
     reqeustedSinceId: string
     loading: boolean = false
@@ -45,7 +46,7 @@ class Scroller {
     }: {
         ref: React.MutableRefObject<any>
         content: ContentStateT
-        chatActions: ActionT
+        chatActions: ContentActionT
     }) => {
         this.ref = ref
         this.content = content
@@ -227,14 +228,15 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     console.info("ContentComponent::render")
     const domainData = useContext(DomainDataContext)
     const messageActions = useContext(MessageActionContext)
-    const chatActions = useContext(ContentActionContext)
+    const contentActions = useContext(ContentActionContext)
+    const tooltipActions = useContext(TooltipActionContext)
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
     scroller.use({
         ref: scrollerRef,
         content: content,
-        chatActions: chatActions,
+        chatActions: contentActions,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
     const messageComponentList = [...content.timeline.messageIds]
@@ -250,7 +252,8 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     key={messageId}
                     message={message}
                     messageActions={messageActions}
-                    contentActions={chatActions}
+                    contentActions={contentActions}
+                    tooltipActions={tooltipActions}
                     domainData={domainData}
                     loggedInUser={loggedInUser}
                     content={content}
@@ -276,7 +279,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                         </div>
                     </div>
                     <div className="postbox">
-                        <PostboxComponent content={content} />
+                        <PostboxComponent content={content} tooltipActions={tooltipActions} />
                     </div>
                 </div>
             </div>
@@ -296,7 +299,6 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     box-sizing: border-box;
                     border-radius: 8px;
                     position: relative;
-                    overflow: hidden;
                 }
                 .content-container:first-child {
                     padding-top: 16px;
@@ -333,7 +335,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     border-color: transparent;
                 }
                 .scroller {
-                    flex: 1 1 auto;
+                    flex: 0 1 auto;
                     display: flex;
                     flex-direction: column-reverse;
                     overflow-x: hidden;

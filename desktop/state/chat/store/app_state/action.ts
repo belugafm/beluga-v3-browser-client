@@ -7,7 +7,7 @@ import { Context, createContext } from "react"
 import { ChannelObjectT } from "../../../../api/object"
 import { Response } from "../../../../api"
 
-export type ActionT = {
+export type ContentActionT = {
     content: {
         close: (content: ContentStateT) => void
         loadLatestMessagesIfNeeded: (content: ContentStateT) => void
@@ -17,7 +17,7 @@ export type ActionT = {
     }
 }
 
-export const ContentActionContext: Context<ActionT> = createContext({
+export const ContentActionContext: Context<ContentActionT> = createContext({
     content: {
         close: null,
         loadLatestMessagesIfNeeded: null,
@@ -33,7 +33,7 @@ export const useContentAction = ({
 }: {
     appState: AppStateT
     reducers: AsyncReducersT
-}): ActionT => {
+}): ContentActionT => {
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducers.reducer(method, query)
     }

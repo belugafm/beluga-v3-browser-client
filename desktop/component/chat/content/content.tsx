@@ -227,16 +227,16 @@ const EmptyContentComponent = () => {
 export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     console.info("ContentComponent::render")
     const domainData = useContext(DomainDataContext)
-    const messageActions = useContext(MessageActionContext)
-    const contentActions = useContext(ContentActionContext)
-    const tooltipActions = useContext(TooltipActionContext)
+    const messageAction = useContext(MessageActionContext)
+    const contentAction = useContext(ContentActionContext)
+    const tooltipAction = useContext(TooltipActionContext)
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
     scroller.use({
         ref: scrollerRef,
         content: content,
-        chatActions: contentActions,
+        chatActions: contentAction,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
     const messageComponentList = [...content.timeline.messageIds]
@@ -251,9 +251,9 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 <MessageComponent
                     key={messageId}
                     message={message}
-                    messageActions={messageActions}
-                    contentActions={contentActions}
-                    tooltipActions={tooltipActions}
+                    messageAction={messageAction}
+                    contentAction={contentAction}
+                    tooltipAction={tooltipAction}
                     domainData={domainData}
                     loggedInUser={loggedInUser}
                     content={content}
@@ -279,7 +279,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                         </div>
                     </div>
                     <div className="postbox">
-                        <PostboxComponent content={content} tooltipActions={tooltipActions} />
+                        <PostboxComponent content={content} tooltipAction={tooltipAction} />
                     </div>
                 </div>
             </div>

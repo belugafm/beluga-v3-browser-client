@@ -8,7 +8,7 @@ import { Response } from "../../../api"
 
 export const useMessageAction = ({
     reducer,
-    sequentialReducer: orderedReducers,
+    sequentialReducer,
 }: AsyncReducersT): MessageActionT => {
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
         return reducer(method, query)
@@ -19,10 +19,10 @@ export const useMessageAction = ({
             event.preventDefault()
         }
     }
-    const destroy = (message: MessageObjectT) => {
+    const del = (message: MessageObjectT) => {
         return (event: MouseEvent<Element>) => {
             event.preventDefault()
-            reduce(reducers.domainData.message.destroy, {
+            reduce(reducers.domainData.message.delete, {
                 messageId: message.id,
             })
         }
@@ -85,7 +85,7 @@ export const useMessageAction = ({
     }
     return {
         edit,
-        destroy,
+        delete: del,
         createLike,
         createFavorite,
         destroyFavorite,
@@ -98,7 +98,7 @@ export const useMessageAction = ({
 
 export type MessageActionT = {
     edit: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
-    destroy: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
+    delete: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     createLike: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     createFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     destroyFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
@@ -108,9 +108,9 @@ export type MessageActionT = {
     destroyBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => void
 }
 
-const actions: MessageActionT = {
+export const MessageActionContext = createContext<MessageActionT>({
     edit: null,
-    destroy: null,
+    delete: null,
     createLike: null,
     createFavorite: null,
     destroyFavorite: null,
@@ -118,6 +118,4 @@ const actions: MessageActionT = {
     destroyMutes: null,
     createBlocks: null,
     destroyBlocks: null,
-}
-
-export const MessageActionContext = createContext(actions)
+})

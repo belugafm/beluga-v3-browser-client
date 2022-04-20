@@ -4,8 +4,7 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../../api/object"
-
-import { ObjectMap } from "../types/domain_data"
+import { DomainDataT, ObjectMap, UserIdSet } from "../types/domain_data"
 
 function copyMessage(message: MessageObjectT | null): MessageObjectT {
     if (message == null) {
@@ -57,15 +56,10 @@ function copyUser(user: UserObjectT | null): UserObjectT {
         profile_image_url: user.profile_image_url,
         location: user.location,
         url: user.url,
-        theme_color: user.theme_color,
-        background_image_url: user.background_image_url,
         description: user.description,
         favorited_count: user.favorited_count,
         favorites_count: user.favorites_count,
-        statuses_count: user.statuses_count,
-        liked_count: user.liked_count,
-        likes_count: user.likes_count,
-        default_profile: user.default_profile,
+        message_count: user.message_count,
         bot: user.bot,
         suspended: user.suspended,
         trust_level: user.trust_level,
@@ -142,6 +136,17 @@ function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjectT>) {
     })
     nextChannelGroups.lastModified = prevChannelGroups.lastModified
     return nextChannelGroups
+}
+
+export function copyDomainData(prevDomainData: DomainDataT): DomainDataT {
+    return {
+        messages: copyMessages(prevDomainData.messages),
+        users: copyUsers(prevDomainData.users),
+        channels: copyChannels(prevDomainData.channels),
+        channelGroups: copyChannelGroups(prevDomainData.channelGroups),
+        mutedUserIds: new UserIdSet(prevDomainData.mutedUserIds),
+        blockedUserIds: new UserIdSet(prevDomainData.blockedUserIds),
+    }
 }
 
 export default {

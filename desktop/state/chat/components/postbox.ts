@@ -18,7 +18,7 @@ export const usePostboxState = ({
     editorState: EditorState
 }) => {
     const { reducer } = useContext(ReducerContext)
-    const contentActions = useContext(ContentActionContext)
+    const contentAction = useContext(ContentActionContext)
 
     const post = async (text: string) => {
         try {
@@ -39,7 +39,7 @@ export const usePostboxState = ({
     const handlePostMessage = async (text: string) => {
         const response = await post(text)
         if (response.ok) {
-            contentActions.content.loadLatestMessagesIfNeeded(content)
+            contentAction.content.loadLatestMessagesIfNeeded(content)
             return true
         } else {
             return false

@@ -7,14 +7,9 @@ export type UserObjectT = {
     location: string | null
     url: string | null
     description: string | null
-    theme_color: string | null
-    background_image_url: string | null
-    default_profile: boolean
-    statuses_count: number
+    message_count: number
     favorites_count: number
     favorited_count: number
-    likes_count: number
-    liked_count: number
     created_at: Date
     bot: boolean
     active: boolean

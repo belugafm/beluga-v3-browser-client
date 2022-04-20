@@ -43,60 +43,61 @@ const getStyleForMenu = (theme: Themes) => {
 export const MenuComponent = ({
     message,
     theme,
-    messageActions,
-    tooltipActions,
+    messageAction,
+    tooltipAction,
 }: {
     message: MessageObjectT
     theme: Themes
-    messageActions: MessageActionT
-    tooltipActions: TooltipActionT
+    messageAction: MessageActionT
+    tooltipAction: TooltipActionT
 }) => {
     return (
         <div className="menu">
             <button
                 className="add-reaction global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "リアクションする")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onMouseEnter={(e) => tooltipAction.show(e, "リアクションする")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-editor-emoji"></use>
                 </svg>
             </button>
             <button
                 className="create-like global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "いいね")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onMouseEnter={(e) => tooltipAction.show(e, "いいね")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-star-outline"></use>
                 </svg>
             </button>
             <button
                 className="create-favorite global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "ふぁぼ")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onMouseEnter={(e) => tooltipAction.show(e, "ふぁぼ")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-heart-outline"></use>
                 </svg>
             </button>
             <button
                 className="reply-in-thread global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "スレッドで返信する")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onMouseEnter={(e) => tooltipAction.show(e, "スレッドで返信する")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-chat"></use>
                 </svg>
             </button>
             <button
                 className="share global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "共有する")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onMouseEnter={(e) => tooltipAction.show(e, "共有する")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-share-message"></use>
                 </svg>
             </button>
             <button
                 className="delete global-tooltip-container"
-                onMouseEnter={(e) => tooltipActions.show(e, "削除する")}
-                onMouseLeave={() => tooltipActions.hide()}>
+                onClick={messageAction.delete(message)}
+                onMouseEnter={(e) => tooltipAction.show(e, "削除する")}
+                onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-trash"></use>
                 </svg>

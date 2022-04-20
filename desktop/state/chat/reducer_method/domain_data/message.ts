@@ -1,90 +1,78 @@
 import * as api from "../../../../api"
 
+import copy, { copyDomainData } from "../../store/domain_data/copy"
+
 import { DomainDataT } from "../../store/types/domain_data"
 import { StoreT } from "../../store/types/store"
-import copy from "../../store/domain_data/copy"
 import { fetch } from "../../store/domain_data"
 
-const show = async (
-    store: StoreT,
-    query: Parameters<typeof api.message.show>[0]
-): Promise<[StoreT, api.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.show, query)
-    return [
+export const message = {
+    show: async (
+        store: StoreT,
+        query: Parameters<typeof api.message.show>[0]
+    ): Promise<[StoreT, api.Response]> => {
+        const [nextDomainData, response] = await fetch(store.domainData, api.message.show, query)
+        return [
+            {
+                domainData: nextDomainData,
+                appState: store.appState,
+            },
+            response,
+        ]
+    },
+    post: async (
+        store: StoreT,
+        query: Parameters<typeof api.message.post>[0]
+    ): Promise<[StoreT, api.Response]> => {
+        const [nextDomainData, response] = await fetch(store.domainData, api.message.post, query)
+        return [
+            {
+                domainData: nextDomainData,
+                appState: store.appState,
+            },
+            response,
+        ]
+    },
+    delete: async (
+        store: StoreT,
+        query: { messageId: number }
+    ): Promise<[StoreT, api.Response]> => {
+        const [nextDomainData, response] = await fetch(store.domainData, api.message.delete, query)
+        const { messageId } = query
+        const message = nextDomainData.messages.get(messageId)
+        message.deleted = true
+        message.updated_at = Date.now()
+        nextDomainData.messages.update(messageId, message)
+        return [
+            {
+                domainData: nextDomainData,
+                appState: store.appState,
+            },
+            response,
+        ]
+    },
+    markAsDeleted: async (store: StoreT, query: { messageId: number }): Promise<[StoreT, null]> => {
+        const { messageId } = query
         {
-            domainData: nextDomainData,
-            appState: store.appState,
-        },
-        response,
-    ]
-}
-
-const post = async (
-    store: StoreT,
-    query: Parameters<typeof api.message.post>[0]
-): Promise<[StoreT, api.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.post, query)
-    return [
-        {
-            domainData: nextDomainData,
-            appState: store.appState,
-        },
-        response,
-    ]
-}
-
-const destroy = async (
-    store: StoreT,
-    query: { messageId: number }
-): Promise<[StoreT, api.Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.destroy, query)
-    const { messageId } = query
-    const status = nextDomainData.messages.get(messageId)
-    status.deleted = true
-    status.updated_at = Date.now()
-    nextDomainData.messages.update(messageId, status)
-    return [
-        {
-            domainData: nextDomainData,
-            appState: store.appState,
-        },
-        response,
-    ]
-}
-
-const mark_as_deleted = async (
-    store: StoreT,
-    query: { messageId: number }
-): Promise<[StoreT, null]> => {
-    const { messageId } = query
-    {
-        const status = store.domainData.messages.get(messageId)
-        if (status == null) {
-            return [store, null]
+            const message = store.domainData.messages.get(messageId)
+            if (message == null) {
+                return [store, null]
+            }
+            if (message.deleted) {
+                return [store, null]
+            }
         }
-        if (status.deleted) {
-            return [store, null]
-        }
-    }
-    const nextDomainData: DomainDataT = {
-        messages: copy.messages(store.domainData.messages),
-        users: store.domainData.users,
-        channels: store.domainData.channels,
-        channelGroups: store.domainData.channelGroups,
-        mutedUserIds: store.domainData.mutedUserIds,
-        blockedUserIds: store.domainData.blockedUserIds,
-    }
-    const status = nextDomainData.messages.get(messageId)
-    status.deleted = true
-    status.updated_at = Date.now()
-    nextDomainData.messages.update(messageId, status)
-    return [
-        {
-            domainData: nextDomainData,
-            appState: store.appState,
-        },
-        null,
-    ]
+        const nextDomainData = copyDomainData(store.domainData)
+        const message = nextDomainData.messages.get(messageId)
+        message.deleted = true
+        message.updated_at = Date.now()
+        nextDomainData.messages.update(messageId, message)
+        return [
+            {
+                domainData: nextDomainData,
+                appState: store.appState,
+            },
+            null,
+        ]
+    },
 }
-
-export const message = { show, post, destroy, mark_as_deleted }

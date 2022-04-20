@@ -5,6 +5,7 @@ import {
     UserObjectT,
 } from "../../../api/object"
 import { DomainDataSetActionT, DomainDataT, ObjectMap, UserIdSet } from "./types/domain_data"
+import copy, { copyDomainData } from "./domain_data/copy"
 import { createContext, useState } from "react"
 import normalize, {
     normalizeChannel,
@@ -14,7 +15,6 @@ import normalize, {
 } from "./domain_data/normalize"
 
 import { Response } from "../../../api"
-import copy from "./domain_data/copy"
 
 const context: DomainDataT = {
     messages: null,
@@ -33,14 +33,7 @@ export async function fetch<T>(
     query: T
 ): Promise<[DomainDataT, Response]> {
     const response = await method(query)
-    let nextDomainData: DomainDataT = {
-        messages: copy.messages(prevDomainData.messages),
-        users: copy.users(prevDomainData.users),
-        channels: copy.channels(prevDomainData.channels),
-        channelGroups: copy.channelGroups(prevDomainData.channelGroups),
-        mutedUserIds: new UserIdSet(prevDomainData.mutedUserIds),
-        blockedUserIds: new UserIdSet(prevDomainData.blockedUserIds),
-    }
+    let nextDomainData = copyDomainData(prevDomainData)
     if (response.message) {
         nextDomainData = normalize.message(copy.message(response.message), nextDomainData)
     }

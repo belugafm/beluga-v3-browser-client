@@ -18,8 +18,8 @@ export async function post(query: {
     return responce
 }
 
-async function destroy(query: { messageId: number }): Promise<Response> {
-    return await fetch.post("message/destroy", {
+async function del(query: { messageId: number }): Promise<Response> {
+    return await fetch.post("message/delete", {
         id: query.messageId,
     })
 }
@@ -36,5 +36,5 @@ async function show(query: { messageId: number }): Promise<Response> {
 export const message = {
     show,
     post,
-    destroy,
+    delete: del,
 }

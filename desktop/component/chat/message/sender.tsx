@@ -7,11 +7,13 @@ const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
+            color2: "#6f767d",
         }
     }
     if (theme.global.current.dark) {
         return {
             color: "#fff",
+            color2: "#6f767d",
         }
     }
     throw new Error()
@@ -55,7 +57,8 @@ export const SenderComponent = ({
                 {display_name}
             </a>
             <a className="name" href={`/user/${user.name}`}>
-                {`@${user.name}`}
+                <span className="at-str">@</span>
+                <span className="name-str">{user.name}</span>
             </a>
             <span className="time">
                 <DateComponent date={message.created_at} />
@@ -71,6 +74,7 @@ export const SenderComponent = ({
                 }
                 a {
                     text-decoration: none;
+                    font-weight: normal;
                 }
                 a:hover {
                     text-decoration: underline;
@@ -85,10 +89,16 @@ export const SenderComponent = ({
                 }
                 .name {
                     font-weight: 300;
+                    font-size: 13px;
                     margin-right: 4px;
                     flex: 0 1 auto;
                     text-overflow: ellipsis;
                     overflow: hidden;
+                    line-height: 16px;
+                }
+                .at-str {
+                    font-size: 16px;
+                    margin-right: 1px;
                 }
                 .time {
                     font-size: 13px;
@@ -96,8 +106,14 @@ export const SenderComponent = ({
                 }
             `}</style>
             <style jsx>{`
-                a {
+                .display-name {
                     color: ${getStyle(theme)["color"]};
+                }
+                .name {
+                    color: ${getStyle(theme)["color2"]};
+                }
+                .time {
+                    color: ${getStyle(theme)["color2"]};
                 }
             `}</style>
         </div>

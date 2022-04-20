@@ -9,9 +9,9 @@ import { TooltipActionT } from "../../../state/component/tooltip"
 
 export type CommonPropsT = {
     message: MessageObjectT
-    messageActions: MessageActionT
-    contentActions: ContentActionT
-    tooltipActions: TooltipActionT
+    messageAction: MessageActionT
+    contentAction: ContentActionT
+    tooltipAction: TooltipActionT
     domainData: DomainDataT
     loggedInUser: UserObjectT
     content: ContentStateT

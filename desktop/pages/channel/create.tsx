@@ -12,7 +12,7 @@ import { ThemeProvider } from "../../component/theme"
 export default ({ theme, query }) => {
     const parentChannelGroupId = query.parent_channel_group_id
         ? Math.trunc(query.parent_channel_group_id)
-        : 48
+        : 81
     return (
         <>
             <Head>

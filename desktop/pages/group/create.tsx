@@ -10,7 +10,7 @@ import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
 
 export default ({ theme, query }) => {
-    const parentId = query.parent_id ? Math.trunc(query.parent_id) : 48
+    const parentId = query.parent_id ? Math.trunc(query.parent_id) : 81
     return (
         <>
             <Head>

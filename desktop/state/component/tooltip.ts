@@ -1,7 +1,7 @@
-import { createContext, useState } from "react"
+import { MouseEvent, createContext, useState } from "react"
 
 export type TooltipActionT = {
-    show: (event: MouseEvent, text: string) => void
+    show: (event: MouseEvent<HTMLButtonElement>, text: string) => void
     hide: () => void
 }
 
@@ -35,9 +35,8 @@ export const useTooltipState = (): [TooltipStateT, TooltipActionT] => {
     return [
         { hidden, top, left, text },
         {
-            show: (event: MouseEvent, text: string) => {
+            show: (event: MouseEvent<HTMLButtonElement>, text: string) => {
                 // @ts-ignore
-                console.dir(event.target)
                 const targetNode = findParentButtonElement(event.target)
                 if (targetNode == null) {
                     setHidden(true)

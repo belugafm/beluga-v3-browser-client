@@ -121,7 +121,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button bold"
                             onMouseEnter={(e) => tooltipActions.show(e, "太字")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-bold"></use>
                             </svg>
@@ -129,7 +129,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button italic"
                             onMouseEnter={(e) => tooltipActions.show(e, "イタリック体")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-italic"></use>
                             </svg>
@@ -137,7 +137,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button strikethrough"
                             onMouseEnter={(e) => tooltipActions.show(e, "打ち消し線")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-strikethrough"></use>
                             </svg>
@@ -145,7 +145,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button underline"
                             onMouseEnter={(e) => tooltipActions.show(e, "下線")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-underline"></use>
                             </svg>
@@ -153,7 +153,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button code"
                             onMouseEnter={(e) => tooltipActions.show(e, "コードブロック")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-code"></use>
                             </svg>
@@ -161,7 +161,7 @@ export const PostboxComponent = ({
                         <button
                             className="editor-button palette"
                             onMouseEnter={(e) => tooltipActions.show(e, "文字色")}
-                            onMouseLeave={(e) => tooltipActions.hide()}>
+                            onMouseLeave={() => tooltipActions.hide()}>
                             <svg className="icon">
                                 <use href="#icon-editor-palette"></use>
                             </svg>
@@ -182,7 +182,7 @@ export const PostboxComponent = ({
                                 onMouseEnter={(e) =>
                                     tooltipActions.show(e, "ファイルをアップロード")
                                 }
-                                onMouseLeave={(e) => tooltipActions.hide()}>
+                                onMouseLeave={() => tooltipActions.hide()}>
                                 <svg className="icon">
                                     <use href="#icon-editor-attachment"></use>
                                 </svg>
@@ -190,7 +190,7 @@ export const PostboxComponent = ({
                             <button
                                 className="editor-button input-emoji"
                                 onMouseEnter={(e) => tooltipActions.show(e, "絵文字を入力")}
-                                onMouseLeave={(e) => tooltipActions.hide()}>
+                                onMouseLeave={() => tooltipActions.hide()}>
                                 <svg className="icon">
                                     <use href="#icon-editor-emoji"></use>
                                 </svg>
@@ -201,7 +201,7 @@ export const PostboxComponent = ({
                                     setIsTextAttributeBlockHidden(!isTextAttributeBlockHidden)
                                 }}
                                 onMouseEnter={(e) => tooltipActions.show(e, "書式設定を表示")}
-                                onMouseLeave={(e) => tooltipActions.hide()}>
+                                onMouseLeave={() => tooltipActions.hide()}>
                                 <svg className="icon">
                                     <use href="#icon-editor-font-size"></use>
                                 </svg>
@@ -228,7 +228,11 @@ export const PostboxComponent = ({
                                         if (succeeded) {
                                             setEditorState(EditorState.createEmpty())
                                         }
-                                    }}>
+                                    }}
+                                    onMouseEnter={(e) =>
+                                        tooltipActions.show(e, "メッセージを投稿する")
+                                    }
+                                    onMouseLeave={() => tooltipActions.hide()}>
                                     <svg className="icon">
                                         <use href="#icon-editor-send-fill"></use>
                                     </svg>

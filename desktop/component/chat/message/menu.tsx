@@ -7,7 +7,7 @@ import { TooltipActionT } from "../../../state/component/tooltip"
 const getStyleForButton = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            fill: "#6f767d",
+            fill: "#595e64",
             hoverFill: "#1a1d1f",
             backgroundColor: "transparent",
             hoverBackgroundColor: "#f4f4f4",
@@ -15,9 +15,9 @@ const getStyleForButton = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            fill: "#616d78",
+            fill: "#899096",
             hoverFill: "#fcfcfc",
-            backgroundColor: "#111315",
+            backgroundColor: "#15171a",
             hoverBackgroundColor: "#1f2327",
         }
     }
@@ -34,7 +34,7 @@ const getStyleForMenu = (theme: Themes) => {
     if (theme.global.current.dark) {
         return {
             borderColor: "#080a0b",
-            backgroundColor: "#111315",
+            backgroundColor: "#15171a",
         }
     }
     throw new Error()
@@ -56,7 +56,7 @@ export const MenuComponent = ({
             <button
                 className="add-reaction global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "リアクションする")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-editor-emoji"></use>
                 </svg>
@@ -64,7 +64,7 @@ export const MenuComponent = ({
             <button
                 className="create-like global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "いいね")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-star-outline"></use>
                 </svg>
@@ -72,7 +72,7 @@ export const MenuComponent = ({
             <button
                 className="create-favorite global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "ふぁぼ")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-heart-outline"></use>
                 </svg>
@@ -80,7 +80,7 @@ export const MenuComponent = ({
             <button
                 className="reply-in-thread global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "スレッドで返信する")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-chat"></use>
                 </svg>
@@ -88,7 +88,7 @@ export const MenuComponent = ({
             <button
                 className="share global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "共有する")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-share-message"></use>
                 </svg>
@@ -96,7 +96,7 @@ export const MenuComponent = ({
             <button
                 className="delete global-tooltip-container"
                 onMouseEnter={(e) => tooltipActions.show(e, "削除する")}
-                onMouseLeave={(e) => tooltipActions.hide()}>
+                onMouseLeave={() => tooltipActions.hide()}>
                 <svg className="icon">
                     <use href="#icon-trash"></use>
                 </svg>

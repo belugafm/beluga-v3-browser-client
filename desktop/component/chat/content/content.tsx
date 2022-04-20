@@ -299,6 +299,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     box-sizing: border-box;
                     border-radius: 8px;
                     position: relative;
+                    overflow: hidden;
                 }
                 .content-container:first-child {
                     padding-top: 16px;
@@ -335,7 +336,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     border-color: transparent;
                 }
                 .scroller {
-                    flex: 0 1 auto;
+                    flex: 1 1 auto;
                     display: flex;
                     flex-direction: column-reverse;
                     overflow-x: hidden;

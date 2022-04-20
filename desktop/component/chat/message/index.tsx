@@ -68,6 +68,7 @@ export const MessageComponent = React.memo(
                         message={message}
                         messageAction={props.messageAction}
                         tooltipAction={props.tooltipAction}
+                        deleteMessageModalAction={props.deleteMessageModalAction}
                         theme={props.theme}
                     />
                 </div>

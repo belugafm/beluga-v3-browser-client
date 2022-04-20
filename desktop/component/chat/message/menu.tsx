@@ -1,3 +1,4 @@
+import { DeleteMessageModalActionT } from "../../../state/component/model/modal"
 import { MessageActionT } from "../../../state/chat/components/message"
 import { MessageObjectT } from "../../../api/object"
 import React from "react"
@@ -45,11 +46,13 @@ export const MenuComponent = ({
     theme,
     messageAction,
     tooltipAction,
+    deleteMessageModalAction,
 }: {
     message: MessageObjectT
     theme: Themes
     messageAction: MessageActionT
     tooltipAction: TooltipActionT
+    deleteMessageModalAction: DeleteMessageModalActionT
 }) => {
     return (
         <div className="menu">
@@ -95,7 +98,7 @@ export const MenuComponent = ({
             </button>
             <button
                 className="delete global-tooltip-container"
-                onClick={messageAction.delete(message)}
+                onClick={(e) => deleteMessageModalAction.show(message)}
                 onMouseEnter={(e) => tooltipAction.show(e, "削除する")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">

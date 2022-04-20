@@ -12,7 +12,6 @@ import { SVGComponent } from "../../component/chat/svg"
 import { SidebarComponent } from "../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
-import { TooltipComponent } from "../../component/chat/tooltip"
 import { swrFetchData } from "../../swr/channel/combined/page"
 
 export default ({ theme, query }) => {
@@ -44,7 +43,13 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <ContainerComponent>
+                <ContainerComponent
+                    pageContext={{
+                        channel: {
+                            object: channel,
+                            messages: messages,
+                        },
+                    }}>
                     <HeaderComponent />
                     <SidebarComponent>
                         <LogoSidebarComponent />
@@ -57,14 +62,7 @@ export default ({ theme, query }) => {
                         <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
-                        <ContentGridComponent
-                            pageContext={{
-                                channel: {
-                                    object: channel,
-                                    messages: messages,
-                                },
-                            }}
-                        />
+                        <ContentGridComponent />
                     </BackgroundImageBackdropFilterComponent>
                 </ContainerComponent>
             </ThemeProvider>

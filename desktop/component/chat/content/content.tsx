@@ -3,12 +3,14 @@ import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import { DeleteMessageModalActionContext } from "../../../state/component/model/modal"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { HeaderComponent } from "./header"
 import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
+import { ReducerContext } from "../../../state/chat/store/types/reducer"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
@@ -230,6 +232,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const messageAction = useContext(MessageActionContext)
     const contentAction = useContext(ContentActionContext)
     const tooltipAction = useContext(TooltipActionContext)
+    const deleteMessageModalAction = useContext(DeleteMessageModalActionContext)
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
@@ -254,6 +257,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     messageAction={messageAction}
                     contentAction={contentAction}
                     tooltipAction={tooltipAction}
+                    deleteMessageModalAction={deleteMessageModalAction}
                     domainData={domainData}
                     loggedInUser={loggedInUser}
                     content={content}

@@ -8,7 +8,7 @@ import { websocket } from "./websocket"
 
 const storeProvider = new StoreProvider()
 
-export const useChatStore = (
+export const useStore = (
     pageContext: PageContextObjectT
 ): {
     domainData: DomainDataT

@@ -1,10 +1,18 @@
+import { ContentActionContext, useContentAction } from "../../state/chat/store/app_state/action"
+import { MessageActionContext, useMessageAction } from "../../state/chat/components/message"
 import { Themes, useTheme } from "../theme"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
 
+import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
+import { DomainDataContext } from "../../state/chat/store/domain_data"
 import { GetServerSideProps } from "next"
+import { ModalContextProvider } from "./modal/context_provider"
+import { PageContextObjectT } from "../../state/chat/store"
+import { ReducerContext } from "../../state/chat/store/types/reducer"
 import { TooltipComponent } from "./tooltip"
 import { swrShowLoggedInUser } from "../../swr/session"
+import { useStore } from "../../state/chat"
 
 const LoadingComponent = () => {
     const [theme] = useTheme()
@@ -62,10 +70,19 @@ const getFontStyle = () => {
     )
 }
 
-export const ContainerComponent = ({ children }) => {
+export const ContainerComponent = ({
+    children,
+    pageContext,
+}: {
+    children: any
+    pageContext: PageContextObjectT
+}) => {
     const [theme] = useTheme()
     const { isLoading, loggedInUser } = swrShowLoggedInUser()
     const [state, tooltipAction] = useTooltipState()
+    const { domainData, appState, reducers } = useStore(pageContext)
+    const messageAction = useMessageAction(reducers)
+    const contentAction = useContentAction({ appState, reducers })
     if (isLoading) {
         return <LoadingComponent />
     }
@@ -79,9 +96,19 @@ export const ContainerComponent = ({ children }) => {
     return (
         <>
             <div className="app">
-                <TooltipActionContext.Provider value={tooltipAction}>
-                    {children}
-                </TooltipActionContext.Provider>
+                <AppStateContext.Provider value={appState}>
+                    <DomainDataContext.Provider value={domainData}>
+                        <ReducerContext.Provider value={reducers}>
+                            <ContentActionContext.Provider value={contentAction}>
+                                <MessageActionContext.Provider value={messageAction}>
+                                    <TooltipActionContext.Provider value={tooltipAction}>
+                                        <ModalContextProvider>{children}</ModalContextProvider>
+                                    </TooltipActionContext.Provider>
+                                </MessageActionContext.Provider>
+                            </ContentActionContext.Provider>
+                        </ReducerContext.Provider>
+                    </DomainDataContext.Provider>
+                </AppStateContext.Provider>
                 <TooltipComponent state={state} />
             </div>
             <style jsx>{`

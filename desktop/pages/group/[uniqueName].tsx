@@ -4,7 +4,7 @@ import { AccountMenuSidebarComponent } from "../../component/chat/sidebar/accoun
 import { BackgroundImageBackdropFilterComponent } from "../../component/chat/background_image"
 import { ChannelGroupSidebarComponent } from "../../component/chat/sidebar/channel_group"
 import { ContainerComponent } from "../../component/chat/container"
-import { CreateChannelGroupFormComponent } from "../../component/pages/channel_group/create"
+import { ContentGridComponent } from "../../component/chat/content/layout"
 import Head from "next/head"
 import { HeaderComponent } from "../../component/chat/header"
 import { LogoSidebarComponent } from "../../component/chat/sidebar/logo"
@@ -12,10 +12,10 @@ import { SVGComponent } from "../../component/chat/svg"
 import { SidebarComponent } from "../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
-import { swrListAllForChannelGroup } from "../../swr/channel_group/combined/list_all"
+import { swrFetchData } from "../../swr/channel_group/combined/page"
 
 export default ({ theme, query }) => {
-    const { isLoading, errors, channels, channelGroup, channelGroups } = swrListAllForChannelGroup({
+    const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
         uniqueName: query.uniqueName,
     })
     if (isLoading) {
@@ -43,7 +43,13 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <ContainerComponent>
+                <ContainerComponent
+                    pageContext={{
+                        channelGroup: {
+                            object: channelGroup,
+                            messages: messages,
+                        },
+                    }}>
                     <HeaderComponent />
                     <SidebarComponent>
                         <LogoSidebarComponent />
@@ -55,7 +61,7 @@ export default ({ theme, query }) => {
                         <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
-                        <CreateChannelGroupFormComponent parentId={1} />
+                        <ContentGridComponent />
                     </BackgroundImageBackdropFilterComponent>
                 </ContainerComponent>
             </ThemeProvider>

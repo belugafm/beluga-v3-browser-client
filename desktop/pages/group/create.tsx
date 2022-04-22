@@ -12,11 +12,11 @@ import { SVGComponent } from "../../component/chat/svg"
 import { SidebarComponent } from "../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
-import { swrListAllForChannelGroup } from "../../swr/channel_group/combined/list_all"
+import { swrFetchData } from "../../swr/channel_group/combined/page"
 
 export default ({ theme, query }) => {
     const parentId = query.parent_id ? Math.trunc(query.parent_id) : 1
-    const { isLoading, errors, channels, channelGroup, channelGroups } = swrListAllForChannelGroup({
+    const { isLoading, errors, channels, channelGroup, channelGroups } = swrFetchData({
         id: parentId,
     })
     if (isLoading) {

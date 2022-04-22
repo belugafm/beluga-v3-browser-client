@@ -1,6 +1,6 @@
 import * as api from "../../../api"
 
-import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
+import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT } from "../../../api/object"
 
 import useSWR from "swr"
 
@@ -8,6 +8,7 @@ type ReturnT = {
     channelGroup: ChannelGroupObjectT | null
     channelGroups: ChannelGroupObjectT[] | null
     channels: ChannelObjectT[] | null
+    messages: MessageObjectT[] | null
     errors: any[]
     isLoading: boolean
 }
@@ -27,7 +28,7 @@ const getSWRKey = ({ id, uniqueName }: InputT) => {
     throw new Error()
 }
 
-export const swrListAllForChannelGroup = (params: InputT): ReturnT => {
+export const swrFetchData = (params: InputT): ReturnT => {
     const key = getSWRKey(params)
     const { data: res1, error: error1 } = useSWR(key, () => {
         return api.channelGroup.show(params)
@@ -44,11 +45,20 @@ export const swrListAllForChannelGroup = (params: InputT): ReturnT => {
             return api.channelGroup.listChannels(res1.channel_group.id)
         }
     )
+    const { data: res4, error: error4 } = useSWR(
+        () => `${key}:${res1.channel_group.id}:messages`,
+        () => {
+            return api.timeline.channelGroup({
+                channelGroupId: res1.channel_group.id,
+            })
+        }
+    )
     return {
         channelGroup: res1 ? res1.channel_group : null,
         channelGroups: res2 ? res2.channel_groups : null,
         channels: res3 ? res3.channels : null,
+        messages: res4 ? res4.messages : null,
         errors: [error1, error2, error3],
-        isLoading: res1 == null || res2 == null || res3 == null,
+        isLoading: res1 == null || res2 == null || res3 == null || res4 == null,
     }
 }

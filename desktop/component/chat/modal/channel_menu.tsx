@@ -83,7 +83,7 @@ export const ChannelMenuModalComponent = ({
                     visibility: visible;
                 }
                 .modal-container.hidden {
-                    visibility: none;
+                    visibility: hidden;
                     z-index: 0;
                     opacity: 0;
                 }
@@ -99,6 +99,7 @@ export const ChannelMenuModalComponent = ({
                     text-decoration: none;
                     padding: 6px 16px;
                     font-weight: 500;
+                    font-size: 15px;
                 }
             `}</style>
             <style jsx>{`

@@ -323,7 +323,7 @@ export const DeleteMessageModalComponent = ({
                     visibility: visible;
                 }
                 .modal-container.hidden {
-                    visibility: none;
+                    visibility: hidden;
                     z-index: 0;
                     opacity: 0;
                 }

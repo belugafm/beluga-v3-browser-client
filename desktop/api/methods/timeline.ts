@@ -10,57 +10,77 @@ function removeUndefined(query: any) {
     return ret
 }
 
-async function channel(query: {
-    channelId: number
-    sinceId?: number
-    maxId?: number
-    sinceDate?: number
-    untilDate?: number
-    limit?: number
-}): Promise<Response> {
-    const responce = await get(
-        "timeline/channel",
-        removeUndefined({
-            channel_id: query.channelId,
-            since_id: query.sinceId,
-            max_id: query.maxId,
-            since_date: query.sinceDate,
-            until_date: query.untilDate,
-            limit: query.limit,
-        })
-    )
-    if (responce.messages == null) {
-        throw new UnexpectedResponseError()
-    }
-    return responce
-}
-
-async function thread(query: {
-    messageId: number
-    sinceId?: number
-    maxId?: number
-    sinceDate?: number
-    untilDate?: number
-    limit?: number
-}): Promise<Response> {
-    const responce = await get(
-        "timeline/thread",
-        removeUndefined({
-            status_id: query.messageId,
-            since_id: query.sinceId,
-            max_id: query.maxId,
-            since_date: query.sinceDate,
-            until_date: query.untilDate,
-            limit: query.limit,
-        })
-    )
-    if (responce.messages == null) {
-        throw new UnexpectedResponseError()
-    }
-    return responce
-}
-
 export const timeline = {
-    channel,
-    thread,
+    channelGroup: async (query: {
+        channelGroupId: number
+        sinceId?: number
+        maxId?: number
+        sinceDate?: number
+        untilDate?: number
+        limit?: number
+    }): Promise<Response> => {
+        const responce = await get(
+            "timeline/channel_group",
+            removeUndefined({
+                channel_group_id: query.channelGroupId,
+                since_id: query.sinceId,
+                max_id: query.maxId,
+                since_date: query.sinceDate,
+                until_date: query.untilDate,
+                limit: query.limit,
+            })
+        )
+        if (responce.messages == null) {
+            throw new UnexpectedResponseError()
+        }
+        return responce
+    },
+    channel: async (query: {
+        channelId: number
+        sinceId?: number
+        maxId?: number
+        sinceDate?: number
+        untilDate?: number
+        limit?: number
+    }): Promise<Response> => {
+        const responce = await get(
+            "timeline/channel",
+            removeUndefined({
+                channel_id: query.channelId,
+                since_id: query.sinceId,
+                max_id: query.maxId,
+                since_date: query.sinceDate,
+                until_date: query.untilDate,
+                limit: query.limit,
+            })
+        )
+        if (responce.messages == null) {
+            throw new UnexpectedResponseError()
+        }
+        return responce
+    },
+    thread: async (query: {
+        messageId: number
+        sinceId?: number
+        maxId?: number
+        sinceDate?: number
+        untilDate?: number
+        limit?: number
+    }): Promise<Response> => {
+        const responce = await get(
+            "timeline/thread",
+            removeUndefined({
+                status_id: query.messageId,
+                since_id: query.sinceId,
+                max_id: query.maxId,
+                since_date: query.sinceDate,
+                until_date: query.untilDate,
+                limit: query.limit,
+            })
+        )
+        if (responce.messages == null) {
+            throw new UnexpectedResponseError()
+        }
+        return responce
+    },
 }

@@ -46,7 +46,6 @@ const getFontStyle = () => {
     return (
         <style jsx global>{`
             @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@300;400;500;700&display=swap");
-            @import url("https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap");
             body,
             button {
                 font-family: "M PLUS 1", sans-serif;

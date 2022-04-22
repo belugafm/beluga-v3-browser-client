@@ -56,6 +56,7 @@ export const HeaderComponent = () => {
                         padding: 24px 40px;
                         box-sizing: border-box;
                         height: 80px;
+                        z-index: 2;
                     }
                 `}</style>
             </HeaderStateContext.Provider>

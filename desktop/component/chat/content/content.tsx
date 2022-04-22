@@ -218,7 +218,7 @@ const EmptyContentComponent = () => {
                 }
                 span {
                     display: block;
-                    line-height: 1.5em;
+                    line-height: 2em;
                     font-size: 16px;
                 }
             `}</style>

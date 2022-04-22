@@ -35,8 +35,7 @@ export const MessageComponent = React.memo(
             <div
                 className={classNames("message", {
                     consecutive: props.isConsecutivePost,
-                })}
-                message-id={message.id}>
+                })}>
                 <div className="inner">
                     <div className="message-left">
                         <div

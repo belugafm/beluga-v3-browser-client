@@ -45,6 +45,7 @@ export const SidebarComponent = ({ children }) => {
                         flex-direction: column;
                         -webkit-overflow-scrolling: touch;
                         overflow-y: scroll;
+                        z-index: 3;
                     }
                     .sidebar::-webkit-scrollbar {
                         width: 0px;

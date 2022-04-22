@@ -13,7 +13,7 @@ export type ListItemT = {
     object: ChannelObjectT | ChannelGroupObjectT
 }
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#6f767d",
@@ -77,15 +77,15 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
             `}</style>
             <style jsx>{`
                 a {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 a:hover {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
                 a.active {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
             `}</style>
         </>
@@ -143,17 +143,17 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
             `}</style>
             <style jsx>{`
                 a {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 a:hover {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
                 .icon {
-                    stroke: ${getStyleForTheme(theme)["color"]};
+                    stroke: ${getStyle(theme)["color"]};
                 }
                 a:hover .icon {
-                    stroke: ${getStyleForTheme(theme)["hoverColor"]};
+                    stroke: ${getStyle(theme)["hoverColor"]};
                 }
             `}</style>
         </>
@@ -231,20 +231,20 @@ export const ChannelGroupSidebarComponent = ({
             `}</style>
             <style jsx global>{`
                 .sidebar-channel-group-list:hover > a.item.active {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
                     background-color: transparent;
                 }
                 .sidebar-channel-group-list:hover > a.item.active:hover {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
             `}</style>
             <style jsx>{`
                 .header {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 .icon {
-                    fill: ${getStyleForTheme(theme)["color"]};
+                    fill: ${getStyle(theme)["color"]};
                 }
             `}</style>
         </div>

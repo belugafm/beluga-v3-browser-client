@@ -33,6 +33,7 @@ export const HeaderComponent = ({ content }: { content: ContentStateT }) => {
                     <style jsx>{`
                         .header {
                             padding: 16px;
+                            font-weight: 500;
                         }
                         .status {
                             margin-right: 6px;

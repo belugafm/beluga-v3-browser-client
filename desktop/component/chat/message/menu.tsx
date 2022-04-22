@@ -1,6 +1,7 @@
-import { DeleteMessageModalActionT } from "../../../state/component/model/modal"
+import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageActionT } from "../../../state/chat/components/message"
 import { MessageObjectT } from "../../../api/object"
+import { MouseEvent } from "react"
 import React from "react"
 import { Themes } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
@@ -54,6 +55,10 @@ export const MenuComponent = ({
     tooltipAction: TooltipActionT
     deleteMessageModalAction: DeleteMessageModalActionT
 }) => {
+    const handleClick = (reducerMethod) => (event: MouseEvent<Element>) => {
+        event.preventDefault()
+        reducerMethod()
+    }
     return (
         <div className="menu">
             <button

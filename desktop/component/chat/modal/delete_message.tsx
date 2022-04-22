@@ -1,8 +1,7 @@
 import React, { MouseEvent } from "react"
 
 import { DateComponent } from "../message/sender"
-import { DeleteMessageModalActionT } from "../../../state/component/model/modal"
-import { MessageActionT } from "../../../state/chat/components/message"
+import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageObjectT } from "../../../api/object"
 import { Themes } from "../../theme"
 import classNames from "classnames"
@@ -120,9 +119,12 @@ const MessagePreviewComponent = ({
     message,
     theme,
 }: {
-    message: MessageObjectT
+    message: MessageObjectT | null
     theme: Themes
 }) => {
+    if (message == null) {
+        return null
+    }
     const getStyle = (theme: Themes) => {
         if (theme.global.current.light) {
             return {
@@ -232,9 +234,6 @@ export const DeleteMessageModalComponent = ({
     theme: Themes
 }) => {
     console.info("DeleteMessageModalComponent::render")
-    if (message == null) {
-        return null
-    }
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
         // @ts-ignore

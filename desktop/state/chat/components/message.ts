@@ -16,12 +16,9 @@ export const useMessageAction = ({
             }
         },
         delete: (message: MessageObjectT) => {
-            return (event: MouseEvent<Element>) => {
-                event.preventDefault()
-                reducer(reducers.domainData.message.delete, {
-                    messageId: message.id,
-                })
-            }
+            reducer(reducers.domainData.message.delete, {
+                messageId: message.id,
+            })
         },
         createLike: (message: MessageObjectT) => {
             return (event: MouseEvent<Element>) => {
@@ -84,7 +81,7 @@ export const useMessageAction = ({
 
 export type MessageActionT = {
     edit: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
-    delete: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
+    delete: (message: MessageObjectT) => void
     createLike: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     createFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     destroyFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void

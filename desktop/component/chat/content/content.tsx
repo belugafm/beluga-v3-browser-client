@@ -3,7 +3,7 @@ import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
-import { DeleteMessageModalActionContext } from "../../../state/component/model/modal"
+import { DeleteMessageModalActionContext } from "../../../state/component/model/delete_message"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { HeaderComponent } from "./header"
 import { MessageActionContext } from "../../../state/chat/components/message"

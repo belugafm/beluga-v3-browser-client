@@ -1,7 +1,15 @@
 import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
+import {
+    ChannelMenuModalActionContext,
+    ChannelMenuModalStateContext,
+    useChannelMenuModalState,
+} from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
+import { TooltipActionContext } from "../../../state/component/tooltip"
+import classNames from "classnames"
 import classnames from "classnames"
+import { useContext } from "react"
 
 export type ListItemObjectT = {
     channel: ChannelObjectT
@@ -170,6 +178,8 @@ export const ChannelGroupSidebarComponent = ({
     activeChannel?: ChannelObjectT
 }) => {
     const [theme] = useTheme()
+    const channelMenuModalAction = useContext(ChannelMenuModalActionContext)
+    const isChannelMenuHidden = useContext(ChannelMenuModalStateContext)
     const listItems: ListItemT[] = []
     channels.forEach((channel) => {
         listItems.push({
@@ -202,12 +212,25 @@ export const ChannelGroupSidebarComponent = ({
         }
     }
     return (
-        <div className="item">
+        <div
+            className={classNames("item", {
+                "show-toggle-channel-menu": isChannelMenuHidden == false,
+            })}>
             <div className="header">
-                <svg className="icon">
+                <svg className="icon-down">
                     <use href="#icon-direction-down-solid"></use>
                 </svg>
                 <span className="label">チャンネル</span>
+                <button
+                    className="toggle-channel-menu"
+                    onClick={(e) => {
+                        e.preventDefault()
+                        channelMenuModalAction.toggle(e)
+                    }}>
+                    <svg className="icon-menu-line-horizontal">
+                        <use href="#icon-menu-line-horizontal"></use>
+                    </svg>
+                </button>
             </div>
             <div className="list sidebar-channel-group-list">{listItemNodes}</div>
             <style jsx>{`
@@ -218,14 +241,48 @@ export const ChannelGroupSidebarComponent = ({
                     height: 40px;
                     font-size: 16px;
                     display: flex;
+                    flex-direction: row;
                     align-items: center;
                     width: 100%;
                 }
-                .icon {
+                .icon-down {
                     width: 16px;
                     height: 16px;
                     margin: 2px 6px 0 0;
                     text-align: center;
+                    stroke-width: 0;
+                    flex: 0 0 auto;
+                }
+                .label {
+                    flex: 1 1 auto;
+                }
+                .toggle-channel-menu {
+                    background: none;
+                    border: none;
+                    flex: 0 0 auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    width: 30px;
+                    height: 30px;
+                    box-sizing: border-box;
+                    border-radius: 6px;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: 0.05s;
+                    margin-top: 2px;
+                }
+                .item:hover .toggle-channel-menu,
+                .item.show-toggle-channel-menu .toggle-channel-menu {
+                    visibility: visible;
+                    opacity: 1;
+                }
+                .icon-menu-line-horizontal {
+                    transition: 0.05s;
+                    flex: 0 0 auto;
+                    width: 20px;
+                    height: 20px;
                     stroke-width: 0;
                 }
             `}</style>
@@ -243,8 +300,17 @@ export const ChannelGroupSidebarComponent = ({
                 .header {
                     color: ${getStyle(theme)["color"]};
                 }
-                .icon {
+                .icon-down {
                     fill: ${getStyle(theme)["color"]};
+                }
+                .icon-menu-line-horizontal {
+                    fill: ${getStyle(theme)["color"]};
+                }
+                .toggle-channel-menu:hover {
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                }
+                .toggle-channel-menu:hover .icon-menu-line-horizontal {
+                    fill: ${getStyle(theme)["hoverColor"]};
                 }
             `}</style>
         </div>

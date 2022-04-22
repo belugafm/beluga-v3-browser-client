@@ -1,26 +1,25 @@
-import * as reducers from "../../../state/chat/reducer_method"
-
+import {
+    ChannelMenuModalActionContext,
+    ChannelMenuModalStateContext,
+    useChannelMenuModalState,
+} from "../../../state/component/model/channel_menu"
 import {
     DeleteMessageModalActionContext,
     useDeleteMessageModalState,
-} from "../../../state/component/model/modal"
+} from "../../../state/component/model/delete_message"
 
+import { ChannelMenuModalComponent } from "./channel_menu"
 import { DeleteMessageModalComponent } from "./delete_message"
-import { MessageObjectT } from "../../../api/object"
+import { MessageActionContext } from "../../../state/chat/components/message"
+import { PageContextObjectT } from "../../../state/chat/store"
 import React from "react"
-import { ReducerContext } from "../../../state/chat/store/types/reducer"
 import { useContext } from "react"
 import { useTheme } from "../../theme"
 
 const DeleteMessageModalActionContextProvider = ({ children }) => {
     const [state, action] = useDeleteMessageModalState()
     const [theme] = useTheme()
-    const { reducer } = useContext(ReducerContext)
-    const deleteMessage = (message: MessageObjectT) => {
-        reducer(reducers.domainData.message.delete, {
-            messageId: message.id,
-        })
-    }
+    const messageAction = useContext(MessageActionContext)
     return (
         <DeleteMessageModalActionContext.Provider value={action}>
             {children}
@@ -28,17 +27,60 @@ const DeleteMessageModalActionContextProvider = ({ children }) => {
                 hidden={state.hidden}
                 message={state.message}
                 modalAction={action}
-                deleteMessage={deleteMessage}
+                deleteMessage={messageAction.delete}
                 theme={theme}
             />
         </DeleteMessageModalActionContext.Provider>
     )
 }
 
-export const ModalContextProvider = ({ children }) => {
+const ChannelMenuModalActionContextProvider = ({
+    children,
+    pageContext,
+}: {
+    children: any
+    pageContext: PageContextObjectT
+}) => {
+    const [state, action] = useChannelMenuModalState(pageContext)
+    const [theme] = useTheme()
+
+    const getChannelGroupId = (pageContext: PageContextObjectT): number => {
+        if (pageContext.channel) {
+            return pageContext.channel.object.parent_channel_group_id
+        }
+        if (pageContext.channelGroup) {
+            return pageContext.channelGroup.object.id
+        }
+        throw new Error()
+    }
+    const channelGroupId = getChannelGroupId(pageContext)
+    return (
+        <ChannelMenuModalActionContext.Provider value={action}>
+            <ChannelMenuModalStateContext.Provider value={state.hidden}>
+                {children}
+                <ChannelMenuModalComponent
+                    state={state}
+                    action={action}
+                    theme={theme}
+                    channelGroupId={channelGroupId}
+                />
+            </ChannelMenuModalStateContext.Provider>
+        </ChannelMenuModalActionContext.Provider>
+    )
+}
+
+export const ModalContextProvider = ({
+    children,
+    pageContext,
+}: {
+    children: any
+    pageContext: PageContextObjectT
+}) => {
     return (
         <DeleteMessageModalActionContextProvider>
-            {children}
+            <ChannelMenuModalActionContextProvider pageContext={pageContext}>
+                {children}
+            </ChannelMenuModalActionContextProvider>
         </DeleteMessageModalActionContextProvider>
     )
 }

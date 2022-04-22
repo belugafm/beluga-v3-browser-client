@@ -38,6 +38,7 @@ export type ChannelObjectT = {
     name: string
     unique_name: string
     status_string: string
+    description: string
     created_at: number
     created_by: number
     channels_count: number

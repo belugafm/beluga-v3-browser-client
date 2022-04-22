@@ -101,7 +101,9 @@ export const ContainerComponent = ({
                             <ContentActionContext.Provider value={contentAction}>
                                 <MessageActionContext.Provider value={messageAction}>
                                     <TooltipActionContext.Provider value={tooltipAction}>
-                                        <ModalContextProvider>{children}</ModalContextProvider>
+                                        <ModalContextProvider pageContext={pageContext}>
+                                            {children}
+                                        </ModalContextProvider>
                                     </TooltipActionContext.Provider>
                                 </MessageActionContext.Provider>
                             </ContentActionContext.Provider>

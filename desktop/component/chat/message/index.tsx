@@ -25,7 +25,7 @@ const getStyle = (theme: Themes) => {
 }
 
 export const MessageComponent = React.memo(
-    (props: CommonPropsT) => {
+    (props: CommonPropsT & { zIndex: number }) => {
         console.info("MessageComponent::render", props.message.id)
         const { message } = props
         if (message.deleted) {
@@ -79,6 +79,7 @@ export const MessageComponent = React.memo(
                         padding: 4px 0;
                         margin-top: 4px;
                         position: relative;
+                        font-size: 15px;
                     }
                     .message.consecutive {
                         margin-top: 0;
@@ -124,7 +125,6 @@ export const MessageComponent = React.memo(
                         margin-top: 2px;
                     }
                     .text {
-                        font-size: 16px;
                         margin-top: 2px;
                     }
                     .message.consecutive .text {
@@ -143,6 +143,7 @@ export const MessageComponent = React.memo(
                 <style jsx>{`
                     .message {
                         background-color: ${getStyle(props.theme)["backgroundColor"]};
+                        z-index: ${props.zIndex};
                     }
                     .message:hover {
                         background-color: ${getStyle(props.theme)["hoverBackgroundColor"]};

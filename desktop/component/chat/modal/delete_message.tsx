@@ -194,7 +194,7 @@ const MessagePreviewComponent = ({
                     border-radius: 0;
                 }
                 .text {
-                    font-size: 16px;
+                    font-size: 15px;
                     margin-top: 2px;
                 }
                 .message.consecutive .text {

@@ -94,10 +94,10 @@ export const SenderComponent = ({
                     flex: 0 1 auto;
                     text-overflow: ellipsis;
                     overflow: hidden;
-                    line-height: 16px;
+                    line-height: 15px;
                 }
                 .at-str {
-                    font-size: 16px;
+                    font-size: 15px;
                     margin-right: 1px;
                 }
                 .time {

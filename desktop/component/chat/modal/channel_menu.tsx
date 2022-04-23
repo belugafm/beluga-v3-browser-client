@@ -11,10 +11,10 @@ const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
-            hoverColor: "#fff",
+            hoverColor: "#000",
             borderColor: "#d8dadc",
             backgroundColor: "#fff",
-            hoverBackgroundColor: "#2a85ff",
+            hoverBackgroundColor: "#f4f4f4",
             boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px;",
         }
     }
@@ -24,7 +24,7 @@ const getStyle = (theme: Themes) => {
             hoverColor: "#fff",
             borderColor: "#282d32",
             backgroundColor: "#111315",
-            hoverBackgroundColor: "#2a85ff",
+            hoverBackgroundColor: "#2a2d32",
             boxShadow: "rgba(0, 0, 0, 0.2) 0px 8px 24px;",
         }
     }
@@ -89,17 +89,20 @@ export const ChannelMenuModalComponent = ({
                 }
                 .inner {
                     position: fixed;
-                    border-radius: 8px;
+                    border-radius: 12px;
                     box-sizing: border-box;
                     border: 1px solid;
-                    padding: 8px 0;
+                    padding: 10px 14px;
                 }
                 a {
                     display: block;
                     text-decoration: none;
-                    padding: 6px 16px;
+                    padding: 8px 16px;
                     font-weight: 500;
                     font-size: 15px;
+                    border-radius: 8px;
+                    margin: 4px 0;
+                    transition: background-color 0.05s;
                 }
             `}</style>
             <style jsx>{`

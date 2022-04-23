@@ -44,7 +44,7 @@ export const useChannelMenuModalState = (
         }
         const rect: DOMRect = targetNode.getBoundingClientRect()
         const buttonHeight = 30
-        const menuWidth = 300
+        const menuWidth = 272
         setHidden(false)
         setTop(rect.top + targetNode.clientHeight)
         // @ts-ignore

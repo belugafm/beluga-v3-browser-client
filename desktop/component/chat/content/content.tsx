@@ -10,7 +10,6 @@ import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
-import { ReducerContext } from "../../../state/chat/store/types/reducer"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
@@ -244,7 +243,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const consectivePostChecker = new CheckIsConsecutivePost()
     const messageComponentList = [...content.timeline.messageIds]
         .reverse()
-        .map((messageId) => {
+        .map((messageId, n) => {
             const normalizedMessage = domainData.messages.get(messageId)
             if (normalizedMessage == null) {
                 return null
@@ -262,6 +261,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     loggedInUser={loggedInUser}
                     content={content}
                     isConsecutivePost={consectivePostChecker.check(message)}
+                    zIndex={n}
                     theme={theme}
                 />
             )
@@ -345,6 +345,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     flex-direction: column-reverse;
                     overflow-x: hidden;
                     overflow-y: scroll;
+                    position: relative;
                 }
             `}</style>
             <style jsx>{`

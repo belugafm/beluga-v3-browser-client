@@ -5,17 +5,16 @@ export const BlueButton = ({ type, children }) => {
             <style jsx>{`
                 button {
                     font-weight: 700;
-                    width: 140px;
                     font-size: 16px;
                     flex: 0 0 auto;
                     box-sizing: border-box;
                     margin: 10px;
                     margin-right: 0;
-                    padding: 0 16px;
+                    padding: 0 32px;
                     cursor: pointer;
                     border: none;
                     border-radius: 50px;
-                    height: 48px;
+                    height: 44px;
                     background-color: #2a85ff;
                     color: white;
                     transition: 0.3s;

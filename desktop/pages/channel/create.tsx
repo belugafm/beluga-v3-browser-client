@@ -4,7 +4,7 @@ import { AccountMenuSidebarComponent } from "../../component/chat/sidebar/accoun
 import { BackgroundImageBackdropFilterComponent } from "../../component/chat/background_image"
 import { ChannelGroupSidebarComponent } from "../../component/chat/sidebar/channel_group"
 import { ContainerComponent } from "../../component/chat/container"
-import { CreateChannelFormComponent } from "../../component/pages/channel/create"
+import { CreateChannelFormComponent } from "../../component/page/channel/create"
 import Head from "next/head"
 import { HeaderComponent } from "../../component/chat/header"
 import { LogoSidebarComponent } from "../../component/chat/sidebar/logo"

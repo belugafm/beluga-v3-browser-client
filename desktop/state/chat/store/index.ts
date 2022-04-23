@@ -28,7 +28,7 @@ export type PageContextObjectT = {
     }
 }
 
-function getLocalStorageKey(pageContext: PageContextObjectT): string {
+function getLocalStorageKey(pageContext: PageContextObjectT): string | null {
     if (pageContext.channel) {
         return `content_layout/channel/${pageContext.channel.object.id}`
     }
@@ -38,12 +38,18 @@ function getLocalStorageKey(pageContext: PageContextObjectT): string {
     if (pageContext.thread) {
         return `content_layout/message/${pageContext.thread.object.id}`
     }
-    throw Error()
+    return null
 }
 
 const _localStorageCache = {}
 
-function loadContentsFromCache(key: string, pageContext: PageContextObjectT): ContentStateT[][] {
+function loadContentsFromCache(
+    key: string | null,
+    pageContext: PageContextObjectT
+): ContentStateT[][] {
+    if (key == null) {
+        return []
+    }
     if (key in _localStorageCache) {
         return _localStorageCache[key]
     }
@@ -281,7 +287,7 @@ function loadContentsFromLocalStorage(
             ],
         ]
     }
-    throw new Error()
+    return []
 }
 
 function getInitialDomainDataObjects(

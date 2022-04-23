@@ -2,6 +2,7 @@ import { ContentActionContext, ContentActionT } from "../../../state/chat/store/
 import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
+import BodyComponent from "../message/body"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionContext } from "../../../state/component/model/delete_message"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
@@ -157,7 +158,7 @@ const getStyleForTheme = (theme: Themes) => {
     throw new Error()
 }
 
-class CheckIsConsecutivePost {
+export class CheckIsConsecutivePost {
     private lastUserId: number | null
     private lastCreatedAt: number | null
     private consectivePeriodInSec: number
@@ -262,8 +263,21 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     content={content}
                     isConsecutivePost={consectivePostChecker.check(message)}
                     zIndex={n}
-                    theme={theme}
-                />
+                    theme={theme}>
+                    <BodyComponent
+                        key={messageId}
+                        message={message}
+                        messageAction={messageAction}
+                        contentAction={contentAction}
+                        tooltipAction={tooltipAction}
+                        deleteMessageModalAction={deleteMessageModalAction}
+                        domainData={domainData}
+                        loggedInUser={loggedInUser}
+                        content={content}
+                        isConsecutivePost={consectivePostChecker.check(message)}
+                        theme={theme}
+                    />
+                </MessageComponent>
             )
         })
         .reverse()

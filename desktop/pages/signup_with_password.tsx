@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../component/chat/next"
 
 import Head from "next/head"
-import { SignupFormComponent } from "../component/pages/signup_with_password"
+import { SignupFormComponent } from "../component/page/signup_with_password"
 import { ThemeProvider } from "../component/theme"
 
 const RiskyUserSection = () => {

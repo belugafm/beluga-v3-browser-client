@@ -11,12 +11,12 @@ type UserTheme = {
     linkPrimaryColor: string
 }
 
-const defaultGlobalDarkTheme: GlobalTheme = {
+export const defaultGlobalDarkTheme: GlobalTheme = {
     light: false,
     dark: true,
 }
 
-const defaultGlobalLightTheme: GlobalTheme = {
+export const defaultGlobalLightTheme: GlobalTheme = {
     light: true,
     dark: false,
 }

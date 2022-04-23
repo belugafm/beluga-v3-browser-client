@@ -1,6 +1,5 @@
 import { DateComponent, SenderComponent } from "./sender"
 
-import BodyComponent from "./body"
 import { CommonPropsT } from "./types"
 import { MenuComponent } from "./menu"
 import React from "react"
@@ -25,7 +24,7 @@ const getStyle = (theme: Themes) => {
 }
 
 export const MessageComponent = React.memo(
-    (props: CommonPropsT & { zIndex: number }) => {
+    (props: CommonPropsT & { zIndex: number; children: any }) => {
         console.info("MessageComponent::render", props.message.id)
         const { message } = props
         if (message.deleted) {
@@ -57,9 +56,7 @@ export const MessageComponent = React.memo(
                             hidden={props.isConsecutivePost}
                             theme={props.theme}
                         />
-                        <div className="text">
-                            <BodyComponent {...props} />
-                        </div>
+                        <div className="text">{props.children}</div>
                     </div>
                 </div>
                 <div className="menu-container">
@@ -176,11 +173,13 @@ export const MessageComponent = React.memo(
         if (prevProps.message.text !== nextProps.message.text) {
             return false
         }
-        if (
-            prevProps.content.options.showMutedMessage !==
-            nextProps.content.options.showMutedMessage
-        ) {
-            return false
+        if (prevProps.content) {
+            if (
+                prevProps.content.options.showMutedMessage !==
+                nextProps.content.options.showMutedMessage
+            ) {
+                return false
+            }
         }
         if (deepEqual(prevProps.theme.global.current, nextProps.theme.global.current) == false) {
             return false

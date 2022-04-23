@@ -3,7 +3,7 @@ import * as api from "../api"
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
-import { SigninFormComponent } from "../component/pages/login"
+import { SigninFormComponent } from "../component/page/login"
 import { ThemeProvider } from "../component/theme"
 
 async function loginWithTwitter() {

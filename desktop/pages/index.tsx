@@ -2,7 +2,9 @@ export { getServerSideProps } from "../component/chat/next"
 
 import * as api from "../api"
 
+import { AppPreviewComponent } from "../component/page/landing"
 import Head from "next/head"
+import { swrFetchData } from "../swr/index/page"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()
@@ -60,6 +62,28 @@ export const LoginWithTwitterButton = () => {
 }
 
 export default () => {
+    const { isLoading, errors, channels, messages, channelGroup } = swrFetchData()
+    if (isLoading) {
+        return null
+    }
+    if (errors[0]) {
+        return <div>エラー</div>
+    }
+    if (errors[1]) {
+        return <div>エラー</div>
+    }
+    if (errors[2]) {
+        return <div>エラー</div>
+    }
+    if (channels == null) {
+        return <div>エラー</div>
+    }
+    if (messages == null) {
+        return <div>エラー</div>
+    }
+    if (channelGroup == null) {
+        return <div>エラー</div>
+    }
     return (
         <>
             <Head>
@@ -95,7 +119,13 @@ export default () => {
                             <span className="window-button-2"></span>
                             <span className="window-button-3"></span>
                         </div>
-                        <div className="inner"></div>
+                        <div className="inner">
+                            <AppPreviewComponent
+                                channelGroup={channelGroup}
+                                channels={channels}
+                                messages={messages}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,7 +214,7 @@ export default () => {
                         135deg,
                         rgba(255, 255, 255, 0.5) 0%,
                         rgba(255, 255, 255, 0.25) 75%,
-                        rgba(255, 255, 255, 0) 100%
+                        rgba(255, 255, 255, 0.5) 100%
                     );
                     backdrop-filter: blur(50px);
                     filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
@@ -217,15 +247,17 @@ export default () => {
                     background-color: rgba(255, 255, 255, 0.6);
                 }
                 .app-container > .inner {
-                    background-color: white;
-                    border-radius: 6px;
                     width: 100%;
                     height: 100%;
                     box-sizing: border-box;
+                    display: flex;
+                    flex-direction: row;
+                    border-radius: 6px;
+                    overflow: hidden;
                 }
             `}</style>
             <style global jsx>{`
-                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
+                @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;700&display=swap");
                 button {
                     font-family: "M PLUS 1", sans-serif;
                 }

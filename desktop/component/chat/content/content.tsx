@@ -160,16 +160,25 @@ const getStyleForTheme = (theme: Themes) => {
 
 export class CheckIsConsecutivePost {
     private lastUserId: number | null
+    private lastChannelId: number | null
     private lastCreatedAt: number | null
     private consectivePeriodInSec: number
     constructor() {
         this.lastUserId = null
+        this.lastChannelId = null
         this.lastCreatedAt = null
         this.consectivePeriodInSec = 300
     }
     check(message: MessageObjectT): boolean {
         if (this.lastUserId == null) {
             this.lastUserId = message.user_id
+            this.lastChannelId = message.channel_id
+            this.lastCreatedAt = message.created_at.getTime()
+            return false
+        }
+        if (this.lastChannelId != message.channel_id) {
+            this.lastUserId = message.user_id
+            this.lastChannelId = message.channel_id
             this.lastCreatedAt = message.created_at.getTime()
             return false
         }

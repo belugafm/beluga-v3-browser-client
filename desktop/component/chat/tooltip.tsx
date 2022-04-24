@@ -1,16 +1,17 @@
 import { TooltipStateT } from "../../state/component/tooltip"
 import classNames from "classnames"
 
-export const TooltipComponent = ({ state }: { state: TooltipStateT }) => {
+export const TooltipComponent = (props: TooltipStateT) => {
+    const { hidden, text, top, left } = props
     return (
-        <div className={classNames("tooltip", { hidden: state.hidden })}>
+        <div className={classNames("tooltip", { hidden: hidden })}>
             <div className="inner">
-                <div className="tooltip-text">{state.text}</div>
+                <div className="tooltip-text">{text}</div>
             </div>
             <style jsx>{`
                 .tooltip {
-                    top: ${state.top}px;
-                    left: ${state.left}px;
+                    top: ${top}px;
+                    left: ${left}px;
                 }
             `}</style>
             <style jsx>{`

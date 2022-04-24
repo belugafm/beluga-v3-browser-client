@@ -110,7 +110,7 @@ export const ContainerComponent = ({
                         </ReducerContext.Provider>
                     </DomainDataContext.Provider>
                 </AppStateContext.Provider>
-                <TooltipComponent state={state} />
+                <TooltipComponent {...state} />
             </div>
             <style jsx>{`
                 .app {

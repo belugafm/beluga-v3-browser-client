@@ -2,9 +2,19 @@ export { getServerSideProps } from "../component/chat/next"
 
 import * as api from "../api"
 
-import { AppPreviewComponent } from "../component/page/landing"
+import {
+    ChannelDescriptionModalActionContext,
+    ChannelDescriptionModalComponent,
+    ChannelDescriptionModalStateContext,
+    useChannelDescriptionModalState,
+} from "../component/page/landing/channel_modal"
+import { TooltipActionContext, useTooltipState } from "../state/component/tooltip"
+
+import { AppPreviewComponent } from "../component/page/landing/app_preview"
 import Head from "next/head"
+import { TooltipComponent } from "../component/chat/tooltip"
 import { swrFetchData } from "../swr/index/page"
+import { useContext } from "react"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()
@@ -63,6 +73,8 @@ export const LoginWithTwitterButton = () => {
 
 export default () => {
     const { isLoading, errors, channels, messages, channelGroup } = swrFetchData()
+    const [tooltipState, tooltipAction] = useTooltipState()
+    const [channelDetailModalState, channelDetailModalAction] = useChannelDescriptionModalState()
     if (isLoading) {
         return null
     }
@@ -120,15 +132,22 @@ export default () => {
                             <span className="window-button-3"></span>
                         </div>
                         <div className="inner">
-                            <AppPreviewComponent
-                                channelGroup={channelGroup}
-                                channels={channels}
-                                messages={messages}
-                            />
+                            <TooltipActionContext.Provider value={tooltipAction}>
+                                <ChannelDescriptionModalActionContext.Provider
+                                    value={channelDetailModalAction}>
+                                    <AppPreviewComponent
+                                        channelGroup={channelGroup}
+                                        channels={channels}
+                                        messages={messages}
+                                    />
+                                </ChannelDescriptionModalActionContext.Provider>
+                            </TooltipActionContext.Provider>
                         </div>
                     </div>
                 </div>
             </div>
+            <TooltipComponent {...tooltipState} />
+            <ChannelDescriptionModalComponent {...channelDetailModalState} />
             <style jsx>{`
                 .navigation-bar {
                     height: 70px;

@@ -1,5 +1,10 @@
-import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT, UserObjectT } from "../../api/object"
-import React, { MouseEvent } from "react"
+import {
+    ChannelGroupObjectT,
+    ChannelObjectT,
+    MessageObjectT,
+    UserObjectT,
+} from "../../../api/object"
+import React, { MouseEvent, useContext } from "react"
 import {
     Themes,
     defaultGlobalDarkTheme,
@@ -7,19 +12,20 @@ import {
     defaultUserDarkTheme,
     defaultUserLightTheme,
     useTheme,
-} from "../theme"
+} from "../../theme"
+import { TooltipActionContext, useTooltipState } from "../../../state/component/tooltip"
 
-import { CheckIsConsecutivePost } from "../chat/content/content"
-import { ContentActionT } from "../../state/chat/store/app_state/action"
-import { ContentStateT } from "../../state/chat/store/types/app_state"
-import { DeleteMessageModalActionT } from "../../state/component/model/delete_message"
-import { MessageActionT } from "../../state/chat/components/message"
-import { MessageComponent } from "../chat/message"
-import { SVGComponent } from "../chat/svg"
-import classNames from "classnames"
-import { unnormalizeMessage } from "../../state/chat/store/domain_data/unnormalize"
-import { useStore } from "../../state/chat"
-import { useTooltipState } from "../../state/component/tooltip"
+import { ChannelDescriptionModalActionContext } from "./channel_modal"
+import { ChannelHeaderComponent } from "../../chat/content/header"
+import { CheckIsConsecutivePost } from "../../chat/content/content"
+import { ContentActionT } from "../../../state/chat/store/app_state/action"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
+import { MessageActionT } from "../../../state/chat/components/message"
+import { MessageComponent } from "../../chat/message"
+import { SVGComponent } from "../../chat/svg"
+import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
+import { useStore } from "../../../state/chat"
 
 const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
     return (
@@ -35,7 +41,7 @@ const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
                     align-items: center;
                     width: 100%;
                     height: 36px;
-                    padding: 0 12px;
+                    padding: 0 12px 0 8px;
                     border-radius: 8px;
                     white-space: nowrap;
                     box-sizing: border-box;
@@ -132,8 +138,9 @@ export const AppPreviewComponent = (props: {
         },
         user: null,
     }
-    const [_, tooltipAction] = useTooltipState()
-    const { domainData, appState, reducers } = useStore({
+    const tooltipAction = useContext(TooltipActionContext)
+    const channelDescriptionModalAction = useContext(ChannelDescriptionModalActionContext)
+    const { domainData } = useStore({
         channelGroup: {
             object: channelGroup,
             messages,
@@ -199,15 +206,30 @@ export const AppPreviewComponent = (props: {
         .reverse()
     return (
         <>
-            <div className="sidebar-block">{channelList}</div>
+            <div
+                className="sidebar-block"
+                onMouseEnter={(e) => channelDescriptionModalAction.show(e)}
+                onMouseLeave={() => channelDescriptionModalAction.hide()}>
+                {channelList}
+            </div>
             <div className="contents-block">
                 <div className="search-block">
                     <SearchComponent />
                 </div>
                 <div className="timeline-block">
-                    <div className="header"></div>
-                    <div className="timeline">
-                        <div className="scroller">{messageComponentList}</div>
+                    <div className="card">
+                        <div className="header">
+                            <ChannelHeaderComponent
+                                channel={{
+                                    name: "パブリックタイムライン",
+                                    status_string: "#",
+                                }}
+                                theme={theme}
+                            />
+                        </div>
+                        <div className="timeline">
+                            <div className="scroller">{messageComponentList}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,6 +243,12 @@ export const AppPreviewComponent = (props: {
                     background-color: white;
                     padding: 8px;
                     box-sizing: border-box;
+                    border: 3px solid transparent;
+                    transition: border-color 0.1s;
+                    border-radius: 10px 0 0 10px;
+                }
+                .sidebar-block:hover {
+                    border-color: #ff6b81;
                 }
                 .contents-block {
                     flex: 1 1 70%;
@@ -252,10 +280,21 @@ export const AppPreviewComponent = (props: {
                     padding: 12px;
                     overflow: hidden;
                 }
-                .timeline {
+                .card {
                     flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
                     background-color: white;
                     border-radius: 8px;
+                    position: relative;
+                }
+                .header {
+                    flex: 0 0 auto;
+                    z-index: 2;
+                }
+                .timeline {
+                    flex: 1 1 auto;
                     min-width: 0;
                     min-height: 0;
                     display: flex;

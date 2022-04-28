@@ -100,7 +100,7 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
                     hidden: props.hidden,
                 })}>
                 <div className="menu">
-                    <p>Belugaでは、チャンネルと呼ばれる専用の場所に投稿します</p>
+                    <p>Belugaでは、チャンネルと呼ばれる専用の場所に投稿します。</p>
                     <p>
                         みんなが集まる雑談用のチャンネルを作ったり、自分専用のチャンネルを作ることもできます。
                     </p>
@@ -111,12 +111,12 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
                 .modal-container {
                     position: fixed;
                     z-index: 100;
-                    transition: transform, opacity 0.1s;
+                    transition: opacity 0.1s;
                     visibility: visible;
                     border-radius: 12px;
                     box-sizing: border-box;
                     padding: 24px;
-                    width: 400px;
+                    width: 300px;
                     background-color: white;
                     border-radius: 10px;
                     opacity: 1;

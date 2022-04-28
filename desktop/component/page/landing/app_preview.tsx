@@ -300,6 +300,7 @@ export const AppPreviewComponent = (props: {
                     display: flex;
                     flex-direction: column;
                     z-index: 1;
+                    padding: 0 0 10px 0;
                 }
                 .scroller::-webkit-scrollbar {
                     width: 0px;

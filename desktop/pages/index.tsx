@@ -224,7 +224,7 @@ export default () => {
                     width: 800px;
                     height: 100%;
                     max-height: 1000px;
-                    border-radius: 10px;
+                    border-radius: 12px;
                     padding: 40px 6px 6px 6px;
                     flex: 0 1 auto;
                     box-sizing: border-box;
@@ -271,7 +271,7 @@ export default () => {
                     box-sizing: border-box;
                     display: flex;
                     flex-direction: row;
-                    border-radius: 6px;
+                    border-radius: 10px;
                     overflow: hidden;
                 }
             `}</style>

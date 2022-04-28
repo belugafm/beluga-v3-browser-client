@@ -41,8 +41,7 @@ export type ChannelObjectT = {
     description: string
     created_at: number
     created_by: number
-    channels_count: number
-    statuses_count: number
+    message_count: number
     parent_channel_group_id: number
     creator: UserObjectT | null
     parent_channel_group: ChannelGroupObjectT | null

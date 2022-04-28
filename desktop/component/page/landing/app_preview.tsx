@@ -221,6 +221,15 @@ export const AppPreviewComponent = (props: {
                         <div className="header">
                             <ChannelHeaderComponent
                                 channel={{
+                                    id: -1,
+                                    unique_name: "global",
+                                    description: "",
+                                    created_at: new Date().getTime(),
+                                    created_by: -1,
+                                    message_count: 0,
+                                    parent_channel_group_id: -1,
+                                    creator: null,
+                                    parent_channel_group: null,
                                     name: "パブリックタイムライン",
                                     status_string: "#",
                                 }}

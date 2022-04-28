@@ -12,16 +12,6 @@ type ReturnT = {
     isLoading: boolean
 }
 
-const getSWRKey = ({ id, uniqueName }: InputT) => {
-    if (id) {
-        return `channel_groups/list_all/id:${id}`
-    }
-    if (uniqueName) {
-        return `channel_groups/list_all/unique_name:${uniqueName}`
-    }
-    throw new Error()
-}
-
 export const swrFetchData = (): ReturnT => {
     const { data: res1, error: error1 } = useSWR("idnex:channels", () => {
         return api.channel.listChannels({

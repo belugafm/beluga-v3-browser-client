@@ -41,6 +41,7 @@ export const useChannelDescriptionModalState = (): [
         { hidden, top, left },
         {
             show: (event: MouseEvent<HTMLDivElement>) => {
+                // @ts-ignore
                 const targetNode = findSidebar(event.target)
                 if (targetNode == null) {
                     return setHidden(true)

@@ -122,6 +122,7 @@ export const MessageComponent = React.memo(
                         margin-top: 2px;
                     }
                     .text {
+                        word-break: break-all;
                         margin-top: 2px;
                     }
                     .message.consecutive .text {

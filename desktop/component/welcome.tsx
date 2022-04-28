@@ -11,7 +11,6 @@ const AlreadyLoggedInMessageComponent = () => {
             <div>
                 <p>{`name: ${loggedInUser.name}`}</p>
                 <p>{`trust_level: ${loggedInUser.trust_level}`}</p>
-                <p>{`token: ${authenticityToken}`}</p>
             </div>
         )
     } else {
@@ -28,7 +27,7 @@ export const WelcomeComponent = () => {
             <div>
                 <ul>
                     <li>
-                        <a href="/home">ホーム</a>
+                        <a href="/group/global">パブリックタイムライン</a>
                     </li>
                 </ul>
             </div>

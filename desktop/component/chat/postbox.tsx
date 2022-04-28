@@ -110,6 +110,9 @@ export const PostboxComponent = ({
         editorState,
     })
     const [isTextAttributeBlockHidden, setIsTextAttributeBlockHidden] = useState(true)
+    if (content.postbox.enabled == false) {
+        return null
+    }
     return (
         <>
             <div className="postbox-container">

@@ -46,7 +46,7 @@ class Polling {
     }
 }
 
-const polling = new Polling()
+export const polling = new Polling()
 
 export const useStore = (
     pageContext: PageContextObjectT
@@ -58,10 +58,6 @@ export const useStore = (
     console.info("useChatState")
     let [store, reducers] = storeProvider.use(pageContext)
     const { loggedInUser } = swrShowLoggedInUser()
-    polling.use({
-        reducers,
-        appState: store.appState,
-    })
 
     // websocket.use({
     //     loggedInUser,

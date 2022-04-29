@@ -2,6 +2,7 @@ import { ContentActionContext, useContentAction } from "../../state/chat/store/a
 import { MessageActionContext, useMessageAction } from "../../state/chat/components/message"
 import { Themes, useTheme } from "../theme"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
+import { polling, useStore } from "../../state/chat"
 
 import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
@@ -12,7 +13,6 @@ import { PageContextObjectT } from "../../state/chat/store"
 import { ReducerContext } from "../../state/chat/store/types/reducer"
 import { TooltipComponent } from "./tooltip"
 import { swrShowLoggedInUser } from "../../swr/session"
-import { useStore } from "../../state/chat"
 
 const LoadingComponent = () => {
     const [theme] = useTheme()
@@ -80,6 +80,10 @@ export const ContainerComponent = ({
     const { isLoading, loggedInUser } = swrShowLoggedInUser()
     const [state, tooltipAction] = useTooltipState()
     const { domainData, appState, reducers } = useStore(pageContext)
+    polling.use({
+        reducers,
+        appState,
+    })
     const messageAction = useMessageAction(reducers)
     const contentAction = useContentAction({ appState, reducers })
     if (isLoading) {

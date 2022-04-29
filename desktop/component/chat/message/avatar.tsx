@@ -44,11 +44,12 @@ class Random {
         return min + (r % (max + 1 - min))
     }
 }
+
 const DefaultAvatarComponent = ({ user }: PropsT) => {
     const gen = new Random(user.id)
     const hue = 360 * gen.next()
     const sat = 50
-    const lightness = 50
+    const lightness = 60
     return (
         <>
             <div className="avatar"></div>

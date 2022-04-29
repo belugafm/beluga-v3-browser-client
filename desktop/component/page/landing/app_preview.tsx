@@ -232,6 +232,7 @@ export const AppPreviewComponent = (props: {
                                     created_by: -1,
                                     message_count: 0,
                                     parent_channel_group_id: -1,
+                                    parent_channel_group: null,
                                     last_message_id: -1,
                                     last_message: null,
                                     read_state: null,

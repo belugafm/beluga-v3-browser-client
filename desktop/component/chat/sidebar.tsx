@@ -36,7 +36,7 @@ export const SidebarComponent = ({ children }) => {
                         transition-property: background-color;
                         width: 300px;
                         box-sizing: border-box;
-                        padding: 24px;
+                        padding: 24px 16px 0 16px;
                         position: fixed;
                         top: 0;
                         left: 0;

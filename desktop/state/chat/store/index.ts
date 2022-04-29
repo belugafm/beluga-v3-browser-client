@@ -322,7 +322,6 @@ export class StoreProvider {
             domainData: domainDataSetActions,
             appState: appStateSetActions,
         }
-
         const reducer = <T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> => {
             return new Promise((resolve) => {
                 this.queue = this.queue.then(async () => {

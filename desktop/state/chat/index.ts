@@ -1,3 +1,5 @@
+import * as reducerMethod from "./reducer_method"
+
 import { PageContextObjectT, StoreProvider } from "./store"
 
 import { AppStateT } from "./store/types/app_state"
@@ -7,6 +9,44 @@ import { swrShowLoggedInUser } from "../../swr/session"
 import { websocket } from "./websocket"
 
 const storeProvider = new StoreProvider()
+
+class Polling {
+    reducers: AsyncReducersT
+    appState: AppStateT
+    timerIds: number[] = []
+    use({ reducers, appState }: { reducers: AsyncReducersT; appState: AppStateT }) {
+        this.reducers = reducers
+        this.appState = appState
+        this.clearTimers()
+        this.setTimers()
+    }
+    clearTimers() {
+        for (const timerId of this.timerIds) {
+            clearInterval(timerId)
+        }
+        this.timerIds = []
+    }
+    setTimers() {
+        for (const rows of this.appState.contents) {
+            for (const content of rows) {
+                if (content.timeline.isLoadingLatestMessagesEnabled == false) {
+                    return
+                }
+                const reducer = this.reducers.reducer
+                const timerId = setInterval(() => {
+                    return reducer(
+                        reducerMethod.appState.contentType.channel.loadLatestMessages,
+                        content
+                    )
+                }, 1000)
+                // @ts-ignore
+                this.timerIds.push(timerId)
+            }
+        }
+    }
+}
+
+const polling = new Polling()
 
 export const useStore = (
     pageContext: PageContextObjectT
@@ -18,6 +58,10 @@ export const useStore = (
     console.info("useChatState")
     let [store, reducers] = storeProvider.use(pageContext)
     const { loggedInUser } = swrShowLoggedInUser()
+    polling.use({
+        reducers,
+        appState: store.appState,
+    })
 
     // websocket.use({
     //     loggedInUser,

@@ -51,6 +51,10 @@ export const useCreateChannelFormState = (parentChannelGroupId: number) => {
                 hint: [],
                 value: nameField.value,
             })
+            const channel = response.channel
+            if (channel) {
+                location.href = `/channel/${channel.unique_name}`
+            }
         } else {
             handleError(response)
         }

@@ -51,6 +51,10 @@ export const useCreateChannelGroupFormState = (parentId: number) => {
                 hint: [],
                 value: nameField.value,
             })
+            const group = response.channel_group
+            if (group) {
+                location.href = `/group/${group.unique_name}`
+            }
         } else {
             handleError(response)
         }

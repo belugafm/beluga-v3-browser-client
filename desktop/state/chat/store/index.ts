@@ -30,7 +30,7 @@ export type PageContextObjectT = {
     }
     initialDomainData: {
         channels: ChannelObjectT[]
-        channelGroups: ChannelObjectT[]
+        channelGroups: ChannelGroupObjectT[]
     }
 }
 
@@ -305,7 +305,9 @@ function getInitialDomainDataObjects(
             pageContext.channel.messages,
             [],
             [pageContext.channel.object].concat(pageContext.initialDomainData.channels),
-            [pageContext.channel.parentChannelGroup],
+            [pageContext.channel.parentChannelGroup].concat(
+                pageContext.initialDomainData.channelGroups
+            ),
         ]
     }
     if (pageContext.channelGroup) {
@@ -313,7 +315,7 @@ function getInitialDomainDataObjects(
             pageContext.channelGroup.messages,
             [],
             pageContext.initialDomainData.channels,
-            [pageContext.channelGroup.object],
+            [pageContext.channelGroup.object].concat(pageContext.initialDomainData.channelGroups),
         ]
     }
     if (pageContext.thread) {
@@ -321,7 +323,7 @@ function getInitialDomainDataObjects(
             pageContext.channelGroup.messages.concat([pageContext.thread.object]),
             [],
             pageContext.initialDomainData.channels,
-            [],
+            pageContext.initialDomainData.channelGroups,
         ]
     }
     throw Error()

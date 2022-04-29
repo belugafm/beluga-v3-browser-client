@@ -39,6 +39,7 @@ const LoginWithTwitterSection = () => {
                     min-height: 80px;
                     margin-left: 20px;
                     flex: 1 1 auto;
+                    font-size: 15px;
                 }
             `}</style>
         </>
@@ -56,7 +57,7 @@ export default ({ userName }) => {
                     <div className="session-inside">
                         <div className="session-bg"></div>
                         <div className="session-main">
-                            <div className="section risky-user">
+                            <div className="section login-with-twitter">
                                 <LoginWithTwitterSection />
                             </div>
                             <div className="sep"></div>
@@ -108,7 +109,7 @@ export default ({ userName }) => {
                     }
                     .section {
                         box-sizing: border-box;
-                        padding: 40px;
+                        padding: 30px 40px;
                         background-color: white;
                     }
                     .sep {
@@ -125,7 +126,7 @@ export default ({ userName }) => {
                         margin: 0;
                         padding: 0;
                     }
-                    .section.risky-user {
+                    .section.login-with-twitter {
                         display: flex;
                         flex-direction: row;
                     }

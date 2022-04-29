@@ -70,7 +70,7 @@ export const InputComponent = ({
                     border-width: 1px;
                     font-size: 16px;
                     padding: 0 10px;
-                    height: 48px;
+                    height: 44px;
                     border: 2px solid transparent;
                     width: 100%;
                     box-sizing: border-box;

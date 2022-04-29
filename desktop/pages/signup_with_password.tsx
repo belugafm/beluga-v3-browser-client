@@ -25,6 +25,7 @@ const RiskyUserSection = () => {
                 .about-risky-user {
                     margin-left: 20px;
                     flex: 1 1 auto;
+                    font-size: 15px;
                 }
             `}</style>
         </>
@@ -52,6 +53,7 @@ const InviteLinkSection = () => {
                 .about-risky-user {
                     margin-left: 20px;
                     flex: 1 1 auto;
+                    font-size: 15px;
                 }
             `}</style>
         </>
@@ -149,13 +151,15 @@ export default () => {
                     .section.risky-user {
                         display: flex;
                         flex-direction: row;
+                        padding: 30px 40px;
                     }
                     .section.invite-link {
                         display: flex;
                         flex-direction: row;
+                        padding: 30px 40px;
                     }
                     .section.start-beluga {
-                        padding-top: 20px;
+                        padding: 20px 40px;
                     }
                     .already-have-account {
                         text-align: center;

@@ -51,7 +51,7 @@ export default ({ theme, query }) => {
                         },
                         initialDomainData: {
                             channels,
-                            channelGroups: [],
+                            channelGroups,
                         },
                     }}>
                     <HeaderComponent />

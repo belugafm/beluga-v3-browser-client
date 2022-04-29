@@ -49,14 +49,19 @@ export default ({ theme, query }) => {
                             object: channelGroup,
                             messages: messages,
                         },
+                        initialDomainData: {
+                            channels,
+                            channelGroups: [],
+                        },
                     }}>
                     <HeaderComponent />
                     <SidebarComponent>
                         <LogoSidebarComponent />
                         <AccountMenuSidebarComponent />
                         <ChannelGroupSidebarComponent
-                            channels={channels}
-                            channelGroups={channelGroups}
+                            activeChannelId={null}
+                            channelIds={channels.map((channel) => channel.id)}
+                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
                         />
                         <SidebarThemeComponent />
                     </SidebarComponent>

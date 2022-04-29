@@ -145,6 +145,10 @@ export const AppPreviewComponent = (props: {
             object: channelGroup,
             messages,
         },
+        initialDomainData: {
+            channelGroups: [],
+            channels: [],
+        },
     })
 
     const channelList = channels.map((channel, n) => {
@@ -224,12 +228,13 @@ export const AppPreviewComponent = (props: {
                                     id: -1,
                                     unique_name: "global",
                                     description: "",
-                                    created_at: new Date().getTime(),
+                                    created_at: new Date(),
                                     created_by: -1,
                                     message_count: 0,
                                     parent_channel_group_id: -1,
-                                    creator: null,
-                                    parent_channel_group: null,
+                                    last_message_id: -1,
+                                    last_message: null,
+                                    read_state: null,
                                     name: "パブリックタイムライン",
                                     status_string: "#",
                                 }}

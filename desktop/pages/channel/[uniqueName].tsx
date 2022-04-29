@@ -15,9 +15,10 @@ import { ThemeProvider } from "../../component/theme"
 import { swrFetchData } from "../../swr/channel/combined/page"
 
 export default ({ theme, query }) => {
-    const { isLoading, errors, channels, channel, channelGroups, messages } = swrFetchData({
-        uniqueName: query.uniqueName,
-    })
+    const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
+        swrFetchData({
+            uniqueName: query.uniqueName,
+        })
     if (isLoading) {
         return null
     }
@@ -47,7 +48,12 @@ export default ({ theme, query }) => {
                     pageContext={{
                         channel: {
                             object: channel,
-                            messages: messages,
+                            messages,
+                            parentChannelGroup,
+                        },
+                        initialDomainData: {
+                            channels,
+                            channelGroups: [],
                         },
                     }}>
                     <HeaderComponent />
@@ -55,9 +61,9 @@ export default ({ theme, query }) => {
                         <LogoSidebarComponent />
                         <AccountMenuSidebarComponent />
                         <ChannelGroupSidebarComponent
-                            activeChannel={channel}
-                            channels={channels}
-                            channelGroups={channelGroups}
+                            activeChannelId={channel.id}
+                            channelIds={channels.map((channel) => channel.id)}
+                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
                         />
                         <SidebarThemeComponent />
                     </SidebarComponent>

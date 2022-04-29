@@ -27,10 +27,10 @@ export const channelGroup = {
             parent_id: body.parentId,
         })
     },
-    listChannels: (id: number): Promise<Response> => {
-        return get("channel_group/list_channels", { id })
+    listChannels: (query: { id: number }): Promise<Response> => {
+        return get("channel_group/list_channels", query)
     },
-    listChannelGroupss: (id: number): Promise<Response> => {
-        return get("channel_group/list_channel_groups", { id })
+    listChannelGroupss: (query: { id: number }): Promise<Response> => {
+        return get("channel_group/list_channel_groups", query)
     },
 }

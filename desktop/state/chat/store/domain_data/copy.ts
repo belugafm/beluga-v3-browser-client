@@ -1,10 +1,24 @@
 import {
     ChannelGroupObjectT,
     ChannelObjectT,
+    ChannelReadStateObjectT,
     MessageObjectT,
     UserObjectT,
 } from "../../../../api/object"
 import { DomainDataT, ObjectMap, UserIdSet } from "../types/domain_data"
+
+function copyCHannelReadState(state: ChannelReadStateObjectT | null): ChannelReadStateObjectT {
+    if (state == null) {
+        return null
+    }
+    return {
+        id: state.id,
+        user_id: state.user_id,
+        channel_id: state.channel_id,
+        last_message_id: state.last_message_id,
+        last_message: copyMessage(state.last_message),
+    }
+}
 
 function copyMessage(message: MessageObjectT | null): MessageObjectT {
     if (message == null) {
@@ -19,18 +33,12 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
         text: message.text,
         created_at: message.created_at,
         updated_at: message.updated_at,
-        public: message.public,
-        edited: message.edited,
         deleted: message.deleted ? message.deleted : false,
-        favorited: message.favorited,
         entities: message.entities,
         reply_count: message.reply_count,
         like_count: message.like_count,
-        favorite: {
-            count: 0,
-            users: [],
-            user_ids: [],
-        },
+        favorite_count: message.favorite_count,
+        thread_id: message.thread_id,
     }
 }
 
@@ -50,7 +58,6 @@ function copyUser(user: UserObjectT | null): UserObjectT {
     }
     return {
         id: user.id,
-        twitter_user_id: user.twitter_user_id,
         name: user.name,
         display_name: user.display_name,
         profile_image_url: user.profile_image_url,
@@ -95,7 +102,9 @@ function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
         name: channel.name,
         created_at: channel.created_at,
         created_by: channel.created_by,
-        creator: copyUser(channel.creator),
+        last_message_id: channel.last_message_id,
+        last_message: copyMessage(channel.last_message),
+        read_state: copyCHannelReadState(channel.read_state),
         parent_channel_group_id: channel.parent_channel_group_id,
         parent_channel_group: copyChannelGroup(channel.parent_channel_group),
     }

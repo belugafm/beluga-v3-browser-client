@@ -11,7 +11,7 @@ type ReturnT = {
 
 export const swrListChannelsForChannelGroup = (id: number): ReturnT => {
     const { data, error } = useSWR(`channel_groups/list_channels/${id}`, () => {
-        return api.channelGroup.listChannels(id)
+        return api.channelGroup.listChannels({ id })
     })
     return {
         channels: data ? data.channels : null,

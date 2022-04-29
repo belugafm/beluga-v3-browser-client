@@ -6,7 +6,7 @@ import {
 } from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
-import { TooltipActionContext } from "../../../state/component/tooltip"
+import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import classNames from "classnames"
 import classnames from "classnames"
 import { useContext } from "react"
@@ -25,7 +25,7 @@ const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#6f767d",
-            hoverColor: "#1a1d1f",
+            hoverColor: "#090a0b",
             hoverBackgroundColor: "#f4f4f4",
         }
     }
@@ -39,20 +39,41 @@ const getStyle = (theme: Themes) => {
     throw new Error()
 }
 
+const checkUnread = (channel: ChannelObjectT) => {
+    if (channel.last_message == null) {
+        return false
+    }
+    if (channel.read_state == null) {
+        return false
+    }
+    if (channel.read_state.last_message == null) {
+        return false
+    }
+    if (
+        channel.last_message.created_at.getTime() >
+        channel.read_state.last_message.created_at.getTime()
+    ) {
+        return true
+    }
+    return false
+}
+
 const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active: boolean }) => {
     const [theme] = useTheme()
+    const unread = checkUnread(channel)
     return (
         <>
             <a
                 className={classnames("item", {
                     active,
+                    unread,
                 })}
                 href={`/channel/${channel.unique_name}`}>
                 <span className="status">{channel.status_string}</span>
                 <span className="name">{channel.name}</span>
             </a>
             <style jsx>{`
-                a {
+                .item {
                     position: relative;
                     display: flex;
                     align-items: center;
@@ -84,16 +105,19 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                 }
             `}</style>
             <style jsx>{`
-                a {
+                .item {
                     color: ${getStyle(theme)["color"]};
                 }
-                a:hover {
+                .item:hover {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
-                a.active {
+                .item.active {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                }
+                .item.unread {
+                    color: ${getStyle(theme)["hoverColor"]};
                 }
             `}</style>
         </>
@@ -169,17 +193,32 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
 }
 
 export const ChannelGroupSidebarComponent = ({
-    channels,
-    channelGroups,
-    activeChannel,
+    channelIds,
+    channelGroupIds,
+    activeChannelId,
 }: {
-    channels: ChannelObjectT[]
-    channelGroups: ChannelGroupObjectT[]
-    activeChannel?: ChannelObjectT
+    channelIds: number[]
+    channelGroupIds: number[]
+    activeChannelId?: number
 }) => {
     const [theme] = useTheme()
     const channelMenuModalAction = useContext(ChannelMenuModalActionContext)
     const isChannelMenuHidden = useContext(ChannelMenuModalStateContext)
+    const domainData = useContext(DomainDataContext)
+    const channels = []
+    for (const channelId of channelIds) {
+        const channel = domainData.channels.get(channelId)
+        if (channel) {
+            channels.push(channel)
+        }
+    }
+    const channelGroups = []
+    for (const channelGroupId of channelGroupIds) {
+        const channelGroup = domainData.channelGroups.get(channelGroupId)
+        if (channelGroup) {
+            channelGroups.push(channelGroup)
+        }
+    }
     const listItems: ListItemT[] = []
     channels.forEach((channel) => {
         listItems.push({
@@ -200,7 +239,7 @@ export const ChannelGroupSidebarComponent = ({
     for (let n = 0; n < listItems.length; n++) {
         const item = listItems[n]
         if (item.type == "channel") {
-            const active = activeChannel ? activeChannel.id == item.object.id : false
+            const active = activeChannelId ? activeChannelId == item.object.id : false
             listItemNodes.push(
                 <ChannelListItem key={n} active={active} channel={item.object as ChannelObjectT} />
             )

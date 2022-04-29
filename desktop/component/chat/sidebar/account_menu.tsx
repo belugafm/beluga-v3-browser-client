@@ -61,7 +61,7 @@ export const AccountMenuSidebarComponent = () => {
                     border-radius: 8px;
                     white-space: nowrap;
                     box-sizing: border-box;
-                    font-size: 15px;
+                    font-size: 16px;
                     font-weight: 500;
                     text-decoration: none;
                     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

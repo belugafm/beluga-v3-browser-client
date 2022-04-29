@@ -48,6 +48,11 @@ export async function fetch<T>(
     if (response.channel) {
         nextDomainData = normalize.channel(copy.channel(response.channel), nextDomainData)
     }
+    if (response.channels) {
+        response.channels.forEach((channel) => {
+            nextDomainData = normalize.channel(copy.channel(channel), nextDomainData)
+        })
+    }
 
     return [nextDomainData, response]
 }

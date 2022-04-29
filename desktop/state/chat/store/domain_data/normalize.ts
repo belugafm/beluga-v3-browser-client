@@ -75,6 +75,16 @@ export function normalizeChannel(
     if (channel == null) {
         return nextDomainData
     }
+    if (channel.last_message) {
+        // last_messageは不完全なのでnormalizeMessageはしない
+        channel.last_message.created_at = new Date(channel.last_message.created_at)
+    }
+    if (channel.read_state && channel.read_state.last_message) {
+        // last_messageは不完全なのでnormalizeMessageはしない
+        channel.read_state.last_message.created_at = new Date(
+            channel.read_state.last_message.created_at
+        )
+    }
     nextDomainData.channels.update(channel.id, channel)
     return nextDomainData
 }

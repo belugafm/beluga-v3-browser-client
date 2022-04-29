@@ -36,13 +36,13 @@ export const swrFetchData = (params: InputT): ReturnT => {
     const { data: res2, error: error2 } = useSWR(
         () => `${key}:${res1.channel_group.id}:channel_groups`,
         () => {
-            return api.channelGroup.listChannelGroupss(res1.channel_group.id)
+            return api.channelGroup.listChannelGroupss({ id: res1.channel_group.id })
         }
     )
     const { data: res3, error: error3 } = useSWR(
         () => `${key}:${res1.channel_group.id}:channels`,
         () => {
-            return api.channelGroup.listChannels(res1.channel_group.id)
+            return api.channelGroup.listChannels({ id: res1.channel_group.id })
         }
     )
     const { data: res4, error: error4 } = useSWR(

@@ -17,6 +17,7 @@ export type PageContextObjectT = {
     channel?: {
         object: ChannelObjectT
         messages: MessageObjectT[]
+        parentChannelGroup: ChannelGroupObjectT
     }
     channelGroup?: {
         object: ChannelGroupObjectT
@@ -25,6 +26,11 @@ export type PageContextObjectT = {
     thread?: {
         object: MessageObjectT
         messages: MessageObjectT[]
+        parentChannelGroup: ChannelGroupObjectT
+    }
+    initialDomainData: {
+        channels: ChannelObjectT[]
+        channelGroups: ChannelObjectT[]
     }
 }
 
@@ -83,6 +89,7 @@ function loadContentsFromLocalStorage(
                     },
                     context: {
                         channelId: pageContext.channel.object.id,
+                        channelGroupId: pageContext.channel.parentChannelGroup.id,
                     },
                     options: {
                         showMutedMessage: false,
@@ -294,13 +301,28 @@ function getInitialDomainDataObjects(
     pageContext: PageContextObjectT
 ): [MessageObjectT[], UserObjectT[], ChannelObjectT[], ChannelGroupObjectT[]] {
     if (pageContext.channel) {
-        return [pageContext.channel.messages, [], [pageContext.channel.object], []]
+        return [
+            pageContext.channel.messages,
+            [],
+            [pageContext.channel.object].concat(pageContext.initialDomainData.channels),
+            [pageContext.channel.parentChannelGroup],
+        ]
     }
     if (pageContext.channelGroup) {
-        return [pageContext.channelGroup.messages, [], [], [pageContext.channelGroup.object]]
+        return [
+            pageContext.channelGroup.messages,
+            [],
+            pageContext.initialDomainData.channels,
+            [pageContext.channelGroup.object],
+        ]
     }
     if (pageContext.thread) {
-        return [pageContext.channelGroup.messages.concat([pageContext.thread.object]), [], [], []]
+        return [
+            pageContext.channelGroup.messages.concat([pageContext.thread.object]),
+            [],
+            pageContext.initialDomainData.channels,
+            [],
+        ]
     }
     throw Error()
 }

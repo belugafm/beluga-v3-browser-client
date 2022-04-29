@@ -6,6 +6,8 @@ import {
 } from "../../../../api/object"
 import { Dispatch, SetStateAction } from "react"
 
+import deepEqual from "deep-equal"
+
 export type DomainDataT = {
     messages: ObjectMap<MessageObjectT>
     users: ObjectMap<UserObjectT>
@@ -24,6 +26,7 @@ export type DomainDataSetActionT = {
     setBlockedUserIds: Dispatch<SetStateAction<UserIdSet>>
 }
 
+// メッセージ
 function getUpdateTime(a: any): number {
     const { updated_at, last_activity_time } = a
     if (updated_at) {
@@ -33,6 +36,23 @@ function getUpdateTime(a: any): number {
         return last_activity_time
     }
     return -1
+}
+
+// チャンネル
+function readStateEquals(a: any, b: any): boolean {
+    if (a.read_state == null && b.read_state == null) {
+        return true
+    }
+    if (a.last_message == null && b.last_message == null) {
+        return true
+    }
+    if (a.last_messag_id !== b.last_message_id) {
+        return false
+    }
+    if (a.read_state.last_messag_id !== b.read_state.last_message_id) {
+        return false
+    }
+    return true
 }
 
 export class ObjectMap<T> {
@@ -61,6 +81,9 @@ export class ObjectMap<T> {
                     throw new Error()
                 }
                 if (getUpdateTime(a) !== getUpdateTime(b)) {
+                    throw new Error()
+                }
+                if (readStateEquals(a, b) == false) {
                     throw new Error()
                 }
                 // authUserの操作による更新を検出

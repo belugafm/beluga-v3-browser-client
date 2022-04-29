@@ -37,6 +37,7 @@ export type ChannelReadStateObjectT = {
     channel_id: number
     user_id: number
     last_message_id: number | null
+    last_message_created_at: number | null
     last_message: MessageObjectT | null
 }
 
@@ -52,6 +53,7 @@ export type ChannelObjectT = {
     description: string
     status_string: string
     last_message_id: number | null
+    last_message_created_at: number | null
     last_message: MessageObjectT | null
     read_state: ChannelReadStateObjectT | null
 }

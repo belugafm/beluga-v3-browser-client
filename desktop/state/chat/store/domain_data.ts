@@ -4,7 +4,16 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../api/object"
-import { DomainDataSetActionT, DomainDataT, ObjectMap, UserIdSet } from "./types/domain_data"
+import {
+    DomainDataSetActionT,
+    DomainDataT,
+    ObjectMap,
+    UserIdSet,
+    channelCompareFunction,
+    immutableCompareFunction,
+    messageCompareFunction,
+    userCompareFunction,
+} from "./types/domain_data"
 import copy, { copyDomainData } from "./domain_data/copy"
 import { createContext, useState } from "react"
 import normalize, {
@@ -68,10 +77,10 @@ function buildInitialDomainData(
         return _initialDomainData
     }
     let domainData: DomainDataT = {
-        messages: new ObjectMap<MessageObjectT>(),
-        users: new ObjectMap<UserObjectT>(),
-        channels: new ObjectMap<ChannelObjectT>(),
-        channelGroups: new ObjectMap<ChannelGroupObjectT>(),
+        messages: new ObjectMap<MessageObjectT>(messageCompareFunction),
+        users: new ObjectMap<UserObjectT>(userCompareFunction),
+        channels: new ObjectMap<ChannelObjectT>(channelCompareFunction),
+        channelGroups: new ObjectMap<ChannelGroupObjectT>(immutableCompareFunction),
         mutedUserIds: new UserIdSet(),
         blockedUserIds: new UserIdSet(),
     }

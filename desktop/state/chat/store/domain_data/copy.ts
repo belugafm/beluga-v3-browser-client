@@ -5,7 +5,15 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../../api/object"
-import { DomainDataT, ObjectMap, UserIdSet } from "../types/domain_data"
+import {
+    DomainDataT,
+    ObjectMap,
+    UserIdSet,
+    channelCompareFunction,
+    immutableCompareFunction,
+    messageCompareFunction,
+    userCompareFunction,
+} from "../types/domain_data"
 
 function copyCHannelReadState(state: ChannelReadStateObjectT | null): ChannelReadStateObjectT {
     if (state == null) {
@@ -16,6 +24,7 @@ function copyCHannelReadState(state: ChannelReadStateObjectT | null): ChannelRea
         user_id: state.user_id,
         channel_id: state.channel_id,
         last_message_id: state.last_message_id,
+        last_message_created_at: state.last_message_created_at,
         last_message: copyMessage(state.last_message),
     }
 }
@@ -43,7 +52,7 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
 }
 
 function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
-    const nextMessages = new ObjectMap<MessageObjectT>()
+    const nextMessages = new ObjectMap<MessageObjectT>(messageCompareFunction)
     prevMessages.data.forEach((message, messageId) => {
         // @ts-ignore
         nextMessages.set(messageId, copyMessage(message))
@@ -80,7 +89,7 @@ function copyUser(user: UserObjectT | null): UserObjectT {
 }
 
 function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
-    const nextUsers = new ObjectMap<UserObjectT>()
+    const nextUsers = new ObjectMap<UserObjectT>(userCompareFunction)
     prevUsers.data.forEach((user, userId) => {
         // @ts-ignore
         nextUsers.set(userId, copyUser(user))
@@ -103,6 +112,7 @@ function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
         created_at: channel.created_at,
         created_by: channel.created_by,
         last_message_id: channel.last_message_id,
+        last_message_created_at: channel.last_message_created_at,
         last_message: copyMessage(channel.last_message),
         read_state: copyCHannelReadState(channel.read_state),
         parent_channel_group_id: channel.parent_channel_group_id,
@@ -111,7 +121,7 @@ function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
 }
 
 function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
-    const nextChannels = new ObjectMap<ChannelObjectT>()
+    const nextChannels = new ObjectMap<ChannelObjectT>(channelCompareFunction)
     prevChannels.data.forEach((channel, channelId) => {
         // @ts-ignore
         nextChannels.set(channelId, copyChannel(channel))
@@ -138,7 +148,7 @@ function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGrou
 }
 
 function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjectT>) {
-    const nextChannelGroups = new ObjectMap<ChannelGroupObjectT>()
+    const nextChannelGroups = new ObjectMap<ChannelGroupObjectT>(immutableCompareFunction)
     prevChannelGroups.data.forEach((channelGroup, channelGroupId) => {
         // @ts-ignore
         nextChannelGroups.set(channelGroupId, copyChannelGroup(channelGroup))

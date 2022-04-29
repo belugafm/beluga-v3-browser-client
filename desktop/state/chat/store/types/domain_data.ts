@@ -1,6 +1,7 @@
 import {
     ChannelGroupObjectT,
     ChannelObjectT,
+    ChannelReadStateObjectT,
     MessageObjectT,
     UserObjectT,
 } from "../../../../api/object"
@@ -46,19 +47,54 @@ function readStateEquals(a: any, b: any): boolean {
     if (a.last_message == null && b.last_message == null) {
         return true
     }
-    if (a.last_messag_id !== b.last_message_id) {
+    if (a.last_message_id !== b.last_message_id) {
         return false
     }
-    if (a.read_state.last_messag_id !== b.read_state.last_message_id) {
+    if (a.read_state.last_message_id !== b.read_state.last_message_id) {
         return false
     }
     return true
+}
+
+export function immutableCompareFunction<T>(a: T, b: T): boolean {
+    return true
+}
+
+export function messageCompareFunction<T extends MessageObjectT>(a: T, b: T): boolean {
+    return getUpdateTime(a) === getUpdateTime(b)
+}
+
+export function userCompareFunction<T extends UserObjectT>(a: T, b: T): boolean {
+    return true
+}
+
+export function channelCompareFunction<T extends ChannelObjectT>(a: T, b: T): boolean {
+    if (a.last_message_id !== b.last_message_id) {
+        return false
+    }
+    if (a.read_state == null && b.read_state == null) {
+        return true
+    }
+    if (a.read_state == null && b.read_state != null) {
+        return false
+    }
+    if (a.read_state != null && b.read_state == null) {
+        return false
+    }
+    if (a.read_state.last_message_id === b.read_state.last_message_id) {
+        return true
+    }
+    return false
 }
 
 export class ObjectMap<T> {
     data: Map<number, T> = new Map()
     lastModified: number = Date.now()
     updatedKeys: Set<number> = new Set()
+    compareFunction: (a: T, b: T) => boolean
+    constructor(compareFunction: (a: T, b: T) => boolean) {
+        this.compareFunction = compareFunction
+    }
     get(key: number): T | null {
         return this.data.get(key)
     }
@@ -80,12 +116,15 @@ export class ObjectMap<T> {
                 if (b == null) {
                     throw new Error()
                 }
-                if (getUpdateTime(a) !== getUpdateTime(b)) {
+                if (this.compareFunction(a, b) == false) {
                     throw new Error()
                 }
-                if (readStateEquals(a, b) == false) {
-                    throw new Error()
-                }
+                // if (getUpdateTime(a) !== getUpdateTime(b)) {
+                //     throw new Error()
+                // }
+                // if (readStateEquals(a, b) == false) {
+                //     throw new Error()
+                // }
                 // authUserの操作による更新を検出
                 // if (a.muted !== b.muted) {
                 //     throw new Error()

@@ -81,7 +81,6 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                     height: 36px;
                     padding: 0 12px;
                     border-radius: 8px;
-                    white-space: nowrap;
                     box-sizing: border-box;
                     font-size: 16px;
                     text-decoration: none;
@@ -90,6 +89,7 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                     transition: 0.05s;
                     overflow: hidden;
                     white-space: nowrap;
+                    font-weight: 400;
                 }
                 .status {
                     width: 24px;
@@ -115,9 +115,11 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                 .item.active {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    font-weight: 500;
                 }
                 .item.unread {
                     color: ${getStyle(theme)["hoverColor"]};
+                    font-weight: 500;
                 }
             `}</style>
         </>
@@ -154,6 +156,7 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
                     background-color: transparent;
                     transition: 0.05s;
                     overflow: hidden;
+                    font-weight: 400;
                 }
                 .icon {
                     width: 20px;
@@ -273,9 +276,6 @@ export const ChannelGroupSidebarComponent = ({
             </div>
             <div className="list sidebar-channel-group-list">{listItemNodes}</div>
             <style jsx>{`
-                .item {
-                    font-weight: 500;
-                }
                 .header {
                     height: 40px;
                     font-size: 16px;

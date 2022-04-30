@@ -66,9 +66,9 @@ export const AccountMenuSidebarComponent = () => {
                     text-decoration: none;
                     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                     background-color: transparent;
-                    transition: 0.1s;
+                    transition: 0.05s;
                     overflow: hidden;
-                    white-space: nowrap;
+                    font-weight: 400;
                 }
                 .icon {
                     width: 20px;
@@ -76,7 +76,6 @@ export const AccountMenuSidebarComponent = () => {
                     text-align: center;
                     margin-right: 12px;
                     flex-shrink: 0;
-                    transition: 0.2s;
                     stroke-width: 0.5px;
                 }
                 .name {

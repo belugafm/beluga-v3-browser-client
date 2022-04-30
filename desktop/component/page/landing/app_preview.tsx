@@ -39,19 +39,15 @@ const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
                     position: relative;
                     display: flex;
                     align-items: center;
-                    width: 100%;
                     height: 36px;
                     padding: 0 12px 0 8px;
                     border-radius: 8px;
-                    white-space: nowrap;
                     box-sizing: border-box;
                     font-size: 16px;
                     text-decoration: none;
                     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                     background-color: transparent;
                     transition: 0.05s;
-                    overflow: hidden;
-                    white-space: nowrap;
                     cursor: pointer;
                     font-weight: 500;
                 }
@@ -60,9 +56,10 @@ const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
                     height: 24px;
                     text-align: center;
                     padding-right: 6px;
-                    flex-shrink: 0;
+                    flex: 0 0 24px;
                 }
                 .name {
+                    flex: 0 1 auto;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -255,13 +252,14 @@ export const AppPreviewComponent = (props: {
                     display: none;
                 }
                 .sidebar-block {
-                    flex: 1 1 30%;
+                    flex: 0 1 30%;
                     background-color: white;
                     padding: 8px;
                     box-sizing: border-box;
                     border: 3px solid transparent;
                     transition: border-color 0.1s;
                     border-radius: 10px 0 0 10px;
+                    min-width: 0;
                 }
                 .sidebar-block:hover {
                     border-color: #ff6b81;

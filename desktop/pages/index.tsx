@@ -221,12 +221,12 @@ export default () => {
                     box-sizing: border-box;
                 }
                 .app-container {
-                    width: 800px;
                     height: 100%;
                     max-height: 1000px;
                     border-radius: 12px;
                     padding: 40px 6px 6px 6px;
                     flex: 0 1 auto;
+                    min-width: 0;
                     box-sizing: border-box;
                     background-color: rgba(255, 255, 255, 0.5);
                     background: linear-gradient(

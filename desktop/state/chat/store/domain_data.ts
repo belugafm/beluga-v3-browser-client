@@ -4,16 +4,15 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../api/object"
+import { DomainDataSetActionT, DomainDataT } from "./types/domain_data"
 import {
-    DomainDataSetActionT,
-    DomainDataT,
     ObjectMap,
     UserIdSet,
     channelCompareFunction,
     immutableCompareFunction,
     messageCompareFunction,
     userCompareFunction,
-} from "./types/domain_data"
+} from "./domain_data/data"
 import copy, { copyDomainData } from "./domain_data/copy"
 import { createContext, useState } from "react"
 import normalize, {

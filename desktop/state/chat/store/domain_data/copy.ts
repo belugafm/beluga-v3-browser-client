@@ -6,14 +6,15 @@ import {
     UserObjectT,
 } from "../../../../api/object"
 import {
-    DomainDataT,
     ObjectMap,
     UserIdSet,
     channelCompareFunction,
     immutableCompareFunction,
     messageCompareFunction,
     userCompareFunction,
-} from "../types/domain_data"
+} from "../domain_data/data"
+
+import { DomainDataT } from "../types/domain_data"
 
 function copyCHannelReadState(state: ChannelReadStateObjectT | null): ChannelReadStateObjectT {
     if (state == null) {

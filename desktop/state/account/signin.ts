@@ -69,6 +69,7 @@ export const useSigninFormState = (userNamePlaceholder: string) => {
                 hint: [],
                 value: passwordField.value,
             })
+            location.href = "/welcome"
         } else {
             handleError(response)
         }

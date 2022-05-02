@@ -299,12 +299,14 @@ function deserializeEditorState(
     return [nodeMap, cursor]
 }
 
-function restorePlainText(nodes: MessageEntityStyleNode[]) {
+function restorePlainText(nodes: MessageEntityStyleNode[], depth = 0) {
     if (nodes.length == 0) {
         return ""
     }
+    console.group("restorePlainText")
     let text = ""
     nodes.forEach((node, k) => {
+        console.log(node)
         if (node.children.length == 0) {
             if (node.type == "text") {
                 text += node.text
@@ -315,9 +317,15 @@ function restorePlainText(nodes: MessageEntityStyleNode[]) {
                 return
             }
         } else {
-            text += restorePlainText(node.children)
+            text += restorePlainText(node.children, depth + 1)
         }
     })
+    console.groupEnd()
+    if (depth == 0) {
+        if (text[text.length - 1] == "\n") {
+            return text.slice(0, text.length - 1)
+        }
+    }
     return text
 }
 
@@ -399,7 +407,7 @@ export const SendButtonComponent = ({
         const [textStyleMap] = deserializeEditorState(lexical.$getRoot(), 0, false)
         const plainText = restorePlainText(textStyleMap)
         const payload = removeTextKey(textStyleMap)
-        console.log(plainText)
+        console.log(`'${plainText}'`)
         console.log(textStyleMap)
         console.log(payload)
         setTextStyle(payload)

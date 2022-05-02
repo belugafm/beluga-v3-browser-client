@@ -133,6 +133,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                 setSelectedElementKey(elementKey)
                 if ($isListNode(element)) {
                     const parentList = $getNearestNodeOfType(anchorNode, ListNode)
+                    // @ts-ignore
                     const type = parentList ? parentList.getTag() : element.getTag()
                     setBlockType(type)
                 } else {
@@ -170,6 +171,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             editor.registerCommand(
                 CAN_UNDO_COMMAND,
                 (payload) => {
+                    // @ts-ignore
                     setCanUndo(payload)
                     return false
                 },
@@ -178,6 +180,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             editor.registerCommand(
                 CAN_REDO_COMMAND,
                 (payload) => {
+                    // @ts-ignore
                     setCanRedo(payload)
                     return false
                 },
@@ -214,6 +217,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                 onMouseEnter={(e) => tooltipAction.show(e, "戻す")}
                 onMouseLeave={() => tooltipAction.hide()}
                 onClick={() => {
+                    // @ts-ignore
                     editor.dispatchCommand(UNDO_COMMAND)
                 }}>
                 <svg className="icon">
@@ -228,6 +232,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                 onMouseEnter={(e) => tooltipAction.show(e, "やり直す")}
                 onMouseLeave={() => tooltipAction.hide()}
                 onClick={() => {
+                    // @ts-ignore
                     editor.dispatchCommand(REDO_COMMAND)
                 }}>
                 <svg className="icon">

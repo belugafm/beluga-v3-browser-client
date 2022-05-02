@@ -33,6 +33,7 @@ export default React.memo(
                     message: message,
                 }
             }),
+            style: [],
         }
         return (
             <AttributedTextComponent

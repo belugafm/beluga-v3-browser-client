@@ -2,11 +2,9 @@ import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
 import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
-    useChannelMenuModalState,
 } from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
-import { Divider } from "./divider"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import classNames from "classnames"
 import classnames from "classnames"

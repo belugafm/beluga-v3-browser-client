@@ -5,22 +5,23 @@ import {
 } from "../../../api/object"
 
 import { CommonPropsT } from "./types"
+import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { Themes } from "../../theme"
 import classNames from "classnames"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 
-export const sliceText = (text: string, node: MessageEntityStyleNode) => {
+export const sliceText = (textGraphemes: string[], node: MessageEntityStyleNode) => {
     if (node.indices.length == 0) {
         return ""
     }
     const start = node.indices[0]
     const end = node.indices[1] + 1
-    return text.slice(start, end)
+    return textGraphemes.slice(start, end).join("")
 }
 
-export const getCodeContent = (text: string, codeNode: MessageEntityStyleNode) => {
+export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode) => {
     if (codeNode.children.length == 0) {
         return ""
     }
@@ -93,7 +94,11 @@ const hasFormat = (nodeFormat: number, styleFormat: number) => {
     return (nodeFormat & styleFormat) !== 0
 }
 
-export const styledNodeToDOM = (text: string, node: MessageEntityStyleNode, theme: Themes) => {
+export const styledNodeToDOM = (
+    textGraphemes: string[],
+    node: MessageEntityStyleNode,
+    theme: Themes
+) => {
     if (node.type == "text") {
         if (node.style) {
             let textDecoration = ""
@@ -115,7 +120,7 @@ export const styledNodeToDOM = (text: string, node: MessageEntityStyleNode, them
                         className={classNames({
                             code: hasFormat(node.style.format, MessageEntityStyleFormat.IS_CODE),
                         })}>
-                        {sliceText(text, node)}
+                        {sliceText(textGraphemes, node)}
                     </span>
                     <style jsx>{`
                         span {
@@ -135,11 +140,11 @@ export const styledNodeToDOM = (text: string, node: MessageEntityStyleNode, them
                 </>
             )
         } else {
-            return <span>{sliceText(text, node)}</span>
+            return <span>{sliceText(textGraphemes, node)}</span>
         }
     }
     const inner = node.children.map((child) => {
-        return styledNodeToDOM(text, child, theme)
+        return styledNodeToDOM(textGraphemes, child, theme)
     })
     if (node.type == "paragraph") {
         return (
@@ -235,7 +240,7 @@ export const styledNodeToDOM = (text: string, node: MessageEntityStyleNode, them
                         color: getStyleForSyntaxHighlighting(theme)["lineNumberColor"],
                     }}
                     showLineNumbers>
-                    {getCodeContent(text, node)}
+                    {getCodeContent(textGraphemes, node)}
                 </SyntaxHighlighter>
                 <style jsx global>{`
                     .__global-message-text-syntax-highlight > pre {
@@ -287,10 +292,10 @@ export const StyledTextComponent = ({
     entities: MessageObjectT["entities"]
     theme: Themes
 }) => {
-    console.log(entities.style)
+    const textGraphemes = new GraphemeSplitter().splitGraphemes(text)
     const domList = []
     entities.style.forEach((node: MessageEntityStyleNode) => {
-        domList.push(styledNodeToDOM(text, node, theme))
+        domList.push(styledNodeToDOM(textGraphemes, node, theme))
     })
     return (
         <>

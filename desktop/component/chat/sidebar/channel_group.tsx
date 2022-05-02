@@ -6,6 +6,7 @@ import {
 } from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
+import { Divider } from "./divider"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import classNames from "classnames"
 import classnames from "classnames"
@@ -259,10 +260,7 @@ export const ChannelGroupSidebarComponent = ({
                 "show-toggle-channel-menu": isChannelMenuHidden == false,
             })}>
             <div className="header">
-                <svg className="icon-down">
-                    <use href="#icon-direction-down-solid"></use>
-                </svg>
-                <span className="label">チャンネル</span>
+                <span className="label">チャンネル一覧</span>
                 <button
                     className="toggle-channel-menu"
                     onClick={(e) => {
@@ -279,6 +277,7 @@ export const ChannelGroupSidebarComponent = ({
                 .header {
                     height: 40px;
                     font-size: 16px;
+                    padding-left: 4px;
                     display: flex;
                     flex-direction: row;
                     align-items: center;

@@ -47,12 +47,12 @@ const getStyleForEditorButton = (theme: Themes) => {
 const getStyleForDivider = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            color: "#dcdcdc",
+            backgroundColor: "#dcdcdc",
         }
     }
     if (theme.global.current.dark) {
         return {
-            color: "#2f363c",
+            backgroundColor: "#2f363c",
         }
     }
     throw new Error()
@@ -97,7 +97,7 @@ function Divider({ theme }: { theme: Themes }) {
                 .divider {
                     width: 1px;
                     margin: 8px 6px;
-                    background-color: ${getStyleForDivider(theme)["color"]};
+                    background-color: ${getStyleForDivider(theme)["backgroundColor"]};
                 }
             `}</style>
         </>

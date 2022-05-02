@@ -2,39 +2,35 @@ import * as fetch from "../fetch"
 
 import { Response, UnexpectedResponseError, get } from "../fetch"
 
-export async function post(query: {
-    text: string
-    channelId?: number
-    threadId?: number
-}): Promise<Response> {
-    const responce = await fetch.post("message/post", {
-        text: query.text,
-        channel_id: query.channelId,
-        thread_id: query.threadId,
-    })
-    if (responce.message == null) {
-        throw new UnexpectedResponseError()
-    }
-    return responce
-}
-
-async function del(query: { messageId: number }): Promise<Response> {
-    return await fetch.post("message/delete", {
-        id: query.messageId,
-    })
-}
-
-async function show(query: { messageId: number }): Promise<Response> {
-    try {
-        const response = await get("message/show", {
+export const message = {
+    post: async (query: {
+        text: string
+        textStyle?: string
+        channelId?: number
+        threadId?: number
+    }): Promise<Response> => {
+        const responce = await fetch.post("message/post", {
+            text: query.text,
+            text_style: query.textStyle,
+            channel_id: query.channelId,
+            thread_id: query.threadId,
+        })
+        if (responce.message == null) {
+            throw new UnexpectedResponseError()
+        }
+        return responce
+    },
+    delete: async (query: { messageId: number }): Promise<Response> => {
+        return await fetch.post("message/delete", {
             id: query.messageId,
         })
-        return response
-    } catch (error) {}
-}
-
-export const message = {
-    show,
-    post,
-    delete: del,
+    },
+    show: async (query: { messageId: number }): Promise<Response> => {
+        try {
+            const response = await get("message/show", {
+                id: query.messageId,
+            })
+            return response
+        } catch (error) {}
+    },
 }

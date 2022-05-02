@@ -294,6 +294,7 @@ export const ChannelGroupSidebarComponent = ({
                 }
                 .label {
                     flex: 1 1 auto;
+                    font-weight: 500;
                 }
                 .toggle-channel-menu {
                     background: none;

@@ -2,6 +2,7 @@ import {
     ChannelGroupObjectT,
     ChannelObjectT,
     ChannelReadStateObjectT,
+    MessageEntityStyleNode,
     MessageObjectT,
     UserObjectT,
 } from "../../../../api/object"
@@ -30,6 +31,59 @@ function copyCHannelReadState(state: ChannelReadStateObjectT | null): ChannelRea
     }
 }
 
+function copyMessageEntityStyles(nodes: MessageEntityStyleNode[]) {
+    if (nodes.length == 0) {
+        return []
+    }
+    return nodes.map((node) => {
+        return {
+            children: copyMessageEntityStyles(node.children),
+            type: node.type,
+            style: node.style
+                ? {
+                      format: node.style.format,
+                      color: node.style.color,
+                  }
+                : null,
+            indices: [...node.indices],
+            text: node.text,
+        } as MessageEntityStyleNode
+    })
+}
+
+function copyMessageEntities(
+    sourceEntities: MessageObjectT["entities"]
+): MessageObjectT["entities"] {
+    const entities: MessageObjectT["entities"] = {
+        channel_groups: [],
+        channels: [],
+        messages: [],
+        style: copyMessageEntityStyles(sourceEntities.style),
+    }
+    sourceEntities.channel_groups.forEach((sourceEntity) => {
+        entities.channel_groups.push({
+            channel_group_id: sourceEntity.channel_group_id,
+            channel_group: copyChannelGroup(sourceEntity.channel_group),
+            indices: [...sourceEntity.indices],
+        })
+    })
+    sourceEntities.channels.forEach((sourceEntity) => {
+        entities.channels.push({
+            channel_id: sourceEntity.channel_id,
+            channel: copyChannel(sourceEntity.channel),
+            indices: [...sourceEntity.indices],
+        })
+    })
+    sourceEntities.messages.forEach((sourceEntity) => {
+        entities.messages.push({
+            message_id: sourceEntity.message_id,
+            message: copyMessage(sourceEntity.message),
+            indices: [...sourceEntity.indices],
+        })
+    })
+    return entities
+}
+
 function copyMessage(message: MessageObjectT | null): MessageObjectT {
     if (message == null) {
         return null
@@ -44,7 +98,7 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
         created_at: message.created_at,
         updated_at: message.updated_at,
         deleted: message.deleted ? message.deleted : false,
-        entities: message.entities,
+        entities: copyMessageEntities(message.entities),
         reply_count: message.reply_count,
         like_count: message.like_count,
         favorite_count: message.favorite_count,

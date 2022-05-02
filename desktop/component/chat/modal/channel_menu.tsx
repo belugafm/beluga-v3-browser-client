@@ -42,7 +42,7 @@ export const ChannelMenuModalComponent = ({
     theme: Themes
     channelGroupId: number
 }) => {
-    console.info("ChannelMenuModalComponent::render")
+    console.debug("ChannelMenuModalComponent::render")
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {
         // @ts-ignore
         if (event.target.className.indexOf("hide-modal-on-click") >= 0) {
@@ -92,7 +92,7 @@ export const ChannelMenuModalComponent = ({
                     border-radius: 12px;
                     box-sizing: border-box;
                     border: 1px solid;
-                    padding: 8px 12px;
+                    padding: 6px 10px;
                 }
                 a {
                     display: block;

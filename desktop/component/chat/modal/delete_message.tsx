@@ -233,7 +233,7 @@ export const DeleteMessageModalComponent = ({
     deleteMessage: (message: MessageObjectT) => void
     theme: Themes
 }) => {
-    console.info("DeleteMessageModalComponent::render")
+    console.debug("DeleteMessageModalComponent::render")
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
         // @ts-ignore

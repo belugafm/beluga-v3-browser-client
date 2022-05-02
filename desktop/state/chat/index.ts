@@ -68,7 +68,7 @@ export const useStore = (
     appState: AppStateT
     reducers: AsyncReducersT
 } => {
-    console.info("useChatState")
+    console.debug("useChatState")
     let [store, reducers] = storeProvider.use(pageContext)
     const { loggedInUser } = swrShowLoggedInUser()
 

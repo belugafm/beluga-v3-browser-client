@@ -47,7 +47,7 @@ export type AttributedTextCallbacks = {
 
 export const AttributedTextComponent = React.memo(
     ({ text, entities, options, callbacks }: Props) => {
-        console.info("AttributedTextComponent::render")
+        console.debug("AttributedTextComponent::render")
         const sequence = splitTextIntoAtributedTextSequence(text, entities)
         const rpn = convertAttributedTextSequenceToRPN(sequence)
         const components = []

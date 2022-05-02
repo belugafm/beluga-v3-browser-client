@@ -100,7 +100,7 @@ function removeContentFactory(
 export const useAppState = (
     initialContents: ContentStateT[][]
 ): [AppStateT, AppStateSetActionT] => {
-    console.info("useChatAppState")
+    console.debug("useChatAppState")
     const [contents, setContents] = useState<AppStateT["contents"]>(initialContents)
     return [
         {

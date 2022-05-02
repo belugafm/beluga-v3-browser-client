@@ -3,7 +3,7 @@ import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import React from "react"
 
 export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentStateT[] }) => {
-    console.info("ContentColumnComponent::render")
+    console.debug("ContentColumnComponent::render")
     return (
         <div className="container">
             <div className="rows">

@@ -69,23 +69,23 @@ class WebSocketState {
         this.removeAllEventListeners()
         this.ws = new WebSocket(this.uri)
         this.addEventListener("open", (event) => {
-            console.info("open websocket")
+            console.debug("open websocket")
         })
         this.addEventListener("close", (event) => {
-            console.info("close websocket", event)
+            console.debug("close websocket", event)
             setTimeout(() => {
                 this.connect()
             }, 2000)
         })
         this.addEventListener("error", (event) => {
-            console.info("error websocket", event)
+            console.debug("error websocket", event)
             this.ws.close()
         })
         this.addEventListener("message", (event) => {
             try {
                 // const data: WebsocketMessage = JSON.parse(event.data)
-                // console.info("websocket")
-                // console.info(data)
+                // console.debug("websocket")
+                // console.debug(data)
                 // if (data.model === "status") {
                 //     const status_id = data.document_id
                 //     if (data.operation === "delete") {

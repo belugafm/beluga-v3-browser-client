@@ -11,6 +11,7 @@ import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
+import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
@@ -236,7 +237,7 @@ const EmptyContentComponent = () => {
 }
 
 export const ContentComponent = ({ content }: { content: ContentStateT }) => {
-    console.info("ContentComponent::render")
+    console.debug("ContentComponent::render")
     const domainData = useContext(DomainDataContext)
     const messageAction = useContext(MessageActionContext)
     const contentAction = useContext(ContentActionContext)
@@ -273,8 +274,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     isConsecutivePost={consectivePostChecker.check(message)}
                     zIndex={n}
                     theme={theme}>
-                    <BodyComponent
-                        key={messageId}
+                    <TextComponent
                         message={message}
                         messageAction={messageAction}
                         contentAction={contentAction}

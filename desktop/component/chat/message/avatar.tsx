@@ -76,7 +76,7 @@ const DefaultAvatarComponent = ({ user }: PropsT) => {
 export const MessageAvatarComponent = React.memo(
     (props: PropsT) => {
         const { user } = props
-        console.info("MessageAvatarComponent::render", user.id, user.profile_image_url)
+        console.debug("MessageAvatarComponent::render", user.id, user.profile_image_url)
         if (user.profile_image_url == null) {
             return <DefaultAvatarComponent user={user} />
         }

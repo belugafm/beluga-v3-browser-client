@@ -355,7 +355,6 @@ export class StoreProvider {
                         resolve(response)
                     } catch (error) {
                         console.error(error)
-                        alert(error)
                     }
                     resolve(null)
                 })
@@ -377,7 +376,6 @@ export class StoreProvider {
                     }
                 } catch (error) {
                     console.error(error)
-                    alert(error)
                 }
             })
         }

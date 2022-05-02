@@ -5,7 +5,6 @@ import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../../api
 
 import { ContentActionContext } from "../store/app_state/action"
 import { ContentStateT } from "../store/types/app_state"
-import { EditorState } from "draft-js"
 import { ReducerContext } from "../store/types/reducer"
 import { useContext } from "react"
 
@@ -15,17 +14,17 @@ export const usePostboxState = ({
 }: {
     query: Record<string, any>
     content: ContentStateT
-    editorState: EditorState
 }) => {
     const { reducer } = useContext(ReducerContext)
     const contentAction = useContext(ContentActionContext)
 
-    const post = async (text: string) => {
+    const post = async (text: string, textStyleJson: string) => {
         try {
             return await reducer(
                 reducers.domainData.message.post,
                 Object.assign({}, query, {
                     text: text,
+                    textStyle: textStyleJson,
                 })
             )
         } catch (error) {
@@ -36,8 +35,8 @@ export const usePostboxState = ({
         }
     }
 
-    const handlePostMessage = async (text: string) => {
-        const response = await post(text)
+    const handlePostMessage = async (text: string, textStyleJson: string) => {
+        const response = await post(text, textStyleJson)
         if (response.ok) {
             contentAction.content.loadLatestMessagesIfNeeded(content)
             return true

@@ -40,8 +40,8 @@ export const AccountMenuSidebarComponent = () => {
                     <span className="name">スレッド</span>
                 </a>
                 <a href="">
-                    <svg className="icon">
-                        <use href="#icon-sent-fast"></use>
+                    <svg className="icon at">
+                        <use href="#icon-at"></use>
                     </svg>
                     <span className="name">通知</span>
                 </a>
@@ -77,6 +77,9 @@ export const AccountMenuSidebarComponent = () => {
                     margin-right: 12px;
                     flex-shrink: 0;
                     stroke-width: 0.5px;
+                }
+                .icon.at {
+                    stroke-width: 0;
                 }
                 .name {
                     overflow: hidden;

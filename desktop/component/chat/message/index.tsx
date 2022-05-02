@@ -26,7 +26,7 @@ const getStyle = (theme: Themes) => {
 
 export const MessageComponent = React.memo(
     (props: CommonPropsT & { zIndex: number; children: any }) => {
-        console.info("MessageComponent::render", props.message.id)
+        console.debug("MessageComponent::render", props.message.id)
         const { message } = props
         if (message.deleted) {
             return null

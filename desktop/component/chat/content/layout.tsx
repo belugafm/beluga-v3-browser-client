@@ -4,7 +4,7 @@ import { AppStateContext } from "../../../state/chat/store/app_state"
 import { ContentColumnComponent } from "./column"
 
 export const ContentGridComponent = () => {
-    console.info("ContentGridComponent::render")
+    console.debug("ContentGridComponent::render")
     const appState = useContext(AppStateContext)
     return (
         <>

@@ -58,6 +58,28 @@ export type ChannelObjectT = {
     read_state: ChannelReadStateObjectT | null
 }
 
+export const MessageEntityStyleFormat = {
+    IS_BOLD: 1,
+    IS_ITALIC: 1 << 1,
+    IS_STRIKETHROUGH: 1 << 2,
+    IS_UNDERLINE: 1 << 3,
+    IS_CODE: 1 << 4,
+    IS_SUBSCRIPT: 1 << 5,
+    IS_SUPERSCRIPT: 1 << 6,
+} as const
+
+export type MessageEntityStyleNode = {
+    children: MessageEntityStyleNode[]
+    type: string
+    style: {
+        format: number
+        color: string | null
+    } | null
+    indices: number[]
+    text?: string
+    language?: string
+}
+
 export type MessageObjectT = {
     id: number
     channel_id: number
@@ -88,5 +110,6 @@ export type MessageObjectT = {
             message: MessageObjectT | null
             indices: [number, number]
         }[]
+        style: MessageEntityStyleNode[]
     }
 }

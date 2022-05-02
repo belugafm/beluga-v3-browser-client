@@ -1,12 +1,28 @@
-import { Editor, EditorState } from "draft-js"
-import React, { useContext, useRef, useState } from "react"
-import { Themes, useTheme } from "../theme"
+import { CodeHighlightNode, CodeNode } from "@lexical/code"
+import { HeadingNode, QuoteNode } from "@lexical/rich-text"
+import { ListItemNode, ListNode } from "@lexical/list"
+import React, { useState } from "react"
+import { Themes, useTheme } from "../../theme"
 
-import { ContentStateT } from "../../state/chat/store/types/app_state"
-import { DomainDataContext } from "../../state/chat/store/domain_data"
-import { TooltipActionT } from "../../state/component/tooltip"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import { EditorComponent } from "./editor"
+import ExampleTheme from "./themes/ExampleTheme"
+import LexicalComposer from "@lexical/react/LexicalComposer"
+import { SendButtonComponent } from "./send_button"
+import { TooltipActionT } from "../../../state/component/tooltip"
 import classNames from "classnames"
-import { usePostboxState } from "../../state/chat/components/postbox"
+import { usePostboxState } from "../../../state/chat/components/postbox"
+
+const editorConfig = {
+    // The editor theme
+    theme: ExampleTheme,
+    // Handling of errors during update
+    onError(error) {
+        throw error
+    },
+    // Any custom nodes go here
+    nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, CodeHighlightNode],
+}
 
 const getStyleForTextarea = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -52,39 +68,6 @@ const getStyleForEditorButton = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForSendButton = (theme: Themes) => {
-    if (theme.global.current.light) {
-        return {
-            fill: "#1a1d1f",
-            hoverFill: "#fff",
-            backgroundColor: "#f4f4f4",
-            hoverBackgroundColor: "#0069f6",
-            focusBackgroundColor: "#2a85ff",
-        }
-    }
-    if (theme.global.current.dark) {
-        return {
-            fill: "#616d78",
-            hoverFill: "#fff",
-            backgroundColor: "#191c1f",
-            hoverBackgroundColor: "#0069f6",
-            focusBackgroundColor: "#2a85ff",
-        }
-    }
-    throw new Error()
-}
-
-const getPlaceholderText = (content: ContentStateT) => {
-    const domainData = useContext(DomainDataContext)
-    if (content.context.channelId) {
-        const channel = domainData.channels.get(content.context.channelId)
-        if (channel) {
-            return `${channel.status_string}${channel.name} へのメッセージを入力`
-        }
-    }
-    return ""
-}
-
 export const PostboxComponent = ({
     content,
     tooltipAction,
@@ -93,89 +76,22 @@ export const PostboxComponent = ({
     tooltipAction: TooltipActionT
 }) => {
     const [theme] = useTheme()
-    // const textarea = useRef(null)
-    // const handleClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    //     event.preventDefault()
-    //     await updateStatus()
-    //     textarea.current.focus()
-    // }
-    const [editorState, setEditorState] = useState<EditorState>(() => EditorState.createEmpty())
-    const editor = useRef(null)
-    function focusEditor() {
-        editor.current.focus()
-    }
     const { handlePostMessage } = usePostboxState({
         query: content.postbox.query,
         content,
-        editorState,
     })
     const [isTextAttributeBlockHidden, setIsTextAttributeBlockHidden] = useState(true)
     if (content.postbox.enabled == false) {
         return null
     }
     return (
-        <>
+        <LexicalComposer initialConfig={editorConfig}>
             <div className="postbox-container">
                 <div className="postbox">
-                    <div
-                        className={classNames("text-attribute-block", {
-                            hidden: isTextAttributeBlockHidden,
-                        })}>
-                        <button
-                            className="editor-button bold"
-                            onMouseEnter={(e) => tooltipAction.show(e, "太字")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-bold"></use>
-                            </svg>
-                        </button>
-                        <button
-                            className="editor-button italic"
-                            onMouseEnter={(e) => tooltipAction.show(e, "イタリック体")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-italic"></use>
-                            </svg>
-                        </button>
-                        <button
-                            className="editor-button strikethrough"
-                            onMouseEnter={(e) => tooltipAction.show(e, "打ち消し線")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-strikethrough"></use>
-                            </svg>
-                        </button>
-                        <button
-                            className="editor-button underline"
-                            onMouseEnter={(e) => tooltipAction.show(e, "下線")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-underline"></use>
-                            </svg>
-                        </button>
-                        <button
-                            className="editor-button code"
-                            onMouseEnter={(e) => tooltipAction.show(e, "コードブロック")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-code"></use>
-                            </svg>
-                        </button>
-                        <button
-                            className="editor-button palette"
-                            onMouseEnter={(e) => tooltipAction.show(e, "文字色")}
-                            onMouseLeave={() => tooltipAction.hide()}>
-                            <svg className="icon">
-                                <use href="#icon-editor-palette"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="textarea-block" onClick={focusEditor}>
-                        <Editor
-                            ref={editor}
-                            editorState={editorState}
-                            onChange={setEditorState}
-                            placeholder={getPlaceholderText(content)}
+                    <div className="textarea-block">
+                        <EditorComponent
+                            content={content}
+                            isTextAttributeBlockHidden={isTextAttributeBlockHidden}
                         />
                     </div>
                     <div className="editor-block">
@@ -211,41 +127,19 @@ export const PostboxComponent = ({
                             </button>
                         </div>
                         <div className="right">
-                            <div
-                                className={classNames("send-button-container", {
-                                    ready:
-                                        editorState.getCurrentContent().getPlainText().length > 0,
-                                })}>
-                                <button className="editor-button send-message normal">
-                                    <svg className="icon">
-                                        <use href="#icon-editor-send-outline"></use>
-                                    </svg>
-                                </button>
-                                <button
-                                    className="editor-button send-message active"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        const succeeded = handlePostMessage(
-                                            editorState.getCurrentContent().getPlainText()
-                                        )
-                                        if (succeeded) {
-                                            setEditorState(EditorState.createEmpty())
-                                        }
-                                    }}
-                                    onMouseEnter={(e) =>
-                                        tooltipAction.show(e, "メッセージを投稿する")
-                                    }
-                                    onMouseLeave={() => tooltipAction.hide()}>
-                                    <svg className="icon">
-                                        <use href="#icon-editor-send-fill"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                            <SendButtonComponent
+                                handlePostMessage={handlePostMessage}
+                                tooltipAction={tooltipAction}
+                                theme={theme}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
             <style jsx global>{`
+                .textarea-block div[role="textbox"] {
+                    outline: none;
+                }
                 .DraftEditor-root {
                     font-size: 15px;
                     position: relative;
@@ -266,6 +160,7 @@ export const PostboxComponent = ({
                 }
                 .postbox {
                     border-radius: 8px;
+                    overflow: hidden;
                     border: 1px solid transparent;
                 }
                 .text-attribute-block {
@@ -278,9 +173,6 @@ export const PostboxComponent = ({
                     display: none;
                 }
                 .textarea-block {
-                    cursor: text;
-                    min-height: 1em;
-                    padding: 10px 10px 2px 10px;
                     box-sizing: border-box;
                 }
                 .editor-block {
@@ -344,18 +236,6 @@ export const PostboxComponent = ({
                     position: relative;
                     width: 36px;
                 }
-                .editor-button.send-message {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 36px;
-                }
-                .send-button-container > .editor-button.send-message.active {
-                    opacity: 0;
-                }
-                .send-button-container.ready > .editor-button.send-message.active {
-                    opacity: 1;
-                }
             `}</style>
             <style jsx>{`
                 .postbox {
@@ -366,24 +246,6 @@ export const PostboxComponent = ({
                 .postbox.active {
                     border-color: ${getStyleForTextarea(theme)["focusBorderColor"]};
                     background-color: ${getStyleForTextarea(theme)["focusBackgroundColor"]};
-                }
-                .editor-button.send-message.normal {
-                    background-color: ${getStyleForSendButton(theme)["backgroundColor"]};
-                }
-                .editor-button.send-message.active {
-                    background-color: ${getStyleForSendButton(theme)["focusBackgroundColor"]};
-                }
-                .editor-button.send-message.active:hover {
-                    background-color: ${getStyleForSendButton(theme)["hoverBackgroundColor"]};
-                }
-                .editor-button.send-message.normal > .icon {
-                    fill: ${getStyleForSendButton(theme)["fill"]};
-                }
-                .editor-button.send-message.active > .icon {
-                    fill: ${getStyleForSendButton(theme)["hoverFill"]};
-                }
-                .editor-button.send-message.active:hover > .icon {
-                    fill: ${getStyleForSendButton(theme)["hoverFill"]};
                 }
                 .editor-button {
                     fill: ${getStyleForEditorButton(theme)["fill"]};
@@ -404,6 +266,6 @@ export const PostboxComponent = ({
                     background-color: ${getStyleForEditorButton(theme)["hoverBackgroundColor"]};
                 }
             `}</style>
-        </>
+        </LexicalComposer>
     )
 }

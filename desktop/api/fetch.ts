@@ -209,3 +209,34 @@ export function post(method_url: string, body: object): Promise<Response> {
             })
     })
 }
+
+export function submit(method_url: string, body: FormData): Promise<Response> {
+    return new Promise((resolve, reject) => {
+        const protocol = config.server.https ? "https" : "http"
+        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        fetch(endpointUrl, {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-From": location.href,
+            },
+            body: body,
+        })
+            .then(async (data) => {
+                if (data.status !== 200) {
+                    return reject(new ServerError())
+                }
+                try {
+                    const response = new Response(await data.json())
+                    resolve(response)
+                } catch (error) {
+                    reject(error)
+                }
+            })
+            .catch((error) => {
+                console.error(endpointUrl)
+                console.error(error)
+                reject(error)
+            })
+    })
+}

@@ -1,7 +1,7 @@
 import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
@@ -11,6 +11,7 @@ import LexicalComposer from "@lexical/react/LexicalComposer"
 import { SendButtonComponent } from "./send_button"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import classNames from "classnames"
+import { submit } from "../../../api/fetch"
 import { usePostboxState } from "../../../state/chat/components/postbox"
 
 const editorConfig = {
@@ -80,6 +81,7 @@ export const PostboxComponent = ({
         query: content.postbox.query,
         content,
     })
+    const fileInputRef = useRef(null)
     const [isTextAttributeBlockHidden, setIsTextAttributeBlockHidden] = useState(true)
     if (content.postbox.enabled == false) {
         return null
@@ -87,6 +89,24 @@ export const PostboxComponent = ({
     return (
         <LexicalComposer initialConfig={editorConfig}>
             <div className="postbox-container">
+                <input
+                    type="file"
+                    accept="image/*, video/*"
+                    ref={fileInputRef}
+                    onChange={(e) => {
+                        const files = e.target.files
+                        console.log(files)
+                        for (let n = 0; n < files.length; n++) {
+                            const file = files.item(n)
+                            var formData = new FormData()
+                            formData.append("file", file)
+                            submit("upload", formData)
+                        }
+                        console.log(e.target.files)
+                    }}
+                    multiple
+                    hidden
+                />
                 <div className="postbox">
                     <div className="textarea-block">
                         <EditorComponent
@@ -101,7 +121,12 @@ export const PostboxComponent = ({
                                 onMouseEnter={(e) =>
                                     tooltipAction.show(e, "ファイルをアップロード")
                                 }
-                                onMouseLeave={() => tooltipAction.hide()}>
+                                onMouseLeave={() => tooltipAction.hide()}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    fileInputRef.current.value = ""
+                                    fileInputRef.current.click()
+                                }}>
                                 <svg className="icon">
                                     <use href="#icon-editor-attachment"></use>
                                 </svg>

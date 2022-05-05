@@ -52,7 +52,7 @@ class Polling {
                 return this.reducers.reducer(reducerMethod.domainData.channelGroup.listChannels, {
                     id: channelGroupId,
                 })
-            }, 1000)
+            }, 10000)
             // @ts-ignore
             this.timerIds.push(timerId)
         })

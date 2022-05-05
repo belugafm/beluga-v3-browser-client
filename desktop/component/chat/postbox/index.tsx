@@ -91,7 +91,6 @@ export const PostboxComponent = ({
             <div className="postbox-container">
                 <input
                     type="file"
-                    accept="image/*, video/*"
                     ref={fileInputRef}
                     onChange={(e) => {
                         const files = e.target.files

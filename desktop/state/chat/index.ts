@@ -42,7 +42,7 @@ class Polling {
                         reducerMethod.appState.contentType.channel.loadLatestMessages,
                         content
                     )
-                }, 1000)
+                }, 10000)
                 // @ts-ignore
                 this.timerIds.push(timerId)
             }

@@ -1,6 +1,12 @@
 import * as TypeCheck from "../lib/type_check"
 
-import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT, UserObjectT } from "./object"
+import {
+    ChannelGroupObjectT,
+    ChannelObjectT,
+    FileObjectT,
+    MessageObjectT,
+    UserObjectT,
+} from "./object"
 
 import config from "../config"
 
@@ -32,6 +38,7 @@ interface ResponseInterface {
     message?: MessageObjectT
     user?: UserObjectT
     messages?: MessageObjectT[]
+    files?: FileObjectT[]
     authenticity_token?: string
     oauth_token?: string
     oauth_token_secret?: string
@@ -51,6 +58,7 @@ export class Response implements ResponseInterface {
     message?: MessageObjectT
     user?: UserObjectT
     messages?: MessageObjectT[]
+    files?: FileObjectT[]
     authenticityToken?: string
     oauthToken?: string
     oauthTokenSecret?: string
@@ -111,6 +119,9 @@ export class Response implements ResponseInterface {
         }
         if (response.oauth_token_secret) {
             this.oauthTokenSecret = response.oauth_token_secret
+        }
+        if (response.files) {
+            this.files = response.files
         }
     }
     getErrorMessage() {
@@ -210,7 +221,7 @@ export function post(method_url: string, body: object): Promise<Response> {
     })
 }
 
-export function submit(method_url: string, body: FormData): Promise<Response> {
+export function postFormData(method_url: string, body: FormData): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
         const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${method_url}`

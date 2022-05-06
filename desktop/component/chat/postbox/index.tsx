@@ -1,17 +1,26 @@
+import {
+    $createParagraphNode,
+    $createTextNode,
+    $getRoot,
+    FORMAT_TEXT_COMMAND,
+    INSERT_PARAGRAPH_COMMAND,
+} from "lexical"
 import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
-import React, { useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { EditorComponent } from "./editor"
 import ExampleTheme from "./themes/ExampleTheme"
+import { FileObjectT } from "../../../api/object"
 import LexicalComposer from "@lexical/react/LexicalComposer"
 import { SendButtonComponent } from "./send_button"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import classNames from "classnames"
-import { submit } from "../../../api/fetch"
+import { postFormData } from "../../../api/fetch"
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import { usePostboxState } from "../../../state/chat/components/postbox"
 
 const editorConfig = {
@@ -69,40 +78,92 @@ const getStyleForEditorButton = (theme: Themes) => {
     throw new Error()
 }
 
-export const PostboxComponent = ({
+const FileInputComponent = ({ ref }) => {
+    const [editor] = useLexicalComposerContext()
+    const handleUpload = useCallback(
+        async (e) => {
+            const files = e.target.files
+            for (let n = 0; n < files.length; n++) {
+                const file = files.item(n)
+                var formData = new FormData()
+                formData.append("file", file)
+                const result = await postFormData("upload/media", formData)
+                console.log(result)
+            }
+        },
+        [editor]
+    )
+    return <input type="file" ref={ref} onChange={handleUpload} multiple hidden />
+}
+
+const getOriginalFilePath = (files: FileObjectT[] | null): string | null => {
+    if (files == null) {
+        return null
+    }
+    for (const file of files) {
+        if (file.original) {
+            return file.path
+        }
+    }
+    return null
+}
+
+const _PostboxComponent = ({
     content,
     tooltipAction,
 }: {
     content: ContentStateT
     tooltipAction: TooltipActionT
 }) => {
+    const fileInputRef = useRef(null)
+    const [editor] = useLexicalComposerContext()
     const [theme] = useTheme()
     const { handlePostMessage } = usePostboxState({
         query: content.postbox.query,
         content,
     })
-    const fileInputRef = useRef(null)
     const [isTextAttributeBlockHidden, setIsTextAttributeBlockHidden] = useState(true)
+    const onClickUpload = useCallback(
+        (e) => {
+            e.preventDefault()
+            fileInputRef.current.value = ""
+            fileInputRef.current.click()
+        },
+        [fileInputRef]
+    )
+
+    const handleUploadMedia = useCallback(
+        async (e) => {
+            const files = e.target.files
+            for (let n = 0; n < files.length; n++) {
+                const file = files.item(n)
+                var formData = new FormData()
+                formData.append("file", file)
+                const result = await postFormData("upload/media", formData)
+                const path = getOriginalFilePath(result.files)
+                if (path) {
+                    editor.update(() => {
+                        const root = $getRoot()
+                        const paragraphNode = $createParagraphNode()
+                        const textNode = $createTextNode(path)
+                        paragraphNode.append(textNode)
+                        root.append(paragraphNode)
+                    })
+                }
+            }
+        },
+        [editor]
+    )
     if (content.postbox.enabled == false) {
         return null
     }
     return (
-        <LexicalComposer initialConfig={editorConfig}>
+        <>
             <div className="postbox-container">
                 <input
                     type="file"
                     ref={fileInputRef}
-                    onChange={(e) => {
-                        const files = e.target.files
-                        console.log(files)
-                        for (let n = 0; n < files.length; n++) {
-                            const file = files.item(n)
-                            var formData = new FormData()
-                            formData.append("file", file)
-                            submit("upload", formData)
-                        }
-                        console.log(e.target.files)
-                    }}
+                    onChange={handleUploadMedia}
                     multiple
                     hidden
                 />
@@ -121,11 +182,7 @@ export const PostboxComponent = ({
                                     tooltipAction.show(e, "ファイルをアップロード")
                                 }
                                 onMouseLeave={() => tooltipAction.hide()}
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    fileInputRef.current.value = ""
-                                    fileInputRef.current.click()
-                                }}>
+                                onClick={onClickUpload}>
                                 <svg className="icon">
                                     <use href="#icon-editor-attachment"></use>
                                 </svg>
@@ -290,6 +347,20 @@ export const PostboxComponent = ({
                     background-color: ${getStyleForEditorButton(theme)["hoverBackgroundColor"]};
                 }
             `}</style>
+        </>
+    )
+}
+
+export const PostboxComponent = ({
+    content,
+    tooltipAction,
+}: {
+    content: ContentStateT
+    tooltipAction: TooltipActionT
+}) => {
+    return (
+        <LexicalComposer initialConfig={editorConfig}>
+            <_PostboxComponent content={content} tooltipAction={tooltipAction} />
         </LexicalComposer>
     )
 }

@@ -113,3 +113,18 @@ export type MessageObjectT = {
         style: MessageEntityStyleNode[]
     }
 }
+
+export type FileObjectT = {
+    id: number
+    userId: number
+    group: string
+    path: string
+    type: string
+    bytes: number
+    original: boolean
+    refCount: number
+    createdAt: Date
+    width: number | null
+    height: number | null
+    tag: string | null
+}

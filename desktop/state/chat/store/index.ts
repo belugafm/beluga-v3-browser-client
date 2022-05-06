@@ -68,7 +68,7 @@ function loadContentsFromLocalStorage(
     key: string,
     pageContext: PageContextObjectT
 ): ContentStateT[][] {
-    console.log("loadContentsFromLocalStorage::localStorage::getItem")
+    console.info("loadContentsFromLocalStorage::localStorage::getItem")
     const cachedContentsStr = localStorage.getItem(key)
     if (cachedContentsStr) {
         return JSON.parse(cachedContentsStr)

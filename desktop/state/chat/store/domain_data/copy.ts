@@ -192,6 +192,8 @@ function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGrou
     return {
         id: channelGroup.id,
         unique_name: channelGroup.unique_name,
+        description: channelGroup.description,
+        image_url: channelGroup.image_url,
         name: channelGroup.name,
         level: channelGroup.level,
         channels_count: channelGroup.channels_count,

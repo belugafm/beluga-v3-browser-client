@@ -62,8 +62,6 @@ export default ({ theme, query }) => {
                         <LogoSidebarComponent />
                         <AccountMenuComponent />
                         <ChannelGroupListComponent
-                            activeChannelId={channel.id}
-                            channelIds={channels.map((channel) => channel.id)}
                             channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
                         />
                         <ChannelListComponent

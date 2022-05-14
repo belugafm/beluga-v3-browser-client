@@ -57,14 +57,14 @@ const ImageComponent = ({
             <img />
             <style jsx>{`
                 img {
-                    width: 34px;
-                    height: 34px;
+                    width: 30px;
+                    height: 30px;
                     mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     mask-size: 100% 100%;
                     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     border-radius: 0;
                     margin-top: 2px;
-                    flex: 0 0 34px;
+                    flex: 0 0 30px;
                 }
             `}</style>
             <style jsx>{`
@@ -101,8 +101,8 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
                     display: flex;
                     align-items: center;
                     width: 100%;
-                    height: 46px;
-                    padding: 3px 12px;
+                    height: 42px;
+                    padding: 1px 12px;
                     border-radius: 8px;
                     white-space: nowrap;
                     box-sizing: border-box;
@@ -127,11 +127,14 @@ const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObje
                     white-space: nowrap;
                     font-weight: 500;
                     font-size: 15px;
+                    line-height: 15px;
                 }
                 .description {
+                    margin-top: 3px;
                     flex: 0 0 auto;
                     font-weight: 300;
                     font-size: 13px;
+                    line-height: 13px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;

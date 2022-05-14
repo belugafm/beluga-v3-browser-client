@@ -5,7 +5,7 @@ type PropsT = {
     user: UserObjectT
 }
 
-class Random {
+export class Random {
     x: number
     y: number
     z: number
@@ -49,7 +49,7 @@ const DefaultAvatarComponent = ({ user }: PropsT) => {
     const gen = new Random(user.id)
     const hue = 360 * gen.next()
     const sat = 50
-    const lightness = 60
+    const lightness = 70
     return (
         <>
             <div className="avatar"></div>

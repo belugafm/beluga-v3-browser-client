@@ -22,7 +22,7 @@ const getStyleForTheme = (theme: Themes) => {
     throw new Error()
 }
 
-export const AccountMenuSidebarComponent = () => {
+export const AccountMenuComponent = () => {
     const [theme] = useTheme()
     return (
         <div className="item">

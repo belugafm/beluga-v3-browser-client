@@ -92,7 +92,7 @@ export const ChannelMenuModalComponent = ({
                     border-radius: 12px;
                     box-sizing: border-box;
                     border: 1px solid;
-                    padding: 6px 10px;
+                    padding: 6px 8px;
                 }
                 a {
                     display: block;

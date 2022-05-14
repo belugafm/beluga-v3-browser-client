@@ -24,6 +24,8 @@ export type ChannelGroupObjectT = {
     id: number
     name: string
     unique_name: string
+    description: string | null
+    image_url: string | null
     created_at: Date
     created_by: number
     level: number

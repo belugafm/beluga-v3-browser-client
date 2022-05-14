@@ -1,8 +1,9 @@
 export { getServerSideProps } from "../../component/chat/next"
 
-import { AccountMenuSidebarComponent } from "../../component/chat/sidebar/account_menu"
+import { AccountMenuComponent } from "../../component/chat/sidebar/account_menu"
 import { BackgroundImageBackdropFilterComponent } from "../../component/chat/background_image"
-import { ChannelGroupSidebarComponent } from "../../component/chat/sidebar/channel_group"
+import { ChannelGroupListComponent } from "../../component/chat/sidebar/channel_group"
+import { ChannelListComponent } from "../../component/chat/sidebar/channel"
 import { ContainerComponent } from "../../component/chat/container"
 import { CreateChannelGroupFormComponent } from "../../component/page/channel_group/create"
 import Head from "next/head"
@@ -58,11 +59,15 @@ export default ({ theme, query }) => {
                     <HeaderComponent />
                     <SidebarComponent>
                         <LogoSidebarComponent />
-                        <AccountMenuSidebarComponent />
-                        <ChannelGroupSidebarComponent
+                        <AccountMenuComponent />
+                        <ChannelGroupListComponent
                             activeChannelId={null}
                             channelIds={channels.map((channel) => channel.id)}
                             channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
+                        />
+                        <ChannelListComponent
+                            activeChannelId={null}
+                            channelIds={channels.map((channel) => channel.id)}
                         />
                         <SidebarThemeComponent />
                     </SidebarComponent>

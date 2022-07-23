@@ -1,9 +1,10 @@
-import { useTheme } from "../../theme"
-
 export const LogoSidebarComponent = () => {
+    const emojiList = ["🥹", "🫠", "🫢", "🫡", "🫥", "🫤"]
+    var emoji = emojiList[Math.floor(Math.random() * emojiList.length)]
+
     return (
         <>
-            <div>良い感じのロゴ</div>
+            <div>{emoji}</div>
             <style jsx>{`
                 div {
                     position: relative;
@@ -13,7 +14,7 @@ export const LogoSidebarComponent = () => {
                     align-items: center;
                     justify-content: center;
                     width: 100%;
-                    font-weight: 700;
+                    font-size: 20px;
                 }
             `}</style>
         </>

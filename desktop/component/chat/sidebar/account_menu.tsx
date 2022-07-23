@@ -1,6 +1,6 @@
 import { Themes, useTheme } from "../../theme"
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#6f767d",
@@ -89,19 +89,19 @@ export const AccountMenuComponent = () => {
             `}</style>
             <style jsx>{`
                 a {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 a:hover {
-                    color: ${getStyleForTheme(theme)["hoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
                 .icon {
-                    fill: ${getStyleForTheme(theme)["fill"]};
-                    stroke: ${getStyleForTheme(theme)["fill"]};
+                    fill: ${getStyle(theme)["fill"]};
+                    stroke: ${getStyle(theme)["fill"]};
                 }
                 a:hover .icon {
-                    fill: ${getStyleForTheme(theme)["hoverFill"]};
-                    stroke: ${getStyleForTheme(theme)["hoverFill"]};
+                    fill: ${getStyle(theme)["hoverFill"]};
+                    stroke: ${getStyle(theme)["hoverFill"]};
                 }
             `}</style>
         </div>

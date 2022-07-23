@@ -2,6 +2,7 @@ import { HeaderStateContext, useHeaderComponentState } from "../../state/compone
 import { Themes, useTheme } from "../theme"
 
 import { swrShowLoggedInUser } from "../../swr/session"
+import { SearchComponent } from "./header/search"
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -35,7 +36,11 @@ export const HeaderComponent = () => {
     return (
         <>
             <HeaderStateContext.Provider value={state}>
-                <div className="header">検索</div>
+                <div className="header">
+                    <div className="left">
+                        <SearchComponent theme={theme} />
+                    </div>
+                </div>
                 <style jsx>{`
                     .header {
                         background-color: ${getStyleForTheme(theme)["backgroundColor"]};
@@ -52,11 +57,17 @@ export const HeaderComponent = () => {
                         right: 0;
                         z-index: 20;
                         display: flex;
+                        flex-direction: row;
                         align-items: center;
                         padding: 24px 40px;
                         box-sizing: border-box;
                         height: 80px;
                         z-index: 2;
+                    }
+                    .left {
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-direction: row;
                     }
                 `}</style>
             </HeaderStateContext.Provider>

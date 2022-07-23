@@ -91,14 +91,14 @@ export const MessageComponent = React.memo(
                         display: none;
                     }
                     .created-at-block {
-                        visibility: hidden;
+                        opacity: 0;
                         text-align: right;
                         font-size: 13px;
                         font-weight: 300;
                         margin-top: 3px;
                     }
                     .message:hover .created-at-block {
-                        visibility: visible;
+                        opacity: 1;
                     }
                     .created-at-block.hidden {
                         display: none;

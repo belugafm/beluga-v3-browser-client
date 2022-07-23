@@ -23,7 +23,7 @@ const config: {
 } = {
     server: {
         domain: "localhost.beluga.fm",
-        https: false,
+        https: true,
         getBaseUrl: () => {
             if (config.server.https) {
                 return `https://${config.server.domain}`

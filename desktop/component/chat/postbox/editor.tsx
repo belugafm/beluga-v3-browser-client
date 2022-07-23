@@ -282,11 +282,11 @@ export function EditorComponent({
                     margin-bottom: 0;
                 }
                 .__global-editor-quote {
-                    margin: 0 0 8px 20px;
+                    margin: 0 0 8px 4px;
                     font-size: 15px;
                     border-left-width: 4px;
                     border-left-style: solid;
-                    padding-left: 16px;
+                    padding-left: 12px;
                 }
                 .__global-editor-list-ol {
                     padding: 0;

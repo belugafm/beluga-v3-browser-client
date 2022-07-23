@@ -32,6 +32,8 @@ export type ChannelGroupObjectT = {
     channels_count: number
     statuses_count: number
     creator: UserObjectT | null
+    last_message_created_at: number | null
+    last_message_id: number | null
 }
 
 export type ChannelReadStateObjectT = {
@@ -94,6 +96,8 @@ export type MessageObjectT = {
     like_count: number
     reply_count: number
     thread_id: number | null
+    last_reply_message_id: number | null
+    last_reply_message_created_at: Date | null
     deleted: boolean
     updated_at: number // for React
     entities: {

@@ -166,11 +166,11 @@ export const styledNodeToDOM = (
                 <blockquote>{inner}</blockquote>
                 <style jsx>{`
                     blockquote {
-                        margin: 8px 0 8px 20px;
+                        margin: 8px 0 8px 4px;
                         font-size: 15px;
                         border-left-width: 4px;
                         border-left-style: solid;
-                        padding-left: 16px;
+                        padding-left: 12px;
                         color: ${getStyleForQuote(theme)["color"]};
                         border-left-color: ${getStyleForQuote(theme)["borderColor"]};
                     }

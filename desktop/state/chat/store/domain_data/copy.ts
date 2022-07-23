@@ -103,6 +103,8 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
         like_count: message.like_count,
         favorite_count: message.favorite_count,
         thread_id: message.thread_id,
+        last_reply_message_id: message.last_reply_message_id,
+        last_reply_message_created_at: message.last_reply_message_created_at,
     }
 }
 
@@ -201,6 +203,8 @@ function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGrou
         created_at: channelGroup.created_at,
         created_by: channelGroup.created_by,
         creator: copyUser(channelGroup.creator),
+        last_message_id: channelGroup.last_message_id,
+        last_message_created_at: channelGroup.last_message_created_at,
     }
 }
 

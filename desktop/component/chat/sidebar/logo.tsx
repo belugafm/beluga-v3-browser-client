@@ -1,7 +1,7 @@
-export const LogoSidebarComponent = () => {
-    const emojiList = ["🥹", "🫠", "🫢", "🫡", "🫥", "🫤"]
-    var emoji = emojiList[Math.floor(Math.random() * emojiList.length)]
+const emojiList = ["🥹", "🫠", "🫢", "🫡", "🫥", "🫤"]
+const emoji = emojiList[Math.floor(Math.random() * emojiList.length)]
 
+export const LogoSidebarComponent = () => {
     return (
         <>
             <div>{emoji}</div>

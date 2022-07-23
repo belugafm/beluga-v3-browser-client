@@ -14,6 +14,7 @@ import { SidebarComponent } from "../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../component/theme"
 import { swrFetchData } from "../../swr/channel_group/combined/page"
+import { EmptyComponent } from "../../component/chat/sidebar/empty"
 
 export default ({ theme, query }) => {
     const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
@@ -37,6 +38,8 @@ export default ({ theme, query }) => {
     if (channelGroups == null) {
         return <div>エラー</div>
     }
+    const channelGroupIds = channelGroups.map((channelGroup) => channelGroup.id)
+    const channelIds = channels.map((channel) => channel.id)
     return (
         <>
             <Head>
@@ -59,12 +62,12 @@ export default ({ theme, query }) => {
                     <SidebarComponent>
                         <LogoSidebarComponent />
                         <AccountMenuComponent />
-                        <ChannelGroupListComponent
-                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
-                        />
-                        <ChannelListComponent
-                            activeChannelId={null}
-                            channelIds={channels.map((channel) => channel.id)}
+                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                        <EmptyComponent
+                            channelGroupIds={channelGroupIds}
+                            channelIds={channelIds}
+                            channelGroupId={channelGroup.id}
                         />
                         <SidebarThemeComponent />
                     </SidebarComponent>

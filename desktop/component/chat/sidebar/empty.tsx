@@ -52,7 +52,7 @@ export const EmptyComponent = ({
     channelGroupId: number
 }) => {
     const [theme] = useTheme()
-    const components = []
+    const components: JSX.Element[] = []
     if (channelIds.length == 0) {
         if (channelGroupIds.length == 0) {
             components.push(
@@ -215,5 +215,5 @@ export const EmptyComponent = ({
             </div>
         )
     }
-    return components
+    return <>{components}</>
 }

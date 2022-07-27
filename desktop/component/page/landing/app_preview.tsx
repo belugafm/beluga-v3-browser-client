@@ -25,7 +25,7 @@ import { MessageActionT } from "../../../state/chat/components/message"
 import { MessageComponent } from "../../chat/message"
 import { SVGComponent } from "../../chat/svg"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
-import { useStore } from "../../../state/chat"
+import { useStore } from "../../../state/chat/store"
 
 const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
     return (

@@ -6,7 +6,7 @@ export type StoreT = {
     appState: AppStateT
 }
 
-export type StoreSetActionsT = {
+export type SetStoreActionsT = {
     domainData: DomainDataSetActionT
     appState: AppStateSetActionT
 }

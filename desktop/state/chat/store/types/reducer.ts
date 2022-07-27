@@ -14,14 +14,14 @@ export type AsyncSequentialReducerT = (
     }[]
 ) => Promise<void>
 
-export type AsyncReducersT = {
-    reducer: AsyncReducerT
-    sequentialReducer: AsyncSequentialReducerT
+export type ReducersT = {
+    asyncReducer: AsyncReducerT
+    asyncSequentialReducer: AsyncSequentialReducerT
 }
 
 export type AsyncReducerMethodT<T> = (store: StoreT, query: T) => Promise<[StoreT, Response | null]>
 
-export const ReducerContext = createContext<AsyncReducersT>({
-    reducer: null,
-    sequentialReducer: null,
+export const ReducerContext = createContext<ReducersT>({
+    asyncReducer: null,
+    asyncSequentialReducer: null,
 })

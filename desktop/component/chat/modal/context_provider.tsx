@@ -11,10 +11,10 @@ import {
 import { ChannelMenuModalComponent } from "./channel_menu"
 import { DeleteMessageModalComponent } from "./delete_message"
 import { MessageActionContext } from "../../../state/chat/components/message"
-import { PageContextObjectT } from "../../../state/chat/store"
 import React from "react"
 import { useContext } from "react"
 import { useTheme } from "../../theme"
+import { PageContextObjectT } from "../../../state/chat/store/types/page_context"
 
 const DeleteMessageModalActionContextProvider = ({ children }) => {
     const [state, action] = useDeleteMessageModalState()

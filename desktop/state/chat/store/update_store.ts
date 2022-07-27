@@ -1,6 +1,6 @@
 import { AppStateSetActionT, AppStateT } from "./types/app_state"
 import { DomainDataSetActionT, DomainDataT } from "./types/domain_data"
-import { StoreSetActionsT, StoreT } from "./types/store"
+import { SetStoreActionsT, StoreT } from "./types/store"
 
 import deepEquals from "deep-equal"
 
@@ -40,11 +40,11 @@ function updateAppState(
 }
 
 export const udpateStore = (
-    storeSetActions: StoreSetActionsT,
+    setStoreActions: SetStoreActionsT,
     prevStore: StoreT,
     nextStore: StoreT
 ) => {
-    updateDomainData(storeSetActions.domainData, prevStore.domainData, nextStore.domainData)
-    updateAppState(storeSetActions.appState, prevStore.appState, nextStore.appState)
+    updateDomainData(setStoreActions.domainData, prevStore.domainData, nextStore.domainData)
+    updateAppState(setStoreActions.appState, prevStore.appState, nextStore.appState)
     return nextStore
 }

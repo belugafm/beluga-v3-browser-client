@@ -1,6 +1,5 @@
 import { MouseEvent, createContext, useState } from "react"
-
-import { PageContextObjectT } from "../../chat/store"
+import { PageContextObjectT } from "../../chat/store/types/page_context"
 
 export type ChannelMenuModalActionT = {
     show: (event: MouseEvent<HTMLButtonElement>) => void

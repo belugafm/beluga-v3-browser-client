@@ -1,7 +1,7 @@
-import * as reducerMethod from "../../reducer_method"
+import * as reducerMethod from "../reducer_method"
 
 import { AppStateT, ContentStateT } from "../types/app_state"
-import { AsyncReducerMethodT, AsyncReducersT } from "../types/reducer"
+import { AsyncReducerMethodT, ReducersT } from "../types/reducer"
 import { Context, createContext } from "react"
 
 import { ChannelObjectT } from "../../../../api/object"
@@ -32,10 +32,10 @@ export const useContentAction = ({
     reducers,
 }: {
     appState: AppStateT
-    reducers: AsyncReducersT
+    reducers: ReducersT
 }): ContentActionT => {
     function reduce<T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> {
-        return reducers.reducer(method, query)
+        return reducers.asyncReducer(method, query)
     }
 
     return {
@@ -49,7 +49,7 @@ export const useContentAction = ({
                 }
                 if (content.context.channelGroupId) {
                 } else if (content.context.channelId) {
-                    return reducers.reducer(
+                    return reducers.asyncReducer(
                         reducerMethod.appState.channel.loadLatestMessages,
                         content
                     )

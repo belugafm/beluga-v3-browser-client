@@ -1,5 +1,5 @@
 import * as api from "../../../api"
-import * as reducers from "../reducer_method"
+import * as reducers from "../store/reducer_method"
 
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../../api/fetch"
 
@@ -15,7 +15,7 @@ export const usePostboxState = ({
     query: Record<string, any>
     content: ContentStateT
 }) => {
-    const { reducer } = useContext(ReducerContext)
+    const { asyncReducer: reducer } = useContext(ReducerContext)
     const contentAction = useContext(ContentActionContext)
 
     const post = async (text: string, textStyleJson: string) => {

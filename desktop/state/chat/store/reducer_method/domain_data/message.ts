@@ -1,8 +1,8 @@
-import * as api from "../../../../api"
+import * as api from "../../../../../api"
 
-import { StoreT } from "../../store/types/store"
-import { copyDomainData } from "../../store/domain_data/copy"
-import { fetch } from "../../store/domain_data"
+import { StoreT } from "../../types/store"
+import { copyDomainData } from "../../domain_data/copy"
+import { fetch } from "../../domain_data"
 
 export const message = {
     show: async (

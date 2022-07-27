@@ -1,6 +1,6 @@
-import { AppStateT, ContentStateT } from "../../store/types/app_state"
+import { AppStateT, ContentStateT } from "../../types/app_state"
 
-import { StoreT } from "../../store/types/store"
+import { StoreT } from "../../types/store"
 
 type ContentGridT = ContentStateT[][]
 

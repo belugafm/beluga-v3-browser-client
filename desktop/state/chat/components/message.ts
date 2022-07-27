@@ -1,14 +1,14 @@
-import * as reducers from "../reducer_method"
+import * as reducers from "../store/reducer_method"
 
 import { MessageObjectT, UserObjectT } from "../../../api/object"
 import { MouseEvent, createContext } from "react"
 
-import { AsyncReducersT } from "../store/types/reducer"
+import { ReducersT } from "../store/types/reducer"
 
 export const useMessageAction = ({
-    reducer,
-    sequentialReducer,
-}: AsyncReducersT): MessageActionT => {
+    asyncReducer: reducer,
+    asyncSequentialReducer: sequentialReducer,
+}: ReducersT): MessageActionT => {
     return {
         edit: (message: MessageObjectT) => {
             return (event: MouseEvent<Element>) => {

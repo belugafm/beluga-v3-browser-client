@@ -1,7 +1,7 @@
-import * as api from "../../../../api"
+import * as api from "../../../../../api"
 
-import { StoreT } from "../../store/types/store"
-import { fetch } from "../../store/domain_data"
+import { StoreT } from "../../types/store"
+import { fetch } from "../../domain_data"
 
 export const channelGroup = {
     show: async (

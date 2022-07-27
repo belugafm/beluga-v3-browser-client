@@ -1,6 +1,6 @@
-import * as reducerMethod from "./reducer_method"
+import * as reducerMethod from "./store/reducer_method"
 
-import { AsyncReducerMethodT, AsyncReducersT } from "./store/types/reducer"
+import { AsyncReducerMethodT, ReducersT } from "./store/types/reducer"
 
 import { AppStateT } from "./store/types/app_state"
 import { ContentType } from "./store/app_state"
@@ -23,7 +23,7 @@ type WebsocketMessage = {
 class WebSocketState {
     uri: string
     ws: WebSocket = null
-    reducers: AsyncReducersT
+    reducers: ReducersT
     appState: AppStateT
     loggedInUser: UserObjectT
     eventListeners: {
@@ -38,7 +38,7 @@ class WebSocketState {
         appState,
         loggedInUser,
     }: {
-        reducers: AsyncReducersT
+        reducers: ReducersT
         appState: AppStateT
         loggedInUser: UserObjectT
     }) {
@@ -63,7 +63,7 @@ class WebSocketState {
         this.eventListeners = []
     }
     reduce = <T>(method: AsyncReducerMethodT<T>, query: T): Promise<Response | null> => {
-        return this.reducers.reducer(method, query)
+        return this.reducers.asyncReducer(method, query)
     }
     connect() {
         this.removeAllEventListeners()

@@ -1,14 +1,14 @@
-import * as api from "../../../../api"
+import * as api from "../../../../../api"
 
-import { AppStateT, ContentStateT } from "../../store/types/app_state"
-import { ChannelObjectT, MessageObjectT } from "../../../../api/object"
+import { AppStateT, ContentStateT } from "../../types/app_state"
+import { ChannelObjectT, MessageObjectT } from "../../../../../api/object"
 import { copyContents, insertContent } from "./content"
 
-import { ContentType } from "../../store/app_state"
-import { DomainDataT } from "../../store/types/domain_data"
-import { StoreT } from "../../store/types/store"
-import config from "../../../../config"
-import { fetch } from "../../store/domain_data"
+import { ContentType } from "../../app_state"
+import { DomainDataT } from "../../types/domain_data"
+import { StoreT } from "../../types/store"
+import config from "../../../../../config"
+import { fetch } from "../../domain_data"
 
 const _fetch = (
     prevDomainData: DomainDataT,

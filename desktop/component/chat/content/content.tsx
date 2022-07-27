@@ -1,8 +1,7 @@
-import { ContentActionContext, ContentActionT } from "../../../state/chat/store/app_state/action"
 import React, { useContext, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
-import BodyComponent from "../message/body"
+import { ContentActionContext } from "../../../state/chat/store/app_state/action"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionContext } from "../../../state/component/model/delete_message"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
@@ -11,137 +10,13 @@ import { MessageActionContext } from "../../../state/chat/components/message"
 import { MessageComponent } from "../message"
 import { MessageObjectT } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
+import { ScrollerState } from "../../../state/chat/components/content"
 import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
-import config from "../../../config"
 import { swrShowLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
 
-function findMaxId(messageIds: string[]) {
-    if (messageIds.length > config.timeline.maxNumStatuses) {
-        return messageIds[messageIds.length - config.timeline.maxNumStatuses - 1]
-    }
-    return null
-}
-
-function findSinceId(messageIds: string[]) {
-    if (messageIds.length > config.timeline.maxNumStatuses) {
-        return messageIds[config.timeline.maxNumStatuses + 1]
-    }
-    return null
-}
-
-class Scroller {
-    ref: React.MutableRefObject<any>
-    content: ContentStateT
-    chatActions: ContentActionT
-    reqeustedMaxId: string
-    reqeustedSinceId: string
-    loading: boolean = false
-    hasReachedTop: boolean = false
-    hasReachedBottom: boolean = false
-    scrolled: boolean = false
-    prevScrollTop: number = 0
-    use = ({
-        ref,
-        content,
-        chatActions,
-    }: {
-        ref: React.MutableRefObject<any>
-        content: ContentStateT
-        chatActions: ContentActionT
-    }) => {
-        this.ref = ref
-        this.content = content
-        this.chatActions = chatActions
-        this.reqeustedMaxId = "000000000000"
-    }
-    handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
-        if (this.loading) {
-            return
-        }
-        // const { content, chatActions } = this
-        // const container = event.target as HTMLDivElement
-        // const scroller = this.ref.current as HTMLDivElement
-        // const threashold = 100
-        // if (container) {
-        //     const scrollBottom =
-        //         scroller.clientHeight - container.clientHeight - container.scrollTop
-        //     const direction = container.scrollTop - this.prevScrollTop
-        //     this.prevScrollTop = container.scrollTop
-        //     console.log(container.scrollTop, scrollBottom, direction)
-        //     if (direction > 0) {
-        //         if (scrollBottom < threashold) {
-        //             if (this.hasReachedBottom) {
-        //                 return
-        //             }
-        //             const maxId = "0"
-        //             if (maxId === this.reqeustedMaxId) {
-        //                 return
-        //             }
-        //             this.loading = true
-        //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await chatActions.content.setTimelineQuery(
-        //                 content,
-        //                 Object.assign({}, content.timeline.query, {
-        //                     maxId,
-        //                     limit,
-        //                     sinceId: null,
-        //                 })
-        //             )
-        //             const { messages: statuses } = responce
-        //             if (statuses.length < limit) {
-        //                 this.hasReachedBottom = true
-        //             }
-        //             this.reqeustedMaxId = maxId
-        //             this.loading = false
-        //             this.hasReachedTop = false
-        //             this.scrolled = true
-        //             return
-        //         }
-        //     } else {
-        //         if (container.scrollTop < threashold) {
-        //             if (this.scrolled === false) {
-        //                 console.log("this.scrolled === false")
-        //                 return
-        //             }
-        //             if (this.hasReachedTop) {
-        //                 console.log("this.hasReachedTop")
-        //                 return
-        //             }
-        //             const sinceId = "0"
-        //             if (sinceId === this.reqeustedSinceId) {
-        //                 console.log("sinceId === this.reqeustedSinceId")
-        //                 return
-        //             }
-        //             this.loading = true
-        //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await chatActions.content.setTimelineQuery(
-        //                 content,
-        //                 Object.assign({}, content.timeline.query, {
-        //                     sinceId,
-        //                     limit,
-        //                     maxId: null,
-        //                 })
-        //             )
-        //             const { messages: statuses } = responce
-        //             if (statuses.length < limit) {
-        //                 this.hasReachedTop = true
-        //             }
-        //             this.reqeustedSinceId = sinceId
-        //             this.loading = false
-        //             this.hasReachedBottom = false
-        //             return
-        //         }
-        //         if (container.scrollTop > 400) {
-        //             this.scrolled = true
-        //         }
-        //     }
-        // }
-    }
-}
-
-const scroller = new Scroller()
+const scrollerState = new ScrollerState()
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -236,6 +111,74 @@ const EmptyContentComponent = () => {
     )
 }
 
+const SpacerComponent = () => {
+    return (
+        <div className="spacer">
+            <style jsx>{`
+                .spacer {
+                    flex: 1 1 auto;
+                }
+            `}</style>
+        </div>
+    )
+}
+
+const isEmpty = (content: ContentStateT) => {
+    if (content.timeline.messageIds.length == 0) {
+        return true
+    }
+    return false
+}
+
+const DebugMessageComponent = ({ scrollerState }: { scrollerState: ScrollerState }) => {
+    return (
+        <div className="debug-message">
+            <div className="panel">
+                <p>
+                    <span className="key">hasReachedBottom:</span>
+                    <span className="value">
+                        {scrollerState.hasReachedBottom ? "true" : "false"}
+                    </span>
+                </p>
+                <p>
+                    <span className="key">forceScrollToBottom:</span>
+                    <span className="value">
+                        {scrollerState.forceScrollToBottom ? "true" : "false"}
+                    </span>
+                </p>
+            </div>
+            <div className="panel">
+                <p>
+                    <span className="key">hasReachedTop:</span>
+                    <span className="value">{scrollerState.hasReachedTop ? "true" : "false"}</span>
+                </p>
+            </div>
+            <style jsx>{`
+                .debug-message {
+                    flex: 0 0 auto;
+                    text-align: right;
+                    font-size: 11px;
+                    display: flex;
+                    flex-direction: row;
+                }
+                .panel {
+                    flex: 1 1 auto;
+                }
+                p {
+                    line-height: 11px;
+                }
+                span {
+                    display: inline-block;
+                }
+                .value {
+                    font-weight: 500;
+                    width: 30px;
+                }
+            `}</style>
+        </div>
+    )
+}
+
 export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     console.debug("ContentComponent::render")
     const domainData = useContext(DomainDataContext)
@@ -246,23 +189,33 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
-    scroller.use({
+    scrollerState.use({
         ref: scrollerRef,
         content: content,
         chatActions: contentAction,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
-    const messageComponentList = [...content.timeline.messageIds]
-        .reverse()
-        .map((messageId, n) => {
-            const normalizedMessage = domainData.messages.get(messageId)
-            if (normalizedMessage == null) {
-                return null
-            }
-            const message = unnormalizeMessage(normalizedMessage, domainData)
-            return (
-                <MessageComponent
-                    key={messageId}
+    const messageComponentList = [...content.timeline.messageIds].reverse().map((messageId, n) => {
+        const normalizedMessage = domainData.messages.get(messageId)
+        if (normalizedMessage == null) {
+            return null
+        }
+        const message = unnormalizeMessage(normalizedMessage, domainData)
+        return (
+            <MessageComponent
+                key={messageId}
+                message={message}
+                messageAction={messageAction}
+                contentAction={contentAction}
+                tooltipAction={tooltipAction}
+                deleteMessageModalAction={deleteMessageModalAction}
+                domainData={domainData}
+                loggedInUser={loggedInUser}
+                content={content}
+                isConsecutivePost={consectivePostChecker.check(message)}
+                zIndex={n}
+                theme={theme}>
+                <TextComponent
                     message={message}
                     messageAction={messageAction}
                     contentAction={contentAction}
@@ -272,26 +225,15 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     loggedInUser={loggedInUser}
                     content={content}
                     isConsecutivePost={consectivePostChecker.check(message)}
-                    zIndex={n}
-                    theme={theme}>
-                    <TextComponent
-                        message={message}
-                        messageAction={messageAction}
-                        contentAction={contentAction}
-                        tooltipAction={tooltipAction}
-                        deleteMessageModalAction={deleteMessageModalAction}
-                        domainData={domainData}
-                        loggedInUser={loggedInUser}
-                        content={content}
-                        isConsecutivePost={consectivePostChecker.check(message)}
-                        theme={theme}
-                    />
-                </MessageComponent>
-            )
-        })
-        .reverse()
-    if (content.timeline.messageIds.length == 0) {
-        messageComponentList.push(<EmptyContentComponent />)
+                    theme={theme}
+                />
+            </MessageComponent>
+        )
+    })
+    if (isEmpty(content)) {
+        messageComponentList.push(<EmptyContentComponent key="empty" />)
+    } else {
+        messageComponentList.unshift(<SpacerComponent />)
     }
     return (
         <>
@@ -299,9 +241,13 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 <div className="content">
                     <div className="menu">
                         <HeaderComponent content={content} />
+                        <DebugMessageComponent scrollerState={scrollerState} />
                     </div>
-                    <div className="scroller-container" onScroll={scroller.handleScroll}>
-                        <div className="scroller" ref={scrollerRef}>
+                    <div className="scroller-container">
+                        <div
+                            className="scroller"
+                            ref={scrollerRef}
+                            onScroll={scrollerState.handleScroll}>
                             {messageComponentList}
                         </div>
                     </div>
@@ -343,6 +289,8 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     z-index: 2;
                 }
                 .scroller-container {
+                    padding: 0;
+                    margin: 0;
                     min-width: 0;
                     min-height: 0;
                     display: flex;
@@ -365,7 +313,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 .scroller {
                     flex: 1 1 auto;
                     display: flex;
-                    flex-direction: column-reverse;
+                    flex-direction: column;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;

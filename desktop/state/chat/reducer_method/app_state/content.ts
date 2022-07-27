@@ -42,7 +42,7 @@ export const copyContents = (contents: ContentGridT) => {
                 },
                 timeline: {
                     messageIds: content.timeline.messageIds.concat(),
-                    isLoadingLatestMessagesEnabled: content.timeline.isLoadingLatestMessagesEnabled,
+                    shouldFetch: content.timeline.shouldFetch,
                     query: Object.assign({}, content.timeline.query),
                 },
                 context: Object.assign({}, content.context),

@@ -63,7 +63,45 @@ function loadContentsFromCache(
     _localStorageCache[key] = content
     return content
 }
-
+function isChannelUpToDate(channel: ChannelObjectT, messages: MessageObjectT[]) {
+    if (messages.length == 0) {
+        return false
+    }
+    if (channel.last_message_id == null) {
+        return true
+    }
+    const latestMessage = messages[0]
+    if (channel.last_message_id == latestMessage.id) {
+        return true
+    }
+    return false
+}
+function isChanneGrouplUpToDate(channelGroup: ChannelGroupObjectT, messages: MessageObjectT[]) {
+    if (messages.length == 0) {
+        return false
+    }
+    if (channelGroup.last_message_id == null) {
+        return true
+    }
+    const latestMessage = messages[0]
+    if (channelGroup.last_message_id == latestMessage.id) {
+        return true
+    }
+    return false
+}
+function isThreadUpToDate(thread: MessageObjectT, messages: MessageObjectT[]) {
+    if (messages.length == 0) {
+        return false
+    }
+    const latestMessage = messages[0]
+    if (thread.last_reply_message_id == latestMessage.id) {
+        return true
+    }
+    if (thread.last_reply_message_id == null) {
+        return true
+    }
+    return false
+}
 function loadContentsFromLocalStorage(
     key: string,
     pageContext: PageContextObjectT
@@ -96,7 +134,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -125,7 +167,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -150,7 +196,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -175,7 +225,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -202,7 +256,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -227,7 +285,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChannelUpToDate(
+                            pageContext.channel.object,
+                            pageContext.channel.messages
+                        ),
                         query: {
                             channelId: pageContext.channel.object.id,
                         },
@@ -256,7 +318,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.channelGroup.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isChanneGrouplUpToDate(
+                            pageContext.channelGroup.object,
+                            pageContext.channelGroup.messages
+                        ),
                         query: {
                             channelId: pageContext.channelGroup.object.id,
                         },
@@ -285,7 +351,11 @@ function loadContentsFromLocalStorage(
                     },
                     timeline: {
                         messageIds: pageContext.thread.messages.map((message) => message.id),
-                        isLoadingLatestMessagesEnabled: true,
+                        shouldFetch: true,
+                        upToDate: isThreadUpToDate(
+                            pageContext.thread.object,
+                            pageContext.thread.messages
+                        ),
                         query: {
                             channelId: pageContext.thread.object.id,
                         },

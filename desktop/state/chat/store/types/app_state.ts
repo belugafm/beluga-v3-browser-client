@@ -23,7 +23,8 @@ export type ContentStateT = {
     }
     timeline: {
         messageIds: number[]
-        isLoadingLatestMessagesEnabled: boolean
+        shouldFetch: boolean // 自動更新するかどうか
+        upToDate: boolean // 最新のメッセージがmessageIdsに含まれるかどうか
         query: {
             channelGroupId?: number
             channelId?: number

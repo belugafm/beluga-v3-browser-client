@@ -44,18 +44,21 @@ export const useContentAction = ({
                 return reduce(reducerMethod.appState.content.close, content)
             },
             loadLatestMessagesIfNeeded: (content: ContentStateT) => {
-                if (content.timeline.isLoadingLatestMessagesEnabled == false) {
+                if (content.timeline.shouldFetch == false) {
                     return
                 }
-                return reducers.reducer(
-                    reducerMethod.appState.contentType.channel.loadLatestMessages,
-                    content
-                )
+                if (content.context.channelGroupId) {
+                } else if (content.context.channelId) {
+                    return reducers.reducer(
+                        reducerMethod.appState.channel.loadLatestMessages,
+                        content
+                    )
+                }
             },
         },
         channel: {
             open: (channel: ChannelObjectT, insertColumnAfter?: number) => {
-                return reduce(reducerMethod.appState.contentType.channel.asyncAdd, {
+                return reduce(reducerMethod.appState.channel.asyncAdd, {
                     channelId: channel.id,
                     insertColumnAfter: insertColumnAfter,
                 })

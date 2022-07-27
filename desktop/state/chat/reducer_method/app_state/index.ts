@@ -1,2 +1,2 @@
 export * as content from "./content"
-export * as contentType from "./content_type"
+export * as channel from "./channel"

@@ -1,14 +1,14 @@
-import * as api from "../../../../../api"
+import * as api from "../../../../api"
 
-import { AppStateT, ContentStateT } from "../../../store/types/app_state"
-import { ChannelObjectT, MessageObjectT } from "../../../../../api/object"
-import { copyContents, insertContent } from "../content"
+import { AppStateT, ContentStateT } from "../../store/types/app_state"
+import { ChannelObjectT, MessageObjectT } from "../../../../api/object"
+import { copyContents, insertContent } from "./content"
 
-import { ContentType } from "../../../store/app_state"
-import { DomainDataT } from "../../../store/types/domain_data"
-import { StoreT } from "../../../store/types/store"
-import config from "../../../../../config"
-import { fetch } from "../../../store/domain_data"
+import { ContentType } from "../../store/app_state"
+import { DomainDataT } from "../../store/types/domain_data"
+import { StoreT } from "../../store/types/store"
+import config from "../../../../config"
+import { fetch } from "../../store/domain_data"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -54,6 +54,19 @@ const _fetch = (
             .catch((error) => reject(error))
     })
 }
+const checkIfUpToDate = (channel: ChannelObjectT, messages: MessageObjectT[]) => {
+    if (messages.length == 0) {
+        return false
+    }
+    if (channel.last_message_id == null) {
+        return true
+    }
+    const latestMessage = messages[0]
+    if (channel.last_message_id == latestMessage.id) {
+        return true
+    }
+    return false
+}
 export const buildContentStateFromData = (data: {
     channel: ChannelObjectT
     messages: MessageObjectT[]
@@ -80,7 +93,8 @@ export const buildContentStateFromData = (data: {
         },
         timeline: {
             messageIds: messages.map((message) => message.id),
-            isLoadingLatestMessagesEnabled: true,
+            shouldFetch: true,
+            upToDate: checkIfUpToDate(channel, messages),
             query: {
                 channelId: channel.id,
                 limit: config.timeline.maxNumStatuses,
@@ -108,37 +122,8 @@ export const asyncAdd = async (
         channelId: params.channelId,
         limit: config.timeline.maxNumStatuses,
     }
-    const [nextDomainData, response] = await _fetch(store.domainData, timelineQuery)
-    const { channel, messages } = response
-    const columnId = Date.now()
-
-    const content: ContentStateT = {
-        id: columnId,
-        type: ContentType.Channel,
-        column: -1,
-        row: -1,
-        postbox: {
-            enabled: true,
-            query: {
-                channelId: channel.id,
-            },
-        },
-        context: {
-            channelId: channel.id,
-            channelGroupId: channel.parent_channel_group_id,
-        },
-        options: {
-            showMutedMessage: false,
-        },
-        timeline: {
-            messageIds: messages.map((status) => status.id),
-            isLoadingLatestMessagesEnabled: true,
-            query: timelineQuery,
-        },
-    }
-
+    const [nextDomainData] = await _fetch(store.domainData, timelineQuery)
     const nextAppState = store.appState
-
     return [
         {
             domainData: nextDomainData,
@@ -199,6 +184,23 @@ export const loadLatestMessages = async (
     nextContent.timeline.messageIds = messages
         .map((message) => message.id)
         .concat(nextContent.timeline.messageIds)
+
+    if (nextContent.timeline.messageIds.length > 0) {
+        const latestMessageId = nextContent.timeline.messageIds[0]
+        if (nextContent.type == ContentType.Channel) {
+            const channel = nextDomainData.channels.get(nextContent.context.channelId)
+            if (channel.last_message_id === latestMessageId) {
+                nextContent.timeline.upToDate = true
+            }
+        } else if (nextContent.type == ContentType.ChannelGroup) {
+            const channelGroup = nextDomainData.channelGroups.get(
+                nextContent.context.channelGroupId
+            )
+            if (channelGroup.last_message_id === latestMessageId) {
+                nextContent.timeline.upToDate = true
+            }
+        }
+    }
 
     return [
         {

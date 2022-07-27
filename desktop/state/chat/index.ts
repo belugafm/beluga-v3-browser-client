@@ -33,18 +33,17 @@ class Polling {
                 if (content.context.channelGroupId) {
                     parentChannelGroupIdSet.add(content.context.channelGroupId)
                 }
-                if (content.timeline.isLoadingLatestMessagesEnabled == false) {
+                if (content.timeline.shouldFetch == false) {
                     return
                 }
-                const reducer = this.reducers.reducer
-                const timerId = setInterval(() => {
-                    return reducer(
-                        reducerMethod.appState.contentType.channel.loadLatestMessages,
-                        content
-                    )
-                }, 10000)
-                // @ts-ignore
-                this.timerIds.push(timerId)
+                if (content.context.channelId) {
+                    const reducer = this.reducers.reducer
+                    const timerId = setInterval(() => {
+                        return reducer(reducerMethod.appState.channel.loadLatestMessages, content)
+                    }, 10000)
+                    // @ts-ignore
+                    this.timerIds.push(timerId)
+                }
             }
         }
         parentChannelGroupIdSet.forEach((channelGroupId) => {

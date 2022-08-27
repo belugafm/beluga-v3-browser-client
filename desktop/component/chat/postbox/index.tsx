@@ -1,10 +1,4 @@
-import {
-    $createParagraphNode,
-    $createTextNode,
-    $getRoot,
-    FORMAT_TEXT_COMMAND,
-    INSERT_PARAGRAPH_COMMAND,
-} from "lexical"
+import { $createParagraphNode, $createTextNode, $getRoot } from "lexical"
 import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
@@ -15,10 +9,9 @@ import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { EditorComponent } from "./editor"
 import ExampleTheme from "./themes/ExampleTheme"
 import { FileObjectT } from "../../../api/object"
-import LexicalComposer from "@lexical/react/LexicalComposer"
+import { LexicalComposer } from "@lexical/react/LexicalComposer"
 import { SendButtonComponent } from "./send_button"
 import { TooltipActionT } from "../../../state/component/tooltip"
-import classNames from "classnames"
 import { postFormData } from "../../../api/fetch"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import { usePostboxState } from "../../../state/chat/components/postbox"
@@ -30,6 +23,8 @@ const editorConfig = {
     onError(error) {
         throw error
     },
+    namespace: "chat",
+    editorState: undefined,
     // Any custom nodes go here
     nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, CodeHighlightNode],
 }
@@ -117,6 +112,7 @@ const _PostboxComponent = ({
 }) => {
     const fileInputRef = useRef(null)
     const [editor] = useLexicalComposerContext()
+    // console.log(JSON.stringify(editor.getEditorState().toJSON()))
     const [theme] = useTheme()
     const { handlePostMessage } = usePostboxState({
         query: content.postbox.query,
@@ -131,7 +127,6 @@ const _PostboxComponent = ({
         },
         [fileInputRef]
     )
-
     const handleUploadMedia = useCallback(
         async (e) => {
             const files = e.target.files

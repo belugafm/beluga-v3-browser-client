@@ -15,7 +15,6 @@ import { $isListNode, ListNode } from "@lexical/list"
 import { Themes, useTheme } from "../../../../theme"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 
-import { $isAtNodeEnd } from "@lexical/selection"
 import { $isHeadingNode } from "@lexical/rich-text"
 import { BlockOptionsDropdownList } from "./block_dropdown"
 import { Select } from "./select_language"
@@ -23,6 +22,9 @@ import { TooltipActionContext } from "../../../../../state/component/tooltip"
 import classNames from "classnames"
 import { createPortal } from "react-dom"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
+import ColorPicker from "./color_picker"
+import { $patchStyleText } from "@lexical/selection"
+import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/dropdown"
 
 const getStyleForEditorButton = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -121,6 +123,70 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
     const [isStrikethrough, setIsStrikethrough] = useState(false)
     const [isCode, setIsCode] = useState(false)
 
+    // ColorPicker
+    const colorPickerDropDownRef = useRef<HTMLDivElement>(null)
+    const colorPickerButtonRef = useRef<HTMLButtonElement>(null)
+    const [showColorPickerDropDown, setShowColorPickerDropDown] = useState(false)
+    const [fontColor, setFontColor] = useState<string>("#000")
+    const applyStyleText = useCallback(
+        (styles: Record<string, string>) => {
+            editor.update(() => {
+                const selection = $getSelection()
+                if ($isRangeSelection(selection)) {
+                    $patchStyleText(selection, styles)
+                }
+            })
+        },
+        [editor]
+    )
+    const onFontColorSelect = useCallback(
+        (value: string) => {
+            applyStyleText({ color: value })
+        },
+        [applyStyleText]
+    )
+    const handleClose = () => {
+        setShowColorPickerDropDown(false)
+        if (colorPickerButtonRef && colorPickerButtonRef.current) {
+            colorPickerButtonRef.current.focus()
+        }
+    }
+    useEffect(() => {
+        const button = colorPickerButtonRef.current
+        const dropDown = colorPickerDropDownRef.current
+        if (showColorPickerDropDown && button !== null && dropDown !== null) {
+            const { top, left } = button.getBoundingClientRect()
+            dropDown.style.top = `${top - 380}px`
+            dropDown.style.left = `${Math.min(
+                left - 112,
+                window.innerWidth - dropDown.offsetWidth - 20
+            )}px`
+        }
+    }, [colorPickerDropDownRef, colorPickerButtonRef, showColorPickerDropDown])
+    useEffect(() => {
+        const button = colorPickerButtonRef.current
+
+        if (button !== null && showColorPickerDropDown) {
+            const handle = (event: MouseEvent) => {
+                const target = event.target
+                if (
+                    colorPickerDropDownRef.current &&
+                    colorPickerDropDownRef.current.contains(target as Node)
+                )
+                    return
+                if (!button.contains(target as Node)) {
+                    setShowColorPickerDropDown(false)
+                }
+            }
+            document.addEventListener("click", handle)
+
+            return () => {
+                document.removeEventListener("click", handle)
+            }
+        }
+    }, [colorPickerDropDownRef, colorPickerButtonRef, showColorPickerDropDown])
+
+    // Editor
     const updateToolbar = useCallback(() => {
         const selection = $getSelection()
         if ($isRangeSelection(selection)) {
@@ -152,7 +218,6 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             setIsCode(selection.hasFormat("code"))
         }
     }, [editor])
-
     useEffect(() => {
         return mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
@@ -189,6 +254,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
         )
     }, [editor, updateToolbar])
 
+    // Code
     const codeLanguges = useMemo(() => getCodeLanguages(), [])
     const onCodeLanguageSelect = useCallback(
         (e) => {
@@ -347,13 +413,33 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className="editor-button palette"
+                        className={classNames("editor-button format palette", {
+                            active: showColorPickerDropDown,
+                        })}
+                        onClick={() => setShowColorPickerDropDown(!showColorPickerDropDown)}
                         onMouseEnter={(e) => tooltipAction.show(e, "文字色")}
-                        onMouseLeave={() => tooltipAction.hide()}>
+                        onMouseLeave={() => tooltipAction.hide()}
+                        ref={colorPickerButtonRef}>
                         <svg className="icon">
                             <use href="#icon-editor-palette"></use>
                         </svg>
                     </button>
+                    {showColorPickerDropDown &&
+                        createPortal(
+                            <ColorPickerDropDownItems
+                                dropDownRef={colorPickerDropDownRef}
+                                onClose={handleClose}>
+                                <ColorPicker
+                                    buttonClassName="toolbar-item color-picker"
+                                    buttonAriaLabel="Formatting text color"
+                                    buttonIconClassName="icon font-color"
+                                    color={fontColor}
+                                    onChange={onFontColorSelect}
+                                    title="text color"
+                                />
+                            </ColorPickerDropDownItems>,
+                            document.body
+                        )}
                 </>
             )}
             <style jsx>{`

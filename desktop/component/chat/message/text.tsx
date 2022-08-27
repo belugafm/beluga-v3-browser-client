@@ -102,23 +102,29 @@ export const styledNodeToDOM = (
     if (node.type == "text") {
         if (node.style) {
             let textDecoration = ""
-            if (hasFormat(node.style.format, MessageEntityStyleFormat.IS_STRIKETHROUGH)) {
+            if (hasFormat(node.style.format, MessageEntityStyleFormat.STRIKETHROUGH)) {
                 textDecoration += "line-through "
             }
-            if (hasFormat(node.style.format, MessageEntityStyleFormat.IS_UNDERLINE)) {
+            if (hasFormat(node.style.format, MessageEntityStyleFormat.UNDERLINE)) {
                 textDecoration += "underline "
             }
-            const fontWeight = hasFormat(node.style.format, MessageEntityStyleFormat.IS_BOLD)
+            const fontWeight = hasFormat(node.style.format, MessageEntityStyleFormat.BOLD)
                 ? 700
                 : 400
-            const fontStyle = hasFormat(node.style.format, MessageEntityStyleFormat.IS_ITALIC)
+            const fontStyle = hasFormat(node.style.format, MessageEntityStyleFormat.ITALIC)
                 ? "italic"
                 : "normal"
+            var style = node.style.color
+                ? {
+                      color: node.style.color,
+                  }
+                : {}
             return (
                 <>
                     <span
+                        style={style}
                         className={classNames({
-                            code: hasFormat(node.style.format, MessageEntityStyleFormat.IS_CODE),
+                            code: hasFormat(node.style.format, MessageEntityStyleFormat.CODE),
                         })}>
                         {sliceText(textGraphemes, node)}
                     </span>

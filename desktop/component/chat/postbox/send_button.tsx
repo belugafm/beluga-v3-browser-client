@@ -9,53 +9,9 @@ import classNames from "classnames"
 import lexical from "lexical"
 import { mergeRegister } from "@lexical/utils"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
+import { isString } from "../../../lib/type_check"
 
-const initialStateJson = `
-{
-    "_nodeMap":[
-        [
-            "root",
-            {
-                "__children":[
-                "1"
-                ],
-                "__dir":null,
-                "__format":0,
-                "__indent":0,
-                "__key":"root",
-                "__parent":null,
-                "__type":"root"
-            }
-        ],
-        [
-            "1",
-            {
-                "__type":"paragraph",
-                "__parent":"root",
-                "__key":"1",
-                "__children":[
-                
-                ],
-                "__format":0,
-                "__indent":0,
-                "__dir":null
-            }
-        ]
-    ],
-    "_selection":{
-        "anchor":{
-            "key":"1",
-            "offset":0,
-            "type":"element"
-        },
-        "focus":{
-            "key":"1",
-            "offset":0,
-            "type":"element"
-        },
-        "type":"range"
-    }
-}`
+const initialEditorStateJSON = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -82,25 +38,25 @@ const getStyle = (theme: Themes) => {
 function getFormat(node: lexical.TextNode) {
     let format = 0
     if (node.hasFormat("bold")) {
-        format |= MessageEntityStyleFormat.IS_BOLD
+        format |= MessageEntityStyleFormat.BOLD
     }
     if (node.hasFormat("code")) {
-        format |= MessageEntityStyleFormat.IS_CODE
+        format |= MessageEntityStyleFormat.CODE
     }
     if (node.hasFormat("italic")) {
-        format |= MessageEntityStyleFormat.IS_ITALIC
+        format |= MessageEntityStyleFormat.ITALIC
     }
     if (node.hasFormat("strikethrough")) {
-        format |= MessageEntityStyleFormat.IS_STRIKETHROUGH
+        format |= MessageEntityStyleFormat.STRIKETHROUGH
     }
     if (node.hasFormat("subscript")) {
-        format |= MessageEntityStyleFormat.IS_SUBSCRIPT
+        format |= MessageEntityStyleFormat.SUBSCRIPT
     }
     if (node.hasFormat("superscript")) {
-        format |= MessageEntityStyleFormat.IS_SUPERSCRIPT
+        format |= MessageEntityStyleFormat.SUPERSCRIPT
     }
     if (node.hasFormat("underline")) {
-        format |= MessageEntityStyleFormat.IS_UNDERLINE
+        format |= MessageEntityStyleFormat.UNDERLINE
     }
     return format
 }
@@ -202,8 +158,17 @@ function deserializeEditorState(
             console.log("ListItemNode", cursor, nestedElement, rootChildren.length)
         } else if (nodeType == "text") {
             const text = childNode.getTextContent()
+            const style = childNode.__style
+            var colorCode = null
+            if (isString(style)) {
+                const re = /color: (#[0-9a-f]{6})/
+                const match = style.match(re)
+                if (match) {
+                    colorCode = match[1]
+                }
+            }
             const textLength = new GraphemeSplitter().splitGraphemes(text).length
-            console.log("text", text, textLength, cursor)
+            console.log("text", text, textLength, style, cursor)
             nodeMap.push({
                 children: [],
                 type: nodeType,
@@ -211,7 +176,7 @@ function deserializeEditorState(
                 style: {
                     // @ts-ignore
                     format: getFormat(childNode),
-                    color: null,
+                    color: colorCode,
                 },
                 indices: [cursor, cursor + textLength - 1],
             })
@@ -433,7 +398,7 @@ export const SendButtonComponent = ({
                 textHasStyle ? JSON.stringify(textStyle) : null
             )
             if (succeeded) {
-                editor.setEditorState(editor.parseEditorState(initialStateJson))
+                editor.setEditorState(editor.parseEditorState(initialEditorStateJSON))
                 editor.focus()
             }
         },

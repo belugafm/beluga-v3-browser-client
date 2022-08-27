@@ -63,13 +63,13 @@ export type ChannelObjectT = {
 }
 
 export const MessageEntityStyleFormat = {
-    IS_BOLD: 1,
-    IS_ITALIC: 1 << 1,
-    IS_STRIKETHROUGH: 1 << 2,
-    IS_UNDERLINE: 1 << 3,
-    IS_CODE: 1 << 4,
-    IS_SUBSCRIPT: 1 << 5,
-    IS_SUPERSCRIPT: 1 << 6,
+    BOLD: 1,
+    ITALIC: 1 << 1,
+    STRIKETHROUGH: 1 << 2,
+    UNDERLINE: 1 << 3,
+    CODE: 1 << 4,
+    SUBSCRIPT: 1 << 5,
+    SUPERSCRIPT: 1 << 6,
 } as const
 
 export type MessageEntityStyleNode = {

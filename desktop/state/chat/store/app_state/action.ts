@@ -1,6 +1,6 @@
 import * as reducerMethod from "../reducer_method"
 
-import { AppStateT, ContentStateT } from "../types/app_state"
+import { AppStateT, ContentStateT, ContentType } from "../types/app_state"
 import { AsyncReducerMethodT, ReducersT } from "../types/reducer"
 import { Context, createContext } from "react"
 
@@ -44,11 +44,10 @@ export const useContentAction = ({
                 return reduce(reducerMethod.appState.content.close, content)
             },
             loadLatestMessagesIfNeeded: (content: ContentStateT) => {
-                if (content.timeline.shouldFetch == false) {
-                    return
-                }
-                if (content.context.channelGroupId) {
-                } else if (content.context.channelId) {
+                // if (content.timeline.shouldFetch == false) {
+                //     return
+                // }
+                if (content.type == ContentType.Channel) {
                     return reducers.asyncReducer(
                         reducerMethod.appState.channel.loadLatestMessages,
                         content

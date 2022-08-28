@@ -86,7 +86,8 @@ export class ScrollerState {
         }
         const scroller = this.ref.current as HTMLDivElement
         const bottomScrollTop = scroller.scrollHeight - scroller.clientHeight
-        if (scroller.scrollTop == bottomScrollTop) {
+        // macOSでは0.5pxずれるので注意
+        if (scroller.scrollTop >= bottomScrollTop - 1) {
             this.setHasReachedBottom(true)
             if (this.content.timeline.upToDate) {
                 this.setForceScrollToBottom(true)

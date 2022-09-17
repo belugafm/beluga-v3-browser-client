@@ -111,11 +111,16 @@ export class ScrollerState {
         return lastMessageId === latestMessageIdInCurrentTimeline
     }
     loadMessagesWithMaxIdIfNeeded = async () => {
+        if (this.content.timeline.messageIds.length == 0) {
+            return
+        }
         if (this.isPendingRequest) {
             return
         }
         this.isPendingRequest = true
-        this.contentAction.loadLatestMessages()
+        const maxId = this.content.timeline.messageIds[this.content.timeline.messageIds.length - 1]
+        await this.contentAction.loadMessagesWithMaxId(this.content, maxId)
+        this.isPendingRequest = false
     }
     handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         console.log("[ScrollerState] handleScroll")

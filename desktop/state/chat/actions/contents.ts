@@ -4,20 +4,22 @@ import { AppStateT, ContentStateT, ContentType } from "../store/types/app_state"
 import { AsyncReducerMethodT, ReducersT } from "../store/types/reducer"
 import { Context, createContext } from "react"
 
-import { ChannelObjectT } from "../../../api/object"
+import { ChannelObjectT, MessageId } from "../../../api/object"
 import { Response } from "../../../api"
 
 export type ContentActionT = {
     closeContent: (content: ContentStateT) => void
-    loadLatestMessages: (content: ContentStateT) => void
-    loadMessagesWithMaxId: (content: ContentStateT, maxId: number) => void
-    loadMessagesWithSinceId: (content: ContentStateT, sinceId: number) => void
+    loadLatestMessages: (content: ContentStateT) => Promise<Response>
+    loadMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => Promise<Response>
+    loadMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => Promise<Response>
     openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
 }
 
 export const ContentActionContext: Context<ContentActionT> = createContext({
     closeContent: null,
     loadLatestMessages: null,
+    loadMessagesWithMaxId: null,
+    loadMessagesWithSinceId: null,
     openChannel: null,
 })
 
@@ -40,6 +42,41 @@ export const useContentAction = ({
                 return reducers.asyncReducer(
                     reducerMethod.appState.channel.loadLatestMessages,
                     content
+                )
+            }
+            if (content.type == ContentType.ChannelGroup) {
+                // TODO
+                return
+            }
+            if (content.type == ContentType.Thread) {
+                // TODO
+                return
+            }
+        },
+        loadMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => {
+            if (content.type == ContentType.Channel) {
+                return reducers.asyncReducer(reducerMethod.appState.channel.loadMessagesWithMaxId, {
+                    prevContent: content,
+                    maxId: maxId,
+                })
+            }
+            if (content.type == ContentType.ChannelGroup) {
+                // TODO
+                return
+            }
+            if (content.type == ContentType.Thread) {
+                // TODO
+                return
+            }
+        },
+        loadMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => {
+            if (content.type == ContentType.Channel) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.channel.loadMessagesWithSinceId,
+                    {
+                        prevContent: content,
+                        sinceId: sinceId,
+                    }
                 )
             }
             if (content.type == ContentType.ChannelGroup) {

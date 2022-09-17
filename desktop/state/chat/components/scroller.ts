@@ -29,11 +29,15 @@ export class ScrollerState {
     scrolled: boolean = false
     prevScrollTop: number = 0
     forceScrollToBottom: boolean = true
+    shouldNotifyNewMessages: boolean = false
     isPendingRequest: boolean = false
     forceScrollToBottomTimerId: NodeJS.Timer = null
-    setHasReachedBottom: (t: boolean) => void
-    setHasReachedTop: (t: boolean) => void
-    setForceScrollToBottom: (t: boolean) => void
+    lastReadLatestMessageId: number = -1
+    setHasReachedBottom: (on: boolean) => void
+    setHasReachedTop: (on: boolean) => void
+    setForceScrollToBottom: (on: boolean) => void
+    setShouldNotifyNewMessages: (on: boolean) => void
+    setLastReadLatestMessageId: (messageId: number) => void
     use = ({
         ref,
         content,
@@ -60,23 +64,51 @@ export class ScrollerState {
         this.hasReachedTop = hasReachedTop
         this.setHasReachedTop = setHasReachedTop
 
+        const [shouldNotifyNewMessages, setShouldNotifyNewMessages] = useState(false)
+        this.shouldNotifyNewMessages = shouldNotifyNewMessages
+        this.setShouldNotifyNewMessages = setShouldNotifyNewMessages
+
+        const { lastMessageId } = content.timeline
+        const [lastReadLatestMessageId, setLastReadLatestMessageId] = useState(lastMessageId)
+        this.lastReadLatestMessageId = lastReadLatestMessageId
+        this.setLastReadLatestMessageId = setLastReadLatestMessageId
+
         useEffect(() => {
-            console.log("[ScrollerState] useEffect")
-            clearInterval(this.forceScrollToBottomTimerId)
-            if (forceScrollToBottom) {
-                console.log("[ScrollerState] setInterval")
-                this.forceScrollToBottomTimerId = setInterval(() => {
-                    const scroller = ref.current as HTMLDivElement
-                    const scrollTop = scroller.scrollHeight - scroller.clientHeight
-                    if (scrollTop != scroller.scrollTop) {
-                        console.log(
-                            `[ScrollerState] Set scrollTop: forceScrollToBottom=${forceScrollToBottom}`
-                        )
-                        scroller.scrollTop = scrollTop
-                    }
-                }, 100)
+            console.log("[ScrollerState] useEffect #1")
+            if (this.forceScrollToBottom) {
+                this.setLastReadLatestMessageId(lastMessageId)
             }
-        })
+            if (
+                this.isTimelineUpToDate() &&
+                this.forceScrollToBottom == false &&
+                lastMessageId != this.lastReadLatestMessageId
+            ) {
+                this.setShouldNotifyNewMessages(true)
+            } else {
+                this.setShouldNotifyNewMessages(false)
+            }
+        }, [forceScrollToBottom, lastReadLatestMessageId, lastMessageId, this.isTimelineUpToDate()])
+
+        useEffect(() => {
+            console.log("[ScrollerState] useEffect #2")
+            clearInterval(this.forceScrollToBottomTimerId)
+            if (this.forceScrollToBottom) {
+                this.forceScrollToBottomTimerId = setInterval(this.scrollToBottom.bind(this), 100)
+            }
+        }, [forceScrollToBottom, lastMessageId])
+    }
+    scrollToBottom() {
+        const scroller = this.ref.current as HTMLDivElement
+        const scrollTop = scroller.scrollHeight - scroller.clientHeight
+        if (scrollTop != scroller.scrollTop) {
+            scroller.scrollTop = scrollTop
+        }
+    }
+    isTimelineUpToDate = () => {
+        const { lastMessageId } = this.content.timeline
+        const latestMessageIdInCurrentTimeline =
+            this.content.timeline.messageIds.length == 0 ? -1 : this.content.timeline.messageIds[0]
+        return lastMessageId === latestMessageIdInCurrentTimeline
     }
     handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         console.log("[ScrollerState] handleScroll")
@@ -90,12 +122,18 @@ export class ScrollerState {
         if (scroller.scrollTop >= bottomScrollTop - 1) {
             this.setHasReachedBottom(true)
             if (this.content.timeline.upToDate) {
+                console.log(true)
                 this.setForceScrollToBottom(true)
+                this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
             } else {
+                console.log(false)
+                this.forceScrollToBottom = false
                 this.setForceScrollToBottom(false)
             }
         } else {
             this.setHasReachedBottom(false)
+            console.log(false)
+            this.forceScrollToBottom = false
             this.setForceScrollToBottom(false)
         }
         if (scroller.scrollTop == 0) {

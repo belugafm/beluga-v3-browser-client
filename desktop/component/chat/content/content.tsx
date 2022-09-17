@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react"
+import React, { useCallback, useContext, useMemo, useRef } from "react"
 import { Themes, useTheme } from "../../theme"
 
 import { ContentActionContext } from "../../../state/chat/actions/contents"
@@ -15,8 +15,6 @@ import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { swrShowLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
-
-const scrollerState = new ScrollerState()
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -111,6 +109,101 @@ const EmptyContentComponent = () => {
     )
 }
 
+const NewMessageNotificationComponent = ({
+    scrollerState,
+    theme,
+}: {
+    scrollerState: ScrollerState
+    theme: Themes
+}) => {
+    if (scrollerState.shouldNotifyNewMessages) {
+        const getStyle = (theme: Themes) => {
+            if (theme.global.current.light) {
+                return {
+                    fill: "#fff",
+                    hoverFill: "#fff",
+                    backgroundColor: "#2a85ff",
+                    hoverBackgroundColor: "#0069f6",
+                    focusBackgroundColor: "#2a85ff",
+                }
+            }
+            if (theme.global.current.dark) {
+                return {
+                    fill: "#fff",
+                    hoverFill: "#fff",
+                    backgroundColor: "#2a85ff",
+                    hoverBackgroundColor: "#0069f6",
+                    focusBackgroundColor: "#2a85ff",
+                }
+            }
+            throw new Error()
+        }
+
+        return (
+            <>
+                <div className="container">
+                    <button>
+                        <svg className="icon">
+                            <use href="#icon-chat-notification"></use>
+                        </svg>
+                        <span>新しいメッセージ</span>
+                    </button>
+                </div>
+                <style jsx>{`
+                    .container {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        z-index: 2;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .icon {
+                        width: 18px;
+                        height: 18px;
+                        text-align: center;
+                        flex-shrink: 0;
+                        margin: 1px 4px 0 0;
+                    }
+                    button {
+                        cursor: pointer;
+                        height: 32px;
+                        border-radius: 18px;
+                        outline: none;
+                        border: none;
+                        background-color: transparent;
+                        transition: 0.1s;
+                        font-weight: 500;
+                        padding: 0 20px;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        line-height: 32px;
+                    }
+                `}</style>
+                <style jsx>{`
+                    button {
+                        color: ${getStyle(theme)["fill"]};
+                        background-color: ${getStyle(theme)["backgroundColor"]};
+                    }
+                    button:hover {
+                        background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    }
+                    .icon {
+                        fill: ${getStyle(theme)["fill"]};
+                    }
+                `}</style>
+            </>
+        )
+    }
+    return null
+}
+
 const SpacerComponent = () => {
     return (
         <div className="spacer">
@@ -135,6 +228,14 @@ const DebugMessageComponent = ({ scrollerState }: { scrollerState: ScrollerState
         <div className="debug-message">
             <div className="panel">
                 <p>
+                    <span className="key">shouldNotifyNewMessages:</span>
+                    <span className="value">
+                        {scrollerState.shouldNotifyNewMessages ? "true" : "false"}
+                    </span>
+                </p>
+            </div>
+            <div className="panel">
+                <p>
                     <span className="key">hasReachedBottom:</span>
                     <span className="value">
                         {scrollerState.hasReachedBottom ? "true" : "false"}
@@ -151,6 +252,10 @@ const DebugMessageComponent = ({ scrollerState }: { scrollerState: ScrollerState
                 <p>
                     <span className="key">hasReachedTop:</span>
                     <span className="value">{scrollerState.hasReachedTop ? "true" : "false"}</span>
+                </p>
+                <p>
+                    <span className="key">lastReadLatestMessageId:</span>
+                    <span className="value">{scrollerState.lastReadLatestMessageId}</span>
                 </p>
             </div>
             <style jsx>{`
@@ -189,6 +294,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
+    const scrollerState = useMemo(() => new ScrollerState(), [content])
     scrollerState.use({
         ref: scrollerRef,
         content: content,
@@ -250,6 +356,10 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                             onScroll={scrollerState.handleScroll}>
                             {messageComponentList}
                         </div>
+                        <NewMessageNotificationComponent
+                            scrollerState={scrollerState}
+                            theme={theme}
+                        />
                     </div>
                     <div className="postbox">
                         <PostboxComponent content={content} tooltipAction={tooltipAction} />
@@ -297,6 +407,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     flex-direction: column;
                     flex: 1 1 auto;
                     z-index: 1;
+                    position: relative;
                 }
                 .scroller::-webkit-scrollbar {
                     width: 0px;
@@ -317,6 +428,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;
+                    z-index: 1;
                 }
             `}</style>
             <style jsx>{`

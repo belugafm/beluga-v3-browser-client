@@ -30,9 +30,11 @@ export class Polling {
                     return
                 }
                 if (content.context.channelId) {
-                    const reducer = this.reducers.asyncReducer
                     const timerId = setInterval(() => {
-                        return reducer(reducerMethod.appState.channel.loadLatestMessages, content)
+                        return this.reducers.asyncReducer(
+                            reducerMethod.appState.channel.loadLatestMessages,
+                            content
+                        )
                     }, 10000)
                     // @ts-ignore
                     this.timerIds.push(timerId)

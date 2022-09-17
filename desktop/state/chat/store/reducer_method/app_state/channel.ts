@@ -192,6 +192,7 @@ export const loadLatestMessages = async (
             if (channel.last_message_id === latestMessageId) {
                 nextContent.timeline.upToDate = true
             }
+            nextContent.timeline.lastMessageId = channel.last_message_id
         } else if (nextContent.type == ContentType.ChannelGroup) {
             const channelGroup = nextDomainData.channelGroups.get(
                 nextContent.context.channelGroupId
@@ -199,6 +200,13 @@ export const loadLatestMessages = async (
             if (channelGroup.last_message_id === latestMessageId) {
                 nextContent.timeline.upToDate = true
             }
+            nextContent.timeline.lastMessageId = channelGroup.last_message_id
+        } else if (nextContent.type == ContentType.Thread) {
+            const thread = nextDomainData.messages.get(nextContent.context.messageId)
+            if (thread.last_reply_message_id === latestMessageId) {
+                nextContent.timeline.upToDate = true
+            }
+            nextContent.timeline.lastMessageId = thread.last_reply_message_id
         }
     }
 

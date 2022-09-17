@@ -112,6 +112,7 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        lastMessageId: pageContext.channel.object.last_message_id,
                         messageIds: pageContext.channel.messages.map((message) => message.id),
                         shouldFetch: true,
                         upToDate: isChannelUpToDate(
@@ -296,6 +297,7 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        lastMessageId: pageContext.channelGroup.object.last_message_id,
                         messageIds: pageContext.channelGroup.messages.map((message) => message.id),
                         shouldFetch: true,
                         upToDate: isChanneGrouplUpToDate(
@@ -329,6 +331,7 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        lastMessageId: pageContext.thread.object.last_reply_message_id,
                         messageIds: pageContext.thread.messages.map((message) => message.id),
                         shouldFetch: true,
                         upToDate: isThreadUpToDate(

@@ -22,6 +22,7 @@ export type ContentStateT = {
         showMutedMessage: boolean
     }
     timeline: {
+        lastMessageId: number
         messageIds: number[]
         shouldFetch: boolean // 自動更新するかどうか
         upToDate: boolean // 最新のメッセージがmessageIdsに含まれるかどうか

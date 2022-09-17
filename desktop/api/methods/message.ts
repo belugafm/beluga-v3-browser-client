@@ -1,6 +1,7 @@
 import * as fetch from "../fetch"
 
 import { Response, UnexpectedResponseError, get } from "../fetch"
+import { MessageId } from "../object"
 
 export const message = {
     post: async (query: {
@@ -20,12 +21,12 @@ export const message = {
         }
         return responce
     },
-    delete: async (query: { messageId: number }): Promise<Response> => {
+    delete: async (query: { messageId: MessageId }): Promise<Response> => {
         return await fetch.post("message/delete", {
             id: query.messageId,
         })
     },
-    show: async (query: { messageId: number }): Promise<Response> => {
+    show: async (query: { messageId: MessageId }): Promise<Response> => {
         try {
             const response = await get("message/show", {
                 id: query.messageId,

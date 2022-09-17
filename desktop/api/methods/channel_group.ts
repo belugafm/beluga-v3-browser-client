@@ -1,6 +1,7 @@
 import { Response, UnexpectedResponseError, get, post } from "../fetch"
+import { ChannelGroupId } from "../object"
 
-function buildPayload(query: { id?: number; uniqueName?: string }) {
+function buildPayload(query: { id?: ChannelGroupId; uniqueName?: string }) {
     if (query.id) {
         return { id: query.id }
     }
@@ -11,7 +12,7 @@ function buildPayload(query: { id?: number; uniqueName?: string }) {
 }
 
 export const channelGroup = {
-    show: async (query: { id?: number; uniqueName?: string }): Promise<Response> => {
+    show: async (query: { id?: ChannelGroupId; uniqueName?: string }): Promise<Response> => {
         if (query.id == null && query.uniqueName == null) {
             throw new UnexpectedResponseError()
         }
@@ -21,16 +22,16 @@ export const channelGroup = {
         }
         return responce
     },
-    create: (body: { name: string; parentId: number }): Promise<Response> => {
+    create: (body: { name: string; parentId: ChannelGroupId }): Promise<Response> => {
         return post("channel_group/create", {
             name: body.name,
             parent_id: body.parentId,
         })
     },
-    listChannels: (query: { id: number }): Promise<Response> => {
+    listChannels: (query: { id: ChannelGroupId }): Promise<Response> => {
         return get("channel_group/list_channels", query)
     },
-    listChannelGroupss: (query: { id: number }): Promise<Response> => {
+    listChannelGroupss: (query: { id: ChannelGroupId }): Promise<Response> => {
         return get("channel_group/list_channel_groups", query)
     },
 }

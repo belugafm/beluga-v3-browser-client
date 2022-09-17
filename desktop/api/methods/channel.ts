@@ -1,6 +1,7 @@
 import { Response, UnexpectedResponseError, get, post } from "../fetch"
+import { ChannelGroupId, ChannelId } from "../object"
 
-function buildPayload(query: { id?: number; uniqueName?: string }) {
+function buildPayload(query: { id?: ChannelId; uniqueName?: string }) {
     if (query.id) {
         return { id: query.id }
     }
@@ -11,13 +12,13 @@ function buildPayload(query: { id?: number; uniqueName?: string }) {
 }
 
 export const channel = {
-    create: (body: { name: string; parentChannelGroupId: number }): Promise<Response> => {
+    create: (body: { name: string; parentChannelGroupId: ChannelGroupId }): Promise<Response> => {
         return post("channel/create", {
             name: body.name,
             parent_channel_group_id: body.parentChannelGroupId,
         })
     },
-    show: async (query: { id?: number; uniqueName?: string }): Promise<Response> => {
+    show: async (query: { id?: ChannelId; uniqueName?: string }): Promise<Response> => {
         if (query.id == null && query.uniqueName == null) {
             throw new UnexpectedResponseError()
         }

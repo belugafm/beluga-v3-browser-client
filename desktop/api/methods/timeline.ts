@@ -1,4 +1,5 @@
 import { Response, UnexpectedResponseError, get } from "../fetch"
+import { ChannelGroupId, ChannelId, MessageId } from "../object"
 
 function removeUndefined(query: any) {
     const ret = {}
@@ -12,9 +13,9 @@ function removeUndefined(query: any) {
 
 export const timeline = {
     channelGroup: async (query: {
-        channelGroupId: number
-        sinceId?: number
-        maxId?: number
+        channelGroupId: ChannelGroupId
+        sinceId?: MessageId
+        maxId?: MessageId
         sinceDate?: number
         untilDate?: number
         limit?: number
@@ -36,9 +37,9 @@ export const timeline = {
         return responce
     },
     channel: async (query: {
-        channelId: number
-        sinceId?: number
-        maxId?: number
+        channelId: ChannelId
+        sinceId?: MessageId
+        maxId?: MessageId
         sinceDate?: number
         untilDate?: number
         limit?: number
@@ -60,9 +61,9 @@ export const timeline = {
         return responce
     },
     thread: async (query: {
-        messageId: number
-        sinceId?: number
-        maxId?: number
+        messageId: MessageId
+        sinceId?: MessageId
+        maxId?: MessageId
         sinceDate?: number
         untilDate?: number
         limit?: number

@@ -2,8 +2,9 @@ import * as api from "../../api"
 
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { createContext, useState } from "react"
+import { ChannelGroupId } from "../../api/object"
 
-export const useCreateChannelFormState = (parentChannelGroupId: number) => {
+export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) => {
     const initialState = {
         errorMessage: [],
         hint: [],

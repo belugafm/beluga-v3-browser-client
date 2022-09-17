@@ -1,3 +1,5 @@
+import { ChannelGroupId, ChannelId, MessageId } from "../../../../api/object"
+
 export const ContentType = {
     ChannelGroup: "ChannelGroup",
     Channel: "Channel",
@@ -14,25 +16,25 @@ export type ContentStateT = {
         query: any
     }
     context: {
-        channelGroupId?: number
-        channelId?: number
-        messageId?: number
+        channelGroupId?: ChannelGroupId
+        channelId?: ChannelId
+        messageId?: MessageId
     }
     options: {
         showMutedMessage: boolean
     }
     timeline: {
-        lastMessageId: number
-        messageIds: number[]
+        lastMessageId: MessageId
+        messageIds: MessageId[]
         shouldFetch: boolean // 自動更新するかどうか
         upToDate: boolean // 最新のメッセージがmessageIdsに含まれるかどうか
         query: {
-            channelGroupId?: number
-            channelId?: number
-            messageId?: number
-            maxId?: number
-            sinceId?: number
-            maxDate?: number
+            channelGroupId?: ChannelGroupId
+            channelId?: ChannelId
+            messageId?: MessageId
+            maxId?: MessageId
+            sinceId?: MessageId
+            maxDate?: MessageId
             untilDate?: number
             limit?: number
         }

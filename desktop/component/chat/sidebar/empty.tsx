@@ -1,3 +1,4 @@
+import { ChannelGroupId, ChannelId } from "../../../api/object"
 import { Themes, useTheme } from "../../theme"
 
 const getStyleForPanel = (theme: Themes) => {
@@ -47,9 +48,9 @@ export const EmptyComponent = ({
     channelGroupIds,
     channelGroupId,
 }: {
-    channelIds: number[]
-    channelGroupIds: number[]
-    channelGroupId: number
+    channelIds: ChannelId[]
+    channelGroupIds: ChannelGroupId[]
+    channelGroupId: ChannelGroupId
 }) => {
     const [theme] = useTheme()
     const components: JSX.Element[] = []

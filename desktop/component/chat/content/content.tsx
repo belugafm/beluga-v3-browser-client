@@ -8,7 +8,7 @@ import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { HeaderComponent } from "./header"
 import { MessageActionContext } from "../../../state/chat/actions/message"
 import { MessageComponent } from "../message"
-import { MessageObjectT } from "../../../api/object"
+import { ChannelId, MessageObjectT, UserId } from "../../../api/object"
 import { PostboxComponent } from "../postbox"
 import { ScrollerState } from "../../../state/chat/components/scroller"
 import { TextComponent } from "../message/text"
@@ -33,8 +33,8 @@ const getStyleForTheme = (theme: Themes) => {
 }
 
 export class CheckIsConsecutivePost {
-    private lastUserId: number | null
-    private lastChannelId: number | null
+    private lastUserId: UserId | null
+    private lastChannelId: ChannelId | null
     private lastCreatedAt: number | null
     private consectivePeriodInSec: number
     constructor() {
@@ -302,7 +302,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     scrollerState.use({
         ref: scrollerRef,
         content: content,
-        chatActions: contentAction,
+        contentAction: contentAction,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
     const messageComponentList = [...content.timeline.messageIds].reverse().map((messageId, n) => {

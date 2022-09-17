@@ -6,6 +6,7 @@ import React, { MouseEvent } from "react"
 
 import { Themes } from "../../theme"
 import classNames from "classnames"
+import { ChannelGroupId } from "../../../api/object"
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -40,7 +41,7 @@ export const ChannelMenuModalComponent = ({
     state: ChannelMenuModalStateT
     action: ChannelMenuModalActionT
     theme: Themes
-    channelGroupId: number
+    channelGroupId: ChannelGroupId
 }) => {
     console.debug("ChannelMenuModalComponent::render")
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {

@@ -1,7 +1,7 @@
 import * as api from "../../../../../api"
 
 import { AppStateT, ContentStateT } from "../../types/app_state"
-import { ChannelObjectT, MessageObjectT } from "../../../../../api/object"
+import { ChannelId, ChannelObjectT, MessageObjectT } from "../../../../../api/object"
 import { copyContents, insertContent } from "./content"
 
 import { ContentType } from "../../app_state"
@@ -66,7 +66,7 @@ export const add = (store: StoreT, content: ContentStateT): StoreT => {
 export const asyncAdd = async (
     store: StoreT,
     params: {
-        channelId: number
+        channelId: ChannelId
         insertColumnAfter?: number
     }
 ): Promise<[StoreT, api.Response | null]> => {

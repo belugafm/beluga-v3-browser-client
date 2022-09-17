@@ -4,7 +4,7 @@ import {
 } from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
-import { ChannelGroupObjectT } from "../../../api/object"
+import { ChannelGroupId, ChannelGroupObjectT } from "../../../api/object"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { Random } from "../message/avatar"
 import classNames from "classnames"
@@ -32,7 +32,7 @@ const ImageComponent = ({
     channelGroupId,
     imageUrl,
 }: {
-    channelGroupId: number
+    channelGroupId: ChannelGroupId
     imageUrl: string | null
 }) => {
     if (imageUrl != null) {

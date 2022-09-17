@@ -1,5 +1,10 @@
+export type MessageId = number
+export type UserId = number
+export type ChannelId = number
+export type ChannelGroupId = number
+
 export type UserObjectT = {
-    id: number
+    id: UserId
     name: string
     display_name: string | null
     profile_image_url: string | null
@@ -21,42 +26,42 @@ export type UserObjectT = {
 }
 
 export type ChannelGroupObjectT = {
-    id: number
+    id: ChannelGroupId
     name: string
     unique_name: string
     description: string | null
     image_url: string | null
     created_at: Date
-    created_by: number
+    created_by: UserId
     level: number
     channels_count: number
     statuses_count: number
     creator: UserObjectT | null
     last_message_created_at: number | null
-    last_message_id: number | null
+    last_message_id: MessageId | null
 }
 
 export type ChannelReadStateObjectT = {
     id: number
     channel_id: number
-    user_id: number
-    last_message_id: number | null
+    user_id: UserId
+    last_message_id: MessageId | null
     last_message_created_at: number | null
     last_message: MessageObjectT | null
 }
 
 export type ChannelObjectT = {
-    id: number
+    id: ChannelId
     name: string
     unique_name: string
     parent_channel_group_id: number
     parent_channel_group: ChannelGroupObjectT | null
-    created_by: number
+    created_by: UserId
     created_at: Date
     message_count: number
     description: string
     status_string: string
-    last_message_id: number | null
+    last_message_id: MessageId | null
     last_message_created_at: number | null
     last_message: MessageObjectT | null
     read_state: ChannelReadStateObjectT | null
@@ -85,34 +90,34 @@ export type MessageEntityStyleNode = {
 }
 
 export type MessageObjectT = {
-    id: number
-    channel_id: number
+    id: MessageId
+    channel_id: ChannelId
     channel: ChannelObjectT | null
-    user_id: number
+    user_id: UserId
     user: UserObjectT | null
     text: string | null
     created_at: Date
     favorite_count: number
     like_count: number
     reply_count: number
-    thread_id: number | null
-    last_reply_message_id: number | null
+    thread_id: MessageId | null
+    last_reply_message_id: MessageId | null
     last_reply_message_created_at: Date | null
     deleted: boolean
     updated_at: number // for React
     entities: {
         channel_groups: {
-            channel_group_id: number
+            channel_group_id: ChannelGroupId
             channel_group: ChannelGroupObjectT | null
             indices: [number, number]
         }[]
         channels: {
-            channel_id: number
+            channel_id: ChannelId
             channel: ChannelObjectT | null
             indices: [number, number]
         }[]
         messages: {
-            message_id: number
+            message_id: MessageId
             message: MessageObjectT | null
             indices: [number, number]
         }[]
@@ -122,7 +127,7 @@ export type MessageObjectT = {
 
 export type FileObjectT = {
     id: number
-    userId: number
+    userId: UserId
     group: string
     path: string
     type: string

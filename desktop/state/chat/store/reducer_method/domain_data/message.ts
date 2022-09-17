@@ -3,6 +3,7 @@ import * as api from "../../../../../api"
 import { StoreT } from "../../types/store"
 import { copyDomainData } from "../../domain_data/copy"
 import { fetch } from "../../domain_data"
+import { MessageId } from "../../../../../api/object"
 
 export const message = {
     show: async (
@@ -33,7 +34,7 @@ export const message = {
     },
     delete: async (
         store: StoreT,
-        query: { messageId: number }
+        query: { messageId: MessageId }
     ): Promise<[StoreT, api.Response]> => {
         const [nextDomainData, response] = await fetch(store.domainData, api.message.delete, query)
         const { messageId } = query
@@ -49,7 +50,10 @@ export const message = {
             response,
         ]
     },
-    markAsDeleted: async (store: StoreT, query: { messageId: number }): Promise<[StoreT, null]> => {
+    markAsDeleted: async (
+        store: StoreT,
+        query: { messageId: MessageId }
+    ): Promise<[StoreT, null]> => {
         const { messageId } = query
         {
             const message = store.domainData.messages.get(messageId)

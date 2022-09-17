@@ -1,6 +1,7 @@
 import { Response, UnexpectedResponseError, post } from "../fetch"
+import { MessageId } from "../object"
 
-async function create(body: { messageId: number }): Promise<Response> {
+async function create(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("likes/create", {
         status_id: body.messageId,
     })

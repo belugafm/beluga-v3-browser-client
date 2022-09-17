@@ -1,6 +1,7 @@
 import { Response, UnexpectedResponseError, post } from "../fetch"
+import { MessageId } from "../object"
 
-async function create(body: { messageId: number }): Promise<Response> {
+async function create(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("favorites/create", {
         status_id: body.messageId,
     })
@@ -10,7 +11,7 @@ async function create(body: { messageId: number }): Promise<Response> {
     return responce
 }
 
-async function destroy(body: { messageId: number }): Promise<Response> {
+async function destroy(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("favorites/destroy", {
         status_id: body.messageId,
     })

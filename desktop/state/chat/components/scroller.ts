@@ -2,6 +2,7 @@ import { ContentActionT } from "../actions/contents"
 import { ContentStateT } from "../store/types/app_state"
 import { useEffect, useState } from "react"
 import config from "../../../config"
+import { MessageId } from "../../../api/object"
 
 function findMaxId(messageIds: string[]) {
     if (messageIds.length > config.timeline.maxNumStatuses) {
@@ -20,9 +21,9 @@ function findSinceId(messageIds: string[]) {
 export class ScrollerState {
     ref: React.MutableRefObject<any>
     content: ContentStateT
-    chatActions: ContentActionT
-    reqeustedMaxId: string
-    reqeustedSinceId: string
+    contentAction: ContentActionT
+    reqeustedMaxId: MessageId | null = null
+    reqeustedSinceId: MessageId | null = null
     loading: boolean = false
     hasReachedTop: boolean = false
     hasReachedBottom: boolean = false
@@ -32,25 +33,24 @@ export class ScrollerState {
     shouldNotifyNewMessages: boolean = false
     isPendingRequest: boolean = false
     forceScrollToBottomTimerId: NodeJS.Timer = null
-    lastReadLatestMessageId: number = -1
+    lastReadLatestMessageId: MessageId | null = null
     setHasReachedBottom: (on: boolean) => void
     setHasReachedTop: (on: boolean) => void
     setForceScrollToBottom: (on: boolean) => void
     setShouldNotifyNewMessages: (on: boolean) => void
-    setLastReadLatestMessageId: (messageId: number) => void
+    setLastReadLatestMessageId: (messageId: MessageId) => void
     use = ({
         ref,
         content,
-        chatActions,
+        contentAction,
     }: {
         ref: React.MutableRefObject<any>
         content: ContentStateT
-        chatActions: ContentActionT
+        contentAction: ContentActionT
     }) => {
         this.ref = ref
         this.content = content
-        this.chatActions = chatActions
-        this.reqeustedMaxId = "000000000000"
+        this.contentAction = contentAction
 
         const [hasReachedBottom, setHasReachedBottom] = useState(false)
         this.hasReachedBottom = hasReachedBottom
@@ -97,7 +97,7 @@ export class ScrollerState {
             }
         }, [forceScrollToBottom, lastMessageId])
     }
-    scrollToBottom() {
+    scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
         const scrollTop = scroller.scrollHeight - scroller.clientHeight
         if (scrollTop != scroller.scrollTop) {
@@ -109,6 +109,13 @@ export class ScrollerState {
         const latestMessageIdInCurrentTimeline =
             this.content.timeline.messageIds.length == 0 ? -1 : this.content.timeline.messageIds[0]
         return lastMessageId === latestMessageIdInCurrentTimeline
+    }
+    loadMessagesWithMaxIdIfNeeded = async () => {
+        if (this.isPendingRequest) {
+            return
+        }
+        this.isPendingRequest = true
+        this.contentAction.loadLatestMessages()
     }
     handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         console.log("[ScrollerState] handleScroll")
@@ -122,29 +129,27 @@ export class ScrollerState {
         if (scroller.scrollTop >= bottomScrollTop - 1) {
             this.setHasReachedBottom(true)
             if (this.content.timeline.upToDate) {
-                console.log(true)
                 this.setForceScrollToBottom(true)
                 this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
             } else {
-                console.log(false)
                 this.forceScrollToBottom = false
                 this.setForceScrollToBottom(false)
             }
         } else {
             this.setHasReachedBottom(false)
-            console.log(false)
             this.forceScrollToBottom = false
             this.setForceScrollToBottom(false)
         }
         if (scroller.scrollTop == 0) {
             this.setHasReachedTop(true)
+            this.loadMessagesWithMaxIdIfNeeded()
         } else {
             this.setHasReachedTop(false)
         }
         if (this.loading) {
             return
         }
-        // const { content, chatActions } = this
+        // const { content, contentAction } = this
         // const container = event.target as HTMLDivElement
         // const scroller = this.ref.current as HTMLDivElement
         // const threashold = 100
@@ -165,7 +170,7 @@ export class ScrollerState {
         //             }
         //             this.loading = true
         //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await chatActions.content.setTimelineQuery(
+        //             const responce = await contentAction.content.setTimelineQuery(
         //                 content,
         //                 Object.assign({}, content.timeline.query, {
         //                     maxId,
@@ -200,7 +205,7 @@ export class ScrollerState {
         //             }
         //             this.loading = true
         //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await chatActions.content.setTimelineQuery(
+        //             const responce = await contentAction.content.setTimelineQuery(
         //                 content,
         //                 Object.assign({}, content.timeline.query, {
         //                     sinceId,

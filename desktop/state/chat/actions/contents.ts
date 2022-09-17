@@ -9,13 +9,15 @@ import { Response } from "../../../api"
 
 export type ContentActionT = {
     closeContent: (content: ContentStateT) => void
-    loadLatestMessagesIfNeeded: (content: ContentStateT) => void
+    loadLatestMessages: (content: ContentStateT) => void
+    loadMessagesWithMaxId: (content: ContentStateT, maxId: number) => void
+    loadMessagesWithSinceId: (content: ContentStateT, sinceId: number) => void
     openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
 }
 
 export const ContentActionContext: Context<ContentActionT> = createContext({
     closeContent: null,
-    loadLatestMessagesIfNeeded: null,
+    loadLatestMessages: null,
     openChannel: null,
 })
 
@@ -33,15 +35,20 @@ export const useContentAction = ({
         closeContent: (content: ContentStateT) => {
             return reduce(reducerMethod.appState.content.close, content)
         },
-        loadLatestMessagesIfNeeded: (content: ContentStateT) => {
-            // if (content.timeline.shouldFetch == false) {
-            //     return
-            // }
+        loadLatestMessages: (content: ContentStateT) => {
             if (content.type == ContentType.Channel) {
                 return reducers.asyncReducer(
                     reducerMethod.appState.channel.loadLatestMessages,
                     content
                 )
+            }
+            if (content.type == ContentType.ChannelGroup) {
+                // TODO
+                return
+            }
+            if (content.type == ContentType.Thread) {
+                // TODO
+                return
             }
         },
         openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => {

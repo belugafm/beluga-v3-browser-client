@@ -1,5 +1,5 @@
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
-import { MessageActionT } from "../../../state/chat/components/message"
+import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageObjectT } from "../../../api/object"
 import { MouseEvent } from "react"
 import React from "react"

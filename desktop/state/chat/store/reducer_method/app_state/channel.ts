@@ -1,7 +1,7 @@
 import * as api from "../../../../../api"
 
 import { AppStateT, ContentStateT } from "../../types/app_state"
-import { ChannelId, ChannelObjectT, MessageObjectT } from "../../../../../api/object"
+import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
 import { copyContents, insertContent } from "./content"
 
 import { ContentType } from "../../app_state"
@@ -108,35 +108,7 @@ export const setTimelineQuery = async (
     ]
 }
 
-export const loadLatestMessages = async (
-    prevStore: StoreT,
-    prevContent: ContentStateT
-): Promise<[StoreT, api.Response | null]> => {
-    const [nextDomainData, response] = await fetch(
-        prevStore.domainData,
-        api.timeline.channel,
-        Object.assign(
-            {
-                channelId: prevContent.timeline.query.channelId,
-            },
-            {
-                sinceId:
-                    prevContent.timeline.messageIds.length == 0
-                        ? null
-                        : prevContent.timeline.messageIds[0],
-            }
-        )
-    )
-    const { messages } = response
-
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
-    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
-    nextContent.timeline.messageIds = messages
-        .map((message) => message.id)
-        .concat(nextContent.timeline.messageIds)
-
+const _after = (nextContent: ContentStateT, nextDomainData: DomainDataT) => {
     if (nextContent.timeline.messageIds.length > 0) {
         const latestMessageId = nextContent.timeline.messageIds[0]
         if (nextContent.type == ContentType.Channel) {
@@ -161,6 +133,30 @@ export const loadLatestMessages = async (
             nextContent.timeline.lastMessageId = thread.last_reply_message_id
         }
     }
+}
+
+export const loadMessagesWithMaxId = async (
+    prevStore: StoreT,
+    params: {
+        prevContent: ContentStateT
+        maxId: MessageId
+    }
+): Promise<[StoreT, api.Response | null]> => {
+    const { prevContent, maxId } = params
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
+        channelId: prevContent.timeline.query.channelId,
+        maxId: maxId,
+    })
+    const { messages } = response
+
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.timeline.messageIds = nextContent.timeline.messageIds.concat(
+        messages.map((message) => message.id)
+    )
+    _after(nextContent, nextDomainData)
 
     return [
         {
@@ -169,4 +165,48 @@ export const loadLatestMessages = async (
         },
         response,
     ]
+}
+
+export const loadMessagesWithSinceId = async (
+    prevStore: StoreT,
+    params: {
+        prevContent: ContentStateT
+        sinceId: MessageId
+    }
+): Promise<[StoreT, api.Response | null]> => {
+    const { prevContent, sinceId } = params
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
+        channelId: prevContent.timeline.query.channelId,
+        sinceId: sinceId,
+    })
+    const { messages } = response
+
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.timeline.messageIds = messages
+        .map((message) => message.id)
+        .concat(nextContent.timeline.messageIds)
+    _after(nextContent, nextDomainData)
+
+    return [
+        {
+            domainData: nextDomainData,
+            appState: nextAppState,
+        },
+        response,
+    ]
+}
+
+export const loadLatestMessages = async (
+    prevStore: StoreT,
+    prevContent: ContentStateT
+): Promise<[StoreT, api.Response | null]> => {
+    const sinceId =
+        prevContent.timeline.messageIds.length == 0 ? null : prevContent.timeline.messageIds[0]
+    return await loadMessagesWithSinceId(prevStore, {
+        prevContent,
+        sinceId,
+    })
 }

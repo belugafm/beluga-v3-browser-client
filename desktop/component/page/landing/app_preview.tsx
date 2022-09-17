@@ -21,7 +21,7 @@ import { CheckIsConsecutivePost } from "../../chat/content/content"
 import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
-import { MessageActionT } from "../../../state/chat/components/message"
+import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageComponent } from "../../chat/message"
 import { SVGComponent } from "../../chat/svg"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
@@ -153,8 +153,8 @@ export const AppPreviewComponent = (props: {
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
     const messageAction: MessageActionT = {
-        edit: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
-        delete: (message: MessageObjectT) => {},
+        editMessage: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
+        deleteMessage: (message: MessageObjectT) => {},
         createLike: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
         createFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
         destroyFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
@@ -164,14 +164,10 @@ export const AppPreviewComponent = (props: {
         destroyBlocks: (user: UserObjectT) => (event: MouseEvent<Element>) => {},
     }
     const contentAction: ContentActionT = {
-        content: {
-            close: (content: ContentStateT) => {},
-            loadLatestMessagesIfNeeded: (content: ContentStateT) => {},
-        },
-        channel: {
-            // @ts-ignore
-            open: (channel: ChannelObjectT, insertColumnAfter?: number) => {},
-        },
+        closeContent: (content: ContentStateT) => {},
+        loadLatestMessagesIfNeeded: (content: ContentStateT) => {},
+        // @ts-ignore
+        openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => {},
     }
     const deleteMessageModalAction: DeleteMessageModalActionT = {
         show: (message: MessageObjectT) => {},

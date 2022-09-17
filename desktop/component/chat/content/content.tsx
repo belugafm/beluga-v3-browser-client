@@ -142,7 +142,11 @@ const NewMessageNotificationComponent = ({
         return (
             <>
                 <div className="container">
-                    <button>
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault()
+                            scrollerState.scrollToBottom()
+                        }}>
                         <svg className="icon">
                             <use href="#icon-chat-notification"></use>
                         </svg>

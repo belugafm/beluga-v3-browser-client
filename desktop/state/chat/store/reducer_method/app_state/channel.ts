@@ -54,54 +54,6 @@ const _fetch = (
             .catch((error) => reject(error))
     })
 }
-const checkIfUpToDate = (channel: ChannelObjectT, messages: MessageObjectT[]) => {
-    if (messages.length == 0) {
-        return false
-    }
-    if (channel.last_message_id == null) {
-        return true
-    }
-    const latestMessage = messages[0]
-    if (channel.last_message_id == latestMessage.id) {
-        return true
-    }
-    return false
-}
-export const buildContentStateFromData = (data: {
-    channel: ChannelObjectT
-    messages: MessageObjectT[]
-}): ContentStateT => {
-    const { channel, messages } = data
-    const contentId = Date.now()
-    return {
-        id: contentId,
-        type: ContentType.Channel,
-        column: -1,
-        row: -1,
-        postbox: {
-            enabled: true,
-            query: {
-                channelId: channel.id,
-            },
-        },
-        context: {
-            channelId: channel.id,
-            channelGroupId: channel.parent_channel_group_id,
-        },
-        options: {
-            showMutedMessage: false,
-        },
-        timeline: {
-            messageIds: messages.map((message) => message.id),
-            shouldFetch: true,
-            upToDate: checkIfUpToDate(channel, messages),
-            query: {
-                channelId: channel.id,
-                limit: config.timeline.maxNumStatuses,
-            },
-        },
-    }
-}
 export const add = (store: StoreT, content: ContentStateT): StoreT => {
     const nextAppState: AppStateT = {
         contents: insertContent(content, store.appState.contents, null),

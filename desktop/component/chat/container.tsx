@@ -1,5 +1,5 @@
-import { ContentActionContext, useContentAction } from "../../state/chat/store/app_state/action"
-import { MessageActionContext, useMessageAction } from "../../state/chat/components/message"
+import { ContentActionContext, useContentAction } from "../../state/chat/actions/contents"
+import { MessageActionContext, useMessageAction } from "../../state/chat/actions/message"
 import { Themes, useTheme } from "../theme"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
 import { polling, useStore } from "../../state/chat/store"

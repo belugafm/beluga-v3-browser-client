@@ -4,7 +4,7 @@ import {
     MessageObjectT,
 } from "../../../api/object"
 
-import { CommonPropsT } from "./types"
+import { MessagePropsT } from "./types"
 import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
@@ -322,7 +322,7 @@ export const PlainTextComponent = ({
 }
 
 export const TextComponent = React.memo(
-    ({ message, domainData, contentAction: chatActions, content, theme }: CommonPropsT) => {
+    ({ message, domainData, contentAction: chatActions, content, theme }: MessagePropsT) => {
         if (content.options.showMutedMessage === false) {
             const user = domainData.users.get(message.user_id)
             if (user == null) {
@@ -365,7 +365,7 @@ export const TextComponent = React.memo(
             return <StyledTextComponent theme={theme} text={message.text} entities={entities} />
         }
     },
-    (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
+    (prevProps: MessagePropsT, nextProps: MessagePropsT) => {
         if (prevProps.theme.global.current.light !== nextProps.theme.global.current.light) {
             return false
         }

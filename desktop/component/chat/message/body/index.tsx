@@ -1,11 +1,11 @@
 import { AttributedTextComponent, defaultOption } from "../../../attributed_text"
 import { ChannelObjectT, MessageObjectT, UserObjectT } from "../../../../api/object"
 
-import { CommonPropsT } from "../types"
+import { MessagePropsT } from "../types"
 import React from "react"
 
 export default React.memo(
-    ({ message, domainData, contentAction: chatActions, content }: CommonPropsT) => {
+    ({ message, domainData, contentAction: chatActions, content }: MessagePropsT) => {
         if (content.options.showMutedMessage === false) {
             const user = domainData.users.get(message.user_id)
             if (user == null) {
@@ -50,7 +50,7 @@ export default React.memo(
             />
         )
     },
-    (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
+    (prevProps: MessagePropsT, nextProps: MessagePropsT) => {
         if (prevProps.message.updated_at !== nextProps.message.updated_at) {
             return false
         }

@@ -1,4 +1,4 @@
-import { ContentActionT } from "../store/app_state/action"
+import { ContentActionT } from "../actions/contents"
 import { ContentStateT } from "../store/types/app_state"
 import { useEffect, useState } from "react"
 import config from "../../../config"

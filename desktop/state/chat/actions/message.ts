@@ -10,12 +10,12 @@ export const useMessageAction = ({
     asyncSequentialReducer: sequentialReducer,
 }: ReducersT): MessageActionT => {
     return {
-        edit: (message: MessageObjectT) => {
+        editMessage: (message: MessageObjectT) => {
             return (event: MouseEvent<Element>) => {
                 event.preventDefault()
             }
         },
-        delete: (message: MessageObjectT) => {
+        deleteMessage: (message: MessageObjectT) => {
             reducer(reducers.domainData.message.delete, {
                 messageId: message.id,
             })
@@ -80,8 +80,8 @@ export const useMessageAction = ({
 }
 
 export type MessageActionT = {
-    edit: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
-    delete: (message: MessageObjectT) => void
+    editMessage: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
+    deleteMessage: (message: MessageObjectT) => void
     createLike: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     createFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
     destroyFavorite: (message: MessageObjectT) => (event: MouseEvent<Element>) => void
@@ -92,8 +92,8 @@ export type MessageActionT = {
 }
 
 export const MessageActionContext = createContext<MessageActionT>({
-    edit: null,
-    delete: null,
+    editMessage: null,
+    deleteMessage: null,
     createLike: null,
     createFavorite: null,
     destroyFavorite: null,

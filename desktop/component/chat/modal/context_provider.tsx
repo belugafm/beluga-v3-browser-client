@@ -10,7 +10,7 @@ import {
 
 import { ChannelMenuModalComponent } from "./channel_menu"
 import { DeleteMessageModalComponent } from "./delete_message"
-import { MessageActionContext } from "../../../state/chat/components/message"
+import { MessageActionContext } from "../../../state/chat/actions/message"
 import React from "react"
 import { useContext } from "react"
 import { useTheme } from "../../theme"
@@ -19,7 +19,7 @@ import { PageContextObjectT } from "../../../state/chat/store/types/page_context
 const DeleteMessageModalActionContextProvider = ({ children }) => {
     const [state, action] = useDeleteMessageModalState()
     const [theme] = useTheme()
-    const messageAction = useContext(MessageActionContext)
+    const { deleteMessage } = useContext(MessageActionContext)
     return (
         <DeleteMessageModalActionContext.Provider value={action}>
             {children}
@@ -27,7 +27,7 @@ const DeleteMessageModalActionContextProvider = ({ children }) => {
                 hidden={state.hidden}
                 message={state.message}
                 modalAction={action}
-                deleteMessage={messageAction.delete}
+                deleteMessage={deleteMessage}
                 theme={theme}
             />
         </DeleteMessageModalActionContext.Provider>

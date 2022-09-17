@@ -1,4 +1,4 @@
-import { ContentActionT } from "../../../state/chat/store/app_state/action"
+import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 
 export default ({
@@ -39,7 +39,7 @@ export default ({
                             <li
                                 onClick={(event) => {
                                     event.preventDefault()
-                                    chatActions.content.close(content)
+                                    chatActions.closeContent(content)
                                 }}>
                                 閉じる
                             </li>

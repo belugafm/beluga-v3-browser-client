@@ -1,6 +1,6 @@
 import { DateComponent, SenderComponent } from "./sender"
 
-import { CommonPropsT } from "./types"
+import { MessagePropsT } from "./types"
 import { MenuComponent } from "./menu"
 import { MessageAvatarComponent } from "./avatar"
 import React from "react"
@@ -25,7 +25,7 @@ const getStyle = (theme: Themes) => {
 }
 
 export const MessageComponent = React.memo(
-    (props: CommonPropsT & { zIndex: number; children: any }) => {
+    (props: MessagePropsT & { zIndex: number; children: any }) => {
         console.debug("MessageComponent::render", props.message.id)
         const { message } = props
         if (message.deleted) {
@@ -141,7 +141,7 @@ export const MessageComponent = React.memo(
             </div>
         )
     },
-    (prevProps: CommonPropsT, nextProps: CommonPropsT) => {
+    (prevProps: MessagePropsT, nextProps: MessagePropsT) => {
         if (prevProps.message.updated_at !== nextProps.message.updated_at) {
             return false
         }

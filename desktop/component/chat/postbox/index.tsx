@@ -14,7 +14,7 @@ import { SendButtonComponent } from "./send_button"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import { postFormData } from "../../../api/fetch"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import { usePostboxState } from "../../../state/chat/components/postbox"
+import { usePostboxAction } from "../../../state/chat/actions/postbox"
 
 const editorConfig = {
     // The editor theme
@@ -114,7 +114,7 @@ const _PostboxComponent = ({
     const [editor] = useLexicalComposerContext()
     // console.log(JSON.stringify(editor.getEditorState().toJSON()))
     const [theme] = useTheme()
-    const { handlePostMessage } = usePostboxState({
+    const { postMessage: handlePostMessage } = usePostboxAction({
         query: content.postbox.query,
         content,
     })

@@ -18,7 +18,7 @@ import { TooltipActionContext, useTooltipState } from "../../../state/component/
 import { ChannelDescriptionModalActionContext } from "./channel_modal"
 import { ChannelHeaderComponent } from "../../chat/content/header"
 import { CheckIsConsecutivePost } from "../../chat/content/content"
-import { ContentActionT } from "../../../state/chat/store/app_state/action"
+import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageActionT } from "../../../state/chat/components/message"

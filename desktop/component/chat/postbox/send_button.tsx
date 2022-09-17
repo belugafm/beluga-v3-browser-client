@@ -392,6 +392,9 @@ export const SendButtonComponent = ({
 
     const handleClick = useCallback(
         async (event) => {
+            if (plainText.length == 0) {
+                return
+            }
             event.preventDefault()
             const succeeded = await handlePostMessage(
                 plainText,

@@ -300,7 +300,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const { loggedInUser } = swrShowLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
-    const scrollerState = useMemo(() => new ScrollerState(), [content])
+    const scrollerState = useMemo(() => new ScrollerState(), [content.id])
     scrollerState.use({
         ref: scrollerRef,
         content: content,

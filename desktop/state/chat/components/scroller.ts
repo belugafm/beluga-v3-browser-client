@@ -52,15 +52,18 @@ export class ScrollerState {
         this.content = content
         this.contentAction = contentAction
 
-        const [hasReachedBottom, setHasReachedBottom] = useState(false)
+        const [hasReachedBottom, setHasReachedBottom] = useState(true)
         this.hasReachedBottom = hasReachedBottom
         this.setHasReachedBottom = setHasReachedBottom
 
         const [forceScrollToBottom, setForceScrollToBottom] = useState(true)
         this.forceScrollToBottom = forceScrollToBottom
-        this.setForceScrollToBottom = setForceScrollToBottom
+        this.setForceScrollToBottom = (on: boolean) => {
+            this.forceScrollToBottom = on
+            setForceScrollToBottom(on)
+        }
 
-        const [hasReachedTop, setHasReachedTop] = useState(true)
+        const [hasReachedTop, setHasReachedTop] = useState(false)
         this.hasReachedTop = hasReachedTop
         this.setHasReachedTop = setHasReachedTop
 
@@ -93,16 +96,18 @@ export class ScrollerState {
             console.log("[ScrollerState] useEffect #2")
             clearInterval(this.forceScrollToBottomTimerId)
             if (this.forceScrollToBottom) {
-                this.forceScrollToBottomTimerId = setInterval(this.scrollToBottom.bind(this), 100)
+                this.forceScrollToBottomTimerId = setInterval(() => {
+                    if (this.forceScrollToBottom) {
+                        this.scrollToBottom()
+                    }
+                }, 100)
             }
         }, [forceScrollToBottom, lastMessageId])
     }
     scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
-        const scrollTop = scroller.scrollHeight - scroller.clientHeight
-        if (scrollTop != scroller.scrollTop) {
-            scroller.scrollTop = scrollTop
-        }
+        const scrollTop = 0 // column-reverseなので下が0
+        scroller.scrollTop = scrollTop
     }
     isTimelineUpToDate = () => {
         const { lastMessageId } = this.content.timeline
@@ -129,23 +134,21 @@ export class ScrollerState {
             return
         }
         const scroller = this.ref.current as HTMLDivElement
-        const bottomScrollTop = scroller.scrollHeight - scroller.clientHeight
+        // column-reverseなのでscroller.scrollTopは上に行くほどマイナスになる
         // macOSでは0.5pxずれるので注意
-        if (scroller.scrollTop >= bottomScrollTop - 1) {
+        if (scroller.scrollTop >= -1) {
             this.setHasReachedBottom(true)
             if (this.content.timeline.upToDate) {
                 this.setForceScrollToBottom(true)
                 this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
             } else {
-                this.forceScrollToBottom = false
                 this.setForceScrollToBottom(false)
             }
         } else {
             this.setHasReachedBottom(false)
-            this.forceScrollToBottom = false
             this.setForceScrollToBottom(false)
         }
-        if (scroller.scrollTop == 0) {
+        if (scroller.scrollTop <= scroller.clientHeight - scroller.scrollHeight + 1) {
             this.setHasReachedTop(true)
             this.loadMessagesWithMaxIdIfNeeded()
         } else {
@@ -154,83 +157,5 @@ export class ScrollerState {
         if (this.loading) {
             return
         }
-        // const { content, contentAction } = this
-        // const container = event.target as HTMLDivElement
-        // const scroller = this.ref.current as HTMLDivElement
-        // const threashold = 100
-        // if (container) {
-        //     const scrollBottom =
-        //         scroller.clientHeight - container.clientHeight - container.scrollTop
-        //     const direction = container.scrollTop - this.prevScrollTop
-        //     this.prevScrollTop = container.scrollTop
-        //     console.log(container.scrollTop, scrollBottom, direction)
-        //     if (direction > 0) {
-        //         if (scrollBottom < threashold) {
-        //             if (this.hasReachedBottom) {
-        //                 return
-        //             }
-        //             const maxId = "0"
-        //             if (maxId === this.reqeustedMaxId) {
-        //                 return
-        //             }
-        //             this.loading = true
-        //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await contentAction.content.setTimelineQuery(
-        //                 content,
-        //                 Object.assign({}, content.timeline.query, {
-        //                     maxId,
-        //                     limit,
-        //                     sinceId: null,
-        //                 })
-        //             )
-        //             const { messages: statuses } = responce
-        //             if (statuses.length < limit) {
-        //                 this.hasReachedBottom = true
-        //             }
-        //             this.reqeustedMaxId = maxId
-        //             this.loading = false
-        //             this.hasReachedTop = false
-        //             this.scrolled = true
-        //             return
-        //         }
-        //     } else {
-        //         if (container.scrollTop < threashold) {
-        //             if (this.scrolled === false) {
-        //                 console.log("this.scrolled === false")
-        //                 return
-        //             }
-        //             if (this.hasReachedTop) {
-        //                 console.log("this.hasReachedTop")
-        //                 return
-        //             }
-        //             const sinceId = "0"
-        //             if (sinceId === this.reqeustedSinceId) {
-        //                 console.log("sinceId === this.reqeustedSinceId")
-        //                 return
-        //             }
-        //             this.loading = true
-        //             const limit = config.timeline.maxNumStatuses * 2
-        //             const responce = await contentAction.content.setTimelineQuery(
-        //                 content,
-        //                 Object.assign({}, content.timeline.query, {
-        //                     sinceId,
-        //                     limit,
-        //                     maxId: null,
-        //                 })
-        //             )
-        //             const { messages: statuses } = responce
-        //             if (statuses.length < limit) {
-        //                 this.hasReachedTop = true
-        //             }
-        //             this.reqeustedSinceId = sinceId
-        //             this.loading = false
-        //             this.hasReachedBottom = false
-        //             return
-        //         }
-        //         if (container.scrollTop > 400) {
-        //             this.scrolled = true
-        //         }
-        //     }
-        // }
     }
 }

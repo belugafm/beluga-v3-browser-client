@@ -21,12 +21,14 @@ const getStyleForTheme = (theme: Themes) => {
         return {
             color: "#000",
             backgroundColor: "#fff",
+            scrollbarThumbColor: "#d8dadc",
         }
     }
     if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
             backgroundColor: "#1a1c1f",
+            scrollbarThumbColor: "#616d78",
         }
     }
     throw new Error()
@@ -343,7 +345,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     if (isEmpty(content)) {
         messageComponentList.push(<EmptyContentComponent key="empty" />)
     } else {
-        messageComponentList.unshift(<SpacerComponent />)
+        messageComponentList.unshift(<SpacerComponent key="spacer" />)
     }
     return (
         <>
@@ -358,7 +360,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                             className="scroller"
                             ref={scrollerRef}
                             onScroll={scrollerState.handleScroll}>
-                            {messageComponentList}
+                            <div className="message-container">{messageComponentList}</div>
                         </div>
                         <NewMessageNotificationComponent
                             scrollerState={scrollerState}
@@ -414,11 +416,12 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     position: relative;
                 }
                 .scroller::-webkit-scrollbar {
-                    width: 0px;
+                    width: 6px;
                 }
                 .scroller::-webkit-scrollbar-thumb {
                     border-radius: 10px;
-                    background-color: gray;
+                    background-color: transparent;
+                    transition: 0.5s;
                 }
                 .scroller::-webkit-scrollbar-track-piece {
                     background-clip: padding-box;
@@ -428,11 +431,17 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 .scroller {
                     flex: 1 1 auto;
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: column-reverse;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;
                     z-index: 1;
+                }
+                .message-container {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    transform: translateZ(0);
                 }
             `}</style>
             <style jsx>{`
@@ -441,6 +450,9 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                }
+                .scroller:hover::-webkit-scrollbar-thumb {
+                    background-color: ${getStyleForTheme(theme)["scrollbarThumbColor"]};
                 }
             `}</style>
         </>

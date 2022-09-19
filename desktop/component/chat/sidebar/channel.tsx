@@ -104,7 +104,6 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                 .item.active {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
-                    font-weight: 500;
                 }
                 .item.unread {
                     color: ${getStyle(theme)["hoverColor"]};

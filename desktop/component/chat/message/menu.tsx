@@ -275,6 +275,7 @@ export const MenuComponent = ({
                 }
                 .other-menu-button:hover {
                     fill: ${getStyleForButton(theme)["hoverFill"]};
+                    stroke: ${getStyleForButton(theme)["hoverFill"]};
                     background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
                 }
                 .spacer {

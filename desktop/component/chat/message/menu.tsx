@@ -5,6 +5,8 @@ import { MouseEvent } from "react"
 import React from "react"
 import { Themes } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
+import { ContentActionT } from "../../../state/chat/actions/contents"
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
 
 const getStyleForButton = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -45,12 +47,16 @@ const getStyleForMenu = (theme: Themes) => {
 export const MenuComponent = ({
     message,
     theme,
+    content,
+    contentAction,
     messageAction,
     tooltipAction,
     deleteMessageModalAction,
 }: {
     message: MessageObjectT
     theme: Themes
+    content: ContentStateT
+    contentAction: ContentActionT
     messageAction: MessageActionT
     tooltipAction: TooltipActionT
     deleteMessageModalAction: DeleteMessageModalActionT
@@ -105,6 +111,15 @@ export const MenuComponent = ({
                 className="delete global-tooltip-container"
                 onClick={(e) => deleteMessageModalAction.show(message)}
                 onMouseEnter={(e) => tooltipAction.show(e, "削除する")}
+                onMouseLeave={() => tooltipAction.hide()}>
+                <svg className="icon">
+                    <use href="#icon-trash"></use>
+                </svg>
+            </button>
+            <button
+                className="delete global-tooltip-container"
+                onClick={(e) => contentAction.showContextMessages(content, message.id)}
+                onMouseEnter={(e) => tooltipAction.show(e, "その他")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-trash"></use>

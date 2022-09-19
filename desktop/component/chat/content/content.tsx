@@ -464,7 +464,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                             className="scroller"
                             ref={scrollerRef}
                             onScroll={scrollerState.handleScroll}>
-                            <div className="message-container">{messageComponentList}</div>
+                            {messageComponentList}
                         </div>
                         <NewMessageNotificationButton scrollerState={scrollerState} theme={theme} />
                         <ShowLatestMessagesButton
@@ -538,16 +538,11 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 .scroller {
                     flex: 1 1 auto;
                     display: flex;
-                    flex-direction: column-reverse;
+                    flex-direction: column;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;
                     z-index: 1;
-                }
-                .message-container {
-                    flex: 1 1 auto;
-                    display: flex;
-                    flex-direction: column;
                     transform: translateZ(0);
                 }
             `}</style>

@@ -91,8 +91,10 @@ export class ScrollerState {
     }
     scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
-        const scrollTop = 0 // column-reverseなので下が0
-        scroller.scrollTop = scrollTop
+        const scrollTop = scroller.scrollHeight - scroller.clientHeight
+        if (scrollTop != scroller.scrollTop) {
+            scroller.scrollTop = scrollTop
+        }
     }
     isTimelineUpToDate = () => {
         const { lastMessageId } = this.content.timeline
@@ -119,10 +121,11 @@ export class ScrollerState {
             return
         }
         const scroller = this.ref.current as HTMLDivElement
-        // column-reverseなのでscroller.scrollTopは上に行くほどマイナスになる
+        const bottomScrollTop = scroller.scrollHeight - scroller.clientHeight
         // macOSでは0.5pxずれるので注意
-        if (scroller.scrollTop >= -1) {
+        if (scroller.scrollTop >= bottomScrollTop - 1) {
             this.setHasReachedBottom(true)
+            this.scrollToBottom()
             if (this.content.timeline.upToDate) {
                 this.setForceScrollToBottom(true)
                 this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
@@ -133,7 +136,7 @@ export class ScrollerState {
             this.setHasReachedBottom(false)
             this.setForceScrollToBottom(false)
         }
-        if (scroller.scrollTop <= scroller.clientHeight - scroller.scrollHeight + 1) {
+        if (scroller.scrollTop <= 200) {
             this.setHasReachedTop(true)
             this.loadMessagesWithMaxIdIfNeeded()
         } else {

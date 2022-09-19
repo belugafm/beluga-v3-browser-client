@@ -1,12 +1,13 @@
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageObjectT } from "../../../api/object"
-import { MouseEvent } from "react"
+import { useState } from "react"
 import React from "react"
 import { Themes } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import classnames from "classnames"
 
 const getStyleForButton = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -61,14 +62,11 @@ export const MenuComponent = ({
     tooltipAction: TooltipActionT
     deleteMessageModalAction: DeleteMessageModalActionT
 }) => {
-    const handleClick = (reducerMethod) => (event: MouseEvent<Element>) => {
-        event.preventDefault()
-        reducerMethod()
-    }
+    const [isOtherMenuVisible, setIsOtherMenuVisible] = useState(false)
     return (
         <div className="menu">
             <button
-                className="add-reaction global-tooltip-container"
+                className="menu-button add-reaction global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "リアクションする")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
@@ -76,7 +74,7 @@ export const MenuComponent = ({
                 </svg>
             </button>
             <button
-                className="create-like global-tooltip-container"
+                className="menu-button create-like global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "いいね")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
@@ -84,7 +82,7 @@ export const MenuComponent = ({
                 </svg>
             </button>
             <button
-                className="create-favorite global-tooltip-container"
+                className="menu-button create-favorite global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "ふぁぼ")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
@@ -92,7 +90,7 @@ export const MenuComponent = ({
                 </svg>
             </button>
             <button
-                className="reply-in-thread global-tooltip-container"
+                className="menu-button reply-in-thread global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "スレッドで返信する")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
@@ -100,15 +98,7 @@ export const MenuComponent = ({
                 </svg>
             </button>
             <button
-                className="share global-tooltip-container"
-                onMouseEnter={(e) => tooltipAction.show(e, "共有する")}
-                onMouseLeave={() => tooltipAction.hide()}>
-                <svg className="icon">
-                    <use href="#icon-share-message"></use>
-                </svg>
-            </button>
-            <button
-                className="delete global-tooltip-container"
+                className="menu-button delete global-tooltip-container"
                 onClick={(e) => deleteMessageModalAction.show(message)}
                 onMouseEnter={(e) => tooltipAction.show(e, "削除する")}
                 onMouseLeave={() => tooltipAction.hide()}>
@@ -117,14 +107,78 @@ export const MenuComponent = ({
                 </svg>
             </button>
             <button
-                className="delete global-tooltip-container"
-                onClick={(e) => contentAction.showContextMessages(content, message.id)}
+                className="menu-button delete global-tooltip-container"
+                onClick={(e) => {
+                    e.preventDefault()
+                    setIsOtherMenuVisible(!isOtherMenuVisible)
+                }}
                 onMouseEnter={(e) => tooltipAction.show(e, "その他")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
-                    <use href="#icon-trash"></use>
+                    <use href="#icon-more-vertical"></use>
                 </svg>
             </button>
+            <div
+                className={classnames("other-menu-container", {
+                    visible: isOtherMenuVisible,
+                })}
+                onMouseLeave={(e) => {
+                    setIsOtherMenuVisible(false)
+                }}>
+                <div className="other-menu">
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-edit-message"></use>
+                        </svg>
+                        <span>メッセージを編集する</span>
+                    </a>
+                    <div className="spacer"></div>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-link"></use>
+                        </svg>
+                        <span>リンクをコピー</span>
+                    </a>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-show-context"></use>
+                        </svg>
+                        <span>前後のメッセージを表示</span>
+                    </a>
+                    <div className="spacer"></div>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-display-message-on-channel"></use>
+                        </svg>
+                        <span>固定メッセージに追加</span>
+                    </a>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-pin"></use>
+                        </svg>
+                        <span>チャンネルにピン留め</span>
+                    </a>
+                    <div className="spacer"></div>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-mute-user"></use>
+                        </svg>
+                        <span>ユーザーをミュート</span>
+                    </a>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-block-user"></use>
+                        </svg>
+                        <span>ユーザーをブロック</span>
+                    </a>
+                    <a className="other-menu-button">
+                        <svg className="icon">
+                            <use href="#icon-report-user"></use>
+                        </svg>
+                        <span>違反を報告</span>
+                    </a>
+                </div>
+            </div>
             <style jsx>{`
                 .menu {
                     display: flex;
@@ -133,8 +187,10 @@ export const MenuComponent = ({
                     border: 1px solid transparent;
                     border-radius: 8px;
                     padding: 2px;
+                    position: relative;
+                    z-index: 0;
                 }
-                button {
+                .menu-button {
                     position: relative;
                     cursor: pointer;
                     width: 32px;
@@ -150,11 +206,49 @@ export const MenuComponent = ({
                     transition: 0.05s;
                     margin-right: 2px;
                 }
-                button > .icon {
+                .menu-button > .icon {
                     width: 18px;
                     height: 18px;
                     text-align: center;
                     flex-shrink: 0;
+                }
+                .other-menu-container {
+                    position: absolute;
+                    right: 32px;
+                    bottom: 0;
+                    z-index: 1;
+                    display: none;
+                }
+                .other-menu-container.visible {
+                    display: block;
+                }
+                .other-menu {
+                    flex-direction: column;
+                    padding: 8px;
+                    border: 1px solid transparent;
+                    border-radius: 8px;
+                }
+                .other-menu-button {
+                    width: 200px;
+                    background-color: transparent;
+                    text-decoration: none;
+                    outline: none;
+                    padding: 6px 12px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    border-radius: 5px;
+                }
+                .other-menu-button > .icon {
+                    width: 18px;
+                    height: 18px;
+                    text-align: center;
+                    flex-shrink: 0;
+                    margin-right: 10px;
+                }
+                .spacer {
+                    border-bottom: 1px solid transparent;
+                    margin: 8px 4px;
                 }
             `}</style>
             <style jsx>{`
@@ -162,13 +256,29 @@ export const MenuComponent = ({
                     background-color: ${getStyleForMenu(theme)["backgroundColor"]};
                     border-color: ${getStyleForMenu(theme)["borderColor"]};
                 }
-                button {
+                .other-menu {
+                    background-color: ${getStyleForMenu(theme)["backgroundColor"]};
+                    border-color: ${getStyleForMenu(theme)["borderColor"]};
+                }
+                .menu-button {
                     fill: ${getStyleForButton(theme)["fill"]};
                     background-color: ${getStyleForButton(theme)["backgroundColor"]};
                 }
-                button:hover {
+                .other-menu-button {
+                    fill: ${getStyleForButton(theme)["fill"]};
+                    stroke: ${getStyleForButton(theme)["fill"]};
+                    background-color: ${getStyleForButton(theme)["backgroundColor"]};
+                }
+                .menu-button:hover {
                     fill: ${getStyleForButton(theme)["hoverFill"]};
                     background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
+                }
+                .other-menu-button:hover {
+                    fill: ${getStyleForButton(theme)["hoverFill"]};
+                    background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
+                }
+                .spacer {
+                    border-color: ${getStyleForMenu(theme)["borderColor"]};
                 }
             `}</style>
         </div>

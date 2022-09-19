@@ -7,7 +7,7 @@ import { Themes, useTheme } from "../../theme"
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../api/object"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { Random } from "../message/avatar"
-import classNames from "classnames"
+import classnames from "classnames"
 import { useContext } from "react"
 
 const getStyle = (theme: Themes) => {
@@ -187,7 +187,7 @@ export const ChannelGroupListComponent = ({ channelGroupIds }: { channelGroupIds
     })
     return (
         <div
-            className={classNames("item", {
+            className={classnames("item", {
                 "show-toggle-channel-menu": isChannelMenuHidden == false,
             })}>
             <div className="header">

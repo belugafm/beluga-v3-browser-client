@@ -1,7 +1,7 @@
 import { MessageObjectT } from "../../../api/object"
 import React from "react"
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -50,7 +50,7 @@ export const SenderComponent = ({
     return (
         <div className="sender">
             <a
-                className={classNames("display-name", {
+                className={classnames("display-name", {
                     hidden: user.display_name == null,
                 })}
                 href={`/user/${user.name}`}>

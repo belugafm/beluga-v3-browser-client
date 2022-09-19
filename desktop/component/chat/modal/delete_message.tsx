@@ -4,7 +4,7 @@ import { DateComponent } from "../message/sender"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageObjectT } from "../../../api/object"
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 
 const getContainerStyle = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -48,7 +48,7 @@ export const MessageSenderComponent = ({
     return (
         <div className="sender">
             <a
-                className={classNames("display-name", {
+                className={classnames("display-name", {
                     hidden: user.display_name == null,
                 })}
                 href={`/user/${user.name}`}>
@@ -269,7 +269,7 @@ export const DeleteMessageModalComponent = ({
     return (
         <>
             <div
-                className={classNames("modal-container hide-modal-on-click", {
+                className={classnames("modal-container hide-modal-on-click", {
                     hidden,
                 })}
                 onClick={handleClickBackgroun}>

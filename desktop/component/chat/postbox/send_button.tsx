@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react"
 import GraphemeSplitter from "grapheme-splitter"
 import { Themes } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
-import classNames from "classnames"
+import classnames from "classnames"
 import lexical from "lexical"
 import { mergeRegister } from "@lexical/utils"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
@@ -410,7 +410,7 @@ export const SendButtonComponent = ({
 
     return (
         <div
-            className={classNames("send-button-container", {
+            className={classnames("send-button-container", {
                 ready: plainText.length > 0,
             })}>
             <button className="send-message-button normal">

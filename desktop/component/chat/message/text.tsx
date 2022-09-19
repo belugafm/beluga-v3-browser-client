@@ -9,7 +9,7 @@ import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 
 export const sliceText = (textGraphemes: string[], node: MessageEntityStyleNode) => {
@@ -123,7 +123,7 @@ export const styledNodeToDOM = (
                 <>
                     <span
                         style={style}
-                        className={classNames({
+                        className={classnames({
                             code: hasFormat(node.style.format, MessageEntityStyleFormat.CODE),
                         })}>
                         {sliceText(textGraphemes, node)}
@@ -274,7 +274,7 @@ export const styledNodeToDOM = (
         return (
             <>
                 <li
-                    className={classNames({
+                    className={classnames({
                         nested,
                     })}>
                     {inner}

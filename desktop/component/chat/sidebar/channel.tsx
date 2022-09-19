@@ -1,4 +1,4 @@
-import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
+import { ChannelObjectT } from "../../../api/object"
 import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
@@ -6,7 +6,6 @@ import {
 import { Themes, useTheme } from "../../theme"
 
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
-import classNames from "classnames"
 import classnames from "classnames"
 import { useContext } from "react"
 
@@ -144,7 +143,7 @@ export const ChannelListComponent = ({
     })
     return (
         <div
-            className={classNames("item", {
+            className={classnames("item", {
                 "show-toggle-channel-menu": isChannelMenuHidden == false,
             })}>
             <div className="header">

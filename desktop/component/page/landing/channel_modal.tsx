@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState } from "react"
 
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 import { createContext } from "react"
 
 export type ChannelDescriptionModalActionT = {
@@ -97,7 +97,7 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
         <>
             <div
                 id="channel-description-modal"
-                className={classNames("modal-container", {
+                className={classnames("modal-container", {
                     hidden: props.hidden,
                 })}>
                 <div className="menu">

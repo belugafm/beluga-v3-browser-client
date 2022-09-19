@@ -5,7 +5,7 @@ import { MenuComponent } from "./menu"
 import { MessageAvatarComponent } from "./avatar"
 import React from "react"
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 import deepEqual from "deep-equal"
 
 const getStyle = (theme: Themes) => {
@@ -33,19 +33,19 @@ export const MessageComponent = React.memo(
         }
         return (
             <div
-                className={classNames("message", {
+                className={classnames("message", {
                     consecutive: props.isConsecutivePost,
                 })}>
                 <div className="inner">
                     <div className="message-left">
                         <div
-                            className={classNames("avatar-block", {
+                            className={classnames("avatar-block", {
                                 hidden: props.isConsecutivePost,
                             })}>
                             <MessageAvatarComponent user={message.user} />
                         </div>
                         <div
-                            className={classNames("created-at-block", {
+                            className={classnames("created-at-block", {
                                 hidden: !props.isConsecutivePost,
                             })}>
                             <DateComponent date={message.created_at} />

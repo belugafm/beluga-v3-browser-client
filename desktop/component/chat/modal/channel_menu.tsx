@@ -5,7 +5,7 @@ import {
 import React, { MouseEvent } from "react"
 
 import { Themes } from "../../theme"
-import classNames from "classnames"
+import classnames from "classnames"
 import { ChannelGroupId } from "../../../api/object"
 
 const getStyle = (theme: Themes) => {
@@ -56,7 +56,7 @@ export const ChannelMenuModalComponent = ({
     return (
         <>
             <div
-                className={classNames("modal-container hide-modal-on-click", {
+                className={classnames("modal-container hide-modal-on-click", {
                     hidden: state.hidden,
                 })}
                 onClick={handleClickBackgroun}>

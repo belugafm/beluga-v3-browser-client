@@ -19,7 +19,7 @@ import { $isHeadingNode } from "@lexical/rich-text"
 import { BlockOptionsDropdownList } from "./block_dropdown"
 import { Select } from "./select_language"
 import { TooltipActionContext } from "../../../../../state/component/tooltip"
-import classNames from "classnames"
+import classnames from "classnames"
 import { createPortal } from "react-dom"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import ColorPicker from "./color_picker"
@@ -277,7 +277,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
         <div className="text-attribute-block">
             <button
                 disabled={!canUndo}
-                className={classNames("editor-button undo", {
+                className={classnames("editor-button undo", {
                     active: isBold,
                 })}
                 onMouseEnter={(e) => tooltipAction.show(e, "戻す")}
@@ -292,7 +292,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             </button>
             <button
                 disabled={!canRedo}
-                className={classNames("editor-button redo", {
+                className={classnames("editor-button redo", {
                     active: isBold,
                 })}
                 onMouseEnter={(e) => tooltipAction.show(e, "やり直す")}
@@ -348,7 +348,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             ) : (
                 <>
                     <button
-                        className={classNames("editor-button format bold", {
+                        className={classnames("editor-button format bold", {
                             active: isBold,
                         })}
                         onMouseEnter={(e) => tooltipAction.show(e, "太字")}
@@ -361,7 +361,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className={classNames("editor-button format italic", {
+                        className={classnames("editor-button format italic", {
                             active: isItalic,
                         })}
                         onMouseEnter={(e) => tooltipAction.show(e, "イタリック体")}
@@ -374,7 +374,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className={classNames("editor-button format strikethrough", {
+                        className={classnames("editor-button format strikethrough", {
                             active: isStrikethrough,
                         })}
                         onMouseEnter={(e) => tooltipAction.show(e, "打ち消し線")}
@@ -387,7 +387,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className={classNames("editor-button format underline", {
+                        className={classnames("editor-button format underline", {
                             active: isUnderline,
                         })}
                         onMouseEnter={(e) => tooltipAction.show(e, "下線")}
@@ -400,7 +400,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className={classNames("editor-button format code", {
+                        className={classnames("editor-button format code", {
                             active: isCode,
                         })}
                         onMouseEnter={(e) => tooltipAction.show(e, "コード")}
@@ -413,7 +413,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
                         </svg>
                     </button>
                     <button
-                        className={classNames("editor-button format palette", {
+                        className={classnames("editor-button format palette", {
                             active: showColorPickerDropDown,
                         })}
                         onClick={() => setShowColorPickerDropDown(!showColorPickerDropDown)}

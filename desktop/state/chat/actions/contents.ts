@@ -9,17 +9,21 @@ import { Response } from "../../../api"
 
 export type ContentActionT = {
     closeContent: (content: ContentStateT) => void
-    loadLatestMessages: (content: ContentStateT) => Promise<Response>
-    loadMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => Promise<Response>
-    loadMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => Promise<Response>
+    appendLatestMessages: (content: ContentStateT) => Promise<Response>
+    prependMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => Promise<Response>
+    appendMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => Promise<Response>
+    showContextMessages: (content: ContentStateT, messageId: MessageId) => Promise<Response>
+    showLatestMessages: (content: ContentStateT) => Promise<Response>
     openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
 }
 
 export const ContentActionContext: Context<ContentActionT> = createContext({
     closeContent: null,
-    loadLatestMessages: null,
-    loadMessagesWithMaxId: null,
-    loadMessagesWithSinceId: null,
+    appendLatestMessages: null,
+    prependMessagesWithMaxId: null,
+    appendMessagesWithSinceId: null,
+    showContextMessages: null,
+    showLatestMessages: null,
     openChannel: null,
 })
 
@@ -37,7 +41,8 @@ export const useContentAction = ({
         closeContent: (content: ContentStateT) => {
             return reduce(reducerMethod.appState.content.close, content)
         },
-        loadLatestMessages: (content: ContentStateT) => {
+
+        appendLatestMessages: (content: ContentStateT) => {
             if (content.type == ContentType.Channel) {
                 return reducers.asyncReducer(
                     reducerMethod.appState.channel.loadLatestMessages,
@@ -53,11 +58,49 @@ export const useContentAction = ({
                 return
             }
         },
-        loadMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => {
+        prependMessagesWithMaxId: (content: ContentStateT, maxId: MessageId) => {
             if (content.type == ContentType.Channel) {
-                return reducers.asyncReducer(reducerMethod.appState.channel.loadMessagesWithMaxId, {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.channel.prependMessagesWithMaxId,
+                    {
+                        prevContent: content,
+                        maxId: maxId,
+                    }
+                )
+            }
+            if (content.type == ContentType.ChannelGroup) {
+                // TODO
+                return
+            }
+            if (content.type == ContentType.Thread) {
+                // TODO
+                return
+            }
+        },
+        appendMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => {
+            if (content.type == ContentType.Channel) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.channel.appendMessagesWithSinceId,
+                    {
+                        prevContent: content,
+                        sinceId: sinceId,
+                    }
+                )
+            }
+            if (content.type == ContentType.ChannelGroup) {
+                // TODO
+                return
+            }
+            if (content.type == ContentType.Thread) {
+                // TODO
+                return
+            }
+        },
+        showContextMessages: (content: ContentStateT, messageId: MessageId) => {
+            if (content.type == ContentType.Channel) {
+                return reducers.asyncReducer(reducerMethod.appState.channel.showContextMessages, {
                     prevContent: content,
-                    maxId: maxId,
+                    messageId: messageId,
                 })
             }
             if (content.type == ContentType.ChannelGroup) {
@@ -69,14 +112,11 @@ export const useContentAction = ({
                 return
             }
         },
-        loadMessagesWithSinceId: (content: ContentStateT, sinceId: MessageId) => {
+        showLatestMessages: (content: ContentStateT) => {
             if (content.type == ContentType.Channel) {
                 return reducers.asyncReducer(
-                    reducerMethod.appState.channel.loadMessagesWithSinceId,
-                    {
-                        prevContent: content,
-                        sinceId: sinceId,
-                    }
+                    reducerMethod.appState.channel.showLatestMessages,
+                    content
                 )
             }
             if (content.type == ContentType.ChannelGroup) {

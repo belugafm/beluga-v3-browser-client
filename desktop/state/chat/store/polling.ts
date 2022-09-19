@@ -1,6 +1,6 @@
 import * as reducerMethod from "./reducer_method"
 
-import { AppStateT } from "./types/app_state"
+import { AppStateT, TimelineMode } from "./types/app_state"
 import { ReducersT } from "./types/reducer"
 
 export class Polling {
@@ -26,7 +26,7 @@ export class Polling {
                 if (content.context.channelGroupId) {
                     parentChannelGroupIdSet.add(content.context.channelGroupId)
                 }
-                if (content.timeline.shouldFetch == false) {
+                if (content.timeline.mode != TimelineMode.KeepUpToDate) {
                     return
                 }
                 if (content.context.channelId) {

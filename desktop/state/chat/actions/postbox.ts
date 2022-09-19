@@ -38,7 +38,7 @@ export const usePostboxAction = ({
             }
             const response = await sendRequest(text, textStyleJson)
             if (response.ok) {
-                contentAction.loadLatestMessages(content)
+                contentAction.appendLatestMessages(content)
                 return true
             } else {
                 return false

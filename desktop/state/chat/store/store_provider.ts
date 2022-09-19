@@ -8,7 +8,7 @@ import {
 import { ContentType, useAppState } from "./app_state"
 import { SetStoreActionsT, StoreT } from "./types/store"
 
-import { ContentStateT } from "./types/app_state"
+import { ContentStateT, TimelineMode } from "./types/app_state"
 import { useDomainData } from "./domain_data"
 import { PageContextObjectT } from "./types/page_context"
 import { useReducers } from "./reducer"
@@ -112,9 +112,9 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        mode: TimelineMode.KeepUpToDate,
                         lastMessageId: pageContext.channel.object.last_message_id,
                         messageIds: pageContext.channel.messages.map((message) => message.id),
-                        shouldFetch: true,
                         upToDate: isChannelUpToDate(
                             pageContext.channel.object,
                             pageContext.channel.messages
@@ -146,9 +146,9 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        mode: TimelineMode.KeepUpToDate,
                         lastMessageId: pageContext.channelGroup.object.last_message_id,
                         messageIds: pageContext.channelGroup.messages.map((message) => message.id),
-                        shouldFetch: true,
                         upToDate: isChanneGrouplUpToDate(
                             pageContext.channelGroup.object,
                             pageContext.channelGroup.messages
@@ -180,9 +180,9 @@ function loadContentsFromLocalStorage(
                         showMutedMessage: false,
                     },
                     timeline: {
+                        mode: TimelineMode.KeepUpToDate,
                         lastMessageId: pageContext.thread.object.last_reply_message_id,
                         messageIds: pageContext.thread.messages.map((message) => message.id),
-                        shouldFetch: true,
                         upToDate: isThreadUpToDate(
                             pageContext.thread.object,
                             pageContext.thread.messages

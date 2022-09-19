@@ -41,9 +41,9 @@ export const copyContents = (contents: ContentGridT) => {
                     showMutedMessage: content.options.showMutedMessage,
                 },
                 timeline: {
+                    mode: content.timeline.mode,
                     lastMessageId: content.timeline.lastMessageId,
                     messageIds: content.timeline.messageIds.concat(),
-                    shouldFetch: content.timeline.shouldFetch,
                     query: Object.assign({}, content.timeline.query),
                 },
                 context: Object.assign({}, content.context),

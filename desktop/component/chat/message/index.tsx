@@ -63,6 +63,8 @@ export const MessageComponent = React.memo(
                 <div className="menu-container">
                     <MenuComponent
                         message={message}
+                        content={props.content}
+                        contentAction={props.contentAction}
                         messageAction={props.messageAction}
                         tooltipAction={props.tooltipAction}
                         deleteMessageModalAction={props.deleteMessageModalAction}

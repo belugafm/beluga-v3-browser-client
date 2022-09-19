@@ -1,22 +1,7 @@
 import { ContentActionT } from "../actions/contents"
 import { ContentStateT } from "../store/types/app_state"
 import { useEffect, useState } from "react"
-import config from "../../../config"
 import { MessageId } from "../../../api/object"
-
-function findMaxId(messageIds: string[]) {
-    if (messageIds.length > config.timeline.maxNumStatuses) {
-        return messageIds[messageIds.length - config.timeline.maxNumStatuses - 1]
-    }
-    return null
-}
-
-function findSinceId(messageIds: string[]) {
-    if (messageIds.length > config.timeline.maxNumStatuses) {
-        return messageIds[config.timeline.maxNumStatuses + 1]
-    }
-    return null
-}
 
 export class ScrollerState {
     ref: React.MutableRefObject<any>
@@ -124,7 +109,7 @@ export class ScrollerState {
         }
         this.isPendingRequest = true
         const maxId = this.content.timeline.messageIds[this.content.timeline.messageIds.length - 1]
-        await this.contentAction.loadMessagesWithMaxId(this.content, maxId)
+        await this.contentAction.prependMessagesWithMaxId(this.content, maxId)
         this.isPendingRequest = false
     }
     handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {

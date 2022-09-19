@@ -6,6 +6,11 @@ export const ContentType = {
     Thread: "Thread",
 } as const
 
+export const TimelineMode = {
+    KeepUpToDate: "KeepUpToDate",
+    ShowContextMessages: "ShowContextMessages",
+} as const
+
 export type ContentStateT = {
     id: number
     column: number
@@ -26,7 +31,7 @@ export type ContentStateT = {
     timeline: {
         lastMessageId: MessageId
         messageIds: MessageId[]
-        shouldFetch: boolean // 自動更新するかどうか
+        mode: keyof typeof TimelineMode
         upToDate: boolean // 最新のメッセージがmessageIdsに含まれるかどうか
         query: {
             channelGroupId?: ChannelGroupId

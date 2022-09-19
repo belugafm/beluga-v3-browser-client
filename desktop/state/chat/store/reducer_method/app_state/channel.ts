@@ -1,6 +1,6 @@
 import * as api from "../../../../../api"
 
-import { AppStateT, ContentStateT } from "../../types/app_state"
+import { AppStateT, ContentStateT, TimelineMode } from "../../types/app_state"
 import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
 import { copyContents, insertContent } from "./content"
 
@@ -135,7 +135,7 @@ const _after = (nextContent: ContentStateT, nextDomainData: DomainDataT) => {
     }
 }
 
-export const loadMessagesWithMaxId = async (
+export const prependMessagesWithMaxId = async (
     prevStore: StoreT,
     params: {
         prevContent: ContentStateT
@@ -167,7 +167,7 @@ export const loadMessagesWithMaxId = async (
     ]
 }
 
-export const loadMessagesWithSinceId = async (
+export const appendMessagesWithSinceId = async (
     prevStore: StoreT,
     params: {
         prevContent: ContentStateT
@@ -199,13 +199,95 @@ export const loadMessagesWithSinceId = async (
     ]
 }
 
+export const showContextMessages = async (
+    prevStore: StoreT,
+    params: {
+        prevContent: ContentStateT
+        messageId: MessageId
+    }
+): Promise<[StoreT, api.Response | null]> => {
+    const { prevContent, messageId } = params
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    let nextDomainData = prevStore.domainData
+    let messages = []
+    {
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.channel, {
+            channelId: prevContent.timeline.query.channelId,
+            sinceId: messageId,
+        })
+        if (response.messages) {
+            messages = messages.concat(response.messages)
+        }
+        nextDomainData = _nextDomainData
+    }
+    {
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.message.show, {
+            messageId,
+        })
+        if (response.message) {
+            messages = messages.concat([response.message])
+        }
+        nextDomainData = _nextDomainData
+    }
+    {
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.channel, {
+            channelId: prevContent.timeline.query.channelId,
+            maxId: messageId,
+        })
+        if (response.messages) {
+            messages = messages.concat(response.messages)
+        }
+        nextDomainData = _nextDomainData
+    }
+
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.timeline.messageIds = messages.map((message) => message.id)
+    nextContent.timeline.mode = TimelineMode.ShowContextMessages
+
+    return [
+        {
+            domainData: nextDomainData,
+            appState: nextAppState,
+        },
+        null,
+    ]
+}
+
+export const showLatestMessages = async (
+    prevStore: StoreT,
+    prevContent: ContentStateT
+): Promise<[StoreT, api.Response | null]> => {
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
+        channelId: prevContent.timeline.query.channelId,
+    })
+    const { messages } = response
+
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.timeline.messageIds = messages.map((message) => message.id)
+    _after(nextContent, nextDomainData)
+    nextContent.timeline.mode = TimelineMode.KeepUpToDate
+
+    return [
+        {
+            domainData: nextDomainData,
+            appState: nextAppState,
+        },
+        response,
+    ]
+}
+
 export const loadLatestMessages = async (
     prevStore: StoreT,
     prevContent: ContentStateT
 ): Promise<[StoreT, api.Response | null]> => {
     const sinceId =
         prevContent.timeline.messageIds.length == 0 ? null : prevContent.timeline.messageIds[0]
-    return await loadMessagesWithSinceId(prevStore, {
+    return await appendMessagesWithSinceId(prevStore, {
         prevContent,
         sinceId,
     })

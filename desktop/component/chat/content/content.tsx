@@ -15,6 +15,7 @@ import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { swrShowLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
+import classnames from "classnames"
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -459,7 +460,10 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                         <HeaderComponent content={content} />
                         <DebugMessageComponent scrollerState={scrollerState} />
                     </div>
-                    <div className="scroller-container">
+                    <div
+                        className={classnames("scroller-container", {
+                            hidden: !scrollerState.componentDidMout,
+                        })}>
                         <div
                             className="scroller"
                             ref={scrollerRef}
@@ -521,6 +525,9 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     flex: 1 1 auto;
                     z-index: 1;
                     position: relative;
+                }
+                .scroller-container.hidden {
+                    visibility: hidden;
                 }
                 .scroller::-webkit-scrollbar {
                     width: 6px;

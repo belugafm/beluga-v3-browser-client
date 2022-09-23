@@ -9,11 +9,9 @@ export class ScrollerState {
     contentAction: ContentActionT
     reqeustedMaxId: MessageId | null = null
     reqeustedSinceId: MessageId | null = null
-    loading: boolean = false
+    componentDidMout: boolean = false
     hasReachedTop: boolean = false
     hasReachedBottom: boolean = false
-    scrolled: boolean = false
-    prevScrollTop: number = 0
     forceScrollToBottom: boolean = true
     shouldNotifyNewMessages: boolean = false
     isPendingRequest: boolean = false
@@ -23,6 +21,7 @@ export class ScrollerState {
     setHasReachedTop: (on: boolean) => void
     setForceScrollToBottom: (on: boolean) => void
     setShouldNotifyNewMessages: (on: boolean) => void
+    setComponentDidMout: (on: boolean) => void
     setLastReadLatestMessageId: (messageId: MessageId) => void
     use = ({
         ref,
@@ -46,6 +45,13 @@ export class ScrollerState {
         this.setForceScrollToBottom = (on: boolean) => {
             this.forceScrollToBottom = on
             setForceScrollToBottom(on)
+        }
+
+        const [componentDidMout, setComponentDidMout] = useState(false)
+        this.componentDidMout = componentDidMout
+        this.setComponentDidMout = (on: boolean) => {
+            this.componentDidMout = on
+            setComponentDidMout(on)
         }
 
         const [hasReachedTop, setHasReachedTop] = useState(false)
@@ -75,6 +81,9 @@ export class ScrollerState {
             } else {
                 this.setShouldNotifyNewMessages(false)
             }
+            return () => {
+                clearInterval(this.forceScrollToBottomTimerId)
+            }
         }, [forceScrollToBottom, lastReadLatestMessageId, lastMessageId, this.isTimelineUpToDate()])
 
         useEffect(() => {
@@ -88,6 +97,14 @@ export class ScrollerState {
                 }, 100)
             }
         }, [forceScrollToBottom, lastMessageId])
+
+        useEffect(() => {
+            // 一番下までスクロールするまでタイムラインを表示させない
+            if (this.componentDidMout == false) {
+                this.scrollToBottom()
+                this.setComponentDidMout(true)
+            }
+        }, [componentDidMout])
     }
     scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
@@ -136,14 +153,11 @@ export class ScrollerState {
             this.setHasReachedBottom(false)
             this.setForceScrollToBottom(false)
         }
-        if (scroller.scrollTop <= 200) {
+        if (scroller.scrollTop <= 400) {
             this.setHasReachedTop(true)
             this.loadMessagesWithMaxIdIfNeeded()
         } else {
             this.setHasReachedTop(false)
-        }
-        if (this.loading) {
-            return
         }
     }
 }

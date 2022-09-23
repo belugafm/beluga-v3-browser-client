@@ -79,14 +79,6 @@ export const MenuComponent = ({
     return (
         <div className="menu" ref={ref}>
             <button
-                className="menu-button add-reaction global-tooltip-container"
-                onMouseEnter={(e) => tooltipAction.show(e, "リアクションする")}
-                onMouseLeave={() => tooltipAction.hide()}>
-                <svg className="icon">
-                    <use href="#icon-editor-emoji"></use>
-                </svg>
-            </button>
-            <button
                 className="menu-button create-like global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "いいね")}
                 onMouseLeave={() => tooltipAction.hide()}>
@@ -100,6 +92,14 @@ export const MenuComponent = ({
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">
                     <use href="#icon-heart-outline"></use>
+                </svg>
+            </button>
+            <button
+                className="menu-button add-reaction global-tooltip-container"
+                onMouseEnter={(e) => tooltipAction.show(e, "リアクションする")}
+                onMouseLeave={() => tooltipAction.hide()}>
+                <svg className="icon">
+                    <use href="#icon-editor-emoji"></use>
                 </svg>
             </button>
             <button

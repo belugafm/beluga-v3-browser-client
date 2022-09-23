@@ -28,6 +28,13 @@ export const MessageComponent = React.memo(
     (props: MessagePropsT & { zIndex: number; children: any }) => {
         console.debug("[MessageComponent] render", props.message.id)
         const [zIndex, setZIndex] = useState(0)
+        const bringDomToFront = (on: boolean) => {
+            if (on) {
+                setZIndex(1)
+            } else {
+                setZIndex(0)
+            }
+        }
         const { message } = props
         if (message.deleted) {
             return null
@@ -73,7 +80,7 @@ export const MessageComponent = React.memo(
                         tooltipAction={props.tooltipAction}
                         deleteMessageModalAction={props.deleteMessageModalAction}
                         theme={props.theme}
-                        setMessageZIndex={setZIndex}
+                        bringMessageDomToFront={bringDomToFront}
                     />
                 </div>
                 <style jsx>{`

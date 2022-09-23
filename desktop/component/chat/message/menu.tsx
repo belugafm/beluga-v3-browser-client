@@ -53,7 +53,7 @@ export const MenuComponent = ({
     messageAction,
     tooltipAction,
     deleteMessageModalAction,
-    setMessageZIndex,
+    bringMessageDomToFront,
 }: {
     message: MessageObjectT
     theme: Themes
@@ -62,7 +62,7 @@ export const MenuComponent = ({
     messageAction: MessageActionT
     tooltipAction: TooltipActionT
     deleteMessageModalAction: DeleteMessageModalActionT
-    setMessageZIndex: (zIndex: number) => void
+    bringMessageDomToFront: (on: boolean) => void
 }) => {
     const [otherMenuPositionBottom, setOtherMenuPositionBottom] = useState(0)
     const [isOtherMenuVisible, _setIsOtherMenuVisible] = useState(false)
@@ -70,9 +70,9 @@ export const MenuComponent = ({
         _setIsOtherMenuVisible(on)
         if (on) {
             // メニューの項目がクリックできなくなるのを回避
-            setMessageZIndex(1)
+            bringMessageDomToFront(true)
         } else {
-            setMessageZIndex(0)
+            bringMessageDomToFront(false)
         }
     }
     const ref = useRef(null)

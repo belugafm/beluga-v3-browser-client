@@ -1,7 +1,7 @@
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageObjectT } from "../../../api/object"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import React from "react"
 import { Themes } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
@@ -53,6 +53,7 @@ export const MenuComponent = ({
     messageAction,
     tooltipAction,
     deleteMessageModalAction,
+    setMessageZIndex,
 }: {
     message: MessageObjectT
     theme: Themes
@@ -61,10 +62,13 @@ export const MenuComponent = ({
     messageAction: MessageActionT
     tooltipAction: TooltipActionT
     deleteMessageModalAction: DeleteMessageModalActionT
+    setMessageZIndex: (zIndex: number) => void
 }) => {
     const [isOtherMenuVisible, setIsOtherMenuVisible] = useState(false)
+    const [otherMenuPositionBottom, setOtherMenuPositionBottom] = useState(0)
+    const ref = useRef(null)
     return (
-        <div className="menu">
+        <div className="menu" ref={ref}>
             <button
                 className="menu-button add-reaction global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "リアクションする")}
@@ -110,6 +114,26 @@ export const MenuComponent = ({
                 className="menu-button delete global-tooltip-container"
                 onClick={(e) => {
                     e.preventDefault()
+                    if (ref.current) {
+                        const messageDom = ref.current.parentNode.parentNode
+                        const scrollerDom = messageDom.parentNode
+                        const messageRect = messageDom.getBoundingClientRect()
+                        const scrollerRect = scrollerDom.getBoundingClientRect()
+                        const otherMenuHeight = 333 // display: noneなので高さが取れない
+                        const topMargin = messageRect.top - scrollerRect.top
+                        const bottomMargin = scrollerRect.bottom - messageRect.top
+                        const bottom =
+                            Math.min(0, topMargin - otherMenuHeight / 2 + 16) +
+                            Math.max(0, otherMenuHeight / 2 - bottomMargin + 24) -
+                            otherMenuHeight / 2
+                        setOtherMenuPositionBottom(bottom)
+                    }
+                    if (isOtherMenuVisible) {
+                        setMessageZIndex(0)
+                    } else {
+                        // メニューの項目がクリックできなくなるのを回避
+                        setMessageZIndex(1)
+                    }
                     setIsOtherMenuVisible(!isOtherMenuVisible)
                 }}
                 onMouseEnter={(e) => tooltipAction.show(e, "その他")}
@@ -122,6 +146,9 @@ export const MenuComponent = ({
                 className={classnames("other-menu-container", {
                     visible: isOtherMenuVisible,
                 })}
+                style={{
+                    bottom: `${otherMenuPositionBottom}px`,
+                }}
                 onMouseLeave={(e) => {
                     setIsOtherMenuVisible(false)
                 }}>
@@ -215,7 +242,6 @@ export const MenuComponent = ({
                 .other-menu-container {
                     position: absolute;
                     right: 32px;
-                    bottom: 0;
                     z-index: 1;
                     display: none;
                 }

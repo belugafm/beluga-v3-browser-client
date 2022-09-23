@@ -3,7 +3,7 @@ import { DateComponent, SenderComponent } from "./sender"
 import { MessagePropsT } from "./types"
 import { MenuComponent } from "./menu"
 import { MessageAvatarComponent } from "./avatar"
-import React from "react"
+import React, { useState } from "react"
 import { Themes } from "../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
@@ -26,7 +26,8 @@ const getStyle = (theme: Themes) => {
 
 export const MessageComponent = React.memo(
     (props: MessagePropsT & { zIndex: number; children: any }) => {
-        console.debug("MessageComponent::render", props.message.id)
+        console.debug("[MessageComponent] render", props.message.id)
+        const [zIndex, setZIndex] = useState(0)
         const { message } = props
         if (message.deleted) {
             return null
@@ -35,7 +36,10 @@ export const MessageComponent = React.memo(
             <div
                 className={classnames("message", {
                     consecutive: props.isConsecutivePost,
-                })}>
+                })}
+                style={{
+                    zIndex,
+                }}>
                 <div className="inner">
                     <div className="message-left">
                         <div
@@ -69,6 +73,7 @@ export const MessageComponent = React.memo(
                         tooltipAction={props.tooltipAction}
                         deleteMessageModalAction={props.deleteMessageModalAction}
                         theme={props.theme}
+                        setMessageZIndex={setZIndex}
                     />
                 </div>
                 <style jsx>{`
@@ -80,6 +85,7 @@ export const MessageComponent = React.memo(
                         margin-top: 4px;
                         position: relative;
                         font-size: 15px;
+                        z-index: 0;
                     }
                     .message.consecutive {
                         margin-top: 0;
@@ -134,7 +140,6 @@ export const MessageComponent = React.memo(
                 <style jsx>{`
                     .message {
                         background-color: ${getStyle(props.theme)["backgroundColor"]};
-                        z-index: ${props.zIndex};
                     }
                     .message:hover {
                         background-color: ${getStyle(props.theme)["hoverBackgroundColor"]};

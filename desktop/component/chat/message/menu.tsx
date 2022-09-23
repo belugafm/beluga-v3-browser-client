@@ -64,8 +64,17 @@ export const MenuComponent = ({
     deleteMessageModalAction: DeleteMessageModalActionT
     setMessageZIndex: (zIndex: number) => void
 }) => {
-    const [isOtherMenuVisible, setIsOtherMenuVisible] = useState(false)
     const [otherMenuPositionBottom, setOtherMenuPositionBottom] = useState(0)
+    const [isOtherMenuVisible, _setIsOtherMenuVisible] = useState(false)
+    const setIsOtherMenuVisible = (on: boolean) => {
+        _setIsOtherMenuVisible(on)
+        if (on) {
+            // メニューの項目がクリックできなくなるのを回避
+            setMessageZIndex(1)
+        } else {
+            setMessageZIndex(0)
+        }
+    }
     const ref = useRef(null)
     return (
         <div className="menu" ref={ref}>
@@ -127,12 +136,6 @@ export const MenuComponent = ({
                             Math.max(0, otherMenuHeight / 2 - bottomMargin + 24) -
                             otherMenuHeight / 2
                         setOtherMenuPositionBottom(bottom)
-                    }
-                    if (isOtherMenuVisible) {
-                        setMessageZIndex(0)
-                    } else {
-                        // メニューの項目がクリックできなくなるのを回避
-                        setMessageZIndex(1)
                     }
                     setIsOtherMenuVisible(!isOtherMenuVisible)
                 }}

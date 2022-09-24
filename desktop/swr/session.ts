@@ -11,7 +11,7 @@ type ReturnT = {
     isLoading: boolean
 }
 
-export const swrShowLoggedInUser = (): ReturnT => {
+export const swrGetLoggedInUser = (): ReturnT => {
     const { data, error } = useSWR("logged_in_user", () => {
         return api.auth.cookie.authenticate()
     })

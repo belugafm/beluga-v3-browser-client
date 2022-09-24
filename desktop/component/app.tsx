@@ -1,11 +1,11 @@
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"
-import { swrShowLoggedInUser } from "../swr/session"
+import { swrGetLoggedInUser } from "../swr/session"
 import { useTheme } from "./theme"
 
 export const App = ({ children }) => {
     const [theme] = useTheme()
-    const { isLoading } = swrShowLoggedInUser()
+    const { isLoading } = swrGetLoggedInUser()
     return (
         <>
             {isLoading ? null : children}

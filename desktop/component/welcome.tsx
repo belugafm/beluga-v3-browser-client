@@ -1,9 +1,9 @@
 import React from "react"
-import { swrShowLoggedInUser } from "../swr/session"
+import { swrGetLoggedInUser } from "../swr/session"
 import { useTheme } from "./theme"
 
 const AlreadyLoggedInMessageComponent = () => {
-    const { loggedInUser, authenticityToken } = swrShowLoggedInUser()
+    const { loggedInUser, authenticityToken } = swrGetLoggedInUser()
     console.log(loggedInUser)
     console.log(authenticityToken)
     if (loggedInUser && authenticityToken) {

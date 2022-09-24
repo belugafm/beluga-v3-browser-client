@@ -13,7 +13,7 @@ import { PostboxComponent } from "../postbox"
 import { ScrollerState } from "../../../state/chat/components/scroller"
 import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
-import { swrShowLoggedInUser } from "../../../swr/session"
+import { swrGetLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
 import classnames from "classnames"
 
@@ -402,7 +402,7 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     const contentAction = useContext(ContentActionContext)
     const tooltipAction = useContext(TooltipActionContext)
     const deleteMessageModalAction = useContext(DeleteMessageModalActionContext)
-    const { loggedInUser } = swrShowLoggedInUser()
+    const { loggedInUser } = swrGetLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
     const scrollerState = useMemo(() => new ScrollerState(), [content.id])

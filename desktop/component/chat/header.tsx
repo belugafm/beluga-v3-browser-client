@@ -1,7 +1,7 @@
 import { HeaderStateContext, useHeaderComponentState } from "../../state/component/header"
 import { Themes, useTheme } from "../theme"
 
-import { swrShowLoggedInUser } from "../../swr/session"
+import { swrGetLoggedInUser } from "../../swr/session"
 import { SearchComponent } from "./header/search"
 
 const getStyleForTheme = (theme: Themes) => {
@@ -32,7 +32,7 @@ const displayName = (user) => {
 export const HeaderComponent = () => {
     const [theme] = useTheme()
     const state = useHeaderComponentState()
-    const { loggedInUser } = swrShowLoggedInUser()
+    const { loggedInUser } = swrGetLoggedInUser()
     return (
         <>
             <HeaderStateContext.Provider value={state}>

@@ -3,7 +3,7 @@ import { StoreProvider } from "./store_provider"
 import { AppStateT } from "./types/app_state"
 import { ReducersT } from "./types/reducer"
 import { DomainDataT } from "./types/domain_data"
-import { swrShowLoggedInUser } from "../../../swr/session"
+import { swrGetLoggedInUser } from "../../../swr/session"
 // import { websocket } from "../websocket"
 import { PageContextObjectT } from "./types/page_context"
 import { Polling } from "./polling"
@@ -20,7 +20,7 @@ export const useStore = (
 } => {
     console.debug("useChatState")
     let [store, reducers] = storeProvider.use(pageContext)
-    const { loggedInUser } = swrShowLoggedInUser()
+    const { loggedInUser } = swrGetLoggedInUser()
 
     // websocket.use({
     //     loggedInUser,

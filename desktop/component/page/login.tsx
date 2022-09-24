@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { SigninFormContext, useSigninFormState } from "../../state/account/signin"
 
 import { InputComponent } from "../form/input"
-import { swrShowLoggedInUser } from "../../swr/session"
+import { swrGetLoggedInUser } from "../../swr/session"
 
 const NameInputForm = () => {
     const { nameField, handleUpdateNameValue } = useContext(SigninFormContext)
@@ -61,7 +61,7 @@ const GlobalErrorMessageComponent = () => {
 }
 
 const AlreadyLoggedInMessageComponent = () => {
-    const { loggedInUser } = swrShowLoggedInUser()
+    const { loggedInUser } = swrGetLoggedInUser()
     if (loggedInUser) {
         return <div>{`${loggedInUser.name}としてログイン中です`}</div>
     } else {

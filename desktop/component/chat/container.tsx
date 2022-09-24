@@ -11,7 +11,7 @@ import { GetServerSideProps } from "next"
 import { ModalContextProvider } from "./modal/context_provider"
 import { ReducerContext } from "../../state/chat/store/types/reducer"
 import { TooltipComponent } from "./tooltip"
-import { swrShowLoggedInUser } from "../../swr/session"
+import { swrGetLoggedInUser } from "../../swr/session"
 import { PageContextObjectT } from "../../state/chat/store/types/page_context"
 
 const LoadingComponent = () => {
@@ -77,7 +77,7 @@ export const ContainerComponent = ({
     pageContext: PageContextObjectT
 }) => {
     const [theme] = useTheme()
-    const { isLoading, loggedInUser } = swrShowLoggedInUser()
+    const { isLoading, loggedInUser } = swrGetLoggedInUser()
     const [state, tooltipAction] = useTooltipState()
     const { domainData, appState, reducers } = useStore(pageContext)
     polling.use({

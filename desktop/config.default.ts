@@ -33,7 +33,7 @@ const config: {
         },
     },
     websocket: {
-        uri: "ws://localhost.beluga.fm/ws/",
+        uri: "wss://localhost.beluga.fm/ws/",
     },
     siteName: "Beluga",
     timeline: {

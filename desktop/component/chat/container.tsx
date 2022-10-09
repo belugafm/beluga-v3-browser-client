@@ -2,7 +2,7 @@ import { ContentActionContext, useContentAction } from "../../state/chat/actions
 import { MessageActionContext, useMessageAction } from "../../state/chat/actions/message"
 import { Themes, useTheme } from "../theme"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
-import { polling, useStore } from "../../state/chat/store"
+import { ws, polling, useStore } from "../../state/chat/store"
 
 import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
@@ -84,6 +84,10 @@ export const ContainerComponent = ({
         reducers,
         appState,
     })
+    ws.use({
+        reducers,
+        appState,
+    })
     const messageAction = useMessageAction(reducers)
     const contentAction = useContentAction({ appState, reducers })
     if (isLoading) {
@@ -131,6 +135,10 @@ export const ContainerComponent = ({
                     font-weight: 400;
                     padding: 0;
                     margin: 0;
+                }
+                .translucent {
+                    backdrop-filter: blur(10px);
+                    saturate(180%);
                 }
             `}</style>
             {getFontStyle()}

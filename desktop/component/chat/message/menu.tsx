@@ -125,7 +125,7 @@ export const MenuComponent = ({
                     e.preventDefault()
                     if (ref.current) {
                         const messageDom = ref.current.parentNode.parentNode
-                        const scrollerDom = messageDom.parentNode
+                        const scrollerDom = messageDom.parentNode.parentNode
                         const messageRect = messageDom.getBoundingClientRect()
                         const scrollerRect = scrollerDom.getBoundingClientRect()
                         const otherMenuHeight = 333 // display: noneなので高さが取れない

@@ -351,6 +351,7 @@ const isEmpty = (content: ContentStateT) => {
 }
 
 const DebugMessageComponent = ({ scrollerState }: { scrollerState: ScrollerState }) => {
+    return null
     return (
         <div className="debug-message">
             <div className="panel">

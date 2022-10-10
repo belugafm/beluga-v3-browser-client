@@ -128,8 +128,6 @@ export const AppPreviewComponent = (props: {
     const { channels, messages, channelGroup } = props
     const theme: Themes = {
         global: {
-            dark: defaultGlobalDarkTheme,
-            light: defaultGlobalLightTheme,
             current: defaultGlobalLightTheme,
             setCurrentTheme: (key: string) => {},
         },

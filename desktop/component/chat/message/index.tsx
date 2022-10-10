@@ -8,6 +8,14 @@ import { Themes } from "../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
 
+const lerp = (a: number, b: number, ratio: number) => {
+    return a * (1 - ratio) + b * ratio
+}
+
+const rlerp = (a: number, b: number, ratio: number) => {
+    return (b - a * (1 - ratio)) / ratio
+}
+
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
@@ -15,10 +23,22 @@ const getStyle = (theme: Themes) => {
             hoverBackgroundColor: "#f4f4f4",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "transparent",
-            hoverBackgroundColor: "#111315",
+            hoverBackgroundColor: "#ffffff",
+        }
+    }
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+        const alpha = 0.5
+        return {
+            backgroundColor: "transparent",
+            // hoverBackgroundColor: "#111315",
+            hoverBackgroundColor: `rgba(${rlerp(26, 17, alpha)}, ${rlerp(28, 19, alpha)}, ${rlerp(
+                31,
+                21,
+                alpha
+            )}, ${alpha})`,
         }
     }
     throw new Error()

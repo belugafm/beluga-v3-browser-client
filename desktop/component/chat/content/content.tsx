@@ -17,18 +17,34 @@ import { swrGetLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
 import classnames from "classnames"
 
+const lerp = (a: number, b: number, ratio: number) => {
+    return a * (1 - ratio) + b * ratio
+}
+
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
+        const alpha = 0.95
         return {
             color: "#000",
-            backgroundColor: "#fff",
+            // backgroundColor: "#fff",
+            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
+                244,
+                255,
+                alpha
+            )}, ${alpha})`,
             scrollbarThumbColor: "#d8dadc",
         }
     }
     if (theme.global.current.dark) {
+        const alpha = 0.96
         return {
             color: "#fcfcfc",
-            backgroundColor: "#1a1c1f",
+            // backgroundColor: "#1a1c1f",
+            backgroundColor: `rgba(${lerp(17, 26, alpha)}, ${lerp(19, 28, alpha)}, ${lerp(
+                21,
+                31,
+                alpha
+            )}, ${alpha})`,
             scrollbarThumbColor: "#616d78",
         }
     }
@@ -454,21 +470,18 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     }
     return (
         <>
-            <div className="content-container">
+            <div className="content-container translucent">
                 <div className="content">
                     <div className="menu">
                         <HeaderComponent content={content} />
                         <DebugMessageComponent scrollerState={scrollerState} />
                     </div>
-                    <div
-                        className={classnames("scroller-container", {
-                            hidden: !scrollerState.componentDidMout,
-                        })}>
+                    <div className="scroller-container">
                         <div
                             className="scroller"
                             ref={scrollerRef}
                             onScroll={scrollerState.handleScroll}>
-                            {messageComponentList}
+                            <div className="message-container">{messageComponentList}</div>
                         </div>
                         <NewMessageNotificationButton scrollerState={scrollerState} theme={theme} />
                         <ShowLatestMessagesButton
@@ -545,12 +558,17 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 .scroller {
                     flex: 1 1 auto;
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: column-reverse;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;
                     z-index: 1;
                     transform: translateZ(0);
+                }
+                .message-container {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
                 }
             `}</style>
             <style jsx>{`

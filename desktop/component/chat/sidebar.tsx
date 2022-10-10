@@ -1,16 +1,36 @@
 import { SidebarStateContext, useSidebarComponentState } from "../../state/component/sidebar"
 import { Themes, useTheme } from "../theme"
 
+const lerp = (a: number, b: number, ratio: number) => {
+    return a * (1 - ratio) + b * ratio
+}
+
+const rlerp = (a: number, b: number, ratio: number) => {
+    return (b - a * (1 - ratio)) / ratio
+}
+
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
+        const alpha = 0.96
         return {
-            backgroundColor: "#fff",
+            // backgroundColor: "#fff",
+            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
+                244,
+                255,
+                alpha
+            )}, ${alpha})`,
             color: "#383838",
         }
     }
     if (theme.global.current.dark) {
+        const alpha = 0.98
         return {
-            backgroundColor: "#1a1c1f",
+            // backgroundColor: "#  ",
+            backgroundColor: `rgba(${rlerp(17, 26, alpha)}, ${rlerp(19, 28, alpha)}, ${rlerp(
+                21,
+                31,
+                alpha
+            )}, ${alpha})`,
             color: "#6f767d",
         }
     }
@@ -22,7 +42,7 @@ export const SidebarComponent = ({ children }) => {
     return (
         <>
             <SidebarStateContext.Provider value={state}>
-                <div className="sidebar">{children}</div>
+                <div className="sidebar translucent">{children}</div>
                 <style jsx>{`
                     .sidebar {
                         background-color: ${getStyleForTheme(theme)["backgroundColor"]};

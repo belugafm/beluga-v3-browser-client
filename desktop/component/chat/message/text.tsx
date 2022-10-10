@@ -149,8 +149,13 @@ export const styledNodeToDOM = (
             return <span>{sliceText(textGraphemes, node)}</span>
         }
     }
-    const inner = node.children.map((child) => {
-        return styledNodeToDOM(textGraphemes, child, theme)
+    const inner = node.children.map((child, index) => {
+        const dom = styledNodeToDOM(textGraphemes, child, theme)
+        if (dom) {
+            return React.cloneElement(dom, { key: index })
+        } else {
+            return null
+        }
     })
     if (node.type == "paragraph") {
         return (
@@ -287,6 +292,7 @@ export const styledNodeToDOM = (
             </>
         )
     }
+    return null
 }
 
 export const StyledTextComponent = ({
@@ -300,8 +306,9 @@ export const StyledTextComponent = ({
 }) => {
     const textGraphemes = new GraphemeSplitter().splitGraphemes(text)
     const domList = []
-    entities.style.forEach((node: MessageEntityStyleNode) => {
-        domList.push(styledNodeToDOM(textGraphemes, node, theme))
+    entities.style.forEach((node: MessageEntityStyleNode, index: number) => {
+        const dom = styledNodeToDOM(textGraphemes, node, theme)
+        domList.push(React.cloneElement(dom, { key: index }))
     })
     return (
         <>

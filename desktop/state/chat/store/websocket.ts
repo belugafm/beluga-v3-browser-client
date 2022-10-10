@@ -1,5 +1,8 @@
-import { AppStateT } from "./types/app_state"
+import { AppStateT, TimelineMode } from "./types/app_state"
 import { ReducersT } from "./types/reducer"
+import { show as updateUser } from "./reducer_method/domain_data/user"
+import { show as updateChannel } from "./reducer_method/domain_data/channel"
+import { loadLatestMessages } from "./reducer_method/app_state/channel"
 
 export class WebSocketClient {
     reducers: ReducersT
@@ -53,6 +56,26 @@ export class WebSocketClient {
             try {
                 const data = JSON.parse(event.data)
                 console.log("websocket recieved", data)
+                if (data.user_id) {
+                    return this.reducers.asyncReducer(updateUser, {
+                        userId: data.user_id,
+                    })
+                }
+                if (data.channel_id) {
+                    this.reducers.asyncReducer(updateChannel, {
+                        id: data.channel_id,
+                    })
+                    for (const rows of this.appState.contents) {
+                        for (const content of rows) {
+                            if (content.timeline.mode != TimelineMode.KeepUpToDate) {
+                                continue
+                            }
+                            if (content.context.channelId) {
+                                this.reducers.asyncReducer(loadLatestMessages, content)
+                            }
+                        }
+                    }
+                }
             } catch (error) {}
         })
     }

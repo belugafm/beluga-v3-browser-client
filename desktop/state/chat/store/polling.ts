@@ -27,15 +27,15 @@ export class Polling {
                     parentChannelGroupIdSet.add(content.context.channelGroupId)
                 }
                 if (content.timeline.mode != TimelineMode.KeepUpToDate) {
-                    return
+                    continue
                 }
                 if (content.context.channelId) {
                     const timerId = setInterval(() => {
-                        return this.reducers.asyncReducer(
+                        this.reducers.asyncReducer(
                             reducerMethod.appState.channel.loadLatestMessages,
                             content
                         )
-                    }, 10000)
+                    }, 600000)
                     // @ts-ignore
                     this.timerIds.push(timerId)
                 }

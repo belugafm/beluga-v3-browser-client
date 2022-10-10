@@ -3,7 +3,7 @@ import * as api from "../../../../../api"
 import { StoreT } from "../../types/store"
 import { fetch } from "../../domain_data"
 
-const show = async (
+export const show = async (
     store: StoreT,
     query: Parameters<typeof api.user.show>[0]
 ): Promise<[StoreT, api.Response]> => {
@@ -17,4 +17,4 @@ const show = async (
     ]
 }
 
-export const users = { show }
+export const user = { show }

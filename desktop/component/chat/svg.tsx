@@ -140,13 +140,13 @@ export const SVGComponent = () => {
                 xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M4 16L6 18M6 18L8 16M6 18L6 6M6 6L4 8M6 6L8 8"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
-                <path d="M12 7H20" stroke-width="1.5" stroke-linecap="round" />
-                <path d="M12 12H20" stroke-width="1.5" stroke-linecap="round" />
-                <path d="M12 17H20" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M12 7H20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M12 12H20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M12 17H20" strokeWidth="1.5" strokeLinecap="round" />
             </symbol>
             <symbol
                 id="icon-mute-user"
@@ -180,12 +180,12 @@ export const SVGComponent = () => {
                     cy="17.5"
                     rx="7"
                     ry="3.5"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
                 />
-                <circle cx="10" cy="7" r="4" stroke-width="1.5" stroke-linejoin="round" />
-                <circle cx="19" cy="11" r="3" stroke-width="1.5" />
-                <path d="M20.5 9.5L17.5 12.5" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="10" cy="7" r="4" strokeWidth="1.5" strokeLinejoin="round" />
+                <circle cx="19" cy="11" r="3" strokeWidth="1.5" />
+                <path d="M20.5 9.5L17.5 12.5" strokeWidth="1.5" strokeLinecap="round" />
             </symbol>
             <symbol
                 id="icon-pin"
@@ -279,8 +279,8 @@ export const SVGComponent = () => {
                 <path
                     d="M14.1211 9.87866L9.87845 14.1213"
                     fill="none"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
                 />
                 <path
                     d="M9.80314 6.4697C9.51024 6.76259 9.51024 7.23747 9.80314 7.53036C10.096 7.82325 10.5709 7.82325 10.8638 7.53036L9.80314 6.4697ZM16.4698 13.1364C16.1769 13.4293 16.177 13.9042 16.4698 14.1971C16.7627 14.49 17.2376 14.49 17.5305 14.1971L16.4698 13.1364ZM10.8638 7.53036L12.5305 5.86369L11.4698 4.80303L9.80314 6.4697L10.8638 7.53036ZM18.1365 11.4697L16.4698 13.1364L17.5305 14.1971L19.1972 12.5304L18.1365 11.4697ZM18.1365 5.86368C19.6846 7.41175 19.6846 9.92166 18.1365 11.4697L19.1972 12.5304C21.331 10.3965 21.331 6.93688 19.1972 4.80302L18.1365 5.86368ZM12.5305 5.86369C14.0785 4.31562 16.5885 4.31562 18.1365 5.86368L19.1972 4.80302C17.0633 2.66917 13.6037 2.66917 11.4698 4.80303L12.5305 5.86369Z"

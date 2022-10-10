@@ -40,29 +40,32 @@ export async function fetch<T>(
     method: (query: T) => Promise<Response>,
     query: T
 ): Promise<[DomainDataT, Response]> {
-    const response = await method(query)
-    let nextDomainData = copyDomainData(prevDomainData)
-    if (response.message) {
-        nextDomainData = normalize.message(copy.message(response.message), nextDomainData)
-    }
-    if (response.user) {
-        nextDomainData = normalize.user(copy.user(response.user), nextDomainData)
-    }
-    if (response.messages) {
-        response.messages.forEach((message) => {
-            nextDomainData = normalize.message(copy.message(message), nextDomainData)
-        })
-    }
-    if (response.channel) {
-        nextDomainData = normalize.channel(copy.channel(response.channel), nextDomainData)
-    }
-    if (response.channels) {
-        response.channels.forEach((channel) => {
-            nextDomainData = normalize.channel(copy.channel(channel), nextDomainData)
-        })
-    }
+    try {
+        const response = await method(query)
+        let nextDomainData = copyDomainData(prevDomainData)
+        if (response.message) {
+            nextDomainData = normalize.message(copy.message(response.message), nextDomainData)
+        }
+        if (response.user) {
+            nextDomainData = normalize.user(copy.user(response.user), nextDomainData)
+        }
+        if (response.messages) {
+            response.messages.forEach((message) => {
+                nextDomainData = normalize.message(copy.message(message), nextDomainData)
+            })
+        }
+        if (response.channel) {
+            nextDomainData = normalize.channel(copy.channel(response.channel), nextDomainData)
+        }
+        if (response.channels) {
+            response.channels.forEach((channel) => {
+                nextDomainData = normalize.channel(copy.channel(channel), nextDomainData)
+            })
+        }
 
-    return [nextDomainData, response]
+        return [nextDomainData, response]
+    } catch (error) {}
+    return [prevDomainData, null]
 }
 
 let _initialDomainData = null

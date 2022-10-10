@@ -2,7 +2,7 @@ import { ContentActionContext, useContentAction } from "../../state/chat/actions
 import { MessageActionContext, useMessageAction } from "../../state/chat/actions/message"
 import { Themes, useTheme } from "../theme"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
-import { ws, polling, useStore } from "../../state/chat/store"
+import { websocket, polling, useStore } from "../../state/chat/store"
 
 import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
@@ -84,7 +84,7 @@ export const ContainerComponent = ({
         reducers,
         appState,
     })
-    ws.use({
+    websocket.use({
         reducers,
         appState,
     })

@@ -15,7 +15,6 @@ export class ScrollerState {
     forceScrollToBottom: boolean = true
     shouldNotifyNewMessages: boolean = false
     isPendingRequest: boolean = false
-    forceScrollToBottomTimerId: NodeJS.Timer = null
     lastReadLatestMessageId: MessageId | null = null
     setHasReachedBottom: (on: boolean) => void
     setHasReachedTop: (on: boolean) => void
@@ -81,36 +80,13 @@ export class ScrollerState {
             } else {
                 this.setShouldNotifyNewMessages(false)
             }
-            return () => {
-                clearInterval(this.forceScrollToBottomTimerId)
-            }
         }, [forceScrollToBottom, lastReadLatestMessageId, lastMessageId, this.isTimelineUpToDate()])
-
-        useEffect(() => {
-            console.log("[ScrollerState] useEffect #2")
-            clearInterval(this.forceScrollToBottomTimerId)
-            if (this.forceScrollToBottom) {
-                this.forceScrollToBottomTimerId = setInterval(() => {
-                    if (this.forceScrollToBottom) {
-                        this.scrollToBottom()
-                    }
-                }, 100)
-            }
-        }, [forceScrollToBottom, lastMessageId])
-
-        useEffect(() => {
-            // 一番下までスクロールするまでタイムラインを表示させない
-            if (this.componentDidMout == false) {
-                this.scrollToBottom()
-                this.setComponentDidMout(true)
-            }
-        }, [componentDidMout])
     }
     scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
-        const scrollTop = scroller.scrollHeight - scroller.clientHeight
-        if (scrollTop != scroller.scrollTop) {
-            scroller.scrollTop = scrollTop
+        // column-reverseされているので0が見かけ上のbottomになる
+        if (scroller.scrollTop != 0) {
+            scroller.scrollTop = 0
         }
     }
     isTimelineUpToDate = () => {
@@ -133,14 +109,14 @@ export class ScrollerState {
     }
     handleScroll = async (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         console.log("[ScrollerState] handleScroll")
-        clearInterval(this.forceScrollToBottomTimerId)
         if (this.isPendingRequest) {
             return
         }
         const scroller = this.ref.current as HTMLDivElement
         const bottomScrollTop = scroller.scrollHeight - scroller.clientHeight
         // macOSでは0.5pxずれるので注意
-        if (scroller.scrollTop >= bottomScrollTop - 1) {
+        // column-reverseされているので注意
+        if (scroller.scrollTop > -1) {
             this.setHasReachedBottom(true)
             this.scrollToBottom()
             if (this.content.timeline.upToDate) {
@@ -153,7 +129,8 @@ export class ScrollerState {
             this.setHasReachedBottom(false)
             this.setForceScrollToBottom(false)
         }
-        if (scroller.scrollTop <= 400) {
+        // 400pxのマージンを設ける
+        if (scroller.scrollTop <= 400 - bottomScrollTop) {
             this.setHasReachedTop(true)
             this.loadMessagesWithMaxIdIfNeeded()
         } else {

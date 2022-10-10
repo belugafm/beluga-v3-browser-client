@@ -1,5 +1,5 @@
 export { message } from "./message"
-export { users } from "./users"
+export { user } from "./user"
 export { likes } from "./likes"
 export { favorites } from "./favorites"
 export { mutes } from "./mutes"

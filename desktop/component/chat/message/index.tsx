@@ -45,7 +45,7 @@ const getStyle = (theme: Themes) => {
 }
 
 export const MessageComponent = React.memo(
-    (props: MessagePropsT & { zIndex: number; children: any }) => {
+    (props: MessagePropsT & { children: any }) => {
         console.debug("[MessageComponent] render", props.message.id)
         const [zIndex, setZIndex] = useState(0)
         const bringDomToFront = (on: boolean) => {

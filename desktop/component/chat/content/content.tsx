@@ -54,7 +54,7 @@ const getStyleForTheme = (theme: Themes) => {
 export class CheckIsConsecutivePost {
     private lastUserId: UserId | null
     private lastChannelId: ChannelId | null
-    private lastCreatedAt: number | null
+    private lastCreatedAt: Date | null
     private consectivePeriodInSec: number
     constructor() {
         this.lastUserId = null
@@ -63,31 +63,39 @@ export class CheckIsConsecutivePost {
         this.consectivePeriodInSec = 300
     }
     check(message: MessageObjectT): boolean {
-        if (this.lastUserId == null) {
+        try {
+            if (this.lastUserId == null) {
+                throw new Error()
+            }
+            if (this.lastChannelId != message.channel_id) {
+                throw new Error()
+            }
+            if (this.lastUserId != message.user_id) {
+                throw new Error()
+            }
+            if (
+                message.created_at.getTime() - this.lastCreatedAt.getTime() >
+                1000 * this.consectivePeriodInSec
+            ) {
+                throw new Error()
+            }
+            if (
+                message.created_at.getFullYear() != this.lastCreatedAt.getFullYear() ||
+                message.created_at.getMonth() != this.lastCreatedAt.getMonth() ||
+                message.created_at.getDate() != this.lastCreatedAt.getDate()
+            ) {
+                throw new Error()
+            }
             this.lastUserId = message.user_id
             this.lastChannelId = message.channel_id
-            this.lastCreatedAt = message.created_at.getTime()
-            return false
-        }
-        if (this.lastChannelId != message.channel_id) {
+            this.lastCreatedAt = message.created_at
+            return true
+        } catch (error) {
             this.lastUserId = message.user_id
             this.lastChannelId = message.channel_id
-            this.lastCreatedAt = message.created_at.getTime()
+            this.lastCreatedAt = message.created_at
             return false
         }
-        if (this.lastUserId != message.user_id) {
-            this.lastUserId = message.user_id
-            this.lastCreatedAt = message.created_at.getTime()
-            return false
-        }
-        if (message.created_at.getTime() - this.lastCreatedAt > 1000 * this.consectivePeriodInSec) {
-            this.lastUserId = message.user_id
-            this.lastCreatedAt = message.created_at.getTime()
-            return false
-        }
-        this.lastUserId = message.user_id
-        this.lastCreatedAt = message.created_at.getTime()
-        return true
     }
 }
 
@@ -343,6 +351,52 @@ const SpacerComponent = () => {
     )
 }
 
+const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) => {
+    const getStyle = (theme: Themes) => {
+        if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+            return {
+                color: "#1a1d1f",
+                borderColor: "#d8dadc",
+                backgroundColor: "#ffffff",
+            }
+        }
+        if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+            return {
+                color: "#fcfcfc",
+                borderColor: "#080a0b",
+                backgroundColor: "#15171a",
+            }
+        }
+        throw new Error()
+    }
+    const text = `${date.getMonth()}月${date.getDate()}日`
+    return (
+        <div className="divider">
+            <span>{text}</span>
+            <style jsx>{`
+                .divider {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    font-size: 12px;
+                    border-bottom: solid 1px ${getStyle(theme)["borderColor"]};
+                    margin: 0 0 24px 0;
+                }
+                span {
+                    padding: 4px 10px;
+                    border-radius: 16px;
+                    background-color: ${getStyle(theme)["backgroundColor"]};
+                    color: ${getStyle(theme)["color"]};
+                    border: 1px solid ${getStyle(theme)["borderColor"]};
+                    position: relative;
+                    top: 50%;
+                }
+            `}</style>
+        </div>
+    )
+}
+
 const isEmpty = (content: ContentStateT) => {
     if (content.timeline.messageIds.length == 0) {
         return true
@@ -429,15 +483,30 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
         contentAction: contentAction,
     })
     const consectivePostChecker = new CheckIsConsecutivePost()
-    const messageComponentList = [...content.timeline.messageIds].reverse().map((messageId, n) => {
+    const messageComponentList = []
+    const messageList = [...content.timeline.messageIds].reverse().map((messageId) => {
         const normalizedMessage = domainData.messages.get(messageId)
         if (normalizedMessage == null) {
             return null
         }
-        const message = unnormalizeMessage(normalizedMessage, domainData)
-        return (
+        return unnormalizeMessage(normalizedMessage, domainData)
+    })
+    messageList.forEach((message, n) => {
+        if (n > 0) {
+            const prevMessage = messageList[n - 1]
+            if (
+                message.created_at.getFullYear() != prevMessage.created_at.getFullYear() ||
+                message.created_at.getMonth() != prevMessage.created_at.getMonth() ||
+                message.created_at.getDate() != prevMessage.created_at.getDate()
+            ) {
+                messageComponentList.push(
+                    <DateDividerComponent key={n} date={message.created_at} theme={theme} />
+                )
+            }
+        }
+        messageComponentList.push(
             <MessageComponent
-                key={messageId}
+                key={message.id}
                 message={message}
                 messageAction={messageAction}
                 contentAction={contentAction}
@@ -447,7 +516,6 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 loggedInUser={loggedInUser}
                 content={content}
                 isConsecutivePost={consectivePostChecker.check(message)}
-                zIndex={n}
                 theme={theme}>
                 <TextComponent
                     message={message}

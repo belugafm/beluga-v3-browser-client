@@ -375,7 +375,7 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) =>
             <span>{text}</span>
             <style jsx>{`
                 .divider {
-                    flex: 1 1 auto;
+                    flex: 0 0 auto;
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
@@ -539,8 +539,8 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     }
     return (
         <>
-            <div className="content-container translucent">
-                <div className="content">
+            <div className="content-container">
+                <div className="content translucent">
                     <div className="menu">
                         <HeaderComponent content={content} />
                         <DebugMessageComponent scrollerState={scrollerState} />

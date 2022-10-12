@@ -235,7 +235,7 @@ export default () => {
                         rgba(255, 255, 255, 0.25) 75%,
                         rgba(255, 255, 255, 0.5) 100%
                     );
-                    backdrop-filter: blur(50px);
+                    backdrop-filter: blur(50px) saturate(180%);
                     filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
                     position: relative;
                 }

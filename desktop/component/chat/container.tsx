@@ -137,8 +137,7 @@ export const ContainerComponent = ({
                     margin: 0;
                 }
                 .translucent {
-                    backdrop-filter: blur(10px);
-                    saturate(180%);
+                    backdrop-filter: blur(10px) saturate(180%);
                 }
             `}</style>
             {getFontStyle()}

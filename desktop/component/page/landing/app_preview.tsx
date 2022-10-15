@@ -192,7 +192,6 @@ export const AppPreviewComponent = (props: {
                     loggedInUser={null}
                     content={null}
                     isConsecutivePost={consectivePostChecker.check(message)}
-                    zIndex={n}
                     theme={theme}>
                     {message.text}
                 </MessageComponent>

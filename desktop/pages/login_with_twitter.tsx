@@ -30,9 +30,14 @@ export const useOAuthCallback = () => {
     if (data) {
         mutate(data, false)
         location.href = "/welcome"
-        return <p>OK</p>
+        return (
+            <p>
+                ログインしました。すぐにページが移動しない場合は、
+                <a href="/welcom">こちらのリンク</a>をクリックしてください。
+            </p>
+        )
     }
-    return <p>Loading</p>
+    return <p>ログインしています…</p>
 }
 
 const CallbackComponent = () => {

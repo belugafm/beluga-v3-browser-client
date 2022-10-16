@@ -3,7 +3,7 @@ import { MessageId } from "../object"
 
 async function create(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("likes/create", {
-        status_id: body.messageId,
+        message_id: body.messageId,
     })
     if (responce.message == null) {
         throw new UnexpectedResponseError()

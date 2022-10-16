@@ -96,7 +96,7 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
         channel: copyChannel(message.channel),
         text: message.text,
         created_at: message.created_at,
-        updated_at: message.updated_at,
+        _internal_updated_at: message._internal_updated_at,
         deleted: message.deleted ? message.deleted : false,
         entities: copyMessageEntities(message.entities),
         reply_count: message.reply_count,

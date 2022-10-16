@@ -7,6 +7,7 @@ import React, { useState } from "react"
 import { Themes } from "../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
+import { LikesComponent } from "./likes"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
@@ -89,6 +90,7 @@ export const MessageComponent = React.memo(
                             theme={props.theme}
                         />
                         <div className="text">{props.children}</div>
+                        <LikesComponent message={message} theme={props.theme} />
                     </div>
                 </div>
                 <div className="menu-container">
@@ -176,7 +178,7 @@ export const MessageComponent = React.memo(
         )
     },
     (prevProps: MessagePropsT, nextProps: MessagePropsT) => {
-        if (prevProps.message.updated_at !== nextProps.message.updated_at) {
+        if (prevProps.message._internal_updated_at !== nextProps.message._internal_updated_at) {
             return false
         }
         if (prevProps.message.deleted !== nextProps.message.deleted) {
@@ -197,6 +199,12 @@ export const MessageComponent = React.memo(
             return false
         }
         if (prevProps.message.text !== nextProps.message.text) {
+            return false
+        }
+        if (prevProps.message.like_count !== nextProps.message.like_count) {
+            return false
+        }
+        if (prevProps.message.favorite_count !== nextProps.message.favorite_count) {
             return false
         }
         if (prevProps.content) {

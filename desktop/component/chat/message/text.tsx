@@ -379,7 +379,7 @@ export const TextComponent = React.memo(
         if (prevProps.theme.global.current.dark !== nextProps.theme.global.current.dark) {
             return false
         }
-        if (prevProps.message.updated_at !== nextProps.message.updated_at) {
+        if (prevProps.message._internal_updated_at !== nextProps.message._internal_updated_at) {
             return false
         }
         const prevStatusUser = prevProps.domainData.users.get(prevProps.message.user_id)

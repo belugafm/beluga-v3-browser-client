@@ -44,6 +44,10 @@ export type ContentStateT = {
             limit?: number
         }
     }
+
+    // 再描画用
+    // タイムライン上のメッセージが更新されたときなどは検出できないのでここを変えることによって再描画する
+    updatedAt: Date
 }
 
 export type AppStateT = {

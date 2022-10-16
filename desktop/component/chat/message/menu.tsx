@@ -81,7 +81,8 @@ export const MenuComponent = ({
             <button
                 className="menu-button create-like global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "いいね")}
-                onMouseLeave={() => tooltipAction.hide()}>
+                onMouseLeave={() => tooltipAction.hide()}
+                onClick={messageAction.createLike(message)}>
                 <svg className="icon">
                     <use href="#icon-star-outline"></use>
                 </svg>

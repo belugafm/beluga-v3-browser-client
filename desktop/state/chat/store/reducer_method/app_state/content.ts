@@ -1,3 +1,4 @@
+import { copyDomainData } from "../../domain_data/copy"
 import { AppStateT, ContentStateT } from "../../types/app_state"
 
 import { StoreT } from "../../types/store"
@@ -25,6 +26,7 @@ export const splitContentsInTwo = (
     })
     return [before, after]
 }
+
 export const copyContents = (contents: ContentGridT) => {
     return contents.map((contentRows) => {
         return contentRows.map((content) => {
@@ -51,6 +53,7 @@ export const copyContents = (contents: ContentGridT) => {
         })
     })
 }
+
 export const insertContent = (
     newContent: ContentStateT,
     contents: ContentGridT,
@@ -69,6 +72,7 @@ export const insertContent = (
 
     return nextGrid
 }
+
 export const setOptions = async (
     store: StoreT,
     params: {
@@ -85,6 +89,7 @@ export const setOptions = async (
         null,
     ]
 }
+
 export const close = async (
     store: StoreT,
     desiredColumn: ContentStateT
@@ -98,4 +103,40 @@ export const close = async (
         },
         null,
     ]
+}
+
+export const setUpdatedAt = (
+    prevStore: StoreT,
+    prevContent: ContentStateT,
+    updatedAt: Date
+): [StoreT, null] => {
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    nextContent.updatedAt = updatedAt
+
+    return [
+        {
+            domainData: copyDomainData(prevStore.domainData),
+            appState: nextAppState,
+        },
+        null,
+    ]
+}
+
+export const setUpdatedAtToAllContents = (prevStore: StoreT, updatedAt: Date): StoreT => {
+    const nextAppState: AppStateT = {
+        contents: copyContents(prevStore.appState.contents),
+    }
+    for (const rows of nextAppState.contents) {
+        for (const content of rows) {
+            content.updatedAt = updatedAt
+        }
+    }
+
+    return {
+        domainData: copyDomainData(prevStore.domainData),
+        appState: nextAppState,
+    }
 }

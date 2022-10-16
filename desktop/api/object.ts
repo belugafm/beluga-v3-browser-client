@@ -104,7 +104,7 @@ export type MessageObjectT = {
     last_reply_message_id: MessageId | null
     last_reply_message_created_at: Date | null
     deleted: boolean
-    updated_at: number // for React
+    _internal_updated_at: number // for React
     entities: {
         channel_groups: {
             channel_group_id: ChannelGroupId

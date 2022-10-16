@@ -1,4 +1,4 @@
-import { AsyncReducerMethodT, ReducersT } from "./types/reducer"
+import { AsyncReducerMethodT, ReducerMethodT, ReducersT } from "./types/reducer"
 import { SetStoreActionsT, StoreT } from "./types/store"
 import { udpateStore } from "./update_store"
 import { Response } from "../../../api"
@@ -6,6 +6,14 @@ import { Response } from "../../../api"
 var queue: Promise<void> = new Promise((resolve) => resolve())
 
 export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): ReducersT => {
+    const reducer = <T>(method: ReducerMethodT<T>, query: T): void => {
+        try {
+            const nextStore = method(store, query)
+            udpateStore(setStoreActions, store, nextStore)
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const asyncReducer = <T>(
         method: AsyncReducerMethodT<T>,
         query: T
@@ -42,5 +50,5 @@ export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): R
             }
         })
     }
-    return { asyncReducer, asyncSequentialReducer }
+    return { reducer, asyncReducer, asyncSequentialReducer }
 }

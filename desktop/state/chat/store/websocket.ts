@@ -1,8 +1,10 @@
 import { AppStateT, TimelineMode } from "./types/app_state"
 import { ReducersT } from "./types/reducer"
 import { show as updateUser } from "./reducer_method/domain_data/user"
+import { showMessage as updateMessage } from "./reducer_method/domain_data/message"
 import { show as updateChannel } from "./reducer_method/domain_data/channel"
 import { loadLatestMessages } from "./reducer_method/app_state/channel"
+import { setUpdatedAtToAllContents } from "./reducer_method/app_state/content"
 
 export class WebSocketClient {
     reducers: ReducersT
@@ -52,7 +54,7 @@ export class WebSocketClient {
             console.log("error websocket", event)
             this.ws.close()
         })
-        this.addEventListener("message", (event) => {
+        this.addEventListener("message", async (event) => {
             try {
                 const data = JSON.parse(event.data)
                 console.log("websocket recieved", data)
@@ -60,6 +62,14 @@ export class WebSocketClient {
                     return this.reducers.asyncReducer(updateUser, {
                         userId: data.user_id,
                     })
+                }
+                if (data.message_id) {
+                    await this.reducers.asyncReducer(updateMessage, {
+                        messageId: data.message_id,
+                    })
+                    // 各タイムラインを強制再描画し現在のデータを反映
+                    this.reducers.reducer(setUpdatedAtToAllContents, new Date())
+                    return
                 }
                 if (data.channel_id) {
                     this.reducers.asyncReducer(updateChannel, {
@@ -75,6 +85,7 @@ export class WebSocketClient {
                             }
                         }
                     }
+                    return
                 }
             } catch (error) {}
         })

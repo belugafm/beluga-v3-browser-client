@@ -16,7 +16,8 @@ export function immutableCompareFunction<T>(a: T, b: T): boolean {
 }
 
 export function messageCompareFunction<T extends MessageObjectT>(a: T, b: T): boolean {
-    return getUpdateTime(a) === getUpdateTime(b)
+    // 高速化のため完全な比較はしない
+    return a._internal_updated_at == b._internal_updated_at
 }
 
 export function userCompareFunction<T extends UserObjectT>(a: T, b: T): boolean {

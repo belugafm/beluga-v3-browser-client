@@ -98,6 +98,7 @@ function loadContentsFromLocalStorage(
                     column: 0,
                     row: 0,
                     type: ContentType.Channel,
+                    updatedAt: new Date(),
                     postbox: {
                         enabled: true,
                         query: {
@@ -135,6 +136,7 @@ function loadContentsFromLocalStorage(
                     column: 0,
                     row: 0,
                     type: ContentType.Channel,
+                    updatedAt: new Date(),
                     postbox: {
                         enabled: false,
                         query: {},
@@ -169,6 +171,7 @@ function loadContentsFromLocalStorage(
                     column: 0,
                     row: 0,
                     type: ContentType.Channel,
+                    updatedAt: new Date(),
                     postbox: {
                         enabled: true,
                         query: {},

@@ -369,7 +369,7 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) =>
         }
         throw new Error()
     }
-    const text = `${date.getMonth()}月${date.getDate()}日`
+    const text = `${date.getMonth() + 1}月${date.getDate()}日`
     return (
         <div className="divider">
             <span>{text}</span>

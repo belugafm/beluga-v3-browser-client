@@ -8,6 +8,7 @@ import { Themes } from "../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
 import { LikesComponent } from "./likes"
+import { FavoritesComponent } from "./favorites"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
@@ -91,6 +92,7 @@ export const MessageComponent = React.memo(
                         />
                         <div className="text">{props.children}</div>
                         <LikesComponent message={message} theme={props.theme} />
+                        <FavoritesComponent message={message} theme={props.theme} />
                     </div>
                 </div>
                 <div className="menu-container">

@@ -98,6 +98,7 @@ export type MessageObjectT = {
     text: string | null
     created_at: Date
     favorite_count: number
+    favorited: boolean
     like_count: number
     reply_count: number
     thread_id: MessageId | null
@@ -121,6 +122,7 @@ export type MessageObjectT = {
             message: MessageObjectT | null
             indices: [number, number]
         }[]
+        favorited_users: UserObjectT[]
         style: MessageEntityStyleNode[]
     }
 }

@@ -58,6 +58,7 @@ function copyMessageEntities(
         channel_groups: [],
         channels: [],
         messages: [],
+        favorited_users: [],
         style: copyMessageEntityStyles(sourceEntities.style),
     }
     sourceEntities.channel_groups.forEach((sourceEntity) => {
@@ -81,6 +82,9 @@ function copyMessageEntities(
             indices: [...sourceEntity.indices],
         })
     })
+    sourceEntities.favorited_users.forEach((sourceEntity) => {
+        entities.favorited_users.push(copyUser(sourceEntity))
+    })
     return entities
 }
 
@@ -102,6 +106,7 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
         reply_count: message.reply_count,
         like_count: message.like_count,
         favorite_count: message.favorite_count,
+        favorited: message.favorited,
         thread_id: message.thread_id,
         last_reply_message_id: message.last_reply_message_id,
         last_reply_message_created_at: message.last_reply_message_created_at,

@@ -24,12 +24,10 @@ export const LikesComponent = ({ message, theme }: { message: MessageObjectT; th
     const stars = []
     for (let k = 0; k < message.like_count; k++) {
         stars.push(
-            <>
-                <span>
-                    <svg className="icon">
-                        <use href="#icon-star"></use>
-                    </svg>
-                </span>
+            <span key={k}>
+                <svg className="icon">
+                    <use href="#icon-star"></use>
+                </svg>
                 <style jsx>{`
                     span {
                         flex: 0 0 auto;
@@ -44,7 +42,7 @@ export const LikesComponent = ({ message, theme }: { message: MessageObjectT; th
                         fill: ${getStyle(theme)["fill"]};
                     }
                 `}</style>
-            </>
+            </span>
         )
     }
     return (

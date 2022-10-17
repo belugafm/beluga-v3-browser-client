@@ -90,7 +90,12 @@ export const MenuComponent = ({
             <button
                 className="menu-button create-favorite global-tooltip-container"
                 onMouseEnter={(e) => tooltipAction.show(e, "ふぁぼ")}
-                onMouseLeave={() => tooltipAction.hide()}>
+                onMouseLeave={() => tooltipAction.hide()}
+                onClick={
+                    message.favorited
+                        ? messageAction.destroyFavorite(message)
+                        : messageAction.createFavorite(message)
+                }>
                 <svg className="icon">
                     <use href="#icon-heart-outline"></use>
                 </svg>

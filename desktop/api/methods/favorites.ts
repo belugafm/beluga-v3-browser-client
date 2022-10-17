@@ -3,7 +3,7 @@ import { MessageId } from "../object"
 
 async function create(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("favorites/create", {
-        status_id: body.messageId,
+        message_id: body.messageId,
     })
     if (responce.message == null) {
         throw new UnexpectedResponseError()
@@ -13,7 +13,7 @@ async function create(body: { messageId: MessageId }): Promise<Response> {
 
 async function destroy(body: { messageId: MessageId }): Promise<Response> {
     const responce = await post("favorites/destroy", {
-        status_id: body.messageId,
+        message_id: body.messageId,
     })
     if (responce.message == null) {
         throw new UnexpectedResponseError()

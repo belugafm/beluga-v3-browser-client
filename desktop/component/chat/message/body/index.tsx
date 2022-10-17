@@ -33,6 +33,7 @@ export default React.memo(
                     message: message,
                 }
             }),
+            favorited_users: [],
             style: [],
         }
         return (

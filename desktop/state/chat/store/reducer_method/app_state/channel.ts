@@ -2,13 +2,14 @@ import * as api from "../../../../../api"
 
 import { AppStateT, ContentStateT, TimelineMode } from "../../types/app_state"
 import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
-import { copyContents, insertContent } from "./content"
+import { insertContent } from "./content"
 
 import { ContentType } from "../../app_state"
 import { DomainDataT } from "../../types/domain_data"
 import { StoreT } from "../../types/store"
 import config from "../../../../../config"
 import { fetch } from "../fetch"
+import { copyAppState, copyContents } from "../../app_state/copy"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -149,9 +150,7 @@ export const prependMessagesWithMaxId = async (
     })
     const { messages } = response
 
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
+    const nextAppState = copyAppState(prevStore.appState)
     const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
     nextContent.timeline.messageIds = nextContent.timeline.messageIds.concat(
         messages.map((message) => message.id)
@@ -181,9 +180,7 @@ export const appendMessagesWithSinceId = async (
     })
     const { messages } = response
 
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
+    const nextAppState = copyAppState(prevStore.appState)
     const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
     nextContent.timeline.messageIds = messages
         .map((message) => message.id)
@@ -264,9 +261,7 @@ export const showLatestMessages = async (
     })
     const { messages } = response
 
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
+    const nextAppState = copyAppState(prevStore.appState)
     const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
     nextContent.timeline.messageIds = messages.map((message) => message.id)
     _after(nextContent, nextDomainData)

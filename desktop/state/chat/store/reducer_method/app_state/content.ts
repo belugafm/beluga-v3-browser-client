@@ -1,5 +1,6 @@
+import { copyAppState } from "../../app_state/copy"
 import { copyDomainData } from "../../domain_data/copy"
-import { AppStateT, ContentStateT } from "../../types/app_state"
+import { ContentStateT } from "../../types/app_state"
 
 import { StoreT } from "../../types/store"
 
@@ -25,33 +26,6 @@ export const splitContentsInTwo = (
         }
     })
     return [before, after]
-}
-
-export const copyContents = (contents: ContentGridT) => {
-    return contents.map((contentRows) => {
-        return contentRows.map((content) => {
-            return {
-                id: content.id,
-                type: content.type,
-                row: content.row,
-                column: content.column,
-                postbox: {
-                    enabled: content.postbox.enabled,
-                    query: Object.assign({}, content.postbox.query),
-                },
-                options: {
-                    showMutedMessage: content.options.showMutedMessage,
-                },
-                timeline: {
-                    mode: content.timeline.mode,
-                    lastMessageId: content.timeline.lastMessageId,
-                    messageIds: content.timeline.messageIds.concat(),
-                    query: Object.assign({}, content.timeline.query),
-                },
-                context: Object.assign({}, content.context),
-            } as ContentStateT
-        })
-    })
 }
 
 export const insertContent = (
@@ -110,9 +84,7 @@ export const setUpdatedAt = (
     prevContent: ContentStateT,
     updatedAt: Date
 ): [StoreT, null] => {
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
+    const nextAppState = copyAppState(prevStore.appState)
     const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
     nextContent.updatedAt = updatedAt
 
@@ -126,9 +98,7 @@ export const setUpdatedAt = (
 }
 
 export const setUpdatedAtToAllContents = (prevStore: StoreT, updatedAt: Date): StoreT => {
-    const nextAppState: AppStateT = {
-        contents: copyContents(prevStore.appState.contents),
-    }
+    const nextAppState = copyAppState(prevStore.appState)
     for (const rows of nextAppState.contents) {
         for (const content of rows) {
             content.updatedAt = updatedAt

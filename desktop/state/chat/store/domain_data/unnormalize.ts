@@ -11,6 +11,12 @@ export function unnormalizeMessage(
     if (ret.channel_id) {
         ret.channel = domainData.channels.get(ret.channel_id)
     }
+    ret.entities.favorited_user_ids.forEach((userId) => {
+        const user = domainData.users.get(userId)
+        if (user) {
+            ret.entities.favorited_users.push(user)
+        }
+    })
     return ret
 }
 

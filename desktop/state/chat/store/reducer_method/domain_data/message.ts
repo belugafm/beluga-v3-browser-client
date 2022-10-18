@@ -2,7 +2,7 @@ import * as api from "../../../../../api"
 
 import { StoreT } from "../../types/store"
 import { copyDomainData } from "../../domain_data/copy"
-import { fetch } from "../../domain_data"
+import { fetch } from "../fetch"
 import { MessageId } from "../../../../../api/object"
 
 export const showMessage = async (
@@ -10,12 +10,6 @@ export const showMessage = async (
     query: Parameters<typeof api.message.show>[0]
 ): Promise<[StoreT, api.Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, api.message.show, query)
-    if (response != null && response.ok == true) {
-        // データが変わってなくても強制再描画
-        const message = nextDomainData.messages.get(response.message.id)
-        message._internal_updated_at = Date.now()
-        nextDomainData.messages.update(response.message.id, message)
-    }
     return [
         {
             domainData: nextDomainData,

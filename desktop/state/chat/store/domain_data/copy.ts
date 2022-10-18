@@ -59,6 +59,7 @@ function copyMessageEntities(
         channels: [],
         messages: [],
         favorited_users: [],
+        favorited_user_ids: [],
         style: copyMessageEntityStyles(sourceEntities.style),
     }
     sourceEntities.channel_groups.forEach((sourceEntity) => {
@@ -85,10 +86,15 @@ function copyMessageEntities(
     sourceEntities.favorited_users.forEach((sourceEntity) => {
         entities.favorited_users.push(copyUser(sourceEntity))
     })
+    if (sourceEntities.favorited_user_ids) {
+        sourceEntities.favorited_user_ids.forEach((userId) => {
+            entities.favorited_user_ids.push(userId)
+        })
+    }
     return entities
 }
 
-function copyMessage(message: MessageObjectT | null): MessageObjectT {
+export function copyMessage(message: MessageObjectT | null): MessageObjectT {
     if (message == null) {
         return null
     }
@@ -113,7 +119,7 @@ function copyMessage(message: MessageObjectT | null): MessageObjectT {
     }
 }
 
-function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
+export function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
     const nextMessages = new ObjectMap<MessageObjectT>(messageCompareFunction)
     prevMessages.data.forEach((message, messageId) => {
         // @ts-ignore
@@ -123,7 +129,7 @@ function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
     return nextMessages
 }
 
-function copyUser(user: UserObjectT | null): UserObjectT {
+export function copyUser(user: UserObjectT | null): UserObjectT {
     if (user == null) {
         return null
     }
@@ -150,7 +156,7 @@ function copyUser(user: UserObjectT | null): UserObjectT {
     }
 }
 
-function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
+export function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
     const nextUsers = new ObjectMap<UserObjectT>(userCompareFunction)
     prevUsers.data.forEach((user, userId) => {
         // @ts-ignore
@@ -160,7 +166,7 @@ function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
     return nextUsers
 }
 
-function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
+export function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
     if (channel == null) {
         return null
     }
@@ -182,7 +188,7 @@ function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
     }
 }
 
-function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
+export function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
     const nextChannels = new ObjectMap<ChannelObjectT>(channelCompareFunction)
     prevChannels.data.forEach((channel, channelId) => {
         // @ts-ignore
@@ -192,7 +198,7 @@ function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
     return nextChannels
 }
 
-function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGroupObjectT {
+export function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGroupObjectT {
     if (channelGroup == null) {
         return null
     }
@@ -213,7 +219,7 @@ function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGrou
     }
 }
 
-function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjectT>) {
+export function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjectT>) {
     const nextChannelGroups = new ObjectMap<ChannelGroupObjectT>(immutableCompareFunction)
     prevChannelGroups.data.forEach((channelGroup, channelGroupId) => {
         // @ts-ignore

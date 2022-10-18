@@ -13,16 +13,8 @@ import {
     messageCompareFunction,
     userCompareFunction,
 } from "./domain_data/data"
-import copy, { copyDomainData } from "./domain_data/copy"
 import { createContext, useState } from "react"
-import normalize, {
-    normalizeChannel,
-    normalizeChannelGroup,
-    normalizeMessage,
-    normalizeUser,
-} from "./domain_data/normalize"
-
-import { Response } from "../../../api"
+import { addChannel, addChannelGroup, addMessage, addUser } from "./domain_data/add"
 
 const context: DomainDataT = {
     messages: null,
@@ -34,39 +26,6 @@ const context: DomainDataT = {
 }
 
 export const DomainDataContext = createContext(context)
-
-export async function fetch<T>(
-    prevDomainData: DomainDataT,
-    method: (query: T) => Promise<Response>,
-    query: T
-): Promise<[DomainDataT, Response]> {
-    try {
-        const response = await method(query)
-        let nextDomainData = copyDomainData(prevDomainData)
-        if (response.message) {
-            nextDomainData = normalize.message(copy.message(response.message), nextDomainData)
-        }
-        if (response.user) {
-            nextDomainData = normalize.user(copy.user(response.user), nextDomainData)
-        }
-        if (response.messages) {
-            response.messages.forEach((message) => {
-                nextDomainData = normalize.message(copy.message(message), nextDomainData)
-            })
-        }
-        if (response.channel) {
-            nextDomainData = normalize.channel(copy.channel(response.channel), nextDomainData)
-        }
-        if (response.channels) {
-            response.channels.forEach((channel) => {
-                nextDomainData = normalize.channel(copy.channel(channel), nextDomainData)
-            })
-        }
-
-        return [nextDomainData, response]
-    } catch (error) {}
-    return [prevDomainData, null]
-}
 
 let _initialDomainData = null
 function buildInitialDomainData(
@@ -87,16 +46,16 @@ function buildInitialDomainData(
         blockedUserIds: new UserIdSet(),
     }
     messages.forEach((message) => {
-        domainData = normalizeMessage(message, domainData)
+        domainData = addMessage(message, domainData)
     })
     users.forEach((user) => {
-        domainData = normalizeUser(user, domainData)
+        domainData = addUser(user, domainData)
     })
     channels.forEach((channel) => {
-        domainData = normalizeChannel(channel, domainData)
+        domainData = addChannel(channel, domainData)
     })
     channelGroups.forEach((channelGroup) => {
-        domainData = normalizeChannelGroup(channelGroup, domainData)
+        domainData = addChannelGroup(channelGroup, domainData)
     })
     _initialDomainData = domainData
     return domainData

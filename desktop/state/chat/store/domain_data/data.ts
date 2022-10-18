@@ -80,22 +80,6 @@ export class ObjectMap<T> {
                 if (this.compareFunction(a, b) == false) {
                     throw new Error()
                 }
-                // if (getUpdateTime(a) !== getUpdateTime(b)) {
-                //     throw new Error()
-                // }
-                // if (readStateEquals(a, b) == false) {
-                //     throw new Error()
-                // }
-                // authUserの操作による更新を検出
-                // if (a.muted !== b.muted) {
-                //     throw new Error()
-                // }
-                // if (a.blocked !== b.blocked) {
-                //     throw new Error()
-                // }
-                // if (a.favorited !== b.favorited) {
-                //     throw new Error()
-                // }
             })
         } catch (error) {
             return false

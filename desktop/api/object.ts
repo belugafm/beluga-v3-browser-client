@@ -123,6 +123,7 @@ export type MessageObjectT = {
             indices: [number, number]
         }[]
         favorited_users: UserObjectT[]
+        favorited_user_ids: UserId[] // 正規化用
         style: MessageEntityStyleNode[]
     }
 }

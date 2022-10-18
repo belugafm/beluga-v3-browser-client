@@ -8,7 +8,7 @@ import { ContentType } from "../../app_state"
 import { DomainDataT } from "../../types/domain_data"
 import { StoreT } from "../../types/store"
 import config from "../../../../../config"
-import { fetch } from "../../domain_data"
+import { fetch } from "../fetch"
 
 const _fetch = (
     prevDomainData: DomainDataT,

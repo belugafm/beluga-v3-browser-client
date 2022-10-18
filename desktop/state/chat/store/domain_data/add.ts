@@ -6,8 +6,9 @@ import {
 } from "../../../../api/object"
 
 import { DomainDataT } from "../types/domain_data"
+import { messageUpdated } from "./check_update"
 
-export function normalizeMessage(
+export function addMessage(
     message: MessageObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -16,12 +17,12 @@ export function normalizeMessage(
     }
 
     if (message.user) {
-        nextDomainData = normalizeUser(message.user, nextDomainData)
+        nextDomainData = addUser(message.user, nextDomainData)
         message.user = null
     }
 
     if (message.channel) {
-        nextDomainData = normalizeChannel(message.channel, nextDomainData)
+        nextDomainData = addChannel(message.channel, nextDomainData)
         message.channel = null
     }
 
@@ -29,7 +30,7 @@ export function normalizeMessage(
         if (entity.channel == null) {
             return
         }
-        nextDomainData = normalizeChannel(entity.channel, nextDomainData)
+        nextDomainData = addChannel(entity.channel, nextDomainData)
         entity.channel = null
     })
 
@@ -37,17 +38,27 @@ export function normalizeMessage(
         if (entity.message == null) {
             return
         }
-        nextDomainData = normalizeMessage(entity.message, nextDomainData)
+        nextDomainData = addMessage(entity.message, nextDomainData)
         entity.message = null
     })
 
+    message.entities.favorited_user_ids = []
+    message.entities.favorited_users.forEach((user) => {
+        nextDomainData = addUser(user, nextDomainData)
+        message.entities.favorited_user_ids.push(user.id)
+    })
+    message.entities.favorited_users = []
+
     message.created_at = new Date(message.created_at)
+    if (messageUpdated(message, nextDomainData)) {
+        message._internal_updated_at = Date.now()
+    }
     nextDomainData.messages.update(message.id, message)
 
     return nextDomainData
 }
 
-export function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
+export function addUser(user: UserObjectT | null, nextDomainData: DomainDataT): DomainDataT {
     if (user == null) {
         return nextDomainData
     }
@@ -68,7 +79,7 @@ export function normalizeUser(user: UserObjectT | null, nextDomainData: DomainDa
     return nextDomainData
 }
 
-export function normalizeChannel(
+export function addChannel(
     channel: ChannelObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -89,7 +100,7 @@ export function normalizeChannel(
     return nextDomainData
 }
 
-export function normalizeChannelGroup(
+export function addChannelGroup(
     community: ChannelGroupObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
@@ -101,8 +112,8 @@ export function normalizeChannelGroup(
 }
 
 export default {
-    message: normalizeMessage,
-    channel: normalizeChannel,
-    user: normalizeUser,
-    channelGroup: normalizeChannelGroup,
+    message: addMessage,
+    channel: addChannel,
+    user: addUser,
+    channelGroup: addChannelGroup,
 }

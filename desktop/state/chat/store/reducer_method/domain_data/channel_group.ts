@@ -1,7 +1,7 @@
 import * as api from "../../../../../api"
 
 import { StoreT } from "../../types/store"
-import { fetch } from "../../domain_data"
+import { fetch } from "../fetch"
 
 export const channelGroup = {
     show: async (

@@ -365,6 +365,7 @@ export const TextComponent = React.memo(
                 }
             }),
             favorited_users: [],
+            favorited_user_ids: [],
             style: message.entities.style,
         }
         if (entities.style.length == 0) {

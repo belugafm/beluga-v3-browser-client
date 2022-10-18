@@ -34,6 +34,7 @@ export default React.memo(
                 }
             }),
             favorited_users: [],
+            favorited_user_ids: [],
             style: [],
         }
         return (

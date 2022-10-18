@@ -50,7 +50,6 @@ export function channelCompareFunction<T extends ChannelObjectT>(a: T, b: T): bo
 
 export class ObjectMap<T> {
     data: Map<number, T> = new Map()
-    lastModified: number = Date.now()
     updatedKeys: Set<number> = new Set()
     compareFunction: (a: T, b: T) => boolean
     constructor(compareFunction: (a: T, b: T) => boolean) {

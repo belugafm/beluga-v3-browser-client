@@ -125,7 +125,6 @@ export function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
         // @ts-ignore
         nextMessages.set(messageId, copyMessage(message))
     })
-    nextMessages.lastModified = prevMessages.lastModified
     return nextMessages
 }
 
@@ -162,7 +161,6 @@ export function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
         // @ts-ignore
         nextUsers.set(userId, copyUser(user))
     })
-    nextUsers.lastModified = prevUsers.lastModified
     return nextUsers
 }
 
@@ -194,7 +192,6 @@ export function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
         // @ts-ignore
         nextChannels.set(channelId, copyChannel(channel))
     })
-    nextChannels.lastModified = prevChannels.lastModified
     return nextChannels
 }
 
@@ -225,7 +222,6 @@ export function copyChannelGroups(prevChannelGroups: ObjectMap<ChannelGroupObjec
         // @ts-ignore
         nextChannelGroups.set(channelGroupId, copyChannelGroup(channelGroup))
     })
-    nextChannelGroups.lastModified = prevChannelGroups.lastModified
     return nextChannelGroups
 }
 

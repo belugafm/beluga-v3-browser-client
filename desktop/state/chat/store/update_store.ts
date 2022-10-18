@@ -10,15 +10,12 @@ function updateDomainData(
     nextDomainData: DomainDataT
 ) {
     if (nextDomainData.messages.equals(prevDomainData.messages) !== true) {
-        nextDomainData.messages.lastModified = Date.now()
         setActions.setMessages(nextDomainData.messages)
     }
     if (nextDomainData.users.equals(prevDomainData.users) !== true) {
-        nextDomainData.users.lastModified = Date.now()
         setActions.setUsers(nextDomainData.users)
     }
     if (nextDomainData.channels.equals(prevDomainData.channels) !== true) {
-        nextDomainData.channels.lastModified = Date.now()
         setActions.setChannels(nextDomainData.channels)
     }
     if (nextDomainData.mutedUserIds.equals(prevDomainData.mutedUserIds) !== true) {

@@ -19,7 +19,7 @@ const rlerp = (a: number, b: number, ratio: number) => {
 }
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "transparent",
             hoverBackgroundColor: "#f4f4f4",

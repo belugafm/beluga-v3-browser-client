@@ -20,7 +20,7 @@ const LoadingComponent = () => {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return (
             <style jsx global>{`
                 body {
@@ -30,7 +30,7 @@ const getStyleForTheme = (theme: Themes) => {
             `}</style>
         )
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return (
             <style jsx global>{`
                 body {

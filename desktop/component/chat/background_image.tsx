@@ -19,12 +19,12 @@ export const BackgroundImageComponent = ({ children, url }) => {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             backgroundColor: "rgba(0, 0, 0, 0.9)",
         }

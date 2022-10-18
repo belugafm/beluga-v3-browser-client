@@ -30,13 +30,13 @@ const getStyleForButton = (theme: Themes) => {
 }
 
 const getStyleForMenu = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             borderColor: "#d8dadc",
             backgroundColor: "#fff",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             borderColor: "#080a0b",
             backgroundColor: "#15171a",

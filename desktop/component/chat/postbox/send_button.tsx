@@ -14,7 +14,7 @@ import { isString } from "../../../lib/type_check"
 const initialEditorStateJSON = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             fill: "#1a1d1f",
             hoverFill: "#fff",
@@ -23,7 +23,7 @@ const getStyle = (theme: Themes) => {
             focusBackgroundColor: "#2a85ff",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             fill: "#616d78",
             hoverFill: "#fff",

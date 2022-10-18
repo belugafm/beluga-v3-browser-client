@@ -45,6 +45,7 @@ export const FavoritesComponent = ({
                         align-items: center;
                         width: 20px;
                         height: 20px;
+                        margin-right: 4px;
                     }
                     a {
                         display: block;
@@ -88,7 +89,7 @@ export const FavoritesComponent = ({
                     display: flex;
                     flex-direction: row;
                     min-width: 60px;
-                    padding-left: 10px;
+                    padding-left: 5px;
                     align-items: center;
                     font-size: 12px;
                 }

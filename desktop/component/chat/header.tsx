@@ -5,14 +5,14 @@ import { swrGetLoggedInUser } from "../../swr/session"
 import { SearchComponent } from "./header/search"
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "#fff",
             color: "#383838",
             boxShadow: "inset 1px 0px 0px #f3f3f3, inset 0 -1px 0px #eee",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             backgroundColor: "#1a1c1f",
             color: "#6f767d",

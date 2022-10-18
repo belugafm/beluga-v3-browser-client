@@ -10,14 +10,14 @@ import classnames from "classnames"
 import { useContext } from "react"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             color: "#6f767d",
             hoverColor: "#090a0b",
             hoverBackgroundColor: "#f4f4f4",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             color: "#6f767d",
             hoverColor: "#fff",

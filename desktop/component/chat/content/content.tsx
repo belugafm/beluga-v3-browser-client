@@ -22,7 +22,7 @@ const lerp = (a: number, b: number, ratio: number) => {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         const alpha = 0.95
         return {
             color: "#000",
@@ -35,7 +35,7 @@ const getStyleForTheme = (theme: Themes) => {
             scrollbarThumbColor: "#d8dadc",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         const alpha = 0.96
         return {
             color: "#fcfcfc",
@@ -145,7 +145,7 @@ const NewMessageNotificationButton = ({
 }) => {
     if (scrollerState.shouldNotifyNewMessages) {
         const getStyle = (theme: Themes) => {
-            if (theme.global.current.light) {
+            if (theme.global.current.light || theme.global.current.lightWithBgImage) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -154,7 +154,7 @@ const NewMessageNotificationButton = ({
                     focusBackgroundColor: "#2a85ff",
                 }
             }
-            if (theme.global.current.dark) {
+            if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -248,7 +248,7 @@ const ShowLatestMessagesButton = ({
 }) => {
     if (content.timeline.mode == TimelineMode.ShowContextMessages) {
         const getStyle = (theme: Themes) => {
-            if (theme.global.current.light) {
+            if (theme.global.current.light || theme.global.current.lightWithBgImage) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -257,7 +257,7 @@ const ShowLatestMessagesButton = ({
                     focusBackgroundColor: "#2a85ff",
                 }
             }
-            if (theme.global.current.dark) {
+            if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",

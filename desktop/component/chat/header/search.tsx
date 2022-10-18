@@ -1,7 +1,7 @@
-import { Themes, useTheme } from "../../theme"
+import { Themes } from "../../theme"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "#f4f4f4",
             focusBackgroundColor: "#fff",
@@ -10,7 +10,7 @@ const getStyle = (theme: Themes) => {
             color: "#aaa",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             backgroundColor: "#111315",
             focusBackgroundColor: "#111315",

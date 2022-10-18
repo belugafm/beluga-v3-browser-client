@@ -12,7 +12,7 @@ import { $wrapLeafNodesInElements } from "@lexical/selection"
 import { Themes } from "../../../../theme"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             color: "#000",
             hoverColor: "#000",
@@ -22,7 +22,7 @@ const getStyle = (theme: Themes) => {
             boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px;",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             color: "#fff",
             hoverColor: "#fff",

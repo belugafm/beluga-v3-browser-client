@@ -13,7 +13,7 @@ type InputComponentAttributes = {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
+    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
         return {
             backgroundColor: "#f4f4f4",
             color: "#191919",
@@ -21,7 +21,7 @@ const getStyleForTheme = (theme: Themes) => {
             focusBorderColor: "#1a1f15",
         }
     }
-    if (theme.global.current.dark) {
+    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
             backgroundColor: "#272b2f",
             color: "#fcfcfc",

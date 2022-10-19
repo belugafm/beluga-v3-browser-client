@@ -94,7 +94,7 @@ function copyMessageEntities(
     return entities
 }
 
-export function copyMessage(message: MessageObjectT | null): MessageObjectT {
+export function copyMessage(message: MessageObjectT | null): MessageObjectT | null {
     if (message == null) {
         return null
     }
@@ -128,7 +128,7 @@ export function copyMessages(prevMessages: ObjectMap<MessageObjectT>) {
     return nextMessages
 }
 
-export function copyUser(user: UserObjectT | null): UserObjectT {
+export function copyUser(user: UserObjectT | null): UserObjectT | null {
     if (user == null) {
         return null
     }
@@ -164,7 +164,7 @@ export function copyUsers(prevUsers: ObjectMap<UserObjectT>) {
     return nextUsers
 }
 
-export function copyChannel(channel: ChannelObjectT | null): ChannelObjectT {
+export function copyChannel(channel: ChannelObjectT | null): ChannelObjectT | null {
     if (channel == null) {
         return null
     }
@@ -195,7 +195,9 @@ export function copyChannels(prevChannels: ObjectMap<ChannelObjectT>) {
     return nextChannels
 }
 
-export function copyChannelGroup(channelGroup: ChannelGroupObjectT | null): ChannelGroupObjectT {
+export function copyChannelGroup(
+    channelGroup: ChannelGroupObjectT | null
+): ChannelGroupObjectT | null {
     if (channelGroup == null) {
         return null
     }

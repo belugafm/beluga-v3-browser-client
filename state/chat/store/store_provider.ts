@@ -224,7 +224,7 @@ function getInitialDomainDataObjects(
     }
     if (pageContext.thread) {
         return [
-            pageContext.channelGroup.messages.concat([pageContext.thread.object]),
+            [],
             [],
             pageContext.initialDomainData.channels,
             pageContext.initialDomainData.channelGroups,

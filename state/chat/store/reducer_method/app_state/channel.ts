@@ -1,4 +1,5 @@
 import * as api from "../../../../../api"
+import { Response } from "../../../../../api"
 
 import { AppStateT, ContentStateT, TimelineMode } from "../../types/app_state"
 import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
@@ -70,7 +71,7 @@ export const asyncAdd = async (
         channelId: ChannelId
         insertColumnAfter?: number
     }
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const timelineQuery = {
         channelId: params.channelId,
         limit: config.timeline.maxNumStatuses,
@@ -91,11 +92,15 @@ export const setTimelineQuery = async (
         column: ContentStateT
         query: ContentStateT["timeline"]["query"]
     }
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response]> => {
+    const { channelId } = params.query
+    if (channelId == null) {
+        throw new Error()
+    }
     const [nextDomainData, response] = await fetch(
         store.domainData,
         api.timeline.channel,
-        Object.assign({ channelId: params.query.channelId }, params.query)
+        Object.assign({ channelId }, params.query)
     )
 
     const nextAppState = store.appState
@@ -142,7 +147,7 @@ export const prependMessagesWithMaxId = async (
         prevContent: ContentStateT
         maxId: MessageId
     }
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const { prevContent, maxId } = params
     const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
         channelId: prevContent.timeline.query.channelId,
@@ -172,7 +177,7 @@ export const appendMessagesWithSinceId = async (
         prevContent: ContentStateT
         sinceId: MessageId
     }
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const { prevContent, sinceId } = params
     const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
         channelId: prevContent.timeline.query.channelId,
@@ -202,7 +207,7 @@ export const showContextMessages = async (
         prevContent: ContentStateT
         messageId: MessageId
     }
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const { prevContent, messageId } = params
     const nextAppState: AppStateT = {
         contents: copyContents(prevStore.appState.contents),
@@ -255,7 +260,7 @@ export const showContextMessages = async (
 export const showLatestMessages = async (
     prevStore: StoreT,
     prevContent: ContentStateT
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.channel, {
         channelId: prevContent.timeline.query.channelId,
     })
@@ -279,7 +284,7 @@ export const showLatestMessages = async (
 export const loadLatestMessages = async (
     prevStore: StoreT,
     prevContent: ContentStateT
-): Promise<[StoreT, api.Response | null]> => {
+): Promise<[StoreT, Response | null]> => {
     const sinceId =
         prevContent.timeline.messageIds.length == 0 ? null : prevContent.timeline.messageIds[0]
     return await appendMessagesWithSinceId(prevStore, {

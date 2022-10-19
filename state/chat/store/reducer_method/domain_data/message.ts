@@ -1,4 +1,5 @@
 import * as api from "../../../../../api"
+import { Response } from "../../../../../api"
 
 import { StoreT } from "../../types/store"
 import { copyDomainData } from "../../domain_data/copy"
@@ -8,7 +9,7 @@ import { MessageId } from "../../../../../api/object"
 export const showMessage = async (
     store: StoreT,
     query: Parameters<typeof api.message.show>[0]
-): Promise<[StoreT, api.Response]> => {
+): Promise<[StoreT, Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, api.message.show, query)
     return [
         {
@@ -21,7 +22,7 @@ export const showMessage = async (
 export const postMessage = async (
     store: StoreT,
     query: Parameters<typeof api.message.post>[0]
-): Promise<[StoreT, api.Response]> => {
+): Promise<[StoreT, Response]> => {
     const [nextDomainData, response] = await fetch(store.domainData, api.message.post, query)
     return [
         {
@@ -34,13 +35,15 @@ export const postMessage = async (
 export const deleteMessage = async (
     store: StoreT,
     query: { messageId: MessageId }
-): Promise<[StoreT, api.Response]> => {
+): Promise<[StoreT, Response | null]> => {
     const [nextDomainData, response] = await fetch(store.domainData, api.message.delete, query)
     const { messageId } = query
     const message = nextDomainData.messages.get(messageId)
-    message.deleted = true
-    message._internal_updated_at = Date.now()
-    nextDomainData.messages.update(messageId, message)
+    if (message) {
+        message.deleted = true
+        message._internal_updated_at = Date.now()
+        nextDomainData.messages.update(messageId, message)
+    }
     return [
         {
             domainData: nextDomainData,
@@ -65,9 +68,11 @@ export const markMessageAsDeleted = async (
     }
     const nextDomainData = copyDomainData(store.domainData)
     const message = nextDomainData.messages.get(messageId)
-    message.deleted = true
-    message._internal_updated_at = Date.now()
-    nextDomainData.messages.update(messageId, message)
+    if (message) {
+        message.deleted = true
+        message._internal_updated_at = Date.now()
+        nextDomainData.messages.update(messageId, message)
+    }
     return [
         {
             domainData: nextDomainData,

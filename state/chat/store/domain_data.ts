@@ -17,17 +17,17 @@ import { createContext, useState } from "react"
 import { addChannel, addChannelGroup, addMessage, addUser } from "./domain_data/add"
 
 const context: DomainDataT = {
-    messages: null,
-    users: null,
-    channels: null,
-    channelGroups: null,
-    mutedUserIds: null,
-    blockedUserIds: null,
+    messages: new ObjectMap<MessageObjectT>(messageCompareFunction),
+    users: new ObjectMap<UserObjectT>(userCompareFunction),
+    channels: new ObjectMap<ChannelObjectT>(channelCompareFunction),
+    channelGroups: new ObjectMap<ChannelGroupObjectT>(immutableCompareFunction),
+    mutedUserIds: new UserIdSet(),
+    blockedUserIds: new UserIdSet(),
 }
 
-export const DomainDataContext = createContext(context)
+export const DomainDataContext = createContext<DomainDataT>(context)
 
-let _initialDomainData = null
+let _initialDomainData: DomainDataT | null = null
 function buildInitialDomainData(
     messages: MessageObjectT[],
     users: UserObjectT[],

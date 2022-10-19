@@ -29,7 +29,7 @@ export type ContentStateT = {
         showMutedMessage: boolean
     }
     timeline: {
-        lastMessageId: MessageId
+        lastMessageId: MessageId | null
         messageIds: MessageId[]
         mode: keyof typeof TimelineMode
         upToDate: boolean // 最新のメッセージがmessageIdsに含まれるかどうか

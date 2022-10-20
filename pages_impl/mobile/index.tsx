@@ -41,12 +41,13 @@ export const Button = ({ onClick, children, className }) => {
                 }
                 button {
                     font-weight: 700;
-                    width: 220px;
+                    width: 100%;
                     font-size: 16px;
                     flex: 0 0 auto;
                     box-sizing: border-box;
-                    margin: 10px;
+                    margin: 10px 0;
                     padding: 0 20px;
+                    box-sizing: border-box;
                     cursor: pointer;
                     border: 1px solid rgb(0, 0, 0);
                     border-radius: 30px;
@@ -96,7 +97,6 @@ export default (props: ServerSideProps) => {
             <Head>
                 <title>Beluga</title>
             </Head>
-            <div className="navigation-bar"></div>
             <div className="hero">
                 <div className="description-area">
                     <div className="inner">
@@ -127,16 +127,14 @@ export default (props: ServerSideProps) => {
                             <span className="window-button-3"></span>
                         </div>
                         <div className="inner">
-                            <TooltipActionContext.Provider value={tooltipAction}>
-                                <ChannelDescriptionModalActionContext.Provider
-                                    value={channelDetailModalAction}>
-                                    <AppPreviewComponent
-                                        channelGroup={channelGroup}
-                                        channels={channels}
-                                        messages={messages}
-                                    />
-                                </ChannelDescriptionModalActionContext.Provider>
-                            </TooltipActionContext.Provider>
+                            <ChannelDescriptionModalActionContext.Provider
+                                value={channelDetailModalAction}>
+                                <AppPreviewComponent
+                                    channelGroup={channelGroup}
+                                    channels={channels}
+                                    messages={messages}
+                                />
+                            </ChannelDescriptionModalActionContext.Provider>
                         </div>
                     </div>
                 </div>
@@ -144,60 +142,47 @@ export default (props: ServerSideProps) => {
             <TooltipComponent {...tooltipState} />
             <ChannelDescriptionModalComponent {...channelDetailModalState} />
             <style jsx>{`
-                .navigation-bar {
-                    height: 70px;
-                    display: flex;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                }
                 .hero {
                     display: flex;
-                    flex-direction: row;
-                    position: absolute;
-                    top: 70px;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
+                    flex-direction: column;
+                    padding-bottom: 10px;
                 }
                 .description-area {
-                    width: 50%;
                     flex: 1 1 auto;
+                    padding: 30px;
+                    margin: 20px;
+                    border-radius: 8px;
+                    background-color: rgba(255, 255, 255, 1);
+                    backdrop-filter: blur(50px) saturate(180%);
+                    filter: drop-shadow(4px 4px 50px rgba(0, 0, 0, 0.1));
                 }
                 .description-area > .inner {
-                    min-width: 600px;
                     width: 100%;
                 }
                 .title {
                     background-image: url("/assets/svg/logo_black.svg?1637570889");
                     background-repeat: no-repeat;
-                    background-size: 400px auto;
+                    background-size: 80% auto;
                     background-position: top;
-                    height: 100px;
-                    margin: 0;
+                    height: calc(80vw * 12 / 66);
+                    margin: 40px 0;
                     padding: 0;
-                    margin-top: 150px;
                 }
                 .description {
-                    margin-top: 50px;
                     color: rgb(30, 30, 30);
                     font-size: 18px;
-                    text-align: center;
                 }
                 .description > p {
                     margin: 0;
                     padding: 0;
                 }
                 .start-beluga {
-                    text-align: center;
                     display: flex;
-                    flex-direction: row;
+                    flex-direction: column;
                     justify-content: center;
                     margin-top: 50px;
                 }
                 .already-have-account {
-                    text-align: center;
                     flex-direction: row;
                     margin-top: 20px;
                     color: rgb(30, 30, 30);
@@ -208,12 +193,11 @@ export default (props: ServerSideProps) => {
                     font-weight: 700;
                 }
                 .app-area {
-                    width: 50%;
                     flex: 1 1 auto;
-                    padding: 50px 50px 50px 10px;
                     display: flex;
                     justify-content: flex-start;
                     box-sizing: border-box;
+                    padding: 10px;
                 }
                 .app-container {
                     height: 100%;
@@ -284,14 +268,11 @@ export default (props: ServerSideProps) => {
                 body {
                     font-family: "M PLUS 1", sans-serif;
                     background-image: url("/assets/images/bg_01_1920.png?1637570884");
-                    background-position-y: -150px;
-                    background-size: 100% auto;
+                    background-position: 90% 0;
+                    background-size: auto 100vh;
                     background-repeat: no-repeat;
                     background-color: white;
-                    height: 100vh;
-                    width: 100vw;
                     margin: 0;
-                    padding: 0;
                 }
                 @media screen and (min-width: 1920px) {
                     body {
@@ -299,8 +280,6 @@ export default (props: ServerSideProps) => {
                     }
                 }
                 #__next {
-                    height: 100%;
-                    width: 100%;
                     position: relative;
                 }
             `}</style>

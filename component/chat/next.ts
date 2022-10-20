@@ -3,7 +3,6 @@ import { GetServerSideProps } from "next"
 import { isMobile, isTablet } from "react-device-detect"
 import { isString } from "../../lib/type_check"
 import { Device } from "./next.types"
-import { setCookie } from "cookies-next"
 import config from "../../config"
 import nookies from "nookies"
 

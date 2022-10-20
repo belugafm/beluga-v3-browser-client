@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             domain: config.server.domain,
         })
         // @ts-ignore
-        const queryStr = buildQueryString(query, ["device"])
+        const queryStr = buildQueryString(query, ["device"].concat(Object.keys(context.params)))
         const baseUrl = context.resolvedUrl.replace(/\?.*$/, "")
         return {
             redirect: {

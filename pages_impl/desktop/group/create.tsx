@@ -23,14 +23,10 @@ export default ({ theme, query }) => {
     if (isLoading) {
         return null
     }
-    if (errors[0]) {
-        return <div>エラー</div>
-    }
-    if (errors[1]) {
-        return <div>エラー</div>
-    }
-    if (errors[2]) {
-        return <div>エラー</div>
+    for (const error of errors) {
+        if (error) {
+            return <div>エラー</div>
+        }
     }
     if (channels == null) {
         return <div>エラー</div>

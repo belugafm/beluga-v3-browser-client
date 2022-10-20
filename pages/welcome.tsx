@@ -1,19 +1,14 @@
-import { App } from "../component/app"
-import Head from "next/head"
-import { ThemeProvider } from "../component/theme"
-import { WelcomeComponent } from "../component/welcome"
+export { getServerSideProps } from "../component/chat/next"
+import { ServerSideProps } from "../component/chat/next"
+import { Device } from "../component/chat/next.types"
+import DesktopPage from "../pages_impl/desktop/welcome"
 
-export default ({ theme }) => {
-    return (
-        <div>
-            <Head>
-                <title>Belugaへようこそ！</title>
-            </Head>
-            <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <App>
-                    <WelcomeComponent />
-                </App>
-            </ThemeProvider>
-        </div>
-    )
+export default (props: ServerSideProps) => {
+    const { device } = props
+    if (device == Device.Tablet) {
+        return <DesktopPage {...props} />
+    }
+    if (device == Device.Mobile) {
+    }
+    return <DesktopPage {...props} />
 }

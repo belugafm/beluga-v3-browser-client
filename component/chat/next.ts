@@ -25,6 +25,14 @@ const getDevice = (prefer_device: string | null) => {
     return Device.Desktop
 }
 
+export type ServerSideProps = {
+    theme: string | null
+    userName: string | null
+    params: { [key: string]: string }
+    query: { [key: string]: string }
+    device: string
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookie = Cookie.parse(context.req.headers.cookie || "")
     const { theme, user_name, prefer_device } = cookie
@@ -32,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             theme: theme ? theme : null,
-            user_name: user_name ? user_name : null,
+            userName: user_name ? user_name : null,
             params: params ? params : {},
             query: query ? query : {},
             device: getDevice(prefer_device),

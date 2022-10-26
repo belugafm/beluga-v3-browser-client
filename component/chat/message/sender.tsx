@@ -95,6 +95,7 @@ export const SenderComponent = ({
                     text-overflow: ellipsis;
                     overflow: hidden;
                     line-height: 15px;
+                    height: 17px;
                 }
                 .at-str {
                     font-size: 15px;

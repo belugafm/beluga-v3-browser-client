@@ -47,6 +47,8 @@ interface ResponseInterface {
     oauth_token_secret?: string
     consumer_key?: string
     consumer_secret?: string
+    request_token?: string
+    request_token_secret?: string
     verifier?: string
 }
 
@@ -72,6 +74,8 @@ export class Response implements ResponseInterface {
     oauthTokenSecret?: string
     consumerKey?: string
     consumerSecret?: string
+    requestToken?: string
+    requestTokenSecret?: string
     verifier?: string
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
@@ -146,8 +150,11 @@ export class Response implements ResponseInterface {
         if (response.consumer_key) {
             this.consumerKey = response.consumer_key
         }
-        if (response.consumer_secret) {
-            this.consumerSecret = response.consumer_secret
+        if (response.request_token) {
+            this.requestToken = response.request_token
+        }
+        if (response.request_token_secret) {
+            this.requestTokenSecret = response.request_token_secret
         }
     }
     getErrorMessage() {

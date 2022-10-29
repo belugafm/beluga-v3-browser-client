@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next"
+import { useState } from "react"
 import * as api from "../../api"
 import { Response } from "../../api"
 
@@ -16,6 +17,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default ({ consumer_key, consumer_secret, request_token, request_token_secret }) => {
+    const [authorized, setAuthorized] = useState(false)
+    const [callbackUrl, setCallbackUrl] = useState("")
+
     const authorize = async () => {
         const response = await api.oauth.authorize({
             consumer_key,
@@ -37,10 +41,12 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
                 const { app } = response2
                 const url = `${app.callback_url}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}&request_token=${request_token}&request_token_secret=${request_token_secret}`
                 alert(url)
-                window.open(url)
+                setCallbackUrl(url)
+                setAuthorized(true)
             }
         }
     }
+    const backToAppLink = authorized ? <a href={callbackUrl}>アプリへ戻る</a> : null
     return (
         <div>
             <p>{consumer_key}</p>
@@ -48,6 +54,7 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
             <p>{request_token}</p>
             <p>{request_token_secret}</p>
             <button onClick={(e) => authorize()}>許可する</button>
+            {backToAppLink}
         </div>
     )
 }

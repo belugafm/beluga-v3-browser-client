@@ -19,7 +19,15 @@ export function accessToken(query: {
     return post("oauth/access_token", query)
 }
 
+export function requestToken(query: {
+    consumer_key: string
+    consumer_secret: string
+}): Promise<Response> {
+    return post("oauth/request_token", query)
+}
+
 export const oauth = {
     authorize,
     accessToken,
+    requestToken,
 }

@@ -1,6 +1,7 @@
 import * as TypeCheck from "../lib/type_check"
 
 import {
+    ApplicationObjectT,
     ChannelGroupObjectT,
     ChannelObjectT,
     FileObjectT,
@@ -38,10 +39,15 @@ interface ResponseInterface {
     message?: MessageObjectT
     user?: UserObjectT
     messages?: MessageObjectT[]
+    app?: ApplicationObjectT
+    apps?: ApplicationObjectT[]
     files?: FileObjectT[]
     authenticity_token?: string
     oauth_token?: string
     oauth_token_secret?: string
+    consumer_key?: string
+    consumer_secret?: string
+    verifier?: string
 }
 
 export class Response implements ResponseInterface {
@@ -58,10 +64,15 @@ export class Response implements ResponseInterface {
     message?: MessageObjectT
     user?: UserObjectT
     messages?: MessageObjectT[]
+    app?: ApplicationObjectT
+    apps?: ApplicationObjectT[]
     files?: FileObjectT[]
     authenticityToken?: string
     oauthToken?: string
     oauthTokenSecret?: string
+    consumerKey?: string
+    consumerSecret?: string
+    verifier?: string
     constructor(response: ResponseInterface) {
         if (TypeCheck.isBoolean(response.ok) === false) {
             throw new UnexpectedResponseError()
@@ -122,6 +133,21 @@ export class Response implements ResponseInterface {
         }
         if (response.files) {
             this.files = response.files
+        }
+        if (response.apps) {
+            this.apps = response.apps
+        }
+        if (response.app) {
+            this.app = response.app
+        }
+        if (response.verifier) {
+            this.verifier = response.verifier
+        }
+        if (response.consumer_key) {
+            this.consumerKey = response.consumer_key
+        }
+        if (response.consumer_secret) {
+            this.consumerSecret = response.consumer_secret
         }
     }
     getErrorMessage() {

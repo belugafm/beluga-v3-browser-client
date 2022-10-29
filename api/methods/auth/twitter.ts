@@ -4,13 +4,13 @@ export function requestToken(): Promise<Response> {
     return post("auth/twitter/request_token", {})
 }
 
-export function authenticate(body: {
+export function authenticate(query: {
     oauth_token: string
     oauth_verifier: string
 }): Promise<Response> {
     return post("auth/twitter/authenticate", {
-        oauth_token: body.oauth_token,
-        oauth_verifier: body.oauth_verifier,
+        oauth_token: query.oauth_token,
+        oauth_verifier: query.oauth_verifier,
     })
 }
 

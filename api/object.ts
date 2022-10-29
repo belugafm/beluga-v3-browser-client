@@ -130,15 +130,23 @@ export type MessageObjectT = {
 
 export type FileObjectT = {
     id: number
-    userId: UserId
+    user_id: UserId
     group: string
     path: string
     type: string
     bytes: number
     original: boolean
-    refCount: number
-    createdAt: Date
+    ref_count: number
+    created_at: Date
     width: number | null
     height: number | null
     tag: string | null
+}
+
+export type ApplicationObjectT = {
+    id: number
+    user_id: UserId
+    name: string
+    callback_url: string
+    description: string | null
 }

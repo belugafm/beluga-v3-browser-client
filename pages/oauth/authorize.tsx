@@ -29,7 +29,7 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
         if (response.ok) {
             const { verifier, app } = response
             alert(verifier)
-            const url = `${app.callback_url}?verifier=${verifier}`
+            const url = `${app.callback_url}?verifier=${verifier}&request_token=${request_token}`
             setCallbackUrl(url)
             setAuthorized(true)
         }

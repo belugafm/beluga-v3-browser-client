@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next"
 import { useState } from "react"
 import * as api from "../../api"
-import { Response } from "../../api"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { query } = context
@@ -28,21 +27,11 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
             request_token_secret,
         })
         if (response.ok) {
-            const { verifier } = response
+            const { verifier, app } = response
             alert(verifier)
-            const response2 = await api.oauth.accessToken({
-                consumer_key,
-                consumer_secret,
-                request_token,
-                request_token_secret,
-                verifier,
-            })
-            if (response2.ok) {
-                const { app, accessToken, accessTokenSecret } = response2
-                const url = `${app.callback_url}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}&access_token=${accessToken}&access_token_secret=${accessTokenSecret}`
-                setCallbackUrl(url)
-                setAuthorized(true)
-            }
+            const url = `${app.callback_url}?verifier=${verifier}`
+            setCallbackUrl(url)
+            setAuthorized(true)
         }
     }
     const backToAppLink = authorized ? <a href={callbackUrl}>アプリへ戻る</a> : null

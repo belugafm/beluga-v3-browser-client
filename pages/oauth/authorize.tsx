@@ -38,9 +38,8 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
                 verifier,
             })
             if (response2.ok) {
-                const { app } = response2
-                const url = `${app.callback_url}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}&request_token=${request_token}&request_token_secret=${request_token_secret}`
-                alert(url)
+                const { app, accessToken, accessTokenSecret } = response2
+                const url = `${app.callback_url}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}&access_token=${accessToken}&access_token_secret=${accessTokenSecret}`
                 setCallbackUrl(url)
                 setAuthorized(true)
             }

@@ -4,7 +4,7 @@ import * as api from "../../api"
 import { InputComponent } from "../../component/form/input"
 import { ThemeProvider } from "../../component/theme"
 
-export default ({ consumer_key, consumer_secret, request_token, request_token_secret }) => {
+export default ({}) => {
     const [consumerKey, setConsumerKey] = useState("")
     const [consumerSecret, setConsumerSecret] = useState("")
     const [requestToken, setRequestToken] = useState("")
@@ -23,7 +23,7 @@ export default ({ consumer_key, consumer_secret, request_token, request_token_se
     return (
         <>
             <Head>
-                <title>アプリケーション一覧</title>
+                <title>リクエストトークンの取得</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={null}>
                 <div>

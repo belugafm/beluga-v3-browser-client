@@ -1,4 +1,6 @@
 import * as TypeCheck from "../lib/type_check"
+import OAuth from "oauth-1.0a"
+import crypto from "crypto"
 
 import {
     ApplicationObjectT,
@@ -199,11 +201,11 @@ export const WebAPIUnexpectedErrorResponse: ResponseInterface = {
     ok: false,
 }
 
-export function get(method_url: string, query: any): Promise<Response> {
+export function get(methodUrl: string, query: any): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
         const params = new URLSearchParams(query)
-        const endpointUrl = new URL(`${protocol}://${config.server.domain}/api/v1/${method_url}`)
+        const endpointUrl = new URL(`${protocol}://${config.server.domain}/api/v1/${methodUrl}`)
         endpointUrl.search = params.toString()
         fetch(endpointUrl.toString(), {
             method: "GET",
@@ -232,17 +234,60 @@ export function get(method_url: string, query: any): Promise<Response> {
     })
 }
 
-export function post(method_url: string, body: object): Promise<Response> {
+export function post(
+    methodUrl: string,
+    body: object,
+    oaAuthParams: {
+        consumer_key: string
+        consumer_secret: string
+        access_token?: string
+        access_token_secret?: string
+    } = null
+): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
-        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${methodUrl}`
+
+        const headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-From": location.href,
+        }
+        if (oaAuthParams) {
+            const oauth = new OAuth({
+                consumer: {
+                    key: oaAuthParams["consumer_key"],
+                    secret: oaAuthParams["consumer_secret"],
+                },
+                signature_method: "HMAC-SHA1",
+                hash_function(base_string, key) {
+                    return crypto.createHmac("sha1", key).update(base_string).digest("base64")
+                },
+            })
+            const _headers = oauth.toHeader(
+                oaAuthParams["access_token"]
+                    ? oauth.authorize(
+                          {
+                              url: endpointUrl,
+                              method: "POST",
+                              data: body,
+                          },
+                          {
+                              key: oaAuthParams["access_token"],
+                              secret: oaAuthParams["access_token_secret"],
+                          }
+                      )
+                    : oauth.authorize({
+                          url: endpointUrl,
+                          method: "POST",
+                          data: body,
+                      })
+            )
+            headers["Authorization"] = _headers["Authorization"]
+        }
         fetch(endpointUrl, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "X-Requested-With": "XMLHttpRequest",
-                "X-From": location.href,
-            },
+            headers: headers,
             body: JSON.stringify(body),
         })
             .then(async (data) => {
@@ -264,10 +309,10 @@ export function post(method_url: string, body: object): Promise<Response> {
     })
 }
 
-export function postFormData(method_url: string, body: FormData): Promise<Response> {
+export function postFormData(methodUrl: string, body: FormData): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
-        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${method_url}`
+        const endpointUrl = `${protocol}://${config.server.domain}/api/v1/${methodUrl}`
         fetch(endpointUrl, {
             method: "POST",
             headers: {

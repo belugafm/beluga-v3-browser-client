@@ -2,42 +2,37 @@ import Head from "next/head"
 import { useState } from "react"
 import { InputComponent } from "../../component/form/input"
 import { ThemeProvider } from "../../component/theme"
-import OAuth from "oauth"
+import * as api from "../../api"
 
 export default () => {
     const [consumerKey, setConsumerKey] = useState("")
     const [consumerSecret, setConsumerSecret] = useState("")
-    const [accessToken, setRequestToken] = useState("")
-    const [accessTokenSecret, setRequestTokenSecret] = useState("")
+    const [requestToken, setRequestToken] = useState("")
+    const [requestTokenSecret, setRequestTokenSecret] = useState("")
+    const [verifier, setVerifier] = useState("")
 
     const postMessage = async () => {
-        var oauth = new OAuth.OAuth(
-            "https://localhost.beluga.fm/api/v1/oauth/request_token",
-            "https://localhost.beluga.fm/api/v1/oauth/access_token",
-            consumerKey,
-            consumerSecret,
-            "1.0A",
-            null,
-            "HMAC-SHA1"
-        )
-        oauth.post(
-            "https://localhost.beluga.fm/api/v1/message/post",
-            accessToken,
-            accessTokenSecret,
+        const response = await api.oauth.accessToken(
             {
-                channel_id: 1,
-                text: "aaa",
+                request_token: requestToken,
+                verifier: verifier,
             },
-            "application/x-www-form-urlencoded",
-            (error, result, response) => {
-                console.error(error)
+            {
+                consumer_key: consumerKey,
+                consumer_secret: consumerSecret,
+                access_token: requestToken,
+                access_token_secret: requestTokenSecret,
             }
         )
+        if (response.ok) {
+            setRequestToken(response.requestToken)
+            setRequestTokenSecret(response.requestTokenSecret)
+        }
     }
     return (
         <>
             <Head>
-                <title>OAuth動作確認</title>
+                <title>アクセストークンの取得</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={null}>
                 <div>
@@ -60,22 +55,31 @@ export default () => {
                         onChange={(e) => setConsumerSecret(e.target.value)}
                     />
                     <InputComponent
-                        label="access_token"
+                        label="request_token"
                         type="text"
                         name="name"
-                        value={accessToken}
+                        value={requestToken}
                         errorMessage={[]}
                         hint={[]}
                         onChange={(e) => setRequestToken(e.target.value)}
                     />
                     <InputComponent
-                        label="access_token_secret"
+                        label="request_token_secret"
                         type="text"
                         name="name"
-                        value={accessTokenSecret}
+                        value={requestTokenSecret}
                         errorMessage={[]}
                         hint={[]}
                         onChange={(e) => setRequestTokenSecret(e.target.value)}
+                    />
+                    <InputComponent
+                        label="verifier"
+                        type="text"
+                        name="name"
+                        value={verifier}
+                        errorMessage={[]}
+                        hint={[]}
+                        onChange={(e) => setVerifier(e.target.value)}
                     />
                     <button onClick={(e) => postMessage()}>送信</button>
                 </div>

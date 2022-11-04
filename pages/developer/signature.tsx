@@ -2,37 +2,42 @@ import Head from "next/head"
 import { useState } from "react"
 import { InputComponent } from "../../component/form/input"
 import { ThemeProvider } from "../../component/theme"
-import { OAuth } from "oauth"
+import OAuth from "oauth-1.0a"
+import crypto from "crypto"
 
 export default () => {
     const [consumerKey, setConsumerKey] = useState("")
     const [consumerSecret, setConsumerSecret] = useState("")
-    const [accessToken, setRequestToken] = useState("")
-    const [accessTokenSecret, setRequestTokenSecret] = useState("")
+    const [timestamp, setTimestamp] = useState("")
+    const [nonce, setNonce] = useState("")
+    const [signature, setSignature] = useState("")
 
-    const postMessage = async () => {
-        var oauth = new OAuth(
-            "https://localhost.beluga.fm/api/v1/oauth/request_token",
-            "https://localhost.beluga.fm/api/v1/oauth/access_token",
-            consumerKey,
-            consumerSecret,
-            "1.0A",
-            null,
-            "HMAC-SHA1"
-        )
-        oauth.post(
-            "https://localhost.beluga.fm/api/v1/message/post",
-            accessToken,
-            accessTokenSecret,
-            {
-                channel_id: 1,
-                text: "aaa",
+    const getSignature = () => {
+        const oauth = new OAuth({
+            consumer: { key: consumerKey, secret: consumerSecret },
+            signature_method: "HMAC-SHA1",
+            hash_function(base_string, key) {
+                return crypto.createHmac("sha1", key).update(base_string).digest("base64")
             },
-            "application/x-www-form-urlencoded",
-            (error, result, response) => {
-                console.error(error)
-            }
+        })
+        var oauth_data = {
+            oauth_consumer_key: consumerKey,
+            oauth_nonce: nonce,
+            oauth_signature_method: "HMAC-SHA1",
+            oauth_timestamp: parseInt(timestamp),
+            oauth_version: "1.0",
+        }
+
+        const signature = oauth.getSignature(
+            {
+                url: "https://beluga.fm/api/v1/oauth/request_token",
+                method: "POST",
+                data: {},
+            },
+            undefined,
+            oauth_data
         )
+        setSignature(signature)
     }
     return (
         <>
@@ -60,24 +65,25 @@ export default () => {
                         onChange={(e) => setConsumerSecret(e.target.value)}
                     />
                     <InputComponent
-                        label="access_token"
+                        label="timestamp"
                         type="text"
                         name="name"
-                        value={accessToken}
+                        value={timestamp}
                         errorMessage={[]}
                         hint={[]}
-                        onChange={(e) => setRequestToken(e.target.value)}
+                        onChange={(e) => setTimestamp(e.target.value)}
                     />
                     <InputComponent
-                        label="access_token_secret"
+                        label="nonce"
                         type="text"
                         name="name"
-                        value={accessTokenSecret}
+                        value={nonce}
                         errorMessage={[]}
                         hint={[]}
-                        onChange={(e) => setRequestTokenSecret(e.target.value)}
+                        onChange={(e) => setNonce(e.target.value)}
                     />
-                    <button onClick={(e) => postMessage()}>送信</button>
+                    <button onClick={(e) => getSignature()}>計算</button>
+                    <p>{signature}</p>
                 </div>
             </ThemeProvider>
         </>

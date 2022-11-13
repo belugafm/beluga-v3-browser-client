@@ -187,16 +187,14 @@ export default (props: ServerSideProps) => {
                     }
                     body {
                         font-family: "M PLUS 1", sans-serif;
-                        background-image: url("/assets/images/bg_02_1920.png?1637570884");
-                        background-size: 1920px auto;
-                        background-repeat: no-repeat;
-                        background-position-x: center;
+                        background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                        background-size: 100% auto;
                         margin: 0;
                         padding: 0;
                     }
                     @media screen and (min-width: 1920px) {
                         body {
-                            background-image: url("/assets/images/bg_02_3840.png?1637570884");
+                            background-image: url("/assets/images/bg_06_3840.jpg?1637570884");
                         }
                     }
                     input,

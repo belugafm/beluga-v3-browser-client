@@ -35,6 +35,13 @@ const getStyleForTheme = (theme: Themes) => {
             scrollbarThumbColor: "#d8dadc",
         }
     }
+    if (theme.global.current.dark) {
+        return {
+            color: "#fcfcfc",
+            backgroundColor: "#2a2a2a",
+            scrollbarThumbColor: "#616d78",
+        }
+    }
     if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         const alpha = 0.96
         return {

@@ -26,7 +26,8 @@ const getStyleForTheme = (theme: Themes) => {
     }
     if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         return {
-            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            // backgroundColor: "rgba(8, 8, 11, 0.9)",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
         }
     }
     throw new Error()

@@ -34,7 +34,7 @@ const getStyleForTheme = (theme: Themes) => {
         return (
             <style jsx global>{`
                 body {
-                    background-color: #111315;
+                    background-color: #191919;
                     color: #fafafa;
                 }
             `}</style>
@@ -125,9 +125,10 @@ export const ContainerComponent = ({
                     background-size: 100% auto;
                     height: 100vh;
                     width: 100vw;
-                    padding: 80px 0 0 300px;
                     box-sizing: border-box;
                     position: relative;
+                    display: flex;
+                    flex-direction: row;
                 }
             `}</style>
             <style jsx global>{`

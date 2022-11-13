@@ -186,7 +186,7 @@ export default (props: ServerSideProps) => {
                 body {
                     font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
                         "Hiragino Sans", Meiryo, sans-serif;
-                    background-image: url("/assets/images/bg_02_1920.png?1637570884");
+                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
                     background-size: 1920px auto;
                     background-position-x: center;
                     background-repeat: no-repeat;
@@ -197,7 +197,7 @@ export default (props: ServerSideProps) => {
                 }
                 @media screen and (min-width: 1920px) {
                     body {
-                        background-image: url("/assets/images/bg_02_3840.png?1637570884");
+                        background-image: url("/assets/images/bg_06_3840.jpg?1637570884");
                     }
                 }
                 #__next {

@@ -22,6 +22,12 @@ const getStyleForTheme = (theme: Themes) => {
             color: "#383838",
         }
     }
+    if (theme.global.current.dark) {
+        return {
+            backgroundColor: "#131313",
+            color: "#6f767d",
+        }
+    }
     if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
         const alpha = 0.98
         return {
@@ -57,10 +63,6 @@ export const SidebarComponent = ({ children }) => {
                         width: 300px;
                         box-sizing: border-box;
                         padding: 24px 16px 0 16px;
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        bottom: 0;
                         display: flex;
                         flex-direction: column;
                         -webkit-overflow-scrolling: touch;

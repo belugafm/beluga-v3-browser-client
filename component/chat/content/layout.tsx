@@ -10,7 +10,6 @@ export const ContentGridComponent = () => {
         <>
             <div className="grid-container">
                 <div className="grid">
-                    <div className="empty-column"></div>
                     {appState.contents.map((contentRows, index) => {
                         return <ContentColumnComponent key={index} contentRows={contentRows} />
                     })}
@@ -19,10 +18,11 @@ export const ContentGridComponent = () => {
             </div>
             <style jsx>{`
                 .grid-container {
+                    flex: 1 1 auto;
                     display: flex;
                     flex-direction: column;
-                    height: calc(100vh - 80px);
                     z-index: 1;
+                    background-color: #131313;
                 }
                 .grid {
                     display: flex;

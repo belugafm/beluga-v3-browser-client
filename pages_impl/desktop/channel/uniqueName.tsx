@@ -15,6 +15,7 @@ import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel/combined/page"
 import { ServerSideProps } from "../../../component/chat/next"
+import { NavigationbarComponent } from "../../../component/chat/navigationbar"
 
 export default ({ theme, query }: ServerSideProps) => {
     const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
@@ -54,20 +55,22 @@ export default ({ theme, query }: ServerSideProps) => {
                             channelGroups,
                         },
                     }}>
-                    <HeaderComponent />
-                    <SidebarComponent>
-                        <LogoSidebarComponent />
-                        <AccountMenuComponent />
-                        <ChannelGroupListComponent
-                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
-                        />
-                        <ChannelListComponent
-                            activeChannelId={channel.id}
-                            channelIds={channels.map((channel) => channel.id)}
-                        />
-                        <SidebarThemeComponent />
-                    </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
+                        <NavigationbarComponent />
+                        <SidebarComponent>
+                            <LogoSidebarComponent />
+                            <AccountMenuComponent />
+                            <ChannelGroupListComponent
+                                channelGroupIds={channelGroups.map(
+                                    (channelGroup) => channelGroup.id
+                                )}
+                            />
+                            <ChannelListComponent
+                                activeChannelId={channel.id}
+                                channelIds={channels.map((channel) => channel.id)}
+                            />
+                            <SidebarThemeComponent />
+                        </SidebarComponent>
                         <ContentGridComponent />
                     </BackgroundImageBackdropFilterComponent>
                 </ContainerComponent>

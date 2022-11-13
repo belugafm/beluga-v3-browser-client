@@ -10,7 +10,7 @@ const getStyle = (theme: Themes) => {
         return {
             arrowColor: "#6f767d",
             hoverArrowColor: "#000",
-            boxShadow: "0 0 6px 3px rgba(255, 255, 255, 0.5)",
+            borderColor: "0 0 6px 3px rgba(255, 255, 255, 0.5)",
             hoverBackgroundColor: "#f4f4f4",
         }
     }
@@ -18,7 +18,7 @@ const getStyle = (theme: Themes) => {
         return {
             arrowColor: "#6f767d",
             hoverArrowColor: "#fff",
-            boxShadow: "0 0 10px 3px rgba(26, 28, 31, 1)",
+            borderColor: "rgb(10, 10, 10)",
             hoverBackgroundColor: "#111315",
         }
     }
@@ -77,7 +77,7 @@ export const ChannelHeaderComponent = ({
             `}</style>
             <style jsx>{`
                 .header {
-                    box-shadow: ${getStyle(theme)["boxShadow"]};
+                    border-bottom: 1px solid ${getStyle(theme)["borderColor"]};
                 }
                 .arrow {
                     stroke: ${getStyle(theme)["arrowColor"]};

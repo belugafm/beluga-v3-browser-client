@@ -50,7 +50,7 @@ export const useChannelDescriptionModalState = (): [
                 const modalRect: DOMRect = modalNode.getBoundingClientRect()
                 // @ts-ignore
                 const sidebarRect: DOMRect = targetNode.getBoundingClientRect()
-                setTop(sidebarRect.top)
+                setTop(sidebarRect.height / 2 - 80)
                 setLeft(sidebarRect.left - modalRect.width - 15)
                 setHidden(false)
             },
@@ -68,30 +68,6 @@ export const ChannelDescriptionModalActionContext = createContext<ChannelDescrip
 
 export const ChannelDescriptionModalStateContext = createContext(true)
 
-const getStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
-        return {
-            color: "#000",
-            hoverColor: "#000",
-            borderColor: "#d8dadc",
-            backgroundColor: "#fff",
-            hoverBackgroundColor: "#f4f4f4",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px;",
-        }
-    }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
-        return {
-            color: "#fff",
-            hoverColor: "#fff",
-            borderColor: "#282d32",
-            backgroundColor: "#111315",
-            hoverBackgroundColor: "#2a2d32",
-            boxShadow: "rgba(0, 0, 0, 0.2) 0px 8px 24px;",
-        }
-    }
-    throw new Error()
-}
-
 export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalStateT) => {
     return (
         <>
@@ -101,7 +77,7 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
                     hidden: props.hidden,
                 })}>
                 <div className="menu">
-                    <p>Belugaでは、チャンネルと呼ばれる専用の場所に投稿します。</p>
+                    <p>Belugaではチャンネルと呼ばれる専用の場所に投稿します。</p>
                     <p>
                         みんなが集まる雑談用のチャンネルを作ったり、自分専用のチャンネルを作ることもできます。
                     </p>
@@ -118,10 +94,10 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
                     box-sizing: border-box;
                     padding: 24px;
                     width: 300px;
-                    background-color: white;
+                    background-color: rgba(13, 13, 13, 0.9);
+                    backdrop-filter: blur(50px) saturate(180%);
                     border-radius: 10px;
                     opacity: 1;
-                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
                 }
                 .modal-container.hidden {
                     z-index: 0;
@@ -147,7 +123,7 @@ export const ChannelDescriptionModalComponent = (props: ChannelDescriptionModalS
                     position: absolute;
                     width: 20px;
                     height: 20px;
-                    background-color: white;
+                    background-color: rgb(13, 13, 13);
                     transform: rotate(45deg);
                     top: calc(50% - 10px);
                     right: -10px;

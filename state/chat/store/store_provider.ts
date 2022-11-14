@@ -156,7 +156,7 @@ function loadContentsFromLocalStorage(
                             pageContext.channelGroup.messages
                         ),
                         query: {
-                            channelId: pageContext.channelGroup.object.id,
+                            channelGroupId: pageContext.channelGroup.object.id,
                         },
                     },
                 },

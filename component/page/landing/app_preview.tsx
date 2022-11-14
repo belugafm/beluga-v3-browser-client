@@ -220,7 +220,6 @@ export const AppPreviewComponent = (props: {
             channels: [],
         },
     })
-    console.log(appState)
     websocket.use({
         reducers,
         appState,

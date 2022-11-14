@@ -72,7 +72,7 @@ export const LoginWithTwitterButton = () => {
 }
 
 export default (props: ServerSideProps) => {
-    const { isLoading, errors, channels, messages, channelGroup } = swrFetchData()
+    const { isLoading, errors, messages, channels, channelGroup } = swrFetchData()
     const [tooltipState, tooltipAction] = useTooltipState()
     const [channelDetailModalState, channelDetailModalAction] = useChannelDescriptionModalState()
     if (isLoading) {
@@ -80,17 +80,17 @@ export default (props: ServerSideProps) => {
     }
     for (const error of errors) {
         if (error) {
-            return <div>エラー</div>
+            return <div>{error}</div>
         }
     }
     if (channels == null) {
-        return <div>エラー</div>
+        return <div>チャンネル一覧の読み込みに失敗しました</div>
     }
     if (messages == null) {
-        return <div>エラー</div>
+        return <div>タイムラインの読み込みに失敗しました</div>
     }
     if (channelGroup == null) {
-        return <div>エラー</div>
+        return <div>チャンネルグループの読み込みに失敗しました</div>
     }
     return (
         <>
@@ -244,13 +244,14 @@ export default (props: ServerSideProps) => {
                     justify-content: center;
                     padding: 0 20px;
                     border-radius: 20px;
+                    transition: 0.3s;
                 }
                 .navigationbar-link:last-child {
                     margin-right: 0;
                 }
                 .navigationbar-link:hover {
                     backdrop-filter: blur(10px) saturate(100%);
-                    background-color: rgba(0, 0, 0, 0.5);
+                    background-color: rgba(10, 5, 30, 0.5);
                 }
                 .github-icon {
                     fill: white;

@@ -5,15 +5,8 @@ import {
     UserObjectT,
 } from "../../../api/object"
 import React, { MouseEvent, useContext } from "react"
-import {
-    Themes,
-    defaultGlobalDarkTheme,
-    defaultGlobalLightTheme,
-    defaultUserDarkTheme,
-    defaultUserLightTheme,
-    useTheme,
-} from "../../theme"
-import { TooltipActionContext, useTooltipState } from "../../../state/component/tooltip"
+import { Themes, defaultGlobalDarkTheme } from "../../theme"
+import { TooltipActionContext } from "../../../state/component/tooltip"
 
 import { ChannelDescriptionModalActionContext } from "./channel_modal"
 import { ChannelHeaderComponent } from "../../chat/content/header"
@@ -25,7 +18,7 @@ import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageComponent } from "../../chat/message"
 import { SVGComponent } from "../../chat/svg"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
-import { useStore } from "../../../state/chat/store"
+import { useStore, websocket } from "../../../state/chat/store"
 
 const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
     return (
@@ -74,49 +67,6 @@ const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
                 }
             `}</style>
         </>
-    )
-}
-
-const SearchComponent = () => {
-    return (
-        <div className="input-block">
-            <svg className="icon">
-                <use href="#icon-search"></use>
-            </svg>
-            <input type="text" placeholder="検索" />
-            <style jsx>{`
-                .input-block {
-                    background-color: #f4f4f4;
-                    border-radius: 30px;
-                    display: flex;
-                    flex-direction: row;
-                    height: 36px;
-                    flex: 0 0 200px;
-                    box-sizing: border-box;
-                    padding: 0 8px;
-                    align-items: center;
-                }
-                .icon {
-                    flex: 0 0 30px;
-                    width: 18px;
-                    height: 18px;
-                    fill: #333;
-                }
-                input {
-                    color: #333;
-                    flex: 0 0 140px;
-                    width: 140px;
-                    border-width: 1px;
-                    font-size: 15px;
-                    padding: 0 10px;
-                    border: none;
-                    height: 36px;
-                    box-sizing: border-box;
-                    outline: none;
-                    background: none;
-                }
-            `}</style>
-        </div>
     )
 }
 
@@ -186,12 +136,19 @@ const NavigationbarComponent = () => {
                 }
                 .icon.at {
                     stroke-width: 0;
+                    width: 21px;
+                    height: 21px;
+                }
+                .icon.search {
+                    width: 19px;
+                    height: 19px;
                 }
                 .button:hover {
-                    background-color: rgb(10, 10, 10);
+                    background-color: rgb(17, 17, 17);
                 }
-                .button:hover .icon svg {
+                .button:hover svg {
                     stroke: white;
+                    fill: white;
                 }
                 .button.home:hover svg {
                     stroke: #f28369;
@@ -253,7 +210,7 @@ export const AppPreviewComponent = (props: {
     }
     const tooltipAction = useContext(TooltipActionContext)
     const channelDescriptionModalAction = useContext(ChannelDescriptionModalActionContext)
-    const { domainData } = useStore({
+    const { domainData, appState, reducers } = useStore({
         channelGroup: {
             object: channelGroup,
             messages,
@@ -262,6 +219,11 @@ export const AppPreviewComponent = (props: {
             channelGroups: [],
             channels: [],
         },
+    })
+    console.log(appState)
+    websocket.use({
+        reducers,
+        appState,
     })
 
     const channelList = channels.map((channel, n) => {
@@ -289,10 +251,9 @@ export const AppPreviewComponent = (props: {
         show: (message: MessageObjectT) => {},
         hide: () => {},
     }
-    const messageids = [...messages].map((message) => message.id)
-    const messageComponentList = messageids
+    const messageComponentList = [...appState.contents[0][0].timeline.messageIds]
         .reverse()
-        .map((messageId, n) => {
+        .map((messageId) => {
             const normalizedMessage = domainData.messages.get(messageId)
             if (normalizedMessage == null) {
                 return null
@@ -315,7 +276,6 @@ export const AppPreviewComponent = (props: {
                 </MessageComponent>
             )
         })
-        .reverse()
     return (
         <>
             <div className="navigationbar-block">
@@ -352,7 +312,9 @@ export const AppPreviewComponent = (props: {
                             />
                         </div>
                         <div className="timeline">
-                            <div className="scroller">{messageComponentList}</div>
+                            <div className="scroller">
+                                <div className="message-container">{messageComponentList}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -435,6 +397,11 @@ export const AppPreviewComponent = (props: {
                     overflow-x: hidden;
                     overflow-y: scroll;
                     position: relative;
+                }
+                .message-container {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
                 }
                 .search-block {
                     display: flex;

@@ -135,7 +135,7 @@ function loadContentsFromLocalStorage(
                     id: Date.now(),
                     column: 0,
                     row: 0,
-                    type: ContentType.Channel,
+                    type: ContentType.ChannelGroup,
                     updatedAt: new Date(),
                     postbox: {
                         enabled: false,

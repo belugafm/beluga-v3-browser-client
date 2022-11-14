@@ -3,6 +3,7 @@ import { ReducersT } from "./types/reducer"
 import { show as updateUser } from "./reducer_method/domain_data/user"
 import { showMessage as updateMessage } from "./reducer_method/domain_data/message"
 import { show as updateChannel } from "./reducer_method/domain_data/channel"
+import { show as updateChannelGroup } from "./reducer_method/domain_data/channel_group"
 import { loadLatestMessages } from "./reducer_method/app_state/channel"
 import { setUpdatedAtToAllContents } from "./reducer_method/app_state/content"
 
@@ -81,6 +82,22 @@ export class WebSocketClient {
                                 continue
                             }
                             if (content.context.channelId) {
+                                this.reducers.asyncReducer(loadLatestMessages, content)
+                            }
+                        }
+                    }
+                    return
+                }
+                if (data.channel_group_id) {
+                    this.reducers.asyncReducer(updateChannelGroup, {
+                        id: data.channel_id,
+                    })
+                    for (const rows of this.appState.contents) {
+                        for (const content of rows) {
+                            if (content.timeline.mode != TimelineMode.KeepUpToDate) {
+                                continue
+                            }
+                            if (content.context.channelGroupId) {
                                 this.reducers.asyncReducer(loadLatestMessages, content)
                             }
                         }

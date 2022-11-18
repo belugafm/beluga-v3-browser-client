@@ -37,7 +37,7 @@ export const Button = ({ onClick, children, className }) => {
                 }
                 .white {
                     background-color: transparent;
-                    background-color: rgba(10, 5, 30, 0.5);
+                    background-color: rgba(10, 5, 30, 0.8);
                     color: white;
                 }
                 button {
@@ -244,7 +244,7 @@ export default (props: ServerSideProps) => {
                     justify-content: center;
                     padding: 0 20px;
                     border-radius: 20px;
-                    transition: 0.3s;
+                    transition: 0.1s;
                 }
                 .navigationbar-link:last-child {
                     margin-right: 0;

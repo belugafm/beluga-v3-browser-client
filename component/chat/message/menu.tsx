@@ -10,7 +10,7 @@ import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import classnames from "classnames"
 
 const getStyleForButton = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             fill: "#595e64",
             hoverFill: "#1a1d1f",
@@ -18,7 +18,7 @@ const getStyleForButton = (theme: Themes) => {
             hoverBackgroundColor: "#f4f4f4",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             fill: "#899096",
             hoverFill: "#fcfcfc",
@@ -30,13 +30,13 @@ const getStyleForButton = (theme: Themes) => {
 }
 
 const getStyleForMenu = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             borderColor: "#d8dadc",
             backgroundColor: "#fff",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             borderColor: "#080a0b",
             backgroundColor: "#15171a",

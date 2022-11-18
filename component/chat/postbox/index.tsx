@@ -30,7 +30,7 @@ const editorConfig = {
 }
 
 const getStyleForTextarea = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             color: "#191919",
             placeholderColor: "#aaa",
@@ -40,7 +40,7 @@ const getStyleForTextarea = (theme: Themes) => {
             focusBorderColor: "#6f767d",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
             placeholderColor: "#616d78",
@@ -54,7 +54,7 @@ const getStyleForTextarea = (theme: Themes) => {
 }
 
 const getStyleForEditorButton = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             fill: "#6f767d",
             hoverFill: "#1a1d1f",
@@ -62,7 +62,7 @@ const getStyleForEditorButton = (theme: Themes) => {
             hoverBackgroundColor: "#f4f4f4",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             fill: "#616d78",
             hoverFill: "#fcfcfc",

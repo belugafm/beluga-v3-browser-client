@@ -22,7 +22,7 @@ const lerp = (a: number, b: number, ratio: number) => {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         const alpha = 0.95
         return {
             color: "#000",
@@ -42,7 +42,7 @@ const getStyleForTheme = (theme: Themes) => {
             scrollbarThumbColor: "#616d78",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         const alpha = 0.96
         return {
             color: "#fcfcfc",
@@ -152,7 +152,7 @@ const NewMessageNotificationButton = ({
 }) => {
     if (scrollerState.shouldNotifyNewMessages) {
         const getStyle = (theme: Themes) => {
-            if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+            if (theme.global.current.light) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -161,7 +161,7 @@ const NewMessageNotificationButton = ({
                     focusBackgroundColor: "#2a85ff",
                 }
             }
-            if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+            if (theme.global.current.dark) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -255,7 +255,7 @@ const ShowLatestMessagesButton = ({
 }) => {
     if (content.timeline.mode == TimelineMode.ShowContextMessages) {
         const getStyle = (theme: Themes) => {
-            if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+            if (theme.global.current.light) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -264,7 +264,7 @@ const ShowLatestMessagesButton = ({
                     focusBackgroundColor: "#2a85ff",
                 }
             }
-            if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+            if (theme.global.current.dark) {
                 return {
                     fill: "#fff",
                     hoverFill: "#fff",
@@ -360,14 +360,14 @@ const SpacerComponent = () => {
 
 const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) => {
     const getStyle = (theme: Themes) => {
-        if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+        if (theme.global.current.light) {
             return {
                 color: "#1a1d1f",
                 borderColor: "#d8dadc",
                 backgroundColor: "#ffffff",
             }
         }
-        if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+        if (theme.global.current.dark) {
             return {
                 color: "#fcfcfc",
                 borderColor: "#080a0b",

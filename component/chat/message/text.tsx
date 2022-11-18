@@ -43,13 +43,13 @@ export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode)
 }
 
 const getStyleForSyntaxHighlighting = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             lineNumberColor: "#a5aa91",
             backgroundColor: "rgb(35, 36, 31)",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             lineNumberColor: "#505764",
             backgroundColor: "#0d0e10",
@@ -59,13 +59,13 @@ const getStyleForSyntaxHighlighting = (theme: Themes) => {
 }
 
 const getStyleForInlineCode = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
             backgroundColor: "#e8e8e8",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             borderColor: "#33383c",
             backgroundColor: "#08080a",
@@ -75,13 +75,13 @@ const getStyleForInlineCode = (theme: Themes) => {
 }
 
 const getStyleForQuote = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             borderColor: "#aaaaa9",
             color: "#828282",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             borderColor: "#b9bfc8",
             color: "#8d97a0",

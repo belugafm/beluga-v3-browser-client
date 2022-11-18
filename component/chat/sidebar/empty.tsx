@@ -2,14 +2,14 @@ import { ChannelGroupId, ChannelId } from "../../../api/object"
 import { Themes, useTheme } from "../../theme"
 
 const getStyleForPanel = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             headerColor: "#6f767d",
             contentColor: "#090a0b",
             linkColor: "#2a85ff",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             headerColor: "#6f767d",
             contentColor: "#fff",
@@ -20,7 +20,7 @@ const getStyleForPanel = (theme: Themes) => {
 }
 
 const getStyleForButton = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             color: "#1a1d1f",
             hoverColor: "#2a85ff",
@@ -30,7 +30,7 @@ const getStyleForButton = (theme: Themes) => {
             hoverBackgroundColor: "#fff",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
             hoverColor: "#fff",

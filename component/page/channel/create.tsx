@@ -6,13 +6,13 @@ import { InputComponent } from "../../form/input"
 import { useContext } from "react"
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             backgroundColor: "#fff",
             color: "#383838",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             backgroundColor: "#1a1c1f",
             color: "#f0f0f0",

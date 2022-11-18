@@ -10,7 +10,7 @@ const rlerp = (a: number, b: number, ratio: number) => {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         const alpha = 0.96
         return {
             // backgroundColor: "#fff",
@@ -29,7 +29,7 @@ const getStyleForTheme = (theme: Themes) => {
             color: "#6f767d",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         const alpha = 0.98
         return {
             // backgroundColor: "#  ",

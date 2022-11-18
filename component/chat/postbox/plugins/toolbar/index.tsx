@@ -27,7 +27,7 @@ import { $patchStyleText } from "@lexical/selection"
 import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/dropdown"
 
 const getStyleForEditorButton = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             fill: "#6f767d",
             hoverFill: "#1a1d1f",
@@ -35,7 +35,7 @@ const getStyleForEditorButton = (theme: Themes) => {
             hoverBackgroundColor: "#efefef",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             fill: "#616d78",
             hoverFill: "#fcfcfc",
@@ -47,12 +47,12 @@ const getStyleForEditorButton = (theme: Themes) => {
 }
 
 const getStyleForDivider = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             backgroundColor: "#dcdcdc",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             backgroundColor: "#2f363c",
         }
@@ -61,12 +61,12 @@ const getStyleForDivider = (theme: Themes) => {
 }
 
 const getStyleForToolbar = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             backgroundColor: "#fafafa",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             backgroundColor: "#0d0e10",
         }

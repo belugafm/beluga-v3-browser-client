@@ -7,12 +7,12 @@ import { Themes } from "../../theme"
 import classnames from "classnames"
 
 const getContainerStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             backgroundColor: "rgba(26, 28, 31, 0.2)",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
         }
@@ -30,13 +30,13 @@ export const MessageSenderComponent = ({
     const user = message.user
     const display_name = user.display_name ? user.display_name : user.name
     const getStyle = (theme: Themes) => {
-        if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+        if (theme.global.current.light) {
             return {
                 color: "#000",
                 color2: "#6f767d",
             }
         }
-        if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+        if (theme.global.current.dark) {
             return {
                 color: "#fff",
                 color2: "#6f767d",
@@ -126,13 +126,13 @@ const MessagePreviewComponent = ({
         return null
     }
     const getStyle = (theme: Themes) => {
-        if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+        if (theme.global.current.light) {
             return {
                 backgroundColor: "transparent",
                 borderColor: "#d4d8dc",
             }
         }
-        if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+        if (theme.global.current.dark) {
             return {
                 backgroundColor: "#121316",
                 borderColor: "transparent",
@@ -242,7 +242,7 @@ export const DeleteMessageModalComponent = ({
         }
     }
     const getStyle = (theme: Themes) => {
-        if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+        if (theme.global.current.light) {
             return {
                 backgroundColor: "#fff",
                 cancelButtonColor: "#323232",
@@ -253,7 +253,7 @@ export const DeleteMessageModalComponent = ({
                 deleteButtonHoverBackgroundColor: "#0069f6",
             }
         }
-        if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+        if (theme.global.current.dark) {
             return {
                 backgroundColor: "#1a1c1f",
                 cancelButtonColor: "#fff",

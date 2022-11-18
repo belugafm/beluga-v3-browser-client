@@ -13,10 +13,10 @@ import { ToolbarPlugin } from "./plugins/toolbar"
 import { useContext } from "react"
 
 const getPlaceholderColor = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return "#aaa"
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return "#616d78"
     }
     throw new Error()
@@ -56,17 +56,17 @@ const getPlaceholderText = (content: ContentStateT) => {
 }
 
 const getTextareaColor = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return "#191919"
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return "#fcfcfc"
     }
     throw new Error()
 }
 
 const getStyleForEditorCode = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             color: "rgb(165, 170, 145)",
             codeColor: "rgb(248, 248, 242)",
@@ -74,7 +74,7 @@ const getStyleForEditorCode = (theme: Themes) => {
             backgroundColor: "rgb(35, 36, 31)",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             color: "#616d78",
             codeColor: "rgb(248, 248, 242)",
@@ -86,13 +86,13 @@ const getStyleForEditorCode = (theme: Themes) => {
 }
 
 const getStyleForInlineCode = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
             backgroundColor: "#e8e8e8",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             borderColor: "#33383c",
             backgroundColor: "#08080a",
@@ -102,13 +102,13 @@ const getStyleForInlineCode = (theme: Themes) => {
 }
 
 const getStyleForQuote = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             borderColor: "#aaaaa9",
             color: "#828282",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             borderColor: "#b9bfc8",
             color: "#8d97a0",

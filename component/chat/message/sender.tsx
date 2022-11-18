@@ -4,13 +4,13 @@ import { Themes } from "../../theme"
 import classnames from "classnames"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             color: "#000",
             color2: "#6f767d",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             color: "#fff",
             color2: "#6f767d",

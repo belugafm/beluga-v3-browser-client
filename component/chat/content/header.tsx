@@ -6,7 +6,7 @@ import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { useContext } from "react"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             arrowColor: "#6f767d",
             hoverArrowColor: "#000",
@@ -14,7 +14,7 @@ const getStyle = (theme: Themes) => {
             hoverBackgroundColor: "#f4f4f4",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             arrowColor: "#6f767d",
             hoverArrowColor: "#fff",

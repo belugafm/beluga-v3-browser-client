@@ -4,12 +4,12 @@ import { Themes } from "../../theme"
 import { Random } from "./avatar"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             fill: "#fec52e",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             fill: "#fec52e",
         }

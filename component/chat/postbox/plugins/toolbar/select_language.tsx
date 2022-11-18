@@ -1,7 +1,7 @@
 import { Themes } from "../../../../theme"
 
 const getStyle = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             color: "#6f767d",
             hoverColor: "#1a1d1f",
@@ -9,7 +9,7 @@ const getStyle = (theme: Themes) => {
             hoverBackgroundColor: "#efefef",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
             color: "#616d78",
             hoverColor: "#fcfcfc",

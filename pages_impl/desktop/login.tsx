@@ -28,10 +28,10 @@ const LoginWithTwitterSection = () => {
             </div>
             <style jsx>{`
                 .launch {
-                    background-image: url("/assets/svg/launch.svg");
+                    background-image: url("/assets/svg/launch.svg?4");
                     background-repeat: no-repeat;
                     background-size: 80px;
-                    background-position: center;
+                    background-position: top;
                     width: 80px;
                     flex: 0 0 auto;
                 }
@@ -78,12 +78,14 @@ export default ({ userName }) => {
                         margin: 0 auto;
                         margin-top: 70px;
                         margin-top: calc(min(200px, (100vh - 500px) / 2));
+                        color: white;
                     }
                     .session-inside {
                         position: relative;
                         z-index: 0;
                     }
                     .session-bg {
+                        display: none;
                         transform: rotate(-2deg);
                         position: absolute;
                         top: 40px;
@@ -106,15 +108,16 @@ export default ({ userName }) => {
                         overflow: hidden;
                         position: relative;
                         filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+                        backdrop-filter: blur(50px) saturate(180%);
                     }
                     .section {
                         box-sizing: border-box;
                         padding: 30px 40px;
-                        background-color: white;
+                        background-color: rgba(22, 22, 22, 0.9);
                     }
                     .sep {
                         height: 1px;
-                        background-color: rgba(255, 255, 255, 0.8);
+                        background-color: rgba(4, 4, 4, 0.8);
                     }
                     .section.title {
                         padding: 0;
@@ -155,7 +158,7 @@ export default ({ userName }) => {
                 <style global jsx>{`
                     @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;700&display=swap");
                     a {
-                        color: #1547c5;
+                        color: #64b5f6;
                         text-decoration: none;
                     }
                     a:hover {

@@ -4,9 +4,7 @@ import Cookie from "cookie"
 
 type GlobalTheme = {
     light: boolean
-    lightWithBgImage: boolean
     dark: boolean
-    darkWithBgImage: boolean
 }
 
 type UserTheme = {
@@ -15,39 +13,17 @@ type UserTheme = {
 
 export const defaultGlobalDarkTheme: GlobalTheme = {
     light: false,
-    lightWithBgImage: false,
     dark: true,
-    darkWithBgImage: false,
-}
-export const defaultGlobalDarkWithBgImageTheme: GlobalTheme = {
-    light: false,
-    lightWithBgImage: false,
-    dark: false,
-    darkWithBgImage: true,
 }
 export const defaultGlobalLightTheme: GlobalTheme = {
     light: true,
-    lightWithBgImage: false,
     dark: false,
-    darkWithBgImage: false,
-}
-export const defaultGlobalLightWithBgImageTheme: GlobalTheme = {
-    light: false,
-    lightWithBgImage: true,
-    dark: false,
-    darkWithBgImage: false,
 }
 
 export const defaultUserDarkTheme: UserTheme = {
     linkPrimaryColor: "#64b5f6",
 }
-export const defaultUserDarkWithBgImageTheme: UserTheme = {
-    linkPrimaryColor: "#64b5f6",
-}
 export const defaultUserLightTheme: UserTheme = {
-    linkPrimaryColor: "#477da7",
-}
-export const defaultUserLightWithBgImageTheme: UserTheme = {
     linkPrimaryColor: "#477da7",
 }
 
@@ -55,23 +31,15 @@ export const getDefaultUserTheme = (theme: string) => {
     if (theme === "dark") {
         return defaultUserDarkTheme
     }
-    if (theme === "dark_bg") {
-        return defaultUserDarkWithBgImageTheme
-    }
     if (theme === "light") {
         return defaultUserLightTheme
-    }
-    if (theme === "light_bg") {
-        return defaultUserLightWithBgImageTheme
     }
     throw new Error("`theme`が不正です")
 }
 
 const defaultGlobalThemes = {
     dark: defaultGlobalDarkTheme,
-    dark_bg: defaultGlobalDarkWithBgImageTheme,
     light: defaultGlobalLightTheme,
-    light_bg: defaultGlobalLightWithBgImageTheme,
 }
 
 export type Themes = {

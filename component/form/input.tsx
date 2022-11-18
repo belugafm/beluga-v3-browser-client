@@ -13,7 +13,7 @@ type InputComponentAttributes = {
 }
 
 const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light || theme.global.current.lightWithBgImage) {
+    if (theme.global.current.light) {
         return {
             backgroundColor: "#f4f4f4",
             color: "#191919",
@@ -21,12 +21,13 @@ const getStyleForTheme = (theme: Themes) => {
             focusBorderColor: "#1a1f15",
         }
     }
-    if (theme.global.current.dark || theme.global.current.darkWithBgImage) {
+    if (theme.global.current.dark) {
         return {
-            backgroundColor: "#272b2f",
+            backgroundColor: "#101010",
+            borderColor: "#373737",
             color: "#fcfcfc",
-            focusBackgroundColor: "#111315",
-            focusBorderColor: "#111315",
+            focusBackgroundColor: "#373737",
+            focusBorderColor: "#373737",
         }
     }
     throw new Error()
@@ -71,7 +72,7 @@ export const InputComponent = ({
                     font-size: 16px;
                     padding: 0 10px;
                     height: 44px;
-                    border: 2px solid transparent;
+                    border: 1px solid transparent;
                     width: 100%;
                     box-sizing: border-box;
                     transition: 0.3s;
@@ -97,6 +98,7 @@ export const InputComponent = ({
                 input {
                     color: ${getStyleForTheme(theme)["color"]};
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    border-color: ${getStyleForTheme(theme)["borderColor"]};
                 }
                 input:focus {
                     border-color: ${getStyleForTheme(theme)["focusBorderColor"]};

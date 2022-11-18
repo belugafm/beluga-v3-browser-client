@@ -43,11 +43,11 @@ const getStyleForTextarea = (theme: Themes) => {
     if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
-            placeholderColor: "#616d78",
-            backgroundColor: "#111315",
-            borderColor: "#111315",
-            focusBackgroundColor: "#272b2f",
-            focusBorderColor: "#272b2f",
+            placeholderColor: "#787878",
+            backgroundColor: "#0f0f0f",
+            borderColor: "#0f0f0f",
+            focusBackgroundColor: "#2f2f2f",
+            focusBorderColor: "#2f2f2f",
         }
     }
     throw new Error()
@@ -64,10 +64,10 @@ const getStyleForEditorButton = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            fill: "#616d78",
+            fill: "#787878",
             hoverFill: "#fcfcfc",
-            backgroundColor: "#111315",
-            hoverBackgroundColor: "#1f2327",
+            backgroundColor: "#0f0f0f",
+            hoverBackgroundColor: "#242424",
         }
     }
     throw new Error()

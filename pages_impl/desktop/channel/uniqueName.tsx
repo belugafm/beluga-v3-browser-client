@@ -1,14 +1,11 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { AccountMenuComponent } from "../../../component/chat/sidebar/account_menu"
 import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
 import { ContainerComponent } from "../../../component/chat/container"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
-import { HeaderComponent } from "../../../component/chat/header"
-import { LogoSidebarComponent } from "../../../component/chat/sidebar/logo"
 import { SVGComponent } from "../../../component/chat/svg"
 import { SidebarComponent } from "../../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
@@ -16,6 +13,7 @@ import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel/combined/page"
 import { ServerSideProps } from "../../../component/chat/next"
 import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { SearchComponent } from "../../../component/chat/sidebar/search"
 
 export default ({ theme, query }: ServerSideProps) => {
     const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
@@ -58,8 +56,7 @@ export default ({ theme, query }: ServerSideProps) => {
                     <BackgroundImageBackdropFilterComponent url={null}>
                         <NavigationbarComponent />
                         <SidebarComponent>
-                            <LogoSidebarComponent />
-                            <AccountMenuComponent />
+                            <SearchComponent />
                             <ChannelGroupListComponent
                                 channelGroupIds={channelGroups.map(
                                     (channelGroup) => channelGroup.id
@@ -69,7 +66,6 @@ export default ({ theme, query }: ServerSideProps) => {
                                 activeChannelId={channel.id}
                                 channelIds={channels.map((channel) => channel.id)}
                             />
-                            <SidebarThemeComponent />
                         </SidebarComponent>
                         <ContentGridComponent />
                     </BackgroundImageBackdropFilterComponent>

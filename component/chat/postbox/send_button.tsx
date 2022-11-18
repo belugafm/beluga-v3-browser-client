@@ -25,9 +25,9 @@ const getStyle = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            fill: "#616d78",
+            fill: "#787878",
             hoverFill: "#fff",
-            backgroundColor: "#191c1f",
+            backgroundColor: "#242424",
             hoverBackgroundColor: "#0069f6",
             focusBackgroundColor: "#2a85ff",
         }

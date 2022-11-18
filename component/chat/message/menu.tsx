@@ -20,10 +20,10 @@ const getStyleForButton = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            fill: "#899096",
+            fill: "#969696",
             hoverFill: "#fcfcfc",
-            backgroundColor: "#15171a",
-            hoverBackgroundColor: "#1f2327",
+            backgroundColor: "#1a1a1a",
+            hoverBackgroundColor: "#272727",
         }
     }
     throw new Error()
@@ -39,7 +39,7 @@ const getStyleForMenu = (theme: Themes) => {
     if (theme.global.current.dark) {
         return {
             borderColor: "#080a0b",
-            backgroundColor: "#15171a",
+            backgroundColor: "#1a1a1a",
         }
     }
     throw new Error()

@@ -26,8 +26,8 @@ const getStyleForTheme = (theme: Themes) => {
             backgroundColor: "#101010",
             borderColor: "#373737",
             color: "#fcfcfc",
-            focusBackgroundColor: "#373737",
-            focusBorderColor: "#373737",
+            focusBackgroundColor: "#101010",
+            focusBorderColor: "#2a85ff",
         }
     }
     throw new Error()
@@ -72,7 +72,7 @@ export const InputComponent = ({
                     font-size: 16px;
                     padding: 0 10px;
                     height: 44px;
-                    border: 1px solid transparent;
+                    border: 2px solid transparent;
                     width: 100%;
                     box-sizing: border-box;
                     transition: 0.3s;

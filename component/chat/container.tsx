@@ -24,8 +24,11 @@ const getStyleForTheme = (theme: Themes) => {
         return (
             <style jsx global>{`
                 body {
-                    background-color: #f4f4f4;
                     color: #1a1a1a;
+                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                    background-size: 100% auto;
+                    background-repeat: repeat-y;
+                    background-color: #0a051e;
                 }
             `}</style>
         )
@@ -34,8 +37,11 @@ const getStyleForTheme = (theme: Themes) => {
         return (
             <style jsx global>{`
                 body {
-                    background-color: #191919;
                     color: #fafafa;
+                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                    background-size: 100% auto;
+                    background-repeat: repeat-y;
+                    background-color: #0a051e;
                 }
             `}</style>
         )
@@ -129,6 +135,8 @@ export const ContainerComponent = ({
                     position: relative;
                     display: flex;
                     flex-direction: row;
+                    justify-content: center;
+                    padding: 10px 0;
                 }
             `}</style>
             <style jsx global>{`
@@ -138,7 +146,7 @@ export const ContainerComponent = ({
                     margin: 0;
                 }
                 .translucent {
-                    backdrop-filter: blur(10px) saturate(180%);
+                    backdrop-filter: blur(30px) saturate(180%);
                 }
             `}</style>
             {getFontStyle()}

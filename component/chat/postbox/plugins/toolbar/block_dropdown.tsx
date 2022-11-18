@@ -26,9 +26,9 @@ const getStyle = (theme: Themes) => {
         return {
             color: "#fff",
             hoverColor: "#fff",
-            borderColor: "#282d32",
-            backgroundColor: "#111315",
-            hoverBackgroundColor: "#2a2d32",
+            borderColor: "#323232",
+            backgroundColor: "#0f0f0f",
+            hoverBackgroundColor: "#242424",
             boxShadow: "rgba(0, 0, 0, 0.2) 0px 8px 24px;",
         }
     }

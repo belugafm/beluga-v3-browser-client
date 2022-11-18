@@ -29,12 +29,7 @@ const getStyle = (theme: Themes) => {
         const alpha = 0.5
         return {
             backgroundColor: "transparent",
-            // hoverBackgroundColor: "#111315",
-            hoverBackgroundColor: `rgba(${rlerp(26, 17, alpha)}, ${rlerp(28, 19, alpha)}, ${rlerp(
-                31,
-                21,
-                alpha
-            )}, ${alpha})`,
+            hoverBackgroundColor: "#0f0f0f",
         }
     }
     throw new Error()

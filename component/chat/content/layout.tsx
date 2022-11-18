@@ -18,18 +18,19 @@ export const ContentGridComponent = () => {
             </div>
             <style jsx>{`
                 .grid-container {
-                    flex: 1 1 auto;
+                    flex: 0 1 600px;
                     display: flex;
                     flex-direction: column;
                     z-index: 1;
                     background-color: #131313;
+                    border-radius: 0 12px 10px 0;
                 }
                 .grid {
                     display: flex;
                     flex-direction: row;
-                    padding: 0 8px;
+                    padding: 0 8px 0 0;
                     box-sizing: border-box;
-                    flex: 1 1 0;
+                    flex: 1 1 auto;
                     overflow-y: hidden;
                     overflow-x: scroll;
                 }

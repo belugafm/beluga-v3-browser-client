@@ -251,7 +251,7 @@ export default (props: ServerSideProps) => {
                 }
                 .navigationbar-link:hover {
                     backdrop-filter: blur(10px) saturate(100%);
-                    background-color: rgba(10, 5, 30, 0.5);
+                    background-color: rgba(10, 5, 30, 0.8);
                 }
                 .github-icon {
                     fill: white;

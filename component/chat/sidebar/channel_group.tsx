@@ -20,9 +20,9 @@ const getStyle = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            color: "#6f767d",
+            color: "#7d7d7d",
             hoverColor: "#fff",
-            hoverBackgroundColor: "#111315",
+            hoverBackgroundColor: "rgba(68,68,68,0.5)",
         }
     }
     throw new Error()

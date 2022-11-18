@@ -15,7 +15,6 @@ import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { swrGetLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
-import classnames from "classnames"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
@@ -38,21 +37,8 @@ const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
-            backgroundColor: "#2a2a2a",
-            scrollbarThumbColor: "#616d78",
-        }
-    }
-    if (theme.global.current.dark) {
-        const alpha = 0.96
-        return {
-            color: "#fcfcfc",
-            // backgroundColor: "#1a1c1f",
-            backgroundColor: `rgba(${lerp(17, 26, alpha)}, ${lerp(19, 28, alpha)}, ${lerp(
-                21,
-                31,
-                alpha
-            )}, ${alpha})`,
-            scrollbarThumbColor: "#616d78",
+            backgroundColor: "rgba(30, 30, 30, 0.98)",
+            scrollbarThumbColor: "#787878",
         }
     }
     throw new Error()
@@ -578,6 +564,9 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                     padding: 8px;
                     display: flex;
                     min-height: 300px;
+                }
+                .content-container:first-child {
+                    padding-left: 0;
                 }
                 .content {
                     width: 100%;

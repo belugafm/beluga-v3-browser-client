@@ -37,10 +37,10 @@ const getStyleForEditorButton = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            fill: "#616d78",
+            fill: "#787878",
             hoverFill: "#fcfcfc",
-            backgroundColor: "#0d0e10",
-            hoverBackgroundColor: "#1f2327",
+            backgroundColor: "#0f0f0f",
+            hoverBackgroundColor: "#242424",
         }
     }
     throw new Error()
@@ -54,7 +54,7 @@ const getStyleForDivider = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            backgroundColor: "#2f363c",
+            backgroundColor: "#3c3c3c",
         }
     }
     throw new Error()
@@ -68,7 +68,7 @@ const getStyleForToolbar = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            backgroundColor: "#0d0e10",
+            backgroundColor: "#0f0f0f",
         }
     }
     throw new Error()

@@ -24,20 +24,7 @@ const getStyleForTheme = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            // backgroundColor: "#  ",
-            backgroundColor: "#191919",
-            color: "#6f767d",
-        }
-    }
-    if (theme.global.current.dark) {
-        const alpha = 0.98
-        return {
-            // backgroundColor: "#  ",
-            backgroundColor: `rgba(${rlerp(8, 21, alpha)}, ${rlerp(8, 20, alpha)}, ${rlerp(
-                11,
-                25,
-                alpha
-            )}, ${alpha})`,
+            backgroundColor: "rgba(29, 29, 29, 0.98)",
             color: "#6f767d",
         }
     }
@@ -62,8 +49,9 @@ export const NavigationbarComponent = () => {
                     padding: 24px 16px 0 16px;
                     display: flex;
                     flex-direction: column;
-                    width: 80px;
+                    width: 70px;
                     height: 100%;
+                    border-radius: 12px 0 0 12px;
                 }
                 .navigationbar::-webkit-scrollbar {
                     width: 0px;

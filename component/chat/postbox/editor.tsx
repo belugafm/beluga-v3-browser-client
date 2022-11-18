@@ -17,7 +17,7 @@ const getPlaceholderColor = (theme: Themes) => {
         return "#aaa"
     }
     if (theme.global.current.dark) {
-        return "#616d78"
+        return "#646464"
     }
     throw new Error()
 }

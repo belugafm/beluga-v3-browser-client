@@ -24,19 +24,7 @@ const getStyleForTheme = (theme: Themes) => {
     }
     if (theme.global.current.dark) {
         return {
-            backgroundColor: "#131313",
-            color: "#6f767d",
-        }
-    }
-    if (theme.global.current.dark) {
-        const alpha = 0.98
-        return {
-            // backgroundColor: "#  ",
-            backgroundColor: `rgba(${rlerp(17, 26, alpha)}, ${rlerp(19, 28, alpha)}, ${rlerp(
-                21,
-                31,
-                alpha
-            )}, ${alpha})`,
+            backgroundColor: "rgba(16,16,16,0.98)",
             color: "#6f767d",
         }
     }

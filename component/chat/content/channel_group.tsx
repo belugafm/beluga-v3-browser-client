@@ -1,0 +1,199 @@
+import React, { useContext, useState } from "react"
+import { Themes, useTheme } from "../../theme"
+
+import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import { DomainDataContext } from "../../../state/chat/store/domain_data"
+import { HeaderComponent } from "./header"
+import { PostboxComponent } from "../postbox"
+import { TooltipActionContext } from "../../../state/component/tooltip"
+import classnames from "classnames"
+import { TimelineComponent } from "./timeline"
+
+const lerp = (a: number, b: number, ratio: number) => {
+    return a * (1 - ratio) + b * ratio
+}
+
+const getStyleForTheme = (theme: Themes) => {
+    if (theme.global.current.light) {
+        const alpha = 0.95
+        return {
+            color: "#000",
+            // backgroundColor: "#fff",
+            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
+                244,
+                255,
+                alpha
+            )}, ${alpha})`,
+        }
+    }
+    if (theme.global.current.dark) {
+        return {
+            color: "#fcfcfc",
+            tabActiveColor: "#fcfcfc",
+            tabInactiveColor: "#dcdcdc",
+            tabActiveBorderColor: "#ffffff",
+            tabHoverBorderColor: "#787878",
+            tabBorderColor: "#373737",
+            backgroundColor: "rgba(30, 30, 30, 0.98)",
+            headerBackgroundColor: "rgba(37, 37, 37, 0.98)",
+        }
+    }
+    throw new Error()
+}
+
+export const ChannelGroupContentComponent = ({ content }: { content: ContentStateT }) => {
+    console.debug("ChannelGroupContentComponent::render")
+    const domainData = useContext(DomainDataContext)
+    const tooltipAction = useContext(TooltipActionContext)
+    const [theme] = useTheme()
+    const [tabIndex, setTabIndex] = useState(0)
+    if (content.context.channelGroupId == null) {
+        return null
+    }
+    const channelGroup = domainData.channelGroups.get(content.context.channelGroupId)
+    if (channelGroup == null) {
+        return null
+    }
+    return (
+        <>
+            <div
+                className={classnames("content-container cover-image-container", {
+                    hidden: channelGroup.image_url == null,
+                })}>
+                <img className="cover-image" src={channelGroup.image_url} />
+            </div>
+            <div className="content-container">
+                <div className="content translucent">
+                    <div className="header">
+                        <HeaderComponent content={content} />
+                        <div className="tab">
+                            <a
+                                className={classnames("tab-item", {
+                                    active: tabIndex == 0,
+                                })}
+                                href="#description"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setTabIndex(0)
+                                }}>
+                                概要
+                            </a>
+                            <a
+                                className={classnames("tab-item", {
+                                    active: tabIndex == 1,
+                                })}
+                                href="#timeline"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setTabIndex(1)
+                                }}>
+                                タイムライン
+                            </a>
+                        </div>
+                    </div>
+                    <div
+                        className={classnames("desctiption-container", {
+                            hidden: tabIndex != 0,
+                        })}>
+                        <div className="description">{channelGroup.description}</div>
+                    </div>
+                    <div
+                        className={classnames({
+                            hidden: tabIndex != 1,
+                        })}>
+                        <TimelineComponent content={content} />
+                    </div>
+                    <div className="postbox">
+                        <PostboxComponent content={content} tooltipAction={tooltipAction} />
+                    </div>
+                </div>
+            </div>
+            <style jsx>{`
+                .content-container {
+                    flex: 1 1 auto;
+                    padding: 8px;
+                    display: flex;
+                    min-height: 0;
+                }
+                .content {
+                    width: 100%;
+                    min-height: 0;
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    box-sizing: border-box;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 8px;
+                }
+                .cover-image-container {
+                    flex: 0 0 auto;
+                    min-height: 0;
+                }
+                .cover-image {
+                    border-radius: 8px;
+                    width: 100%;
+                }
+                .content-container:first-child {
+                    padding-top: 16px;
+                }
+                .content-container:last-child {
+                    padding-bottom: 16px;
+                }
+                .header {
+                    flex: 0 0 auto;
+                    z-index: 3;
+                }
+                .tab {
+                    flex: 0 0 auto;
+                    z-index: 3;
+                    display: flex;
+                    flex-direction: row;
+                    border-bottom: 1px solid transparent;
+                    font-size: 15px;
+                    padding: 0 10px;
+                }
+                .tab-item {
+                    text-decoration: none;
+                    padding: 0 10px 10px 10px;
+                    margin: 0 10px;
+                    border-bottom: 2px solid transparent;
+                }
+                .postbox {
+                    flex: 0 0 auto;
+                    z-index: 2;
+                }
+                .hidden {
+                    display: none;
+                }
+                .desctiption-container {
+                    padding: 20px;
+                }
+            `}</style>
+            <style jsx>{`
+                .content-container {
+                    color: ${getStyleForTheme(theme)["color"]};
+                }
+                .content {
+                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                }
+                .tab-item {
+                    color: ${getStyleForTheme(theme)["tabInactiveColor"]};
+                }
+                .tab-item.active {
+                    color: ${getStyleForTheme(theme)["tabActiveColor"]};
+                    border-color: ${getStyleForTheme(theme)["tabActiveBorderColor"]};
+                }
+                .tab-item:hover {
+                    border-color: ${getStyleForTheme(theme)["tabHoverBorderColor"]};
+                }
+                .tab-item.active:hover {
+                    border-color: ${getStyleForTheme(theme)["tabActiveBorderColor"]};
+                }
+                .tab {
+                    border-color: ${getStyleForTheme(theme)["tabBorderColor"]};
+                }
+            `}</style>
+        </>
+    )
+}

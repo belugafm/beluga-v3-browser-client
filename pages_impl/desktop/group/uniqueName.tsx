@@ -1,6 +1,5 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { AccountMenuComponent } from "../../../component/chat/sidebar/account_menu"
 import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
@@ -8,13 +7,14 @@ import { ContainerComponent } from "../../../component/chat/container"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
 import { HeaderComponent } from "../../../component/chat/header"
-import { LogoSidebarComponent } from "../../../component/chat/sidebar/logo"
 import { SVGComponent } from "../../../component/chat/svg"
 import { SidebarComponent } from "../../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel_group/combined/page"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
+import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { SearchComponent } from "../../../component/chat/sidebar/search"
 
 export default ({ theme, query }) => {
     const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
@@ -54,10 +54,9 @@ export default ({ theme, query }) => {
                             channelGroups,
                         },
                     }}>
-                    <HeaderComponent />
+                    <NavigationbarComponent />
                     <SidebarComponent>
-                        <LogoSidebarComponent />
-                        <AccountMenuComponent />
+                        <SearchComponent />
                         <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
                         <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
                         <EmptyComponent

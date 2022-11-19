@@ -1,6 +1,6 @@
 import { Themes, useTheme } from "../../theme"
 
-import { ChannelObjectT } from "../../../api/object"
+import { ChannelGroupObjectT, ChannelObjectT } from "../../../api/object"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { useContext } from "react"
@@ -8,18 +8,14 @@ import { useContext } from "react"
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            arrowColor: "#6f767d",
-            hoverArrowColor: "#000",
-            borderColor: "0 0 6px 3px rgba(255, 255, 255, 0.5)",
-            hoverBackgroundColor: "#f4f4f4",
+            color: "#000",
+            iconColor: "#fff",
         }
     }
     if (theme.global.current.dark) {
         return {
-            arrowColor: "#6f767d",
-            hoverArrowColor: "#fff",
-            borderColor: "rgb(10, 10, 10)",
-            hoverBackgroundColor: "#111315",
+            color: "#fff",
+            iconColor: "#a0a0a0",
         }
     }
     throw new Error()
@@ -93,6 +89,68 @@ export const ChannelHeaderComponent = ({
     )
 }
 
+export const ChannelGroupHeaderComponent = ({
+    channelGroup,
+    theme,
+}: {
+    channelGroup: ChannelGroupObjectT
+    theme: Themes
+}) => {
+    return (
+        <div className="header">
+            <div className="name-container">
+                <span className="name">{channelGroup.name}</span>
+            </div>
+            <div className="metadata-container">
+                <div className="message-count">
+                    <svg className="icon">
+                        <use href="#icon-chat"></use>
+                    </svg>
+                    <span className="value">{channelGroup.message_count}</span>
+                </div>
+            </div>
+            <style jsx>{`
+                .header {
+                    display: flex;
+                    flex-direction: row;
+                    box-sizing: border-box;
+                    padding: 20px;
+                }
+                .name-container {
+                    flex: 1 1 auto;
+                }
+                .name {
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                .metadata-container {
+                    flex: 0 0 auto;
+                }
+                .message-count {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+                .icon {
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 4px;
+                    stroke-width: 0.5px;
+                }
+            `}</style>
+            <style jsx>{`
+                .header {
+                    color: ${getStyle(theme)["color"]};
+                }
+                .icon {
+                    fill: ${getStyle(theme)["iconColor"]};
+                    stroke: ${getStyle(theme)["iconColor"]};
+                }
+            `}</style>
+        </div>
+    )
+}
+
 export const HeaderComponent = ({ content }: { content: ContentStateT }) => {
     const [theme] = useTheme()
     const domainData = useContext(DomainDataContext)
@@ -100,6 +158,12 @@ export const HeaderComponent = ({ content }: { content: ContentStateT }) => {
         const channel = domainData.channels.get(content.context.channelId)
         if (channel) {
             return <ChannelHeaderComponent channel={channel} theme={theme} />
+        }
+    }
+    if (content.context.channelGroupId) {
+        const channelGroup = domainData.channelGroups.get(content.context.channelGroupId)
+        if (channelGroup) {
+            return <ChannelGroupHeaderComponent channelGroup={channelGroup} theme={theme} />
         }
     }
     return null

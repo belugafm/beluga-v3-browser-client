@@ -356,8 +356,8 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) =>
         if (theme.global.current.dark) {
             return {
                 color: "#fcfcfc",
-                borderColor: "#080a0b",
-                backgroundColor: "#15171a",
+                borderColor: "#3c3c3c",
+                backgroundColor: "#2c2c2c",
             }
         }
         throw new Error()
@@ -397,70 +397,8 @@ const isEmpty = (content: ContentStateT) => {
     return false
 }
 
-const DebugMessageComponent = ({ scrollerState }: { scrollerState: ScrollerState }) => {
-    return null
-    return (
-        <div className="debug-message">
-            <div className="panel">
-                <p>
-                    <span className="key">shouldNotifyNewMessages:</span>
-                    <span className="value">
-                        {scrollerState.shouldNotifyNewMessages ? "true" : "false"}
-                    </span>
-                </p>
-            </div>
-            <div className="panel">
-                <p>
-                    <span className="key">hasReachedBottom:</span>
-                    <span className="value">
-                        {scrollerState.hasReachedBottom ? "true" : "false"}
-                    </span>
-                </p>
-                <p>
-                    <span className="key">forceScrollToBottom:</span>
-                    <span className="value">
-                        {scrollerState.forceScrollToBottom ? "true" : "false"}
-                    </span>
-                </p>
-            </div>
-            <div className="panel">
-                <p>
-                    <span className="key">hasReachedTop:</span>
-                    <span className="value">{scrollerState.hasReachedTop ? "true" : "false"}</span>
-                </p>
-                <p>
-                    <span className="key">lastReadLatestMessageId:</span>
-                    <span className="value">{scrollerState.lastReadLatestMessageId}</span>
-                </p>
-            </div>
-            <style jsx>{`
-                .debug-message {
-                    flex: 0 0 auto;
-                    text-align: right;
-                    font-size: 11px;
-                    display: flex;
-                    flex-direction: row;
-                }
-                .panel {
-                    flex: 1 1 auto;
-                }
-                p {
-                    line-height: 11px;
-                }
-                span {
-                    display: inline-block;
-                }
-                .value {
-                    font-weight: 500;
-                    width: 30px;
-                }
-            `}</style>
-        </div>
-    )
-}
-
-export const ContentComponent = ({ content }: { content: ContentStateT }) => {
-    console.debug("ContentComponent::render")
+export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
+    console.debug("TimelineComponent::render")
     const domainData = useContext(DomainDataContext)
     const messageAction = useContext(MessageActionContext)
     const contentAction = useContext(ContentActionContext)
@@ -532,67 +470,19 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
     }
     return (
         <>
-            <div className="content-container">
-                <div className="content translucent">
-                    <div className="menu">
-                        <HeaderComponent content={content} />
-                        <DebugMessageComponent scrollerState={scrollerState} />
-                    </div>
-                    <div className="scroller-container">
-                        <div
-                            className="scroller"
-                            ref={scrollerRef}
-                            onScroll={scrollerState.handleScroll}>
-                            <div className="message-container">{messageComponentList}</div>
-                        </div>
-                        <NewMessageNotificationButton scrollerState={scrollerState} theme={theme} />
-                        <ShowLatestMessagesButton
-                            scrollerState={scrollerState}
-                            content={content}
-                            contentAction={contentAction}
-                            theme={theme}
-                        />
-                    </div>
-                    <div className="postbox">
-                        <PostboxComponent content={content} tooltipAction={tooltipAction} />
-                    </div>
+            <div className="scroller-container">
+                <div className="scroller" ref={scrollerRef} onScroll={scrollerState.handleScroll}>
+                    <div className="message-container">{messageComponentList}</div>
                 </div>
+                <NewMessageNotificationButton scrollerState={scrollerState} theme={theme} />
+                <ShowLatestMessagesButton
+                    scrollerState={scrollerState}
+                    content={content}
+                    contentAction={contentAction}
+                    theme={theme}
+                />
             </div>
             <style jsx>{`
-                .content-container {
-                    flex: 1 1 auto;
-                    padding: 8px;
-                    display: flex;
-                    min-height: 300px;
-                }
-                .content-container:first-child {
-                    padding-left: 0;
-                }
-                .content {
-                    width: 100%;
-                    min-height: 0;
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
-                    box-sizing: border-box;
-                    border-radius: 8px;
-                    position: relative;
-                    overflow: hidden;
-                }
-                .content-container:first-child {
-                    padding-top: 16px;
-                }
-                .content-container:last-child {
-                    padding-bottom: 16px;
-                }
-                .menu {
-                    flex: 0 0 auto;
-                    z-index: 3;
-                }
-                .postbox {
-                    flex: 0 0 auto;
-                    z-index: 2;
-                }
                 .scroller-container {
                     padding: 0;
                     margin: 0;
@@ -637,12 +527,6 @@ export const ContentComponent = ({ content }: { content: ContentStateT }) => {
                 }
             `}</style>
             <style jsx>{`
-                .content-container {
-                    color: ${getStyleForTheme(theme)["color"]};
-                }
-                .content {
-                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                }
                 .scroller:hover::-webkit-scrollbar-thumb {
                     background-color: ${getStyleForTheme(theme)["scrollbarThumbColor"]};
                 }

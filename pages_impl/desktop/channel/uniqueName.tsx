@@ -1,6 +1,5 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
 import { ContainerComponent } from "../../../component/chat/container"
@@ -8,7 +7,6 @@ import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
 import { SVGComponent } from "../../../component/chat/svg"
 import { SidebarComponent } from "../../../component/chat/sidebar"
-import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel/combined/page"
 import { ServerSideProps } from "../../../component/chat/next"
@@ -53,22 +51,18 @@ export default ({ theme, query }: ServerSideProps) => {
                             channelGroups,
                         },
                     }}>
-                    <BackgroundImageBackdropFilterComponent url={null}>
-                        <NavigationbarComponent />
-                        <SidebarComponent>
-                            <SearchComponent />
-                            <ChannelGroupListComponent
-                                channelGroupIds={channelGroups.map(
-                                    (channelGroup) => channelGroup.id
-                                )}
-                            />
-                            <ChannelListComponent
-                                activeChannelId={channel.id}
-                                channelIds={channels.map((channel) => channel.id)}
-                            />
-                        </SidebarComponent>
-                        <ContentGridComponent />
-                    </BackgroundImageBackdropFilterComponent>
+                    <NavigationbarComponent />
+                    <SidebarComponent>
+                        <SearchComponent />
+                        <ChannelGroupListComponent
+                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
+                        />
+                        <ChannelListComponent
+                            activeChannelId={channel.id}
+                            channelIds={channels.map((channel) => channel.id)}
+                        />
+                    </SidebarComponent>
+                    <ContentGridComponent />
                 </ContainerComponent>
             </ThemeProvider>
         </>

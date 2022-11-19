@@ -35,7 +35,7 @@ export type ChannelGroupObjectT = {
     created_by: UserId
     level: number
     channels_count: number
-    statuses_count: number
+    message_count: number
     creator: UserObjectT | null
     last_message_created_at: number | null
     last_message_id: MessageId | null

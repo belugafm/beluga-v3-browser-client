@@ -10,7 +10,7 @@ import { TooltipActionContext } from "../../../state/component/tooltip"
 
 import { ChannelDescriptionModalActionContext } from "./channel_modal"
 import { ChannelHeaderComponent } from "../../chat/content/header"
-import { CheckIsConsecutivePost } from "../../chat/content/content"
+import { CheckIsConsecutivePost } from "../../chat/content/channel"
 import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"

@@ -209,7 +209,7 @@ export function copyChannelGroup(
         name: channelGroup.name,
         level: channelGroup.level,
         channels_count: channelGroup.channels_count,
-        statuses_count: channelGroup.statuses_count,
+        message_count: channelGroup.message_count,
         created_at: channelGroup.created_at,
         created_by: channelGroup.created_by,
         creator: copyUser(channelGroup.creator),

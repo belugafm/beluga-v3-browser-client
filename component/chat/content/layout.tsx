@@ -1,11 +1,14 @@
 import React, { useContext } from "react"
 
 import { AppStateContext } from "../../../state/chat/store/app_state"
+import { useTheme } from "../../theme"
+import { getStyleForTheme } from "../sidebar"
 import { ContentColumnComponent } from "./column"
 
 export const ContentGridComponent = () => {
     console.debug("ContentGridComponent::render")
     const appState = useContext(AppStateContext)
+    const [theme] = useTheme()
     return (
         <>
             <div className="grid-container">
@@ -18,11 +21,15 @@ export const ContentGridComponent = () => {
             </div>
             <style jsx>{`
                 .grid-container {
+                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                }
+            `}</style>
+            <style jsx>{`
+                .grid-container {
                     flex: 0 1 600px;
                     display: flex;
                     flex-direction: column;
                     z-index: 1;
-                    background-color: #131313;
                     border-radius: 0 12px 10px 0;
                 }
                 .grid {

@@ -9,7 +9,7 @@ const rlerp = (a: number, b: number, ratio: number) => {
     return (b - a * (1 - ratio)) / ratio
 }
 
-const getStyleForTheme = (theme: Themes) => {
+export const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
         const alpha = 0.96
         return {
@@ -50,7 +50,7 @@ export const SidebarComponent = ({ children }) => {
                         transition-property: background-color;
                         width: 300px;
                         box-sizing: border-box;
-                        padding: 24px 16px 0 16px;
+                        padding: 24px 8px 0 16px;
                         display: flex;
                         flex-direction: column;
                         -webkit-overflow-scrolling: touch;

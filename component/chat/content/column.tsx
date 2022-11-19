@@ -1,6 +1,8 @@
-import { ContentComponent } from "./content"
+import { ChannelContentComponent } from "./channel"
+import { ChannelGroupContentComponent } from "./channel_group"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import React from "react"
+import { ContentType } from "../../../state/chat/store/app_state"
 
 export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentStateT[] }) => {
     console.debug("ContentColumnComponent::render")
@@ -8,7 +10,12 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
         <div className="container">
             <div className="rows">
                 {contentRows.map((content, index) => {
-                    return <ContentComponent key={index} content={content} />
+                    if (content.type == ContentType.Channel) {
+                        return <ChannelContentComponent key={index} content={content} />
+                    }
+                    if (content.type == ContentType.ChannelGroup) {
+                        return <ChannelGroupContentComponent key={index} content={content} />
+                    }
                 })}
             </div>
             <style jsx>{`
@@ -23,8 +30,6 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
                     display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
-                    overflow-x: visible;
-                    overflow-y: scroll;
                 }
                 .rows::-webkit-scrollbar {
                     width: 0px;

@@ -356,8 +356,8 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) =>
         if (theme.global.current.dark) {
             return {
                 color: "#fcfcfc",
-                borderColor: "#3c3c3c",
-                backgroundColor: "#2c2c2c",
+                borderColor: "#0b0b0b",
+                backgroundColor: "#191919",
             }
         }
         throw new Error()

@@ -98,7 +98,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                         <div className="description">{channelGroup.description}</div>
                     </div>
                     <div
-                        className={classnames({
+                        className={classnames("timeline-container", {
                             hidden: tabIndex != 1,
                         })}>
                         <TimelineComponent content={content} />
@@ -156,18 +156,25 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 .tab-item {
                     text-decoration: none;
                     padding: 0 10px 10px 10px;
-                    margin: 0 10px;
+                    margin: 0 10px -1px 0;
                     border-bottom: 2px solid transparent;
                 }
                 .postbox {
                     flex: 0 0 auto;
                     z-index: 2;
                 }
-                .hidden {
-                    display: none;
-                }
                 .desctiption-container {
                     padding: 20px;
+                }
+                .timeline-container {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .hidden {
+                    display: none;
                 }
             `}</style>
             <style jsx>{`

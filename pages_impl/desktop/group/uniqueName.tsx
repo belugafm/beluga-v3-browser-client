@@ -64,7 +64,6 @@ export default ({ theme, query }) => {
                             channelIds={channelIds}
                             channelGroupId={channelGroup.id}
                         />
-                        <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
                         <ContentGridComponent />

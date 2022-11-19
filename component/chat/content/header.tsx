@@ -5,22 +5,6 @@ import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
 import { useContext } from "react"
 
-const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
-        return {
-            color: "#000",
-            iconColor: "#fff",
-        }
-    }
-    if (theme.global.current.dark) {
-        return {
-            color: "#fff",
-            iconColor: "#a0a0a0",
-        }
-    }
-    throw new Error()
-}
-
 export const ChannelHeaderComponent = ({
     channel,
     theme,
@@ -28,6 +12,25 @@ export const ChannelHeaderComponent = ({
     channel: ChannelObjectT
     theme: Themes
 }) => {
+    const getStyle = (theme: Themes) => {
+        if (theme.global.current.light) {
+            return {
+                arrowColor: "#6f767d",
+                hoverArrowColor: "#000",
+                borderColor: "0 0 6px 3px rgba(255, 255, 255, 0.5)",
+                hoverBackgroundColor: "#f4f4f4",
+            }
+        }
+        if (theme.global.current.dark) {
+            return {
+                arrowColor: "#6f767d",
+                hoverArrowColor: "#fff",
+                borderColor: "#141414",
+                hoverBackgroundColor: "#101010",
+            }
+        }
+        throw new Error()
+    }
     return (
         <div className="header">
             <div className="channel-name-block">
@@ -73,7 +76,7 @@ export const ChannelHeaderComponent = ({
             `}</style>
             <style jsx>{`
                 .header {
-                    border-bottom: 1px solid ${getStyle(theme)["borderColor"]};
+                    border-bottom: 2px solid ${getStyle(theme)["borderColor"]};
                 }
                 .arrow {
                     stroke: ${getStyle(theme)["arrowColor"]};
@@ -96,6 +99,21 @@ export const ChannelGroupHeaderComponent = ({
     channelGroup: ChannelGroupObjectT
     theme: Themes
 }) => {
+    const getStyle = (theme: Themes) => {
+        if (theme.global.current.light) {
+            return {
+                color: "#000",
+                iconColor: "#fff",
+            }
+        }
+        if (theme.global.current.dark) {
+            return {
+                color: "#fff",
+                iconColor: "#a0a0a0",
+            }
+        }
+        throw new Error()
+    }
     return (
         <div className="header">
             <div className="name-container">

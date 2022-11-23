@@ -25,7 +25,7 @@ const getStyleForTheme = (theme: Themes) => {
             <style jsx global>{`
                 body {
                     color: #1a1a1a;
-                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                    background-image: url("/assets/images/bg_06_1920.jpg?4");
                     background-size: 100% auto;
                     background-repeat: repeat-y;
                     background-color: #0a051e;
@@ -38,7 +38,7 @@ const getStyleForTheme = (theme: Themes) => {
             <style jsx global>{`
                 body {
                     color: #fafafa;
-                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                    background-image: url("/assets/images/bg_06_1920.jpg?4");
                     background-size: 100% auto;
                     background-repeat: repeat-y;
                     background-color: #0a051e;

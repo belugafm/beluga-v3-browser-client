@@ -402,7 +402,7 @@ export default (props: ServerSideProps) => {
                 }
                 body {
                     font-family: "M PLUS 1", sans-serif;
-                    background-image: url("/assets/images/bg_06_1920.jpg?1637570884");
+                    background-image: url("/assets/images/bg_06_1920.jpg?7");
                     background-size: 100% auto;
                     background-repeat: repeat-y;
                     background-color: #0a051e;
@@ -414,7 +414,7 @@ export default (props: ServerSideProps) => {
                 }
                 @media screen and (min-width: 1920px) {
                     body {
-                        background-image: url("/assets/images/bg_06_3840.jpg?1637570884");
+                        background-image: url("/assets/images/bg_06_3840.jpg?7");
                     }
                 }
                 #__next {

@@ -8,6 +8,7 @@ import { PostboxComponent } from "../postbox"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import classnames from "classnames"
 import { TimelineComponent } from "./timeline"
+import { ChannelGroupObjectT } from "../../../api/object"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
@@ -54,8 +55,27 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
     if (channelGroup == null) {
         return null
     }
+    let parentChannelGroup = null
+    if (channelGroup.parent_id) {
+        parentChannelGroup = domainData.channelGroups.get(channelGroup.parent_id)
+    }
     return (
         <>
+            <div
+                className={classnames("content-container back-to-parent", {
+                    hidden: parentChannelGroup == null,
+                })}>
+                <div className="content translucent back-to-parent">
+                    <a
+                        className="back-to-parent-link"
+                        href={`/group/${parentChannelGroup?.unique_name}`}>
+                        <svg className="back-arrow-svg">
+                            <use href="#icon-direction-left"></use>
+                        </svg>
+                        <span>{parentChannelGroup?.name}</span>
+                    </a>
+                </div>
+            </div>
             <div
                 className={classnames("content-container cover-image-container", {
                     hidden: channelGroup.image_url == null,
@@ -130,6 +150,32 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     flex: 0 0 auto;
                     min-height: 0;
                 }
+                .content-container.back-to-parent {
+                    flex: 0 0 40px;
+                }
+                .content.back-to-parent {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    padding: 0 10px;
+                }
+                .back-to-parent-link {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    font-size: 15px;
+                    line-height: 40px;
+                    font-weight: bold;
+                    text-decoration: none;
+                }
+                .back-to-parent-link:hover {
+                    text-decoration: underline;
+                }
+                .back-arrow-svg {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 5px;
+                }
                 .cover-image {
                     border-radius: 8px;
                     width: 100%;
@@ -184,6 +230,9 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
                 }
+                .back-to-parent-link {
+                    color: ${getStyleForTheme(theme)["tabInactiveColor"]};
+                }
                 .tab-item {
                     color: ${getStyleForTheme(theme)["tabInactiveColor"]};
                 }
@@ -199,6 +248,9 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 }
                 .tab {
                     border-color: ${getStyleForTheme(theme)["tabBorderColor"]};
+                }
+                .back-arrow-svg {
+                    stroke: ${getStyleForTheme(theme)["tabInactiveColor"]};
                 }
             `}</style>
         </>

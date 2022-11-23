@@ -39,6 +39,8 @@ export type ChannelGroupObjectT = {
     creator: UserObjectT | null
     last_message_created_at: number | null
     last_message_id: MessageId | null
+    parent_id: number | null
+    parent: ChannelGroupObjectT | null
 }
 
 export type ChannelReadStateObjectT = {

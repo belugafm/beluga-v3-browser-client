@@ -101,13 +101,17 @@ export function addChannel(
 }
 
 export function addChannelGroup(
-    community: ChannelGroupObjectT | null,
+    channelGroup: ChannelGroupObjectT | null,
     nextDomainData: DomainDataT
 ): DomainDataT {
-    if (community == null) {
+    if (channelGroup == null) {
         return nextDomainData
     }
-    nextDomainData.channelGroups.update(community.id, community)
+    if (channelGroup.parent) {
+        nextDomainData.channelGroups.update(channelGroup.parent_id, channelGroup.parent)
+        channelGroup.parent = null
+    }
+    nextDomainData.channelGroups.update(channelGroup.id, channelGroup)
     return nextDomainData
 }
 

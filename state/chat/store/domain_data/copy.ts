@@ -215,6 +215,7 @@ export function copyChannelGroup(
         creator: copyUser(channelGroup.creator),
         last_message_id: channelGroup.last_message_id,
         last_message_created_at: channelGroup.last_message_created_at,
+        parent_id: channelGroup.parent_id,
     }
 }
 

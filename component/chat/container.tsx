@@ -27,6 +27,8 @@ const getStyleForTheme = (theme: Themes) => {
                     color: #1a1a1a;
                     background: rgb(240, 240, 240);
                     background-size: 100% auto;
+                    transition-duration: 0.2s;
+                    transition-property: background-color;
                     background-repeat: repeat-y;
                 }
                 #app {
@@ -41,6 +43,8 @@ const getStyleForTheme = (theme: Themes) => {
                 body {
                     color: #fafafa;
                     background: rgb(50, 50, 50);
+                    transition-duration: 0.2s;
+                    transition-property: background-color;
                     background-size: 100% auto;
                     background-repeat: repeat-y;
                 }

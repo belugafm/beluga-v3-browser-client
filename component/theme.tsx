@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react"
 
 import Cookie from "cookie"
+import config from "../config"
 
 type GlobalTheme = {
     light: boolean
@@ -45,7 +46,7 @@ const defaultGlobalThemes = {
 export type Themes = {
     global: {
         current: GlobalTheme
-        setCurrentTheme: (key: string) => any
+        setCurrentTheme: (value: string) => any
     }
     user: UserTheme
 }
@@ -53,23 +54,23 @@ export type Themes = {
 const ThemeContext = createContext<Themes>(null)
 
 export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) => {
-    const [currentGlobalThemeName, setCurrentGlobalThemeName]: [string, (key: string) => any] =
+    const [currentGlobalThemeName, setCurrentGlobalThemeName]: [string, (value: string) => any] =
         useState(defaultGlobalThemeName ? defaultGlobalThemeName : "light")
     return (
         <ThemeContext.Provider
             value={{
                 global: {
                     current: defaultGlobalThemes[currentGlobalThemeName],
-                    setCurrentTheme: (key: string) => {
-                        if (key !== "dark" && key !== "light") {
+                    setCurrentTheme: (value: string) => {
+                        if (value !== "dark" && value !== "light") {
                             return
                         }
-                        document.cookie = Cookie.serialize("theme", key, {
+                        document.cookie = Cookie.serialize("theme", value, {
                             expires: new Date(Date.now() + 86400 * 180),
                             path: "/",
-                            domain: location.host,
+                            domain: config.server.domain,
                         })
-                        setCurrentGlobalThemeName(key)
+                        setCurrentGlobalThemeName(value)
                     },
                 },
                 user: userTheme ? userTheme : getDefaultUserTheme(currentGlobalThemeName),
@@ -79,7 +80,7 @@ export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) =
     )
 }
 
-export const useTheme = (): [Themes, (key: string) => any] => {
+export const useTheme = (): [Themes, (value: string) => any] => {
     const themes: Themes = useContext(ThemeContext)
     return [themes, themes.global.setCurrentTheme]
 }

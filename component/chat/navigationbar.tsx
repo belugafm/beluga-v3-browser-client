@@ -22,55 +22,76 @@ const getStyleForTheme = (theme: Themes) => {
     throw new Error()
 }
 export const NavigationbarComponent = () => {
-    const [theme] = useTheme()
+    const [theme, setTheme] = useTheme()
     return (
         <>
             <div className="navigationbar translucent">
                 <div className="inner">
-                    <a className="button home">
-                        <svg className="icon">
-                            <use href="#icon-home"></use>
-                        </svg>
-                        <div className="modal-container">
-                            <div className="menu">
-                                <p>ホーム</p>
+                    <div className="top-area">
+                        <a className="button home">
+                            <svg className="icon">
+                                <use href="#icon-home"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>ホーム</p>
+                                </div>
+                                <div className="triangle"></div>
                             </div>
-                            <div className="triangle"></div>
-                        </div>
-                    </a>
-                    <a className="button">
-                        <svg className="icon">
-                            <use href="#icon-chat"></use>
-                        </svg>
-                        <div className="modal-container">
-                            <div className="menu">
-                                <p>スレッド</p>
+                        </a>
+                        <a className="button">
+                            <svg className="icon">
+                                <use href="#icon-chat"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>スレッド</p>
+                                </div>
+                                <div className="triangle"></div>
                             </div>
-                            <div className="triangle"></div>
-                        </div>
-                    </a>
-                    <a className="button">
-                        <svg className="icon at">
-                            <use href="#icon-at"></use>
-                        </svg>
-                        <div className="modal-container">
-                            <div className="menu">
-                                <p>通知</p>
+                        </a>
+                        <a className="button">
+                            <svg className="icon at">
+                                <use href="#icon-at"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>通知</p>
+                                </div>
+                                <div className="triangle"></div>
                             </div>
-                            <div className="triangle"></div>
-                        </div>
-                    </a>
-                    <a className="button">
-                        <svg className="icon settings">
-                            <use href="#icon-settings"></use>
-                        </svg>
-                        <div className="modal-container">
-                            <div className="menu">
-                                <p>設定</p>
+                        </a>
+                        <a className="button">
+                            <svg className="icon settings">
+                                <use href="#icon-settings"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>設定</p>
+                                </div>
+                                <div className="triangle"></div>
                             </div>
-                            <div className="triangle"></div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                    <div className="bottom-area">
+                        <a
+                            className="button appearance"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setTheme(theme.global.current.light ? "dark" : "light")
+                                return false
+                            }}>
+                            <svg className="icon">
+                                <use href="#icon-computer"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>外観</p>
+                                </div>
+                                <div className="triangle"></div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <style jsx>{`
@@ -124,9 +145,15 @@ export const NavigationbarComponent = () => {
                     padding-top: 8px;
                     width: 100%;
                     height: 100%;
-                    padding: 24px 16px 0 16px;
+                    padding: 24px 16px 8px 16px;
                     flex-direction: column;
                     border-radius: 12px 0 0 12px;
+                }
+                .top-area {
+                    flex: 1 1 auto;
+                }
+                .bottom-area {
+                    flex: 0 1 auto;
                 }
                 .button {
                     flex: 0 0 auto;

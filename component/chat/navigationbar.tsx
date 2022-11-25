@@ -5,6 +5,8 @@ const getStyleForTheme = (theme: Themes) => {
         return {
             backgroundColor: "rgba(0, 0, 0, 0.9)",
             innerBackgroundColor: "rgba(42, 42, 42, 0.6)",
+            modalBackgroundColor: "rgb(17, 17, 17, 1)",
+            modalColor: "#ffffff",
             color: "#383838",
         }
     }
@@ -12,6 +14,8 @@ const getStyleForTheme = (theme: Themes) => {
         return {
             backgroundColor: "rgba(0, 0, 0, 0.9)",
             innerBackgroundColor: "rgba(42, 42, 42, 0.5)",
+            modalBackgroundColor: "rgba(42, 42, 42, 1)",
+            modalColor: "#ffffff",
             color: "#6f767d",
         }
     }
@@ -76,6 +80,13 @@ export const NavigationbarComponent = () => {
                 }
                 .inner {
                     background-color: ${getStyleForTheme(theme)["innerBackgroundColor"]};
+                }
+                .modal-container {
+                    background-color: ${getStyleForTheme(theme)["modalBackgroundColor"]};
+                    color: ${getStyleForTheme(theme)["modalColor"]};
+                }
+                .triangle {
+                    background-color: ${getStyleForTheme(theme)["modalBackgroundColor"]};
                 }
             `}</style>
             <style jsx>{`
@@ -182,11 +193,9 @@ export const NavigationbarComponent = () => {
                     height: 38px;
                     box-sizing: border-box;
                     word-break: keep-all;
-                    background-color: rgba(42, 42, 42, 1);
                     box-shadow: ;
                     border-radius: 8px;
                     opacity: 1;
-                    color: white;
                 }
                 .modal-container.hidden {
                     z-index: 0;
@@ -202,7 +211,6 @@ export const NavigationbarComponent = () => {
                     position: absolute;
                     width: 8px;
                     height: 8px;
-                    background-color: rgba(42, 42, 42, 1);
                     transform: rotate(45deg);
                     top: calc(50% - 4px);
                     left: -4px;

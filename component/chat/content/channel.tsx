@@ -16,18 +16,15 @@ const getStyleForTheme = (theme: Themes) => {
         const alpha = 0.95
         return {
             color: "#000",
-            // backgroundColor: "#fff",
-            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
-                244,
-                255,
-                alpha
-            )}, ${alpha})`,
+            backgroundColor: "#fff",
+            dropShadow: "drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.05))",
         }
     }
     if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
+            dropShadow: "none",
         }
     }
     throw new Error()
@@ -68,12 +65,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                     position: relative;
                     overflow: hidden;
                 }
-                .content-container:first-child {
-                    padding-top: 16px;
-                }
-                .content-container:last-child {
-                    padding-bottom: 16px;
-                }
                 .menu {
                     flex: 0 0 auto;
                     z-index: 3;
@@ -86,6 +77,7 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
             <style jsx>{`
                 .content-container {
                     color: ${getStyleForTheme(theme)["color"]};
+                    filter: ${getStyleForTheme(theme)["dropShadow"]};
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};

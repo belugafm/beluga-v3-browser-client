@@ -25,10 +25,12 @@ const getStyleForTheme = (theme: Themes) => {
             <style jsx global>{`
                 body {
                     color: #1a1a1a;
-                    background-image: url("/assets/images/bg_06_1920.jpg?4");
+                    background: rgb(240, 240, 240);
                     background-size: 100% auto;
                     background-repeat: repeat-y;
-                    background-color: #0a051e;
+                }
+                #app {
+                    filter: drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.05));
                 }
             `}</style>
         )
@@ -38,10 +40,9 @@ const getStyleForTheme = (theme: Themes) => {
             <style jsx global>{`
                 body {
                     color: #fafafa;
-                    background-image: url("/assets/images/bg_06_1920.jpg?4");
+                    background: rgb(50, 50, 50);
                     background-size: 100% auto;
                     background-repeat: repeat-y;
-                    background-color: #0a051e;
                 }
             `}</style>
         )
@@ -108,7 +109,7 @@ export const ContainerComponent = ({
     }
     return (
         <>
-            <div className="app">
+            <div id="app">
                 <AppStateContext.Provider value={appState}>
                     <DomainDataContext.Provider value={domainData}>
                         <ReducerContext.Provider value={reducers}>
@@ -127,7 +128,7 @@ export const ContainerComponent = ({
                 <TooltipComponent {...state} />
             </div>
             <style jsx>{`
-                .app {
+                #app {
                     background-size: 100% auto;
                     height: 100vh;
                     width: 100vw;

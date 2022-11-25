@@ -30,6 +30,7 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
                     display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
+                    padding: 8px 0;
                 }
                 .rows::-webkit-scrollbar {
                     width: 0px;

@@ -1,25 +1,11 @@
 import { SidebarStateContext, useSidebarComponentState } from "../../state/component/sidebar"
 import { Themes, useTheme } from "../theme"
 
-const lerp = (a: number, b: number, ratio: number) => {
-    return a * (1 - ratio) + b * ratio
-}
-
-const rlerp = (a: number, b: number, ratio: number) => {
-    return (b - a * (1 - ratio)) / ratio
-}
-
 export const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
-        const alpha = 0.96
         return {
-            // backgroundColor: "#fff",
-            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
-                244,
-                255,
-                alpha
-            )}, ${alpha})`,
-            color: "#383838",
+            backgroundColor: "rgb(250,250,250)",
+            color: "#6f767d",
         }
     }
     if (theme.global.current.dark) {
@@ -41,16 +27,17 @@ export const SidebarComponent = ({ children }) => {
                     .sidebar {
                         background-color: ${getStyleForTheme(theme)["backgroundColor"]};
                         color: ${getStyleForTheme(theme)["color"]};
-                        height: 100%;
                     }
                 `}</style>
                 <style jsx>{`
                     .sidebar {
+                        height: 100%;
                         transition-duration: 0.2s;
                         transition-property: background-color;
                         width: 300px;
+                        padding: 16px 8px 0 16px;
                         box-sizing: border-box;
-                        padding: 24px 8px 0 16px;
+                        box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
                         -webkit-overflow-scrolling: touch;

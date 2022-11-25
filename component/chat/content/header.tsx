@@ -15,9 +15,9 @@ export const ChannelHeaderComponent = ({
     const getStyle = (theme: Themes) => {
         if (theme.global.current.light) {
             return {
-                arrowColor: "#6f767d",
+                arrowColor: "#7d7d7d",
                 hoverArrowColor: "#000",
-                borderColor: "0 0 6px 3px rgba(255, 255, 255, 0.5)",
+                borderColor: "#eee",
                 hoverBackgroundColor: "#f4f4f4",
             }
         }
@@ -103,7 +103,7 @@ export const ChannelGroupHeaderComponent = ({
         if (theme.global.current.light) {
             return {
                 color: "#000",
-                iconColor: "#fff",
+                iconColor: "#000",
             }
         }
         if (theme.global.current.dark) {

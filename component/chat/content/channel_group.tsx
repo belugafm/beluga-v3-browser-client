@@ -8,23 +8,18 @@ import { PostboxComponent } from "../postbox"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import classnames from "classnames"
 import { TimelineComponent } from "./timeline"
-import { ChannelGroupObjectT } from "../../../api/object"
-
-const lerp = (a: number, b: number, ratio: number) => {
-    return a * (1 - ratio) + b * ratio
-}
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
-        const alpha = 0.95
         return {
             color: "#000",
-            // backgroundColor: "#fff",
-            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
-                244,
-                255,
-                alpha
-            )}, ${alpha})`,
+            backgroundColor: "#fff",
+            tabActiveColor: "#111111",
+            tabInactiveColor: "#555555",
+            tabActiveBorderColor: "#000000",
+            tabHoverBorderColor: "#999999",
+            tabBorderColor: "#dddddd",
+            dropShadow: "drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.05))",
         }
     }
     if (theme.global.current.dark) {
@@ -36,7 +31,7 @@ const getStyleForTheme = (theme: Themes) => {
             tabHoverBorderColor: "#787878",
             tabBorderColor: "#373737",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
-            headerBackgroundColor: "rgba(37, 37, 37, 0.98)",
+            dropShadow: "none",
         }
     }
     throw new Error()
@@ -180,12 +175,6 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     border-radius: 8px;
                     width: 100%;
                 }
-                .content-container:first-child {
-                    padding-top: 16px;
-                }
-                .content-container:last-child {
-                    padding-bottom: 16px;
-                }
                 .header {
                     flex: 0 0 auto;
                     z-index: 3;
@@ -226,12 +215,13 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
             <style jsx>{`
                 .content-container {
                     color: ${getStyleForTheme(theme)["color"]};
+                    filter: ${getStyleForTheme(theme)["dropShadow"]};
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
                 }
                 .back-to-parent-link {
-                    color: ${getStyleForTheme(theme)["tabInactiveColor"]};
+                    color: ${getStyleForTheme(theme)["color"]};
                 }
                 .tab-item {
                     color: ${getStyleForTheme(theme)["tabInactiveColor"]};
@@ -250,7 +240,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     border-color: ${getStyleForTheme(theme)["tabBorderColor"]};
                 }
                 .back-arrow-svg {
-                    stroke: ${getStyleForTheme(theme)["tabInactiveColor"]};
+                    stroke: ${getStyleForTheme(theme)["color"]};
                 }
             `}</style>
         </>

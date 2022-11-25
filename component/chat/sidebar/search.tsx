@@ -3,7 +3,7 @@ import { Themes, useTheme } from "../../theme"
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            backgroundColor: "#f4f4f4",
+            backgroundColor: "#ededed",
             focusBackgroundColor: "#fff",
             focusBorderColor: "#2a85ff",
             fill: "#6f767d",

@@ -64,11 +64,13 @@ const getStyleForToolbar = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#fafafa",
+            borderColor: "1px solid #f0f0f0",
         }
     }
     if (theme.global.current.dark) {
         return {
             backgroundColor: "#0f0f0f",
+            borderColor: "none",
         }
     }
     throw new Error()
@@ -509,6 +511,7 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             <style jsx>{`
                 .text-attribute-block {
                     background-color: ${getStyleForToolbar(theme)["backgroundColor"]};
+                    border-bottom: ${getStyleForToolbar(theme)["borderColor"]};
                 }
                 .editor-button {
                     color: ${getStyleForEditorButton(theme)["fill"]};

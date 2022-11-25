@@ -13,14 +13,16 @@ import { useContext } from "react"
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            color: "#6f767d",
-            hoverColor: "#090a0b",
-            hoverBackgroundColor: "#f4f4f4",
+            color: "#646464",
+            labelColor: "#323232",
+            hoverColor: "#000000",
+            hoverBackgroundColor: "#ededed",
         }
     }
     if (theme.global.current.dark) {
         return {
             color: "#7d7d7d",
+            labelColor: "#7d7d7d",
             hoverColor: "#fff",
             hoverBackgroundColor: "rgba(68,68,68,0.5)",
         }
@@ -271,6 +273,9 @@ export const ChannelGroupListComponent = ({ channelGroupIds }: { channelGroupIds
             <style jsx>{`
                 .header {
                     color: ${getStyle(theme)["color"]};
+                }
+                .label {
+                    color: ${getStyle(theme)["labelColor"]};
                 }
                 .icon-down {
                     fill: ${getStyle(theme)["color"]};

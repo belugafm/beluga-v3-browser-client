@@ -54,7 +54,7 @@ const ThemeContext = createContext<Themes>(null)
 
 export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) => {
     const [currentGlobalThemeName, setCurrentGlobalThemeName]: [string, (key: string) => any] =
-        useState(defaultGlobalThemeName ? defaultGlobalThemeName : "dark")
+        useState(defaultGlobalThemeName ? defaultGlobalThemeName : "light")
     return (
         <ThemeContext.Provider
             value={{

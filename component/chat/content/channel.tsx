@@ -17,7 +17,8 @@ const getStyleForTheme = (theme: Themes) => {
         return {
             color: "#000",
             backgroundColor: "#fff",
-            dropShadow: "drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.05))",
+            dropShadow: "drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05))",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
         }
     }
     if (theme.global.current.dark) {
@@ -25,6 +26,7 @@ const getStyleForTheme = (theme: Themes) => {
             color: "#fcfcfc",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
             dropShadow: "none",
+            border: "none",
         }
     }
     throw new Error()
@@ -77,10 +79,11 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
             <style jsx>{`
                 .content-container {
                     color: ${getStyleForTheme(theme)["color"]};
-                    filter: ${getStyleForTheme(theme)["dropShadow"]};
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    filter: ${getStyleForTheme(theme)["dropShadow"]};
+                    border: ${getStyleForTheme(theme)["border"]};
                 }
             `}</style>
         </>

@@ -19,7 +19,7 @@ const getStyleForTheme = (theme: Themes) => {
             tabActiveBorderColor: "#000000",
             tabHoverBorderColor: "#999999",
             tabBorderColor: "#dddddd",
-            dropShadow: "drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.05))",
+            dropShadow: "drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05))",
         }
     }
     if (theme.global.current.dark) {

@@ -1,5 +1,3 @@
-import Cookie from "cookie"
-import { GetServerSideProps } from "next"
 import { swrGetLoggedInUser } from "../swr/session"
 import { useTheme } from "./theme"
 

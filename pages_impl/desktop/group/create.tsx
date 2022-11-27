@@ -1,19 +1,18 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { AccountMenuComponent } from "../../../component/chat/sidebar/account_menu"
 import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
 import { ContainerComponent } from "../../../component/chat/container"
 import { CreateChannelGroupFormComponent } from "../../../component/page/channel_group/create"
 import Head from "next/head"
-import { HeaderComponent } from "../../../component/chat/header"
-import { LogoSidebarComponent } from "../../../component/chat/sidebar/logo"
 import { SVGComponent } from "../../../component/chat/svg"
 import { SidebarComponent } from "../../../component/chat/sidebar"
-import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel_group/combined/page"
+import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { SearchComponent } from "../../../component/chat/sidebar/search"
+import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 
 export default ({ theme, query }) => {
     const parentId = query.parent_id ? Math.trunc(query.parent_id) : 1
@@ -34,6 +33,8 @@ export default ({ theme, query }) => {
     if (channelGroups == null) {
         return <div>エラー</div>
     }
+    const channelGroupIds = channelGroups.map((channelGroup) => channelGroup.id)
+    const channelIds = channels.map((channel) => channel.id)
     return (
         <>
             <Head>
@@ -52,18 +53,16 @@ export default ({ theme, query }) => {
                             channelGroups,
                         },
                     }}>
-                    <HeaderComponent />
+                    <NavigationbarComponent />
                     <SidebarComponent>
-                        <LogoSidebarComponent />
-                        <AccountMenuComponent />
-                        <ChannelGroupListComponent
-                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
+                        <SearchComponent />
+                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                        <EmptyComponent
+                            channelGroupIds={channelGroupIds}
+                            channelIds={channelIds}
+                            channelGroupId={channelGroup.id}
                         />
-                        <ChannelListComponent
-                            activeChannelId={null}
-                            channelIds={channels.map((channel) => channel.id)}
-                        />
-                        <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
                         <CreateChannelGroupFormComponent parentId={parentId} />

@@ -30,6 +30,7 @@ export const usePostboxAction = ({
                         })
                     )
                 } catch (error) {
+                    alert(error)
                     if (error instanceof UnexpectedResponseError) {
                         throw error
                     }
@@ -41,6 +42,7 @@ export const usePostboxAction = ({
                 contentAction.appendLatestMessages(content)
                 return true
             } else {
+                alert(response.description)
                 return false
             }
         },

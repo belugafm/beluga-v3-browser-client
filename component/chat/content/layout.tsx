@@ -26,11 +26,11 @@ export const ContentGridComponent = () => {
             `}</style>
             <style jsx>{`
                 .grid-container {
-                    flex: 0 1 600px;
+                    flex: 0 1 700px;
                     display: flex;
                     flex-direction: column;
                     z-index: 1;
-                    border-radius: 0 12px 10px 0;
+                    border-radius: 0 12px 12px 0;
                 }
                 .grid {
                     display: flex;

@@ -7,11 +7,7 @@ import { PostboxComponent } from "../postbox"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { TimelineComponent } from "./timeline"
 
-const lerp = (a: number, b: number, ratio: number) => {
-    return a * (1 - ratio) + b * ratio
-}
-
-const getStyleForTheme = (theme: Themes) => {
+export const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
         const alpha = 0.95
         return {

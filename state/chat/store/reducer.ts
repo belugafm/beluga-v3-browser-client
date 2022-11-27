@@ -22,10 +22,12 @@ export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): R
             queue = queue.then(async () => {
                 try {
                     const [nextStore, response] = await method(store, query)
-                    udpateStore(setStoreActions, store, nextStore)
+                    if (response.ok) {
+                        udpateStore(setStoreActions, store, nextStore)
+                    }
                     resolve(response)
                 } catch (error) {
-                    console.error(error)
+                    console.error("asyncReducer", error)
                 }
                 resolve(null)
             })

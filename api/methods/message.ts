@@ -16,9 +16,6 @@ export const message = {
             channel_id: query.channelId,
             thread_id: query.threadId,
         })
-        if (responce.message == null) {
-            throw new UnexpectedResponseError()
-        }
         return responce
     },
     delete: async (query: { messageId: MessageId }): Promise<Response> => {

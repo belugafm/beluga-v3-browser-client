@@ -7,22 +7,8 @@ import { Themes, useTheme } from "../../theme"
 import { BlueButton } from "../../form/button"
 import { InputComponent } from "../../form/input"
 import { useContext } from "react"
-
-const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
-        return {
-            backgroundColor: "#fff",
-            color: "#383838",
-        }
-    }
-    if (theme.global.current.dark) {
-        return {
-            backgroundColor: "#1a1c1f",
-            color: "#f0f0f0",
-        }
-    }
-    throw new Error()
-}
+import { getStyleForTheme as getSidebarStyleForTheme } from "../../chat/sidebar"
+import { getStyleForTheme as getContentStyleForTheme } from "../../chat/content/channel"
 
 const NameInputForm = () => {
     const { nameField, handleUpdateNameValue } = useContext(CreateChannelGroupFormContext)
@@ -55,39 +41,37 @@ export const CreateChannelGroupFormComponent = ({ parentId }) => {
                 <div className="page">
                     <div className="container">
                         <div className="title">チャンネルグループの新規作成</div>
-                        <div className="create-channel-group">
-                            <div className="card">
-                                <form method="POST" action="" onSubmit={handleSubmit}>
-                                    <NameInputForm />
-                                    <div className="button-container">
-                                        <BlueButton type="submit">作成する</BlueButton>
-                                    </div>
-                                </form>
+                        <form method="POST" action="" onSubmit={handleSubmit}>
+                            <NameInputForm />
+                            <div className="button-container">
+                                <BlueButton type="submit">作成する</BlueButton>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <style jsx>{`
                     .page {
+                        flex: 0 1 700px;
                         display: flex;
                         flex-direction: column;
-                        height: calc(100vh - 80px);
-                        padding: 40px;
-                        max-width: 800px;
-                        margin: 0 auto;
+                        z-index: 1;
+                        border-radius: 0 12px 12px 0;
+                        padding: 16px;
                         box-sizing: border-box;
                     }
                     .container {
+                        flex: 1 1 auto;
+                        min-height: 0;
                         display: flex;
                         flex-direction: column;
-                        flex-grow: 1;
-                        width: 100%;
-                        margin: 0 auto;
+                        border-radius: 8px;
+                        padding: 16px;
+                        box-sizing: border-box;
                     }
                     .title {
                         margin-bottom: 24px;
-                        font-size: 30px;
-                        font-weight: 500;
+                        font-size: 20px;
+                        font-weight: bold;
                     }
                     .card {
                         position: relative;
@@ -96,9 +80,14 @@ export const CreateChannelGroupFormComponent = ({ parentId }) => {
                     }
                 `}</style>
                 <style jsx>{`
-                    .card {
-                        background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                        color: ${getStyleForTheme(theme)["color"]};
+                    .container {
+                        background-color: ${getContentStyleForTheme(theme)["backgroundColor"]};
+                        color: ${getContentStyleForTheme(theme)["color"]};
+                        filter: ${getContentStyleForTheme(theme)["dropShadow"]};
+                        border: ${getContentStyleForTheme(theme)["border"]};
+                    }
+                    .page {
+                        background-color: ${getSidebarStyleForTheme(theme)["backgroundColor"]};
                     }
                 `}</style>
             </CreateChannelGroupFormContext.Provider>

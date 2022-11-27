@@ -348,6 +348,7 @@ export const AppPreviewComponent = (props: {
                     display: flex;
                     flex-direction: column;
                     border-radius: 0 10px 10px 0;
+                    min-width: 0;
                 }
                 .timeline-block {
                     flex: 1 1 auto;

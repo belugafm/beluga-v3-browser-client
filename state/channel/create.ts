@@ -2,23 +2,35 @@ import * as api from "../../api"
 
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { createContext, useState } from "react"
-import { ChannelGroupId } from "../../api/object"
+import { ChannelGroupObjectT } from "../../api/object"
+import { TrustRank } from "../../api/trust_rank"
 
-export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) => {
-    const initialState = {
+export const useCreateChannelFormState = (channelGroup: ChannelGroupObjectT) => {
+    const [nameField, setNameField] = useState({
         errorMessage: [],
         hint: [],
         value: "",
-    }
-
-    const [nameField, setNameField] = useState(initialState)
+    })
+    const [minimumTrustRankField, setMinimumTrustRankField] = useState({
+        errorMessage: [],
+        hint: [],
+        value: TrustRank.Visitor,
+    })
     const [globalErrorMessageField, setGlobalErrorMessageField] = useState({
         errorMessage: [],
         hint: [],
     })
 
-    const handleUpdateNameValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUpdateName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNameField({
+            errorMessage: nameField.errorMessage,
+            hint: nameField.hint,
+            value: event.target.value,
+        })
+    }
+
+    const handleUpdateMinimumTrustRank = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setMinimumTrustRankField({
             errorMessage: nameField.errorMessage,
             hint: nameField.hint,
             value: event.target.value,
@@ -29,7 +41,8 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
         try {
             return await api.channel.create({
                 name: nameField.value,
-                parentChannelGroupId: parentChannelGroupId,
+                parentChannelGroupId: channelGroup.id,
+                minimumTrustRank: minimumTrustRankField.value,
             })
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
@@ -52,6 +65,11 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
                 hint: [],
                 value: nameField.value,
             })
+            setMinimumTrustRankField({
+                errorMessage: [],
+                hint: [],
+                value: minimumTrustRankField.value,
+            })
             const channel = response.channel
             if (channel) {
                 location.href = `/channel/${channel.unique_name}`
@@ -72,6 +90,11 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
                 hint: response.getHint(),
                 value: nameField.value,
             })
+            setMinimumTrustRankField({
+                errorMessage: [],
+                hint: [],
+                value: minimumTrustRankField.value,
+            })
             return
         }
         if (response.argument === "parent_id") {
@@ -84,6 +107,28 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
                 hint: [],
                 value: nameField.value,
             })
+            setMinimumTrustRankField({
+                errorMessage: [],
+                hint: [],
+                value: minimumTrustRankField.value,
+            })
+            return
+        }
+        if (response.argument === "minimum_trust_rank") {
+            setGlobalErrorMessageField({
+                errorMessage: [],
+                hint: [],
+            })
+            setNameField({
+                errorMessage: [],
+                hint: [],
+                value: nameField.value,
+            })
+            setMinimumTrustRankField({
+                errorMessage: response.getErrorMessage(),
+                hint: response.getHint(),
+                value: minimumTrustRankField.value,
+            })
             return
         }
 
@@ -93,6 +138,11 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
             hint: [],
             value: nameField.value,
         })
+        setMinimumTrustRankField({
+            errorMessage: [],
+            hint: [],
+            value: minimumTrustRankField.value,
+        })
         setGlobalErrorMessageField({
             errorMessage: response.getErrorMessage(),
             hint: response.getHint(),
@@ -101,8 +151,10 @@ export const useCreateChannelFormState = (parentChannelGroupId: ChannelGroupId) 
 
     return {
         nameField,
+        minimumTrustRankField,
         globalErrorMessageField,
-        handleUpdateNameValue,
+        handleUpdateName,
+        handleUpdateMinimumTrustRank,
         handleSubmit,
     }
 }
@@ -113,11 +165,17 @@ const context = {
         hint: [],
         value: "",
     },
+    minimumTrustRankField: {
+        errorMessage: [],
+        hint: [],
+        value: "",
+    },
     globalErrorMessageField: {
         errorMessage: [],
         hint: [],
     },
-    handleUpdateNameValue: null,
+    handleUpdateName: null,
+    handleUpdateMinimumTrustRank: null,
 }
 
 export const CreateChannelFormContext = createContext(context)

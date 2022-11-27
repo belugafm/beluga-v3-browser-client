@@ -4,25 +4,13 @@ import { Themes, useTheme } from "../../theme"
 import { BlueButton } from "../../form/button"
 import { InputComponent } from "../../form/input"
 import { useContext } from "react"
-
-const getStyleForTheme = (theme: Themes) => {
-    if (theme.global.current.light) {
-        return {
-            backgroundColor: "#fff",
-            color: "#383838",
-        }
-    }
-    if (theme.global.current.dark) {
-        return {
-            backgroundColor: "#1a1c1f",
-            color: "#f0f0f0",
-        }
-    }
-    throw new Error()
-}
+import { getStyleForTheme as getSidebarStyleForTheme } from "../../chat/sidebar"
+import { getStyleForTheme as getContentStyleForTheme } from "../../chat/content/channel"
+import { ChannelGroupObjectT } from "../../../api/object"
+import { TrustRank } from "../../../api/trust_rank"
 
 const NameInputForm = () => {
-    const { nameField, handleUpdateNameValue } = useContext(CreateChannelFormContext)
+    const { nameField, handleUpdateName } = useContext(CreateChannelFormContext)
     return (
         <InputComponent
             label="チャンネル名"
@@ -31,60 +19,92 @@ const NameInputForm = () => {
             value={nameField.value}
             errorMessage={nameField.errorMessage}
             hint={nameField.hint}
-            onChange={handleUpdateNameValue}
+            onChange={handleUpdateName}
         />
     )
 }
 
-export const CreateChannelFormComponent = ({ parentChannelGroupId }) => {
+const MinimumTrustRankForm = () => {
+    const { minimumTrustRankField, handleUpdateMinimumTrustRank } =
+        useContext(CreateChannelFormContext)
+    return (
+        <>
+            <p>書き込みを許可する最低限の信用ランク</p>
+            <select
+                name="minimum_trust_rank"
+                value={minimumTrustRankField.value}
+                onChange={handleUpdateMinimumTrustRank}>
+                <option value={TrustRank.Visitor}>ビジター</option>
+                <option value={TrustRank.AuthorizedUser}>認証ユーザー</option>
+                <option value={TrustRank.Moderator}>モデレーター</option>
+                <option value={TrustRank.RiskyUser}>不審ユーザー</option>
+            </select>
+            <p>モデレーター ＞ 認証ユーザー ＞ ビジター ＞ 不審ユーザー</p>
+            <p>通常はビジター以上でよい</p>
+        </>
+    )
+}
+
+export const CreateChannelFormComponent = ({
+    channelGroup,
+}: {
+    channelGroup: ChannelGroupObjectT
+}) => {
     const [theme] = useTheme()
-    const { nameField, globalErrorMessageField, handleUpdateNameValue, handleSubmit } =
-        useCreateChannelFormState(parentChannelGroupId)
+    const {
+        nameField,
+        minimumTrustRankField,
+        globalErrorMessageField,
+        handleUpdateName,
+        handleUpdateMinimumTrustRank,
+        handleSubmit,
+    } = useCreateChannelFormState(channelGroup)
 
     return (
         <>
             <CreateChannelFormContext.Provider
                 value={{
                     nameField,
+                    minimumTrustRankField,
                     globalErrorMessageField,
-                    handleUpdateNameValue,
+                    handleUpdateName,
+                    handleUpdateMinimumTrustRank,
                 }}>
                 <div className="page">
                     <div className="container">
                         <div className="title">チャンネルの新規作成</div>
-                        <div className="create-channel">
-                            <div className="card">
-                                <form method="POST" action="" onSubmit={handleSubmit}>
-                                    <NameInputForm />
-                                    <div className="button-container">
-                                        <BlueButton type="submit">作成する</BlueButton>
-                                    </div>
-                                </form>
+                        <form method="POST" action="" onSubmit={handleSubmit}>
+                            <NameInputForm />
+                            <MinimumTrustRankForm />
+                            <div className="button-container">
+                                <BlueButton type="submit">作成する</BlueButton>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <style jsx>{`
                     .page {
+                        flex: 0 1 700px;
                         display: flex;
                         flex-direction: column;
-                        height: calc(100vh - 80px);
-                        padding: 40px;
-                        max-width: 800px;
-                        margin: 0 auto;
+                        z-index: 1;
+                        border-radius: 0 12px 12px 0;
+                        padding: 16px;
                         box-sizing: border-box;
                     }
                     .container {
+                        flex: 1 1 auto;
+                        min-height: 0;
                         display: flex;
                         flex-direction: column;
-                        flex-grow: 1;
-                        width: 100%;
-                        margin: 0 auto;
+                        border-radius: 8px;
+                        padding: 16px;
+                        box-sizing: border-box;
                     }
                     .title {
                         margin-bottom: 24px;
-                        font-size: 30px;
-                        font-weight: 500;
+                        font-size: 20px;
+                        font-weight: bold;
                     }
                     .card {
                         position: relative;
@@ -93,9 +113,14 @@ export const CreateChannelFormComponent = ({ parentChannelGroupId }) => {
                     }
                 `}</style>
                 <style jsx>{`
-                    .card {
-                        background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                        color: ${getStyleForTheme(theme)["color"]};
+                    .container {
+                        background-color: ${getContentStyleForTheme(theme)["backgroundColor"]};
+                        color: ${getContentStyleForTheme(theme)["color"]};
+                        filter: ${getContentStyleForTheme(theme)["dropShadow"]};
+                        border: ${getContentStyleForTheme(theme)["border"]};
+                    }
+                    .page {
+                        background-color: ${getSidebarStyleForTheme(theme)["backgroundColor"]};
                     }
                 `}</style>
             </CreateChannelFormContext.Provider>

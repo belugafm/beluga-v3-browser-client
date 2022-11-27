@@ -306,6 +306,7 @@ export const AppPreviewComponent = (props: {
                                     read_state: null,
                                     name: "パブリックタイムライン",
                                     status_string: "#",
+                                    minimum_trust_rank: "Visitor",
                                 }}
                                 theme={theme}
                             />

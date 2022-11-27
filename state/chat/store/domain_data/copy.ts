@@ -182,6 +182,7 @@ export function copyChannel(channel: ChannelObjectT | null): ChannelObjectT | nu
         last_message: copyMessage(channel.last_message),
         read_state: copyCHannelReadState(channel.read_state),
         parent_channel_group_id: channel.parent_channel_group_id,
+        minimum_trust_rank: channel.minimum_trust_rank,
         parent_channel_group: copyChannelGroup(channel.parent_channel_group),
     }
 }
@@ -215,6 +216,7 @@ export function copyChannelGroup(
         creator: copyUser(channelGroup.creator),
         last_message_id: channelGroup.last_message_id,
         last_message_created_at: channelGroup.last_message_created_at,
+        minimum_trust_rank: channelGroup.minimum_trust_rank,
         parent_id: channelGroup.parent_id,
         parent: copyChannelGroup(channelGroup.parent),
     }

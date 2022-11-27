@@ -12,10 +12,15 @@ function buildPayload(query: { id?: ChannelId; uniqueName?: string }) {
 }
 
 export const channel = {
-    create: (body: { name: string; parentChannelGroupId: ChannelGroupId }): Promise<Response> => {
+    create: (body: {
+        name: string
+        parentChannelGroupId: ChannelGroupId
+        minimumTrustRank: string
+    }): Promise<Response> => {
         return post("channel/create", {
             name: body.name,
             parent_channel_group_id: body.parentChannelGroupId,
+            minimum_trust_rank: body.minimumTrustRank,
         })
     },
     show: async (query: { id?: ChannelId; uniqueName?: string }): Promise<Response> => {

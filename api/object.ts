@@ -41,6 +41,7 @@ export type ChannelGroupObjectT = {
     last_message_id: MessageId | null
     parent_id: number | null
     parent: ChannelGroupObjectT | null
+    minimum_trust_rank: string
 }
 
 export type ChannelReadStateObjectT = {
@@ -67,6 +68,7 @@ export type ChannelObjectT = {
     last_message_created_at: number | null
     last_message: MessageObjectT | null
     read_state: ChannelReadStateObjectT | null
+    minimum_trust_rank: string
 }
 
 export const MessageEntityStyleFormat = {

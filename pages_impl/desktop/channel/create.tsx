@@ -14,6 +14,9 @@ import { SidebarComponent } from "../../../component/chat/sidebar"
 import { SidebarThemeComponent } from "../../../component/chat/sidebar/theme"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel_group/combined/page"
+import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { SearchComponent } from "../../../component/chat/sidebar/search"
+import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 
 export default ({ theme, query }) => {
     const parentChannelGroupId = query.parent_channel_group_id
@@ -36,6 +39,8 @@ export default ({ theme, query }) => {
     if (channelGroups == null) {
         return <div>エラー</div>
     }
+    const channelGroupIds = channelGroups.map((channelGroup) => channelGroup.id)
+    const channelIds = channels.map((channel) => channel.id)
     return (
         <>
             <Head>
@@ -54,21 +59,19 @@ export default ({ theme, query }) => {
                             channelGroups,
                         },
                     }}>
-                    <HeaderComponent />
+                    <NavigationbarComponent />
                     <SidebarComponent>
-                        <LogoSidebarComponent />
-                        <AccountMenuComponent />
-                        <ChannelGroupListComponent
-                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
+                        <SearchComponent />
+                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                        <EmptyComponent
+                            channelGroupIds={channelGroupIds}
+                            channelIds={channelIds}
+                            channelGroupId={channelGroup.id}
                         />
-                        <ChannelListComponent
-                            activeChannelId={null}
-                            channelIds={channels.map((channel) => channel.id)}
-                        />
-                        <SidebarThemeComponent />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
-                        <CreateChannelFormComponent parentChannelGroupId={parentChannelGroupId} />
+                        <CreateChannelFormComponent channelGroup={channelGroup} />
                     </BackgroundImageBackdropFilterComponent>
                 </ContainerComponent>
             </ThemeProvider>

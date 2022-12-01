@@ -26,7 +26,75 @@ const getStyle = (theme: Themes) => {
 
 const CardWithoutImage = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
     const [theme] = useTheme()
-    return null
+    return (
+        <>
+            <a className="card" href={`/group/${channelGroup.unique_name}`}>
+                <div className="meta-block">
+                    <div className="title-block">
+                        <span>{channelGroup.name}</span>
+                    </div>
+                    <div className="stats-block">
+                        <div className="message-count">
+                            <svg className="icon">
+                                <use href="#icon-chat"></use>
+                            </svg>
+                            <span className="value">{channelGroup.message_count}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <style jsx>{`
+                .card {
+                    flex: 0 0 auto;
+                    height: 70px;
+                    display: flex;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    flex-direction: row;
+                    background-color: ${getStyle(theme)["backgroundColor"]};
+                    color: ${getStyle(theme)["color"]};
+                    text-decoration: none;
+                    margin-bottom: 16px;
+                    transition: 0.3s;
+                    box-sizing: border-box;
+                    padding: 0 16px;
+                }
+                .card:hover {
+                    transform: translateY(-3px);
+                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                }
+                .title-block {
+                    display: flex;
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-top: 13px;
+                }
+                .icon {
+                    width: 16px;
+                    height: 16px;
+                    fill: ${getStyle(theme)["color"]};
+                    transition: 0.3s;
+                }
+                .card:hover .icon {
+                    fill: ${getStyle(theme)["hoverColor"]};
+                }
+                .stats-block {
+                    display: flex;
+                    flex-direction: row;
+                }
+                .message-count {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+                .message-count .value {
+                    font-size: 14px;
+                    margin-left: 3px;
+                }
+            `}</style>
+        </>
+    )
 }
 
 const ImageComponent = ({

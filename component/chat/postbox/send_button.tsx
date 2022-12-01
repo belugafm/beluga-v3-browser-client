@@ -354,6 +354,16 @@ function hasStyle(nodes: MessageEntityStyleNode[]) {
     return false
 }
 
+let contextKeyIsDown = false
+let prevListeners = {}
+const addEventListener = (key: string, listener: (e: KeyboardEvent) => void) => {
+    if (key in prevListeners) {
+        window.removeEventListener(key, prevListeners[key])
+    }
+    window.addEventListener(key, listener)
+    prevListeners[key] = listener
+}
+
 export const SendButtonComponent = ({
     theme,
     tooltipAction,
@@ -380,18 +390,9 @@ export const SendButtonComponent = ({
         setTextHasStyle(hasStyle(textStyleMap))
     }, [editor])
 
-    useEffect(() => {
-        return mergeRegister(
-            editor.registerUpdateListener(({ editorState }) => {
-                editorState.read(() => {
-                    updateState()
-                })
-            })
-        )
-    }, [editor, updateState])
-
     const handleClick = useCallback(
         async (event) => {
+            console.log("handleClick", plainText)
             if (plainText.length == 0) {
                 return
             }
@@ -407,6 +408,33 @@ export const SendButtonComponent = ({
         },
         [editor, plainText, textStyle, textHasStyle]
     )
+
+    const contextKeys = ["shift", "control"]
+    useEffect(() => {
+        addEventListener("keyup", (e) => {
+            if (contextKeys.includes(e.key.toLowerCase())) {
+                contextKeyIsDown = false
+            }
+        })
+        addEventListener("keydown", (e) => {
+            if (contextKeys.includes(e.key.toLowerCase())) {
+                contextKeyIsDown = true
+            }
+            if (e.key.toLowerCase() == "enter" && contextKeyIsDown) {
+                handleClick(e)
+            }
+        })
+    }, [handleClick])
+
+    useEffect(() => {
+        return mergeRegister(
+            editor.registerUpdateListener(({ editorState }) => {
+                editorState.read(() => {
+                    updateState()
+                })
+            })
+        )
+    }, [editor, updateState])
 
     return (
         <div

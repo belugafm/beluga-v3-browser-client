@@ -13,7 +13,6 @@ export const getStyleForTheme = (theme: Themes) => {
         return {
             color: "#000",
             backgroundColor: "#fff",
-            dropShadow: "drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05))",
             border: "1px solid rgba(0, 0, 0, 0.08)",
         }
     }
@@ -21,7 +20,6 @@ export const getStyleForTheme = (theme: Themes) => {
         return {
             color: "#fcfcfc",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
-            dropShadow: "none",
             border: "none",
         }
     }
@@ -62,6 +60,7 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                     border-radius: 8px;
                     position: relative;
                     overflow: hidden;
+                    transition-duration: 0.2s;
                 }
                 .menu {
                     flex: 0 0 auto;
@@ -78,7 +77,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                    filter: ${getStyleForTheme(theme)["dropShadow"]};
                     border: ${getStyleForTheme(theme)["border"]};
                 }
             `}</style>

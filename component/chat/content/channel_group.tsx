@@ -19,7 +19,7 @@ const getStyleForTheme = (theme: Themes) => {
             tabActiveBorderColor: "#000000",
             tabHoverBorderColor: "#999999",
             tabBorderColor: "#dddddd",
-            dropShadow: "drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05))",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
         }
     }
     if (theme.global.current.dark) {
@@ -31,7 +31,7 @@ const getStyleForTheme = (theme: Themes) => {
             tabHoverBorderColor: "#787878",
             tabBorderColor: "#373737",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
-            dropShadow: "none",
+            border: "none",
         }
     }
     throw new Error()
@@ -140,6 +140,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     position: relative;
                     overflow: hidden;
                     border-radius: 8px;
+                    transition-duration: 0.2s;
                 }
                 .cover-image-container {
                     flex: 0 0 auto;
@@ -215,10 +216,10 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
             <style jsx>{`
                 .content-container {
                     color: ${getStyleForTheme(theme)["color"]};
-                    filter: ${getStyleForTheme(theme)["dropShadow"]};
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    border: ${getStyleForTheme(theme)["border"]};
                 }
                 .back-to-parent-link {
                     color: ${getStyleForTheme(theme)["color"]};

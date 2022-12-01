@@ -31,6 +31,7 @@ export const ContentGridComponent = () => {
                     flex-direction: column;
                     z-index: 1;
                     border-radius: 0 12px 12px 0;
+                    transition-duration: 0.2s;
                 }
                 .grid {
                     display: flex;

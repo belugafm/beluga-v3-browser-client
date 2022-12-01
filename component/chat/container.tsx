@@ -32,8 +32,7 @@ const getStyleForTheme = (theme: Themes) => {
                     background-repeat: repeat-y;
                 }
                 #app {
-                    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05))
-                        drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.08));
+                    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.08));
                 }
             `}</style>
         )

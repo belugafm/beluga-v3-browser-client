@@ -68,6 +68,9 @@ export const EmptyComponent = ({
                         </div>
                     </div>
                     <style jsx>{`
+                        .item {
+                            flex: 0 0 auto;
+                        }
                         .header {
                             height: 40px;
                             font-size: 14px;
@@ -148,6 +151,9 @@ export const EmptyComponent = ({
                     </div>
                 </div>
                 <style jsx>{`
+                    .item {
+                        flex: 1 1 auto;
+                    }
                     .header {
                         height: 40px;
                         font-size: 14px;

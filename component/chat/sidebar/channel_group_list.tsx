@@ -1,11 +1,12 @@
-import { ChannelObjectT } from "../../../api/object"
 import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
 } from "../../../state/component/model/channel_menu"
 import { Themes, useTheme } from "../../theme"
 
+import { ChannelGroupId, ChannelGroupObjectT } from "../../../api/object"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
+import { Random } from "../message/avatar"
 import classnames from "classnames"
 import { useContext } from "react"
 
@@ -29,48 +30,85 @@ const getStyle = (theme: Themes) => {
     throw new Error()
 }
 
-const checkUnread = (channel: ChannelObjectT) => {
-    if (channel.last_message == null) {
-        return false
+const ImageComponent = ({
+    channelGroupId,
+    imageUrl,
+}: {
+    channelGroupId: ChannelGroupId
+    imageUrl: string | null
+}) => {
+    if (imageUrl != null) {
+        return (
+            <>
+                <img src={`${imageUrl}:square`}></img>
+                <style jsx>{`
+                    img {
+                        mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                        mask-size: 100% 100%;
+                        width: 30px;
+                        height: 30px;
+                    }
+                `}</style>
+            </>
+        )
     }
-    if (channel.read_state == null) {
-        return false
-    }
-    if (channel.read_state.last_message == null) {
-        return false
-    }
-    if (
-        channel.last_message.created_at.getTime() >
-        channel.read_state.last_message.created_at.getTime()
-    ) {
-        return true
-    }
-    return false
-}
-
-const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active: boolean }) => {
-    const [theme] = useTheme()
-    const unread = checkUnread(channel)
+    const gen = new Random(channelGroupId)
+    const hue = 360 * gen.next()
+    const sat = 50
+    const lightness = 70
     return (
         <>
-            <a
-                className={classnames("item", {
-                    active,
-                    unread,
-                })}
-                href={`/channel/${channel.unique_name}`}>
-                <span className="status">{channel.status_string}</span>
-                <span className="name">{channel.name}</span>
-            </a>
+            <img />
             <style jsx>{`
-                .item {
+                img {
+                    width: 30px;
+                    height: 30px;
+                    mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    mask-size: 100% 100%;
+                    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    border-radius: 0;
+                    margin-top: 2px;
+                    flex: 0 0 30px;
+                }
+            `}</style>
+            <style jsx>{`
+                img {
+                    background-color: hsl(${hue}deg, ${sat}%, ${lightness}%);
+                }
+            `}</style>
+        </>
+    )
+}
+
+const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
+    const [theme] = useTheme()
+    return (
+        <>
+            <div className="container">
+                <a href={`/group/${channelGroup.unique_name}`}>
+                    <ImageComponent
+                        imageUrl={channelGroup.image_url}
+                        channelGroupId={channelGroup.id}
+                    />
+                    <div className="meta">
+                        <div className="name">{channelGroup.name}</div>
+                        {channelGroup.description == null ? null : (
+                            <div className="description">{channelGroup.description}</div>
+                        )}
+                    </div>
+                </a>
+                <div className="children hidden"></div>
+            </div>
+            <style jsx>{`
+                a {
                     position: relative;
                     display: flex;
                     align-items: center;
                     width: 100%;
-                    height: 36px;
-                    padding: 0 12px;
+                    height: 42px;
+                    padding: 1px 12px;
                     border-radius: 8px;
+                    white-space: nowrap;
                     box-sizing: border-box;
                     font-size: 16px;
                     text-decoration: none;
@@ -78,70 +116,78 @@ const ChannelListItem = ({ channel, active }: { channel: ChannelObjectT; active:
                     background-color: transparent;
                     transition: 0.05s;
                     overflow: hidden;
-                    white-space: nowrap;
-                    font-weight: 400;
                 }
-                .status {
-                    width: 24px;
-                    height: 24px;
-                    text-align: center;
-                    padding-right: 6px;
-                    flex-shrink: 0;
+                .meta {
+                    flex: 1 1 auto;
+                    margin-left: 10px;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
                 }
                 .name {
+                    flex: 0 0 auto;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-weight: 500;
+                    font-size: 15px;
+                    line-height: 15px;
+                }
+                .description {
+                    margin-top: 3px;
+                    flex: 0 0 auto;
+                    font-weight: 300;
+                    font-size: 13px;
+                    line-height: 13px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                 }
+                .hidden {
+                    display: none;
+                }
             `}</style>
             <style jsx>{`
-                .item {
+                a {
                     color: ${getStyle(theme)["color"]};
                 }
-                .item:hover {
+                a:hover {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
-                .item.active {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                .icon {
+                    fill: ${getStyle(theme)["color"]};
+                    stroke: ${getStyle(theme)["color"]};
                 }
-                .item.unread {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    font-weight: 500;
+                a:hover .icon {
+                    fill: ${getStyle(theme)["hoverColor"]};
+                    stroke: ${getStyle(theme)["hoverColor"]};
                 }
             `}</style>
         </>
     )
 }
 
-export const ChannelListComponent = ({
-    channelIds,
-    activeChannelId,
-}: {
-    channelIds: number[]
-    activeChannelId?: number
-}) => {
+export const ChannelGroupListComponent = ({ channelGroupIds }: { channelGroupIds: number[] }) => {
     const [theme] = useTheme()
     const channelMenuModalAction = useContext(ChannelMenuModalActionContext)
     const isChannelMenuHidden = useContext(ChannelMenuModalStateContext)
     const domainData = useContext(DomainDataContext)
-    const channels: ChannelObjectT[] = []
-    for (const channelId of channelIds) {
-        const channel = domainData.channels.get(channelId)
-        if (channel) {
-            channels.push(channel)
+    const channelGroups: ChannelGroupObjectT[] = []
+    for (const channelGroupId of channelGroupIds) {
+        const channelGroup = domainData.channelGroups.get(channelGroupId)
+        if (channelGroup) {
+            channelGroups.push(channelGroup)
         }
     }
-    if (channels.length == 0) {
+    if (channelGroups.length == 0) {
         return null
     }
-    channels.sort((a, b) => {
+    channelGroups.sort((a, b) => {
         return a.name.localeCompare(b.name)
     })
-    const listItemNodes = channels.map((channel, n) => {
-        const active = activeChannelId ? activeChannelId == channel.id : false
-        return <ChannelListItem key={n} active={active} channel={channel} />
+    const listItemNodes = channelGroups.map((channelGroup, n) => {
+        return <ChannelGroupListItem key={n} channelGroup={channelGroup} />
     })
     return (
         <div
@@ -149,7 +195,7 @@ export const ChannelListComponent = ({
                 "show-toggle-channel-menu": isChannelMenuHidden == false,
             })}>
             <div className="header">
-                <span className="label">チャンネル</span>
+                <span className="label">チャンネルグループ</span>
                 <button
                     className="toggle-channel-menu"
                     onClick={(e) => {
@@ -163,6 +209,9 @@ export const ChannelListComponent = ({
             </div>
             <div className="list sidebar-channel-group-list">{listItemNodes}</div>
             <style jsx>{`
+                .item {
+                    flex: 0 1 auto;
+                }
                 .header {
                     height: 40px;
                     font-size: 14px;

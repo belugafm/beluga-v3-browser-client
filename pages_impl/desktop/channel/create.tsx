@@ -2,8 +2,8 @@ export { getServerSideProps } from "../../../component/chat/next"
 
 import { AccountMenuComponent } from "../../../component/chat/sidebar/account_menu"
 import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
-import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
-import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
+import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
+import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
 import { ContainerComponent } from "../../../component/chat/container"
 import { CreateChannelFormComponent } from "../../../component/page/channel/create"
 import Head from "next/head"
@@ -17,6 +17,7 @@ import { swrFetchData } from "../../../swr/channel_group/combined/page"
 import { NavigationbarComponent } from "../../../component/chat/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
+import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 
 export default ({ theme, query }) => {
     const parentChannelGroupId = query.parent_channel_group_id
@@ -69,6 +70,7 @@ export default ({ theme, query }) => {
                             channelIds={channelIds}
                             channelGroupId={channelGroup.id}
                         />
+                        <ChannelGroupCardComponent channelGroupId={parentChannelGroupId} />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
                         <CreateChannelFormComponent channelGroup={channelGroup} />

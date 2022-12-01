@@ -1,33 +1,32 @@
-import {
-    ChannelMenuModalActionContext,
-    ChannelMenuModalStateContext,
-} from "../../../state/component/model/channel_menu"
-import { Themes, useTheme } from "../../theme"
-
+import { useContext } from "react"
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../api/object"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
+import { Themes, useTheme } from "../../theme"
 import { Random } from "../message/avatar"
-import classnames from "classnames"
-import { useContext } from "react"
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            color: "#646464",
-            labelColor: "#323232",
-            hoverColor: "#000000",
+            backgroundColor: "#ededed",
             hoverBackgroundColor: "#ededed",
+            color: "#333333",
+            hoverColor: "#000000",
         }
     }
     if (theme.global.current.dark) {
         return {
+            backgroundColor: "#0c0c0c",
+            hoverBackgroundColor: "#171717",
             color: "#7d7d7d",
-            labelColor: "#7d7d7d",
             hoverColor: "#fff",
-            hoverBackgroundColor: "rgba(68,68,68,0.5)",
         }
     }
     throw new Error()
+}
+
+const CardWithoutImage = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
+    const [theme] = useTheme()
+    return null
 }
 
 const ImageComponent = ({
@@ -43,10 +42,12 @@ const ImageComponent = ({
                 <img src={`${imageUrl}:square`}></img>
                 <style jsx>{`
                     img {
+                        background-size: auto 100%;
+                        background-position: 50% 50%;
                         mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                         mask-size: 100% 100%;
-                        width: 30px;
-                        height: 30px;
+                        width: 50px;
+                        height: 50px;
                     }
                 `}</style>
             </>
@@ -61,14 +62,14 @@ const ImageComponent = ({
             <img />
             <style jsx>{`
                 img {
-                    width: 30px;
-                    height: 30px;
+                    width: 50px;
+                    height: 50px;
                     mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     mask-size: 100% 100%;
                     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     border-radius: 0;
                     margin-top: 2px;
-                    flex: 0 0 30px;
+                    flex: 0 0 50px;
                 }
             `}</style>
             <style jsx>{`
@@ -80,216 +81,158 @@ const ImageComponent = ({
     )
 }
 
-const ChannelGroupListItem = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
+const CardWithImage = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
     const [theme] = useTheme()
     return (
         <>
-            <div className="container">
-                <a href={`/group/${channelGroup.unique_name}`}>
+            <a className="card" href={`/group/${channelGroup.unique_name}`}>
+                <div className="avatar-block">
                     <ImageComponent
-                        imageUrl={channelGroup.image_url}
                         channelGroupId={channelGroup.id}
+                        imageUrl={channelGroup.image_url}
                     />
-                    <div className="meta">
-                        <div className="name">{channelGroup.name}</div>
-                        {channelGroup.description == null ? null : (
-                            <div className="description">{channelGroup.description}</div>
-                        )}
+                </div>
+                <div className="meta-block">
+                    <div className="title-block">
+                        <span>{channelGroup.name}</span>
                     </div>
-                </a>
-                <div className="children hidden"></div>
-            </div>
+                    <div className="stats-block">
+                        <div className="message-count">
+                            <svg className="icon">
+                                <use href="#icon-chat"></use>
+                            </svg>
+                            <span className="value">{channelGroup.message_count}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
             <style jsx>{`
-                a {
-                    position: relative;
+                .card {
+                    flex: 0 0 auto;
+                    height: 70px;
                     display: flex;
-                    align-items: center;
-                    width: 100%;
-                    height: 42px;
-                    padding: 1px 12px;
                     border-radius: 8px;
-                    white-space: nowrap;
-                    box-sizing: border-box;
-                    font-size: 16px;
-                    text-decoration: none;
-                    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-                    background-color: transparent;
-                    transition: 0.05s;
                     overflow: hidden;
-                }
-                .meta {
-                    flex: 1 1 auto;
-                    margin-left: 10px;
-                    overflow: hidden;
-                    display: flex;
-                    flex-direction: column;
-                }
-                .name {
-                    flex: 0 0 auto;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    font-weight: 500;
-                    font-size: 15px;
-                    line-height: 15px;
-                }
-                .description {
-                    margin-top: 3px;
-                    flex: 0 0 auto;
-                    font-weight: 300;
-                    font-size: 13px;
-                    line-height: 13px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .hidden {
-                    display: none;
-                }
-            `}</style>
-            <style jsx>{`
-                a {
+                    flex-direction: row;
+                    background-color: ${getStyle(theme)["backgroundColor"]};
                     color: ${getStyle(theme)["color"]};
+                    text-decoration: none;
+                    margin-bottom: 16px;
+                    transition: 0.3s;
                 }
-                a:hover {
-                    color: ${getStyle(theme)["hoverColor"]};
+                .card:hover {
+                    transform: translateY(-3px);
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    color: ${getStyle(theme)["hoverColor"]};
+                }
+                .avatar-block {
+                    width: 80px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .title-block {
+                    display: flex;
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-top: 13px;
                 }
                 .icon {
+                    width: 16px;
+                    height: 16px;
                     fill: ${getStyle(theme)["color"]};
-                    stroke: ${getStyle(theme)["color"]};
+                    transition: 0.3s;
                 }
-                a:hover .icon {
+                .card:hover .icon {
                     fill: ${getStyle(theme)["hoverColor"]};
-                    stroke: ${getStyle(theme)["hoverColor"]};
+                }
+                .stats-block {
+                    display: flex;
+                    flex-direction: row;
+                }
+                .message-count {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+                .message-count .value {
+                    font-size: 14px;
+                    margin-left: 3px;
                 }
             `}</style>
         </>
     )
 }
 
-export const ChannelGroupListComponent = ({ channelGroupIds }: { channelGroupIds: number[] }) => {
-    const [theme] = useTheme()
-    const channelMenuModalAction = useContext(ChannelMenuModalActionContext)
-    const isChannelMenuHidden = useContext(ChannelMenuModalStateContext)
+export const ChannelGroupCardComponent = ({
+    channelGroupId,
+}: {
+    channelGroupId: ChannelGroupId
+}) => {
     const domainData = useContext(DomainDataContext)
-    const channelGroups: ChannelGroupObjectT[] = []
-    for (const channelGroupId of channelGroupIds) {
-        const channelGroup = domainData.channelGroups.get(channelGroupId)
-        if (channelGroup) {
-            channelGroups.push(channelGroup)
-        }
-    }
-    if (channelGroups.length == 0) {
+    const channelGroup = domainData.channelGroups.get(channelGroupId)
+    if (channelGroup == null) {
         return null
     }
-    channelGroups.sort((a, b) => {
-        return a.name.localeCompare(b.name)
-    })
-    const listItemNodes = channelGroups.map((channelGroup, n) => {
-        return <ChannelGroupListItem key={n} channelGroup={channelGroup} />
-    })
+    if (channelGroup.image_url) {
+        return <CardWithImage channelGroup={channelGroup} />
+    }
+    return <CardWithoutImage channelGroup={channelGroup} />
     return (
-        <div
-            className={classnames("item", {
-                "show-toggle-channel-menu": isChannelMenuHidden == false,
-            })}>
-            <div className="header">
-                <span className="label">チャンネルグループ</span>
-                <button
-                    className="toggle-channel-menu"
-                    onClick={(e) => {
-                        e.preventDefault()
-                        channelMenuModalAction.toggle(e)
-                    }}>
-                    <svg className="icon-menu-line-horizontal">
-                        <use href="#icon-menu-line-horizontal"></use>
-                    </svg>
-                </button>
+        <>
+            <div className="card">
+                <svg className="icon">
+                    <use href="#icon-card"></use>
+                </svg>
+                <input type="text" placeholder="検索" />
             </div>
-            <div className="list sidebar-channel-group-list">{listItemNodes}</div>
             <style jsx>{`
-                .header {
+                .card {
                     height: 40px;
-                    font-size: 14px;
-                    padding-left: 4px;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 100%;
+                    position: relative;
+                    border-radius: 8px;
+                    margin-bottom: 10px;
                 }
-                .icon-down {
-                    width: 14px;
-                    height: 14px;
-                    margin: 2px 6px 0 0;
-                    text-align: center;
-                    stroke-width: 0;
-                    flex: 0 0 auto;
-                }
-                .label {
-                    flex: 1 1 auto;
-                    font-weight: 500;
-                }
-                .toggle-channel-menu {
-                    background: none;
-                    border: none;
-                    flex: 0 0 auto;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    cursor: pointer;
-                    width: 30px;
-                    height: 30px;
-                    box-sizing: border-box;
-                    border-radius: 6px;
-                    visibility: hidden;
-                    opacity: 0;
-                    transition: 0.05s;
-                    margin-top: 2px;
-                }
-                .item:hover .toggle-channel-menu,
-                .item.show-toggle-channel-menu .toggle-channel-menu {
-                    visibility: visible;
-                    opacity: 1;
-                }
-                .icon-menu-line-horizontal {
-                    transition: 0.05s;
-                    flex: 0 0 auto;
+                .icon {
                     width: 20px;
                     height: 20px;
-                    stroke-width: 0;
+                    text-align: center;
+                    margin-right: 12px;
+                    flex-shrink: 0;
+                    stroke-width: 0.5px;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 10px;
+                    cursor: pointer;
                 }
-            `}</style>
-            <style jsx global>{`
-                .sidebar-channel-group-list:hover > a.item.active {
-                    color: ${getStyle(theme)["hoverColor"]};
+                input {
+                    padding: 0 0 0 40px;
+                    margin: 0;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 8px;
+                    box-sizing: border-box;
+                    border: 2px solid transparent;
+                    font-size: 15px;
+                    transition: all 0.1s;
                     background-color: transparent;
-                }
-                .sidebar-channel-group-list:hover > a.item.active:hover {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    outline: none;
                 }
             `}</style>
             <style jsx>{`
-                .header {
+                .card {
+                    background-color: ${getStyle(theme)["backgroundColor"]};
+                }
+                .icon {
+                    fill: ${getStyle(theme)["fill"]};
+                }
+                input:focus {
+                    background-color: ${getStyle(theme)["focusBackgroundColor"]};
+                    border-color: ${getStyle(theme)["focusBorderColor"]};
                     color: ${getStyle(theme)["color"]};
                 }
-                .label {
-                    color: ${getStyle(theme)["labelColor"]};
-                }
-                .icon-down {
-                    fill: ${getStyle(theme)["color"]};
-                }
-                .icon-menu-line-horizontal {
-                    fill: ${getStyle(theme)["color"]};
-                }
-                .toggle-channel-menu:hover {
-                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
-                }
-                .toggle-channel-menu:hover .icon-menu-line-horizontal {
-                    fill: ${getStyle(theme)["hoverColor"]};
-                }
             `}</style>
-        </div>
+        </>
     )
 }

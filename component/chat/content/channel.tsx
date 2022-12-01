@@ -57,7 +57,7 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                     flex-direction: column;
                     flex: 1 1 auto;
                     box-sizing: border-box;
-                    border-radius: 8px;
+                    border-radius: 10px;
                     position: relative;
                     overflow: hidden;
                     transition-duration: 0.2s;

@@ -139,7 +139,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     box-sizing: border-box;
                     position: relative;
                     overflow: hidden;
-                    border-radius: 8px;
+                    border-radius: 10px;
                     transition-duration: 0.2s;
                 }
                 .cover-image-container {
@@ -173,8 +173,8 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     margin-right: 5px;
                 }
                 .cover-image {
-                    border-radius: 8px;
                     width: 100%;
+                    border-radius: 10px;
                 }
                 .header {
                     flex: 0 0 auto;

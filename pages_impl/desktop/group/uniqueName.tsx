@@ -1,8 +1,8 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
 import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
-import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
-import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
+import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
+import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
 import { ContainerComponent } from "../../../component/chat/container"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
@@ -15,6 +15,7 @@ import { swrFetchData } from "../../../swr/channel_group/combined/page"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 import { NavigationbarComponent } from "../../../component/chat/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
+import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 
 export default ({ theme, query }) => {
     const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
@@ -64,6 +65,7 @@ export default ({ theme, query }) => {
                             channelIds={channelIds}
                             channelGroupId={channelGroup.id}
                         />
+                        <ChannelGroupCardComponent channelGroupId={channelGroup.id} />
                     </SidebarComponent>
                     <BackgroundImageBackdropFilterComponent url={null}>
                         <ContentGridComponent />

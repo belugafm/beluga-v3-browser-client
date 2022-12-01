@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group"
-import { ChannelListComponent } from "../../../component/chat/sidebar/channel"
+import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
+import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
 import { ContainerComponent } from "../../../component/chat/container"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
@@ -12,6 +12,7 @@ import { swrFetchData } from "../../../swr/channel/combined/page"
 import { ServerSideProps } from "../../../component/chat/next"
 import { NavigationbarComponent } from "../../../component/chat/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
+import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 
 export default ({ theme, query }: ServerSideProps) => {
     const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
@@ -61,6 +62,7 @@ export default ({ theme, query }: ServerSideProps) => {
                             activeChannelId={channel.id}
                             channelIds={channels.map((channel) => channel.id)}
                         />
+                        <ChannelGroupCardComponent channelGroupId={parentChannelGroup.id} />
                     </SidebarComponent>
                     <ContentGridComponent />
                 </ContainerComponent>

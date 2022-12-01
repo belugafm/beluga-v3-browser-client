@@ -46,8 +46,8 @@ const ImageComponent = ({
                         background-position: 50% 50%;
                         mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                         mask-size: 100% 100%;
-                        width: 50px;
-                        height: 50px;
+                        width: 45px;
+                        height: 45px;
                     }
                 `}</style>
             </>
@@ -62,14 +62,14 @@ const ImageComponent = ({
             <img />
             <style jsx>{`
                 img {
-                    width: 50px;
-                    height: 50px;
+                    width: 45px;
+                    height: 45px;
                     mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     mask-size: 100% 100%;
                     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
                     border-radius: 0;
                     margin-top: 2px;
-                    flex: 0 0 50px;
+                    flex: 0 0 45px;
                 }
             `}</style>
             <style jsx>{`

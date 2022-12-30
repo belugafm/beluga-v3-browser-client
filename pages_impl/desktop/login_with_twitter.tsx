@@ -29,13 +29,24 @@ export const useOAuthCallback = () => {
     }
     if (data) {
         mutate(data, false)
-        location.href = "/welcome"
-        return (
-            <p>
-                ログインしました。すぐにページが移動しない場合は、
-                <a href="/welcom">こちらのリンク</a>をクリックしてください。
-            </p>
-        )
+        if (data.ok) {
+            location.href = "/welcome"
+            return (
+                <p>
+                    ログインしました。すぐにページが移動しない場合は、
+                    <a href="/welcom">こちらのリンク</a>をクリックしてください。
+                </p>
+            )
+        } else {
+            return (
+                <>
+                    {data.description.map((desc) => {
+                        console.log(desc)
+                        return <p>{desc}</p>
+                    })}
+                </>
+            )
+        }
     }
     return <p>ログインしています…</p>
 }

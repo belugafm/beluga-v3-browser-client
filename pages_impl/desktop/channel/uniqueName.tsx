@@ -19,13 +19,13 @@ export default ({ theme, query }: ServerSideProps) => {
         swrFetchData({
             uniqueName: query.uniqueName,
         })
-    if (isLoading) {
-        return null
-    }
     for (const error of errors) {
         if (error) {
-            return <div>エラー</div>
+            return <div>問題が発生しました。再度ログインしてください。</div>
         }
+    }
+    if (isLoading) {
+        return null
     }
     if (channels == null) {
         return <div>エラー</div>

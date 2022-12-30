@@ -38,11 +38,13 @@ const getStyle = (theme: Themes) => {
 
 const TextComponent = ({
     children,
-    user,
+    messageUser,
+    loggedInUser,
     theme,
 }: {
     children: any
-    user: UserObjectT
+    messageUser: UserObjectT
+    loggedInUser: UserObjectT
     theme: Themes
 }) => {
     const getStyle = (theme: Themes) => {
@@ -63,7 +65,15 @@ const TextComponent = ({
     // 不審ユーザーの投稿はデフォルトで表示しない
     // クリックすれば表示されるようにする
     const [showText, setShowText] = useState(
-        user.trust_level == TrustLevel[TrustRank.RiskyUser] ? false : true
+        loggedInUser
+            ? messageUser.id == loggedInUser.id
+                ? true
+                : messageUser.trust_level == TrustLevel[TrustRank.RiskyUser]
+                ? false
+                : true
+            : messageUser.trust_level == TrustLevel[TrustRank.RiskyUser]
+            ? false
+            : true
     )
     if (showText) {
         return children
@@ -150,7 +160,8 @@ export const MessageComponent = React.memo(
                         <div className="text">
                             <TextComponent
                                 children={props.children}
-                                user={user}
+                                messageUser={user}
+                                loggedInUser={props.loggedInUser}
                                 theme={props.theme}
                             />
                         </div>

@@ -10,7 +10,7 @@ const RiskyUserSection = () => {
         <>
             <div className="ghost"></div>
             <div className="about-risky-user">
-                荒らし対策のため「Twitterでログイン」していないユーザーの機能を制限しています。詳細は
+                荒らし対策のため「Twitterでログイン」以外の登録を一時的に停止しています。詳細は
                 <a href="/arashi_taisaku">荒らし対策について</a>
                 をお読みください。
             </div>
@@ -78,13 +78,6 @@ export default (props: ServerSideProps) => {
                             <div className="sep"></div>
                             <div className="section invite-link">
                                 <InviteLinkSection />
-                            </div>
-                            <div className="sep"></div>
-                            <div className="section title">
-                                <h1>アカウント作成</h1>
-                            </div>
-                            <div className="section start-beluga">
-                                <SignupFormComponent />
                             </div>
                         </div>
                     </div>

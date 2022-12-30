@@ -4,13 +4,13 @@ import { Themes, useTheme } from "../theme"
 export const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            backgroundColor: "rgb(250,250,250)",
+            backgroundColor: "rgba(247,247,247,0.95)",
             color: "#6f767d",
         }
     }
     if (theme.global.current.dark) {
         return {
-            backgroundColor: "rgba(16,16,16,0.98)",
+            backgroundColor: "rgba(16,16,16,0.96)",
             color: "#6f767d",
         }
     }
@@ -35,12 +35,13 @@ export const SidebarComponent = ({ children }) => {
                         transition-duration: 0.2s;
                         transition-property: background-color;
                         width: 300px;
-                        padding: 16px 8px 0 16px;
+                        padding: 16px 16px 0 16px;
                         box-sizing: border-box;
                         box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
                         -webkit-overflow-scrolling: touch;
+                        overflow-x: hidden;
                         overflow-y: scroll;
                         z-index: 3;
                     }

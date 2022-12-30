@@ -13,23 +13,23 @@ const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
-            backgroundColor: "#fff",
-            tabActiveColor: "#111111",
+            backgroundColor: "#ffffff",
+            tabActiveColor: "#ffffff",
+            tabHoverColor: "#000000",
             tabInactiveColor: "#555555",
-            tabActiveBorderColor: "#000000",
-            tabHoverBorderColor: "#999999",
-            tabBorderColor: "#dddddd",
+            tabActiveBgColor: "#333333",
+            tabHoverBgColor: "#e6e6e6",
             border: "1px solid rgba(0, 0, 0, 0.08)",
         }
     }
     if (theme.global.current.dark) {
         return {
             color: "#fcfcfc",
-            tabActiveColor: "#fcfcfc",
+            tabActiveColor: "#000000",
+            tabHoverColor: "#ffffff",
             tabInactiveColor: "#dcdcdc",
-            tabActiveBorderColor: "#ffffff",
-            tabHoverBorderColor: "#787878",
-            tabBorderColor: "#373737",
+            tabActiveBgColor: "#ffffff",
+            tabHoverBgColor: "#333333",
             backgroundColor: "rgba(30, 30, 30, 0.98)",
             border: "none",
         }
@@ -56,81 +56,87 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
     }
     return (
         <>
-            <div
-                className={classnames("content-container back-to-parent", {
-                    hidden: parentChannelGroup == null,
-                })}>
-                <div className="content translucent back-to-parent">
-                    <a
-                        className="back-to-parent-link"
-                        href={`/group/${parentChannelGroup?.unique_name}`}>
-                        <svg className="back-arrow-svg">
-                            <use href="#icon-direction-left"></use>
-                        </svg>
-                        <span>{parentChannelGroup?.name}</span>
-                    </a>
+            <div className="content">
+                <div
+                    className={classnames("block back-to-parent", {
+                        hidden: parentChannelGroup == null,
+                    })}>
+                    <div className="block-content translucent back-to-parent">
+                        <a
+                            className="back-to-parent-link"
+                            href={`/group/${parentChannelGroup?.unique_name}`}>
+                            <svg className="back-arrow-svg">
+                                <use href="#icon-direction-left"></use>
+                            </svg>
+                            <span>{parentChannelGroup?.name}</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div
-                className={classnames("content-container cover-image-container", {
-                    hidden: channelGroup.image_url == null,
-                })}>
-                <img className="cover-image" src={channelGroup.image_url} />
-            </div>
-            <div className="content-container">
-                <div className="content translucent">
-                    <div className="header">
-                        <HeaderComponent content={content} />
-                        <div className="tab">
-                            <a
-                                className={classnames("tab-item", {
-                                    active: tabIndex == 0,
-                                })}
-                                href="#description"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setTabIndex(0)
-                                }}>
-                                概要
-                            </a>
-                            <a
-                                className={classnames("tab-item", {
-                                    active: tabIndex == 1,
-                                })}
-                                href="#timeline"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setTabIndex(1)
-                                }}>
-                                タイムライン
-                            </a>
+                <div
+                    className={classnames("block cover-image-container", {
+                        hidden: channelGroup.image_url == null,
+                    })}>
+                    <img className="cover-image" src={channelGroup.image_url} />
+                </div>
+                <div className="block tab-block">
+                    <div className="block-content translucent">
+                        <div className="header">
+                            <HeaderComponent content={content} />
+                            <div className="tab">
+                                <a
+                                    className={classnames("tab-item", {
+                                        active: tabIndex == 0,
+                                    })}
+                                    href="#description"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        setTabIndex(0)
+                                    }}>
+                                    概要
+                                </a>
+                                <a
+                                    className={classnames("tab-item", {
+                                        active: tabIndex == 1,
+                                    })}
+                                    href="#timeline"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        setTabIndex(1)
+                                    }}>
+                                    タイムライン
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div
-                        className={classnames("desctiption-container", {
-                            hidden: tabIndex != 0,
-                        })}>
-                        <div className="description">{channelGroup.description}</div>
-                    </div>
-                    <div
-                        className={classnames("timeline-container", {
-                            hidden: tabIndex != 1,
-                        })}>
-                        <TimelineComponent content={content} />
-                    </div>
-                    <div className="postbox">
-                        <PostboxComponent content={content} tooltipAction={tooltipAction} />
+                        <div
+                            className={classnames("desctiption-container", {
+                                hidden: tabIndex != 0,
+                            })}>
+                            <div className="description">{channelGroup.description}</div>
+                        </div>
+                        <div
+                            className={classnames("timeline-container", {
+                                hidden: tabIndex != 1,
+                            })}>
+                            <TimelineComponent content={content} />
+                        </div>
+                        <div className="postbox">
+                            <PostboxComponent content={content} tooltipAction={tooltipAction} />
+                        </div>
                     </div>
                 </div>
             </div>
             <style jsx>{`
-                .content-container {
-                    flex: 1 1 auto;
-                    padding: 8px;
-                    display: flex;
-                    min-height: 0;
-                }
                 .content {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 16px;
+                }
+                .block {
+                    flex: 1 1 auto;
+                    display: flex;
+                }
+                .block-content {
                     width: 100%;
                     min-height: 0;
                     display: flex;
@@ -139,21 +145,24 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     box-sizing: border-box;
                     position: relative;
                     overflow: hidden;
-                    border-radius: 10px;
                     transition-duration: 0.2s;
+                    margin-bottom: 16px;
+                }
+                .block:last-child .block-content {
+                    margin-bottom: 0;
                 }
                 .cover-image-container {
                     flex: 0 0 auto;
                     min-height: 0;
+                    padding: 4px;
                 }
-                .content-container.back-to-parent {
+                .block.back-to-parent {
                     flex: 0 0 40px;
                 }
-                .content.back-to-parent {
+                .block-content.back-to-parent {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    padding: 0 10px;
                 }
                 .back-to-parent-link {
                     display: flex;
@@ -174,11 +183,14 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 }
                 .cover-image {
                     width: 100%;
-                    border-radius: 10px;
+                    border-radius: 16px;
                 }
                 .header {
                     flex: 0 0 auto;
                     z-index: 3;
+                }
+                .tab-block {
+                    height: 0;
                 }
                 .tab {
                     flex: 0 0 auto;
@@ -191,9 +203,9 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 }
                 .tab-item {
                     text-decoration: none;
-                    padding: 0 10px 10px 10px;
+                    padding: 6px 16px;
                     margin: 0 10px -1px 0;
-                    border-bottom: 2px solid transparent;
+                    border-radius: 32px;
                 }
                 .postbox {
                     flex: 0 0 auto;
@@ -208,18 +220,18 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     flex: 1 1 auto;
                     position: relative;
                     overflow: hidden;
+                    padding: 20px 0 10px 0;
                 }
                 .hidden {
                     display: none;
                 }
             `}</style>
             <style jsx>{`
-                .content-container {
-                    color: ${getStyleForTheme(theme)["color"]};
-                }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                    border: ${getStyleForTheme(theme)["border"]};
+                }
+                .block {
+                    color: ${getStyleForTheme(theme)["color"]};
                 }
                 .back-to-parent-link {
                     color: ${getStyleForTheme(theme)["color"]};
@@ -227,18 +239,16 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 .tab-item {
                     color: ${getStyleForTheme(theme)["tabInactiveColor"]};
                 }
+                .tab-item:hover {
+                    color: ${getStyleForTheme(theme)["tabHoverColor"]};
+                    background-color: ${getStyleForTheme(theme)["tabHoverBgColor"]};
+                }
                 .tab-item.active {
                     color: ${getStyleForTheme(theme)["tabActiveColor"]};
-                    border-color: ${getStyleForTheme(theme)["tabActiveBorderColor"]};
-                }
-                .tab-item:hover {
-                    border-color: ${getStyleForTheme(theme)["tabHoverBorderColor"]};
+                    background-color: ${getStyleForTheme(theme)["tabActiveBgColor"]};
                 }
                 .tab-item.active:hover {
-                    border-color: ${getStyleForTheme(theme)["tabActiveBorderColor"]};
-                }
-                .tab {
-                    border-color: ${getStyleForTheme(theme)["tabBorderColor"]};
+                    background-color: ${getStyleForTheme(theme)["tabActiveBgColor"]};
                 }
                 .back-arrow-svg {
                     stroke: ${getStyleForTheme(theme)["color"]};

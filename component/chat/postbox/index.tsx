@@ -232,7 +232,7 @@ const _PostboxComponent = ({
             `}</style>
             <style jsx>{`
                 .postbox-container {
-                    padding: 12px;
+                    padding: 16px;
                 }
                 .postbox {
                     border-radius: 8px;

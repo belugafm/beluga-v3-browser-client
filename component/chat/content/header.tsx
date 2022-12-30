@@ -45,9 +45,10 @@ export const ChannelHeaderComponent = ({
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    height: 56px;
                     box-sizing: border-box;
-                    padding: 0 8px;
+                    box-sizing: border-box;
+                    padding: 16px 0 8px 0;
+                    margin: 0 16px;
                 }
                 .channel-name-block {
                     box-sizing: border-box;
@@ -75,9 +76,6 @@ export const ChannelHeaderComponent = ({
                 }
             `}</style>
             <style jsx>{`
-                .header {
-                    border-bottom: 2px solid ${getStyle(theme)["borderColor"]};
-                }
                 .arrow {
                     stroke: ${getStyle(theme)["arrowColor"]};
                 }
@@ -132,7 +130,7 @@ export const ChannelGroupHeaderComponent = ({
                     display: flex;
                     flex-direction: row;
                     box-sizing: border-box;
-                    padding: 20px;
+                    padding: 20px 20px 20px 10px;
                 }
                 .name-container {
                     flex: 1 1 auto;

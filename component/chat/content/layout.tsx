@@ -31,12 +31,12 @@ export const ContentGridComponent = () => {
                     flex-direction: column;
                     z-index: 1;
                     border-radius: 0 12px 12px 0;
+                    overflow: hidden;
                     transition-duration: 0.2s;
                 }
                 .grid {
                     display: flex;
                     flex-direction: row;
-                    padding: 0 8px 0 0;
                     box-sizing: border-box;
                     flex: 1 1 auto;
                     overflow-y: hidden;

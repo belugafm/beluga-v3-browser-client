@@ -3,18 +3,20 @@ import { Themes, useTheme } from "../theme"
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            backgroundColor: "rgba(0, 0, 0, 0.9)",
-            innerBackgroundColor: "rgba(42, 42, 42, 0.6)",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
             modalBackgroundColor: "rgb(17, 17, 17, 1)",
+            buttonHoverBgColor: "rgb(230, 230, 230, 1)",
+            buttonHoverIconColor: "rgb(30, 30, 30, 1)",
             modalColor: "#ffffff",
             color: "#383838",
         }
     }
     if (theme.global.current.dark) {
         return {
-            backgroundColor: "rgba(0, 0, 0, 0.9)",
-            innerBackgroundColor: "rgba(42, 42, 42, 0.5)",
+            backgroundColor: "rgba(11, 11, 11, 0.98)",
             modalBackgroundColor: "rgba(42, 42, 42, 1)",
+            buttonHoverBgColor: "rgb(17, 17, 17, 1)",
+            buttonHoverIconColor: "rgb(255, 255, 255, 1)",
             modalColor: "#ffffff",
             color: "#6f767d",
         }
@@ -99,15 +101,19 @@ export const NavigationbarComponent = () => {
                     color: ${getStyleForTheme(theme)["color"]};
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
                 }
-                .inner {
-                    background-color: ${getStyleForTheme(theme)["innerBackgroundColor"]};
-                }
                 .modal-container {
                     background-color: ${getStyleForTheme(theme)["modalBackgroundColor"]};
                     color: ${getStyleForTheme(theme)["modalColor"]};
                 }
                 .triangle {
                     background-color: ${getStyleForTheme(theme)["modalBackgroundColor"]};
+                }
+                .button:hover {
+                    background-color: ${getStyleForTheme(theme)["buttonHoverBgColor"]};
+                }
+                .button:hover svg {
+                    stroke: ${getStyleForTheme(theme)["buttonHoverIconColor"]};
+                    fill: ${getStyleForTheme(theme)["buttonHoverIconColor"]};
                 }
             `}</style>
             <style jsx>{`
@@ -117,7 +123,7 @@ export const NavigationbarComponent = () => {
                     box-sizing: border-box;
                     display: flex;
                     flex-direction: column;
-                    width: 70px;
+                    width: 80px;
                     height: 100%;
                     border-radius: 12px 0 0 12px;
                     z-index: 4;
@@ -167,7 +173,7 @@ export const NavigationbarComponent = () => {
                     cursor: pointer;
                     width: 40px;
                     height: 40px;
-                    margin-bottom: 4px;
+                    margin-bottom: 10px;
                     position: relative;
                 }
                 .button:hover .modal-container {
@@ -198,13 +204,6 @@ export const NavigationbarComponent = () => {
                     width: 22px;
                     height: 22px;
                     stroke-width: 0.25;
-                }
-                .button:hover {
-                    background-color: rgb(17, 17, 17);
-                }
-                .button:hover svg {
-                    stroke: white;
-                    fill: white;
                 }
                 .modal-container {
                     display: none;

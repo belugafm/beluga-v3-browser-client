@@ -7,8 +7,8 @@ import { Random } from "../message/avatar"
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            backgroundColor: "#ededed",
-            hoverBackgroundColor: "#ededed",
+            backgroundColor: "#e6e6e6",
+            hoverBackgroundColor: "#e6e6e6",
             color: "#333333",
             hoverColor: "#000000",
         }
@@ -186,7 +186,7 @@ const CardWithImage = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) 
                     color: ${getStyle(theme)["color"]};
                     text-decoration: none;
                     margin-bottom: 16px;
-                    transition: 0.3s;
+                    transition: 0.2s;
                 }
                 .card:hover {
                     transform: translateY(-3px);

@@ -46,7 +46,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
             <style jsx>{`
                 .content-container {
                     flex: 1 1 auto;
-                    padding: 8px;
                     display: flex;
                     min-height: 300px;
                 }
@@ -57,7 +56,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                     flex-direction: column;
                     flex: 1 1 auto;
                     box-sizing: border-box;
-                    border-radius: 10px;
                     position: relative;
                     overflow: hidden;
                     transition-duration: 0.2s;
@@ -77,7 +75,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                 }
                 .content {
                     background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                    border: ${getStyleForTheme(theme)["border"]};
                 }
             `}</style>
         </>

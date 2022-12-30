@@ -47,7 +47,7 @@ export const ChannelHeaderComponent = ({
                     align-items: center;
                     box-sizing: border-box;
                     box-sizing: border-box;
-                    padding: 16px 0 8px 0;
+                    padding: 12px 0 12px 0;
                     margin: 0 16px;
                 }
                 .channel-name-block {

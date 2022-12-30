@@ -163,6 +163,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
+                    margin-bottom: 8px;
                 }
                 .back-to-parent-link {
                     display: flex;

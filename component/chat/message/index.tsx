@@ -9,6 +9,8 @@ import classnames from "classnames"
 import deepEqual from "deep-equal"
 import { LikesComponent } from "./likes"
 import { FavoritesComponent } from "./favorites"
+import { TrustLevel, TrustRank } from "../../../api/trust_rank"
+import { UserObjectT } from "../../../api/object"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
@@ -26,13 +28,75 @@ const getStyle = (theme: Themes) => {
         }
     }
     if (theme.global.current.dark) {
-        const alpha = 0.5
         return {
             backgroundColor: "transparent",
             hoverBackgroundColor: "#0f0f0f",
         }
     }
     throw new Error()
+}
+
+const TextComponent = ({
+    children,
+    user,
+    theme,
+}: {
+    children: any
+    user: UserObjectT
+    theme: Themes
+}) => {
+    const getStyle = (theme: Themes) => {
+        if (theme.global.current.light) {
+            return {
+                color: "#828282",
+                linkColor: "#323232",
+            }
+        }
+        if (theme.global.current.dark) {
+            return {
+                color: "#a0a0a0",
+                linkColor: "#ffffff",
+            }
+        }
+        throw new Error()
+    }
+    // 不審ユーザーの投稿はデフォルトで表示しない
+    // クリックすれば表示されるようにする
+    const [showText, setShowText] = useState(
+        user.trust_level == TrustLevel[TrustRank.RiskyUser] ? false : true
+    )
+    if (showText) {
+        return children
+    }
+    return (
+        <>
+            <div>
+                <span>信用レベルが低いユーザーの投稿を非表示にしています</span>
+                <a
+                    onClick={(e) => {
+                        e.preventDefault()
+                        setShowText(true)
+                    }}>
+                    表示する
+                </a>
+            </div>
+            <style jsx>{`
+                span {
+                    font-style: italic;
+                    font-size: 14px;
+                    color: ${getStyle(theme)["color"]};
+                }
+                a {
+                    font-style: italic;
+                    font-size: 14px;
+                    text-decoration: none;
+                    cursor: pointer;
+                    color: ${getStyle(theme)["linkColor"]};
+                    margin-left: 14px;
+                }
+            `}</style>
+        </>
+    )
 }
 
 export const MessageComponent = React.memo(
@@ -48,6 +112,10 @@ export const MessageComponent = React.memo(
         }
         const { message } = props
         if (message.deleted) {
+            return null
+        }
+        const user = props.domainData.users.get(message.user_id)
+        if (user == null) {
             return null
         }
         return (
@@ -79,7 +147,13 @@ export const MessageComponent = React.memo(
                             hidden={props.isConsecutivePost}
                             theme={props.theme}
                         />
-                        <div className="text">{props.children}</div>
+                        <div className="text">
+                            <TextComponent
+                                children={props.children}
+                                user={user}
+                                theme={props.theme}
+                            />
+                        </div>
                         <LikesComponent message={message} theme={props.theme} />
                         <FavoritesComponent message={message} theme={props.theme} />
                     </div>

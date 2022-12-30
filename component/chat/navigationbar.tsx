@@ -14,8 +14,8 @@ const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.dark) {
         return {
             backgroundColor: "rgba(11, 11, 11, 0.98)",
-            modalBackgroundColor: "rgba(42, 42, 42, 1)",
-            buttonHoverBgColor: "rgb(17, 17, 17, 1)",
+            modalBackgroundColor: "rgba(40, 40, 40, 1)",
+            buttonHoverBgColor: "rgb(27, 27, 27, 1)",
             buttonHoverIconColor: "rgb(255, 255, 255, 1)",
             modalColor: "#ffffff",
             color: "#6f767d",
@@ -215,7 +215,7 @@ export const NavigationbarComponent = () => {
                     visibility: visible;
                     border-radius: 8px;
                     box-sizing: border-box;
-                    padding: 6px 10px;
+                    padding: 6px 12px;
                     height: 38px;
                     box-sizing: border-box;
                     word-break: keep-all;

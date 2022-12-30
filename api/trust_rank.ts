@@ -4,3 +4,10 @@ export const TrustRank = {
     AuthorizedUser: "AuthorizedUser",
     Moderator: "Moderator",
 }
+
+export const TrustLevel = {
+    [TrustRank.RiskyUser]: 0,
+    [TrustRank.Visitor]: 10,
+    [TrustRank.AuthorizedUser]: 20,
+    [TrustRank.Moderator]: 30,
+} as const

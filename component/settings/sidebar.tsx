@@ -192,8 +192,10 @@ export const SettingsMenuComponent = () => {
                     margin-right: 8px;
                 }
                 svg.right-arrow {
+                    width: 20px;
+                    height: 20px;
                     position: absolute;
-                    right: 0px;
+                    right: 10px;
                     top: calc(50% - 10px);
                     display: none;
                 }

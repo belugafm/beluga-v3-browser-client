@@ -42,7 +42,7 @@ export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode)
     }
 }
 
-const getStyleForSyntaxHighlighting = (theme: Themes) => {
+const getSyntaxHighlightingStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             lineNumberColor: "#a5aa91",
@@ -58,7 +58,7 @@ const getStyleForSyntaxHighlighting = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForInlineCode = (theme: Themes) => {
+const getInlineCodeStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
@@ -74,24 +74,44 @@ const getStyleForInlineCode = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForQuote = (theme: Themes) => {
+const getQuoteStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            borderColor: "#aaaaa9",
+            borderColor: "#aaaaaa",
             color: "#828282",
         }
     }
     if (theme.global.current.dark) {
         return {
-            borderColor: "#b9bfc8",
-            color: "#8d97a0",
+            borderColor: "#969696",
+            color: "#a0a0a0",
         }
     }
     throw new Error()
 }
 
-const hasFormat = (nodeFormat: number, styleFormat: number) => {
+const getLinkStyle = (theme: Themes) => {
+    if (theme.global.current.light) {
+        return {
+            color: "#2a85ff",
+            hoverColor: "#2a85ff",
+        }
+    }
+    if (theme.global.current.dark) {
+        return {
+            color: "#2a85ff",
+            hoverColor: "#2a85ff",
+        }
+    }
+    throw new Error()
+}
+
+const hasFormat = (nodeFormat: number, styleFormat: number): boolean => {
     return (nodeFormat & styleFormat) !== 0
+}
+
+const isImageUrl = (text: string): boolean => {
+    return text.match(/https:\/\/.+\.(jpeg|jpg|gif|png|webp)(:[a-z]+)?$/) != null
 }
 
 export const styledNodeToDOM = (
@@ -100,7 +120,32 @@ export const styledNodeToDOM = (
     theme: Themes
 ) => {
     if (node.type == "text") {
-        if (node.style) {
+        const substr = sliceText(textGraphemes, node)
+        if (isImageUrl(substr)) {
+            return (
+                <>
+                    <a href={substr} target="blank">
+                        {substr}
+                    </a>
+                    <img src={substr} />
+                    <style jsx>{`
+                        a {
+                            color: ${getLinkStyle(theme)["color"]};
+                            display: block;
+                            text-decoration: none;
+                        }
+                        a:hover {
+                            color: ${getLinkStyle(theme)["color"]};
+                            text-decoration: underline;
+                        }
+                        img {
+                            max-width: 50%;
+                            margin: 8px 0 8px 0;
+                        }
+                    `}</style>
+                </>
+            )
+        } else if (node.style) {
             let textDecoration = ""
             if (hasFormat(node.style.format, MessageEntityStyleFormat.STRIKETHROUGH)) {
                 textDecoration += "line-through "
@@ -126,7 +171,7 @@ export const styledNodeToDOM = (
                         className={classnames({
                             code: hasFormat(node.style.format, MessageEntityStyleFormat.CODE),
                         })}>
-                        {sliceText(textGraphemes, node)}
+                        {substr}
                     </span>
                     <style jsx>{`
                         span {
@@ -135,18 +180,18 @@ export const styledNodeToDOM = (
                             text-decoration-line: ${textDecoration};
                         }
                         span.code {
-                            background: ${getStyleForInlineCode(theme)["backgroundColor"]};
+                            background: ${getInlineCodeStyle(theme)["backgroundColor"]};
                             border-radius: 4px;
                             padding: 2px 6px;
                             margin: 0 4px;
                             font-size: 13px;
-                            border: 1px solid ${getStyleForInlineCode(theme)["borderColor"]};
+                            border: 1px solid ${getInlineCodeStyle(theme)["borderColor"]};
                         }
                     `}</style>
                 </>
             )
         } else {
-            return <span>{sliceText(textGraphemes, node)}</span>
+            return <span>{substr}</span>
         }
     }
     const inner = node.children.map((child, index) => {
@@ -182,8 +227,8 @@ export const styledNodeToDOM = (
                         border-left-width: 4px;
                         border-left-style: solid;
                         padding-left: 12px;
-                        color: ${getStyleForQuote(theme)["color"]};
-                        border-left-color: ${getStyleForQuote(theme)["borderColor"]};
+                        color: ${getQuoteStyle(theme)["color"]};
+                        border-left-color: ${getQuoteStyle(theme)["borderColor"]};
                     }
                     blockquote:first-child {
                         margin-top: 0;
@@ -245,10 +290,10 @@ export const styledNodeToDOM = (
                     style={monokaiSublime}
                     customStyle={{
                         padding: "20px 20px 20px 0",
-                        background: getStyleForSyntaxHighlighting(theme)["backgroundColor"],
+                        background: getSyntaxHighlightingStyle(theme)["backgroundColor"],
                     }}
                     lineNumberStyle={{
-                        color: getStyleForSyntaxHighlighting(theme)["lineNumberColor"],
+                        color: getSyntaxHighlightingStyle(theme)["lineNumberColor"],
                     }}
                     showLineNumbers>
                     {getCodeContent(textGraphemes, node)}

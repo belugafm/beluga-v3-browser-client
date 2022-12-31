@@ -3,16 +3,20 @@ import { useTheme } from "../theme"
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
-            color: "#646464",
-            labelColor: "#323232",
+            primaryColor: "#323232",
+            secondaryColor: "#000000",
+            iconColor: "#323232",
+            iconHoverColor: "#323232",
             hoverColor: "#000000",
             hoverBackgroundColor: "#e6e6e6",
         }
     }
     if (theme.global.current.dark) {
         return {
-            color: "#7d7d7d",
-            labelColor: "#7d7d7d",
+            primaryColor: "#959595",
+            secondaryColor: "#ffffff",
+            iconColor: "#959595",
+            iconHoverColor: "#ffffff",
             hoverColor: "#fff",
             hoverBackgroundColor: "rgba(68,68,68,0.5)",
         }
@@ -20,105 +24,146 @@ const getStyle = (theme: Themes) => {
     throw new Error()
 }
 
-export const SideberMenuComponent = ({
-    channelIds,
-    activeChannelId,
-}: {
-    channelIds: number[]
-    activeChannelId?: number
-}) => {
+export const SettingsMenuComponent = () => {
     const [theme] = useTheme()
     return (
-        <div>
-            <div className="header">
-                <span className="label">チャンネル</span>
+        <>
+            <div className="primary-list-container">
+                <div className="primary-list-item">アカウント</div>
+                <div className="secondary-list-container">
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-user-circle"></use>
+                            </svg>
+                            アカウント情報
+                        </a>
+                    </div>
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-lock"></use>
+                            </svg>
+                            パスワードの変更
+                        </a>
+                    </div>
+                </div>
+                <div className="primary-list-item">セキュリティ</div>
+                <div className="secondary-list-container">
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-computer"></use>
+                            </svg>
+                            アプリとセッション
+                        </a>
+                    </div>
+                </div>
+                <div className="primary-list-item">安全</div>
+                <div className="secondary-list-container">
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-view-off"></use>
+                            </svg>
+                            ミュート
+                        </a>
+                    </div>
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-do-not-disturb"></use>
+                            </svg>
+                            ブロック
+                        </a>
+                    </div>
+                </div>
+                <div className="primary-list-item">通知</div>
+                <div className="secondary-list-container">
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-telegram"></use>
+                            </svg>
+                            キーワード
+                        </a>
+                    </div>
+                </div>
+                <div className="primary-list-item">招待</div>
+                <div className="secondary-list-container">
+                    <div className="secondary-list-item">
+                        <a href="">
+                            <svg>
+                                <use href="#icon-user-add"></use>
+                            </svg>
+                            招待を作成
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div className="list sidebar-channel-group-list"></div>
             <style jsx>{`
-                .item {
-                    flex: 1 1 auto;
-                }
-                .header {
-                    height: 40px;
-                    font-size: 14px;
-                    padding-left: 4px;
+                a {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    height: 42px;
+                    padding: 1px 12px;
+                    border-radius: 8px;
+                    white-space: nowrap;
+                    box-sizing: border-box;
+                    font-size: 16px;
+                    line-height: 20px;
+                    text-decoration: none;
+                    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                    background-color: transparent;
+                    transition: 0.05s;
+                    overflow: hidden;
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    width: 100%;
                 }
-                .icon-down {
-                    width: 14px;
-                    height: 14px;
-                    margin: 2px 6px 0 0;
-                    text-align: center;
-                    stroke-width: 0;
-                    flex: 0 0 auto;
+                .primary-list-item {
+                    font-size: 14px;
+                    margin: 16px 0 4px 0;
                 }
-                .label {
-                    flex: 1 1 auto;
-                    font-weight: 500;
+                .primary-list-item:first-child {
+                    margin-top: 4px;
                 }
-                .toggle-channel-menu {
-                    background: none;
-                    border: none;
-                    flex: 0 0 auto;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    cursor: pointer;
-                    width: 30px;
-                    height: 30px;
-                    box-sizing: border-box;
-                    border-radius: 6px;
-                    visibility: hidden;
-                    opacity: 0;
-                    transition: 0.05s;
-                    margin-top: 2px;
+                .secondary-list-container {
                 }
-                .item:hover .toggle-channel-menu,
-                .item.show-toggle-channel-menu .toggle-channel-menu {
-                    visibility: visible;
-                    opacity: 1;
-                }
-                .icon-menu-line-horizontal {
-                    transition: 0.05s;
-                    flex: 0 0 auto;
+                svg {
+                    margin-top: 1px;
                     width: 20px;
                     height: 20px;
-                    stroke-width: 0;
-                }
-            `}</style>
-            <style jsx global>{`
-                .sidebar-channel-group-list:hover > a.item.active {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    background-color: transparent;
-                }
-                .sidebar-channel-group-list:hover > a.item.active:hover {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                    flex-shrink: 0;
+                    margin-right: 8px;
                 }
             `}</style>
             <style jsx>{`
-                .header {
-                    color: ${getStyle(theme)["color"]};
+                .primary-list-item {
+                    color: ${getStyle(theme)["primaryColor"]};
                 }
-                .label {
-                    color: ${getStyle(theme)["labelColor"]};
+                a {
+                    color: ${getStyle(theme)["secondaryColor"]};
                 }
-                .icon-down {
-                    fill: ${getStyle(theme)["color"]};
-                }
-                .icon-menu-line-horizontal {
-                    fill: ${getStyle(theme)["color"]};
-                }
-                .toggle-channel-menu:hover {
+                a:hover {
+                    color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
                 }
-                .toggle-channel-menu:hover .icon-menu-line-horizontal {
-                    fill: ${getStyle(theme)["hoverColor"]};
+                .icon {
+                    fill: ${getStyle(theme)["color"]};
+                    stroke: ${getStyle(theme)["color"]};
+                }
+                svg {
+                    fill: ${getStyle(theme)["iconColor"]};
+                    stroke: ${getStyle(theme)["iconColor"]};
+                }
+                a:hover svg {
+                    fill: ${getStyle(theme)["iconHoverColor"]};
+                    stroke: ${getStyle(theme)["iconHoverColor"]};
                 }
             `}</style>
-        </div>
+        </>
     )
 }

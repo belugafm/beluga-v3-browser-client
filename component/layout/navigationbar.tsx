@@ -63,6 +63,17 @@ export const NavigationbarComponent = () => {
                                 <div className="triangle"></div>
                             </div>
                         </a>
+                        <a className="button" href="/group/global">
+                            <svg className="icon globe">
+                                <use href="#icon-globe"></use>
+                            </svg>
+                            <div className="modal-container">
+                                <div className="menu">
+                                    <p>探す</p>
+                                </div>
+                                <div className="triangle"></div>
+                            </div>
+                        </a>
                         <a className="button" href="/settings/account">
                             <svg className="icon settings">
                                 <use href="#icon-settings"></use>
@@ -173,7 +184,7 @@ export const NavigationbarComponent = () => {
                     cursor: pointer;
                     width: 40px;
                     height: 40px;
-                    margin-bottom: 10px;
+                    margin-bottom: 14px;
                     position: relative;
                 }
                 .button:hover .modal-container {

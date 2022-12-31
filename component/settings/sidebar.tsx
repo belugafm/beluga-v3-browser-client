@@ -177,7 +177,7 @@ export const SettingsMenuComponent = () => {
                 }
                 .primary-list-item {
                     font-size: 14px;
-                    margin: 16px 0 4px 0;
+                    margin: 16px 0 8px 0;
                 }
                 .primary-list-item:first-child {
                     margin-top: 4px;

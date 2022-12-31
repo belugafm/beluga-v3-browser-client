@@ -238,6 +238,9 @@ export const MessageComponent = React.memo(
                         top: -16px;
                         right: 8px;
                     }
+                    .consecutive.consecutive .menu-container {
+                        top: -26px;
+                    }
                     .message:hover > .menu-container {
                         display: block;
                     }

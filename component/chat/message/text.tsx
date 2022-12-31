@@ -141,6 +141,7 @@ export const styledNodeToDOM = (
                         img {
                             max-width: 50%;
                             margin: 8px 0 8px 0;
+                            border-radius: 8px;
                         }
                     `}</style>
                 </>

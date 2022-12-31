@@ -8,8 +8,9 @@ const getStyle = (theme: Themes) => {
             secondaryColor: "#000000",
             iconColor: "#323232",
             iconHoverColor: "#323232",
-            hoverColor: "#000000",
-            hoverBackgroundColor: "#e6e6e6",
+            arrowColor: "#000000",
+            secondaryColorHoverColor: "#000000",
+            secondaryColorHoverBgColor: "#e6e6e6",
         }
     }
     if (theme.global.current.dark) {
@@ -18,8 +19,9 @@ const getStyle = (theme: Themes) => {
             secondaryColor: "#ffffff",
             iconColor: "#959595",
             iconHoverColor: "#ffffff",
-            hoverColor: "#fff",
-            hoverBackgroundColor: "rgba(68,68,68,0.5)",
+            arrowColor: "#ffffff",
+            secondaryColorHoverColor: "#ffffff",
+            secondaryColorHoverBgColor: "rgba(68,68,68,0.5)",
         }
     }
     throw new Error()
@@ -45,6 +47,9 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-user-circle"></use>
                             </svg>
                             アカウント情報
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                     <div
@@ -56,6 +61,9 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-lock"></use>
                             </svg>
                             パスワードの変更
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -70,6 +78,9 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-computer"></use>
                             </svg>
                             アプリとセッション
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -84,6 +95,9 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-view-off"></use>
                             </svg>
                             ミュート
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                     <div
@@ -95,6 +109,9 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-do-not-disturb"></use>
                             </svg>
                             ブロック
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -106,9 +123,12 @@ export const SettingsMenuComponent = () => {
                         })}>
                         <a href="/settings/notifications/keywords">
                             <svg>
-                                <use href="#icon-telegram"></use>
+                                <use href="#icon-font-size"></use>
                             </svg>
                             キーワード
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -123,11 +143,17 @@ export const SettingsMenuComponent = () => {
                                 <use href="#icon-user-add"></use>
                             </svg>
                             招待を作成
+                            <svg className="right-arrow">
+                                <use href="#icon-direction-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
             </div>
             <style jsx>{`
+                .primary-list-container {
+                    height: 100%;
+                }
                 a {
                     position: relative;
                     display: flex;
@@ -165,6 +191,12 @@ export const SettingsMenuComponent = () => {
                     flex-shrink: 0;
                     margin-right: 8px;
                 }
+                svg.right-arrow {
+                    position: absolute;
+                    right: 0px;
+                    top: calc(50% - 10px);
+                    display: none;
+                }
             `}</style>
             <style jsx>{`
                 .primary-list-item {
@@ -173,10 +205,9 @@ export const SettingsMenuComponent = () => {
                 a {
                     color: ${getStyle(theme)["secondaryColor"]};
                 }
-                .secondary-list-item.active a,
-                a:hover {
-                    color: ${getStyle(theme)["hoverColor"]};
-                    background-color: ${getStyle(theme)["hoverBackgroundColor"]};
+                .secondary-list-item.active a {
+                    color: ${getStyle(theme)["secondaryColorHoverColor"]};
+                    background-color: ${getStyle(theme)["secondaryColorHoverBgColor"]};
                 }
                 .icon {
                     fill: ${getStyle(theme)["color"]};
@@ -190,6 +221,29 @@ export const SettingsMenuComponent = () => {
                 a:hover svg {
                     fill: ${getStyle(theme)["iconHoverColor"]};
                     stroke: ${getStyle(theme)["iconHoverColor"]};
+                }
+                a:hover svg.right-arrow,
+                .secondary-list-item.active a svg.right-arrow {
+                    display: block;
+                    fill: ${getStyle(theme)["arrowColor"]};
+                    stroke: ${getStyle(theme)["arrowColor"]};
+                }
+                .primary-list-container:hover .secondary-list-item.active a {
+                    color: ${getStyle(theme)["secondaryColor"]};
+                    background-color: transparent;
+                }
+                .primary-list-container:hover .secondary-list-item.active a svg.right-arrow {
+                    display: none;
+                }
+                .primary-list-container:hover .secondary-list-item.active a:hover,
+                a:hover {
+                    color: ${getStyle(theme)["secondaryColorHoverColor"]};
+                    background-color: ${getStyle(theme)["secondaryColorHoverBgColor"]};
+                }
+                .primary-list-container:hover .secondary-list-item.active a:hover svg.right-arrow {
+                    display: block;
+                    fill: ${getStyle(theme)["arrowColor"]};
+                    stroke: ${getStyle(theme)["arrowColor"]};
                 }
             `}</style>
         </>

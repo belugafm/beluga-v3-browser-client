@@ -14,7 +14,6 @@ import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 import { ContentComponent } from "../../../component/layout/content"
-import { ContextProviderComponent } from "../../../component/layout/context_provider"
 
 export default ({ theme, query }) => {
     const parentId = query.parent_id ? Math.trunc(query.parent_id) : 1
@@ -40,38 +39,26 @@ export default ({ theme, query }) => {
     return (
         <>
             <Head>
-                <title>チャンネルグループの新規作成</title>
+                <title>招待を作成</title>
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
                 <AppComponent>
-                    <ContextProviderComponent
-                        pageContext={{
-                            channelGroup: {
-                                object: channelGroup,
-                                messages: [],
-                            },
-                            initialDomainData: {
-                                channels,
-                                channelGroups,
-                            },
-                        }}>
-                        <NavigationbarComponent />
-                        <SidebarComponent>
-                            <SearchComponent />
-                            <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
-                            <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
-                            <EmptyComponent
-                                channelGroupIds={channelGroupIds}
-                                channelIds={channelIds}
-                                channelGroupId={channelGroup.id}
-                            />
-                            <ChannelGroupCardComponent channelGroupId={parentId} />
-                        </SidebarComponent>
-                        <ContentComponent>
-                            <CreateChannelGroupFormComponent parentId={parentId} />
-                        </ContentComponent>
-                    </ContextProviderComponent>
+                    <NavigationbarComponent />
+                    <SidebarComponent>
+                        <SearchComponent />
+                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                        <EmptyComponent
+                            channelGroupIds={channelGroupIds}
+                            channelIds={channelIds}
+                            channelGroupId={channelGroup.id}
+                        />
+                        <ChannelGroupCardComponent channelGroupId={parentId} />
+                    </SidebarComponent>
+                    <ContentComponent>
+                        <CreateChannelGroupFormComponent parentId={parentId} />
+                    </ContentComponent>
                 </AppComponent>
             </ThemeProvider>
         </>

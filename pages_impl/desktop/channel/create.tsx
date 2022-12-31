@@ -14,6 +14,7 @@ import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
+import { ContextProviderComponent } from "../../../component/layout/context_provider"
 
 export default ({ theme, query }) => {
     const parentChannelGroupId = query.parent_channel_group_id
@@ -45,32 +46,34 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <AppComponent
-                    pageContext={{
-                        channelGroup: {
-                            object: channelGroup,
-                            messages: [],
-                        },
-                        initialDomainData: {
-                            channels,
-                            channelGroups,
-                        },
-                    }}>
-                    <NavigationbarComponent />
-                    <SidebarComponent>
-                        <SearchComponent />
-                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
-                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
-                        <EmptyComponent
-                            channelGroupIds={channelGroupIds}
-                            channelIds={channelIds}
-                            channelGroupId={channelGroup.id}
-                        />
-                        <ChannelGroupCardComponent channelGroupId={parentChannelGroupId} />
-                    </SidebarComponent>
-                    <ContentComponent>
-                        <CreateChannelFormComponent channelGroup={channelGroup} />
-                    </ContentComponent>
+                <AppComponent>
+                    <ContextProviderComponent
+                        pageContext={{
+                            channelGroup: {
+                                object: channelGroup,
+                                messages: [],
+                            },
+                            initialDomainData: {
+                                channels,
+                                channelGroups,
+                            },
+                        }}>
+                        <NavigationbarComponent />
+                        <SidebarComponent>
+                            <SearchComponent />
+                            <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                            <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                            <EmptyComponent
+                                channelGroupIds={channelGroupIds}
+                                channelIds={channelIds}
+                                channelGroupId={channelGroup.id}
+                            />
+                            <ChannelGroupCardComponent channelGroupId={parentChannelGroupId} />
+                        </SidebarComponent>
+                        <ContentComponent>
+                            <CreateChannelFormComponent channelGroup={channelGroup} />
+                        </ContentComponent>
+                    </ContextProviderComponent>
                 </AppComponent>
             </ThemeProvider>
         </>

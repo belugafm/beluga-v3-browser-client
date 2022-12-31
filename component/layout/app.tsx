@@ -1,18 +1,8 @@
-import { ContentActionContext, useContentAction } from "../../state/chat/actions/contents"
-import { MessageActionContext, useMessageAction } from "../../state/chat/actions/message"
 import { Themes, useTheme } from "../theme"
-import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
-import { websocket, polling, useStore } from "../../state/chat/store"
 
-import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
-import { DomainDataContext } from "../../state/chat/store/domain_data"
 import { GetServerSideProps } from "next"
-import { ModalContextProvider } from "../chat/modal/context_provider"
-import { ReducerContext } from "../../state/chat/store/types/reducer"
-import { TooltipComponent } from "../chat/tooltip"
 import { swrGetLoggedInUser } from "../../swr/session"
-import { PageContextObjectT } from "../../state/chat/store/types/page_context"
 
 const LoadingComponent = () => {
     const [theme] = useTheme()
@@ -77,27 +67,9 @@ const getFontStyle = () => {
     )
 }
 
-export const AppComponent = ({
-    children,
-    pageContext,
-}: {
-    children: any
-    pageContext: PageContextObjectT
-}) => {
+export const AppComponent = ({ children }: { children: any }) => {
     const [theme] = useTheme()
     const { isLoading, loggedInUser } = swrGetLoggedInUser()
-    const [state, tooltipAction] = useTooltipState()
-    const { domainData, appState, reducers } = useStore(pageContext)
-    polling.use({
-        reducers,
-        appState,
-    })
-    websocket.use({
-        reducers,
-        appState,
-    })
-    const messageAction = useMessageAction(reducers)
-    const contentAction = useContentAction({ appState, reducers })
     if (isLoading) {
         return <LoadingComponent />
     }
@@ -110,24 +82,7 @@ export const AppComponent = ({
     }
     return (
         <>
-            <div id="app">
-                <AppStateContext.Provider value={appState}>
-                    <DomainDataContext.Provider value={domainData}>
-                        <ReducerContext.Provider value={reducers}>
-                            <ContentActionContext.Provider value={contentAction}>
-                                <MessageActionContext.Provider value={messageAction}>
-                                    <TooltipActionContext.Provider value={tooltipAction}>
-                                        <ModalContextProvider pageContext={pageContext}>
-                                            {children}
-                                        </ModalContextProvider>
-                                    </TooltipActionContext.Provider>
-                                </MessageActionContext.Provider>
-                            </ContentActionContext.Provider>
-                        </ReducerContext.Provider>
-                    </DomainDataContext.Provider>
-                </AppStateContext.Provider>
-                <TooltipComponent {...state} />
-            </div>
+            <div id="app"> {children}</div>
             <style jsx>{`
                 #app {
                     background-size: 100% auto;

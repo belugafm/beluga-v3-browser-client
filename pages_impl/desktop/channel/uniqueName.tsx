@@ -13,6 +13,7 @@ import { ServerSideProps } from "../../../component/chat/next"
 import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
+import { ContextProviderComponent } from "../../../component/layout/context_provider"
 
 export default ({ theme, query }: ServerSideProps) => {
     const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
@@ -40,31 +41,35 @@ export default ({ theme, query }: ServerSideProps) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <AppComponent
-                    pageContext={{
-                        channel: {
-                            object: channel,
-                            messages,
-                            parentChannelGroup,
-                        },
-                        initialDomainData: {
-                            channels,
-                            channelGroups,
-                        },
-                    }}>
-                    <NavigationbarComponent />
-                    <SidebarComponent>
-                        <SearchComponent />
-                        <ChannelGroupListComponent
-                            channelGroupIds={channelGroups.map((channelGroup) => channelGroup.id)}
-                        />
-                        <ChannelListComponent
-                            activeChannelId={channel.id}
-                            channelIds={channels.map((channel) => channel.id)}
-                        />
-                        <ChannelGroupCardComponent channelGroupId={parentChannelGroup.id} />
-                    </SidebarComponent>
-                    <ContentGridComponent />
+                <AppComponent>
+                    <ContextProviderComponent
+                        pageContext={{
+                            channel: {
+                                object: channel,
+                                messages,
+                                parentChannelGroup,
+                            },
+                            initialDomainData: {
+                                channels,
+                                channelGroups,
+                            },
+                        }}>
+                        <NavigationbarComponent />
+                        <SidebarComponent>
+                            <SearchComponent />
+                            <ChannelGroupListComponent
+                                channelGroupIds={channelGroups.map(
+                                    (channelGroup) => channelGroup.id
+                                )}
+                            />
+                            <ChannelListComponent
+                                activeChannelId={channel.id}
+                                channelIds={channels.map((channel) => channel.id)}
+                            />
+                            <ChannelGroupCardComponent channelGroupId={parentChannelGroup.id} />
+                        </SidebarComponent>
+                        <ContentGridComponent />
+                    </ContextProviderComponent>
                 </AppComponent>
             </ThemeProvider>
         </>

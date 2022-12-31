@@ -13,6 +13,7 @@ import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
+import { ContextProviderComponent } from "../../../component/layout/context_provider"
 
 export default ({ theme, query }) => {
     const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
@@ -41,30 +42,32 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <AppComponent
-                    pageContext={{
-                        channelGroup: {
-                            object: channelGroup,
-                            messages: messages,
-                        },
-                        initialDomainData: {
-                            channels,
-                            channelGroups,
-                        },
-                    }}>
-                    <NavigationbarComponent />
-                    <SidebarComponent>
-                        <SearchComponent />
-                        <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
-                        <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
-                        <EmptyComponent
-                            channelGroupIds={channelGroupIds}
-                            channelIds={channelIds}
-                            channelGroupId={channelGroup.id}
-                        />
-                        <ChannelGroupCardComponent channelGroupId={channelGroup.id} />
-                    </SidebarComponent>
-                    <ContentGridComponent />
+                <AppComponent>
+                    <ContextProviderComponent
+                        pageContext={{
+                            channelGroup: {
+                                object: channelGroup,
+                                messages: messages,
+                            },
+                            initialDomainData: {
+                                channels,
+                                channelGroups,
+                            },
+                        }}>
+                        <NavigationbarComponent />
+                        <SidebarComponent>
+                            <SearchComponent />
+                            <ChannelGroupListComponent channelGroupIds={channelGroupIds} />
+                            <ChannelListComponent activeChannelId={null} channelIds={channelIds} />
+                            <EmptyComponent
+                                channelGroupIds={channelGroupIds}
+                                channelIds={channelIds}
+                                channelGroupId={channelGroup.id}
+                            />
+                            <ChannelGroupCardComponent channelGroupId={channelGroup.id} />
+                        </SidebarComponent>
+                        <ContentGridComponent />
+                    </ContextProviderComponent>
                 </AppComponent>
             </ThemeProvider>
         </>

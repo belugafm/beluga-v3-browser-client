@@ -6,8 +6,8 @@ const getStyle = (theme: Themes) => {
         return {
             primaryColor: "#323232",
             secondaryColor: "#000000",
-            iconColor: "#323232",
-            iconHoverColor: "#323232",
+            iconColor: "#464646",
+            iconHoverColor: "#0a0a0a",
             arrowColor: "#000000",
             secondaryColorHoverColor: "#000000",
             secondaryColorHoverBgColor: "#e6e6e6",

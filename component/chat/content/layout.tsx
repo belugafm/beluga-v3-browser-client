@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 
 import { AppStateContext } from "../../../state/chat/store/app_state"
 import { useTheme } from "../../theme"
-import { getStyleForTheme } from "../sidebar"
+import { getStyle } from "../../layout/sidebar"
 import { ContentColumnComponent } from "./column"
 
 export const ContentGridComponent = () => {
@@ -21,7 +21,7 @@ export const ContentGridComponent = () => {
             </div>
             <style jsx>{`
                 .grid-container {
-                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    background-color: ${getStyle(theme)["backgroundColor"]};
                 }
             `}</style>
             <style jsx>{`

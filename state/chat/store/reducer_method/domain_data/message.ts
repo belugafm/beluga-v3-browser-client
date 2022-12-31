@@ -8,9 +8,9 @@ import { MessageId } from "../../../../../api/object"
 
 export const showMessage = async (
     store: StoreT,
-    query: Parameters<typeof api.message.show>[0]
+    query: Parameters<typeof api.messages.show>[0]
 ): Promise<[StoreT, Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.show, query)
+    const [nextDomainData, response] = await fetch(store.domainData, api.messages.show, query)
     return [
         {
             domainData: nextDomainData,
@@ -21,9 +21,9 @@ export const showMessage = async (
 }
 export const postMessage = async (
     store: StoreT,
-    query: Parameters<typeof api.message.post>[0]
+    query: Parameters<typeof api.messages.post>[0]
 ): Promise<[StoreT, Response]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.post, query)
+    const [nextDomainData, response] = await fetch(store.domainData, api.messages.post, query)
     return [
         {
             domainData: nextDomainData,
@@ -36,7 +36,7 @@ export const deleteMessage = async (
     store: StoreT,
     query: { messageId: MessageId }
 ): Promise<[StoreT, Response | null]> => {
-    const [nextDomainData, response] = await fetch(store.domainData, api.message.delete, query)
+    const [nextDomainData, response] = await fetch(store.domainData, api.messages.delete, query)
     const { messageId } = query
     const message = nextDomainData.messages.get(messageId)
     if (message) {

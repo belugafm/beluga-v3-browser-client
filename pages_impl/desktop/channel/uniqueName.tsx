@@ -2,15 +2,15 @@ export { getServerSideProps } from "../../../component/chat/next"
 
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
-import { ContainerComponent } from "../../../component/chat/container"
+import { AppComponent } from "../../../component/layout/app"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
 import { SVGComponent } from "../../../component/chat/svg"
-import { SidebarComponent } from "../../../component/chat/sidebar"
+import { SidebarComponent } from "../../../component/layout/sidebar"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel/combined/page"
 import { ServerSideProps } from "../../../component/chat/next"
-import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 
@@ -40,7 +40,7 @@ export default ({ theme, query }: ServerSideProps) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <ContainerComponent
+                <AppComponent
                     pageContext={{
                         channel: {
                             object: channel,
@@ -65,7 +65,7 @@ export default ({ theme, query }: ServerSideProps) => {
                         <ChannelGroupCardComponent channelGroupId={parentChannelGroup.id} />
                     </SidebarComponent>
                     <ContentGridComponent />
-                </ContainerComponent>
+                </AppComponent>
             </ThemeProvider>
         </>
     )

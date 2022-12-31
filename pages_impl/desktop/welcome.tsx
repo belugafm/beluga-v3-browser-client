@@ -1,4 +1,3 @@
-import { App } from "../../component/app"
 import Head from "next/head"
 import { ThemeProvider } from "../../component/theme"
 import { WelcomeComponent } from "../../component/welcome"
@@ -10,9 +9,7 @@ export default ({ theme }) => {
                 <title>Belugaへようこそ！</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <App>
-                    <WelcomeComponent />
-                </App>
+                <WelcomeComponent />
             </ThemeProvider>
         </div>
     )

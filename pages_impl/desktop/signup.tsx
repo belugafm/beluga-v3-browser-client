@@ -1,8 +1,6 @@
 import * as WebAPI from "../../api"
 
-import { App } from "../../component/app"
 import Head from "next/head"
-import { ThemeProvider } from "../../component/theme"
 import { ServerSideProps } from "../../component/chat/next"
 
 async function loginWithTwitter() {

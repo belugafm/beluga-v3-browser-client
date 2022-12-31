@@ -7,9 +7,8 @@ import { PostboxComponent } from "../postbox"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { TimelineComponent } from "./timeline"
 
-export const getStyleForTheme = (theme: Themes) => {
+export const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
-        const alpha = 0.95
         return {
             color: "#000",
             backgroundColor: "#fff",
@@ -71,10 +70,10 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
             `}</style>
             <style jsx>{`
                 .content-container {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 .content {
-                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    background-color: ${getStyle(theme)["backgroundColor"]};
                 }
             `}</style>
         </>

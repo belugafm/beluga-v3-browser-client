@@ -1,6 +1,5 @@
 import * as WebAPI from "../../api"
 
-import { App } from "../../component/app"
 import Head from "next/head"
 import { ThemeProvider } from "../../component/theme"
 import { isString } from "../../lib/type_check"
@@ -62,9 +61,7 @@ export default ({ theme }) => {
                 <title>Twitterでログイン</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <App>
-                    <CallbackComponent />
-                </App>
+                <CallbackComponent />
             </ThemeProvider>
         </div>
     )

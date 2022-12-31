@@ -1,19 +1,19 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
-import { ContainerComponent } from "../../../component/chat/container"
+import { AppComponent } from "../../../component/layout/app"
 import { CreateChannelGroupFormComponent } from "../../../component/page/channel_group/create"
 import Head from "next/head"
 import { SVGComponent } from "../../../component/chat/svg"
-import { SidebarComponent } from "../../../component/chat/sidebar"
+import { SidebarComponent } from "../../../component/layout/sidebar"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel_group/combined/page"
-import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
+import { ContentComponent } from "../../../component/layout/content"
 
 export default ({ theme, query }) => {
     const parentId = query.parent_id ? Math.trunc(query.parent_id) : 1
@@ -43,7 +43,7 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <ContainerComponent
+                <AppComponent
                     pageContext={{
                         channelGroup: {
                             object: channelGroup,
@@ -66,10 +66,10 @@ export default ({ theme, query }) => {
                         />
                         <ChannelGroupCardComponent channelGroupId={parentId} />
                     </SidebarComponent>
-                    <BackgroundImageBackdropFilterComponent url={null}>
+                    <ContentComponent>
                         <CreateChannelGroupFormComponent parentId={parentId} />
-                    </BackgroundImageBackdropFilterComponent>
-                </ContainerComponent>
+                    </ContentComponent>
+                </AppComponent>
             </ThemeProvider>
         </>
     )

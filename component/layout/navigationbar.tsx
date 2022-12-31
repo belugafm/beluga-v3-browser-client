@@ -5,7 +5,7 @@ const getStyleForTheme = (theme: Themes) => {
         return {
             backgroundColor: "rgba(255, 255, 255, 0.95)",
             modalBackgroundColor: "rgb(17, 17, 17, 1)",
-            buttonHoverBgColor: "rgb(230, 230, 230, 1)",
+            buttonHoverBgColor: "rgb(240, 240, 240, 1)",
             buttonHoverIconColor: "rgb(30, 30, 30, 1)",
             modalColor: "#ffffff",
             color: "#383838",

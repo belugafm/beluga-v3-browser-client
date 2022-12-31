@@ -16,7 +16,7 @@ const getStyle = (theme: Themes) => {
             color: "#646464",
             labelColor: "#323232",
             hoverColor: "#000000",
-            hoverBackgroundColor: "#ededed",
+            hoverBackgroundColor: "#e6e6e6",
         }
     }
     if (theme.global.current.dark) {

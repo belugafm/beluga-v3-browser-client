@@ -1,9 +1,9 @@
 import * as fetch from "../fetch"
 
-import { Response, UnexpectedResponseError, get } from "../fetch"
+import { Response, get } from "../fetch"
 import { MessageId } from "../object"
 
-export const message = {
+export const messages = {
     post: async (query: {
         text: string
         textStyle?: string

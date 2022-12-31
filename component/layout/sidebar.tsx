@@ -1,7 +1,7 @@
 import { SidebarStateContext, useSidebarComponentState } from "../../state/component/sidebar"
 import { Themes, useTheme } from "../theme"
 
-export const getStyleForTheme = (theme: Themes) => {
+export const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "rgba(247,247,247,0.95)",
@@ -25,8 +25,8 @@ export const SidebarComponent = ({ children }) => {
                 <div className="sidebar translucent">{children}</div>
                 <style jsx>{`
                     .sidebar {
-                        background-color: ${getStyleForTheme(theme)["backgroundColor"]};
-                        color: ${getStyleForTheme(theme)["color"]};
+                        background-color: ${getStyle(theme)["backgroundColor"]};
+                        color: ${getStyle(theme)["color"]};
                     }
                 `}</style>
                 <style jsx>{`

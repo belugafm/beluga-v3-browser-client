@@ -8,9 +8,9 @@ import { AppStateContext } from "../../state/chat/store/app_state"
 import Cookie from "cookie"
 import { DomainDataContext } from "../../state/chat/store/domain_data"
 import { GetServerSideProps } from "next"
-import { ModalContextProvider } from "./modal/context_provider"
+import { ModalContextProvider } from "../chat/modal/context_provider"
 import { ReducerContext } from "../../state/chat/store/types/reducer"
-import { TooltipComponent } from "./tooltip"
+import { TooltipComponent } from "../chat/tooltip"
 import { swrGetLoggedInUser } from "../../swr/session"
 import { PageContextObjectT } from "../../state/chat/store/types/page_context"
 
@@ -77,7 +77,7 @@ const getFontStyle = () => {
     )
 }
 
-export const ContainerComponent = ({
+export const AppComponent = ({
     children,
     pageContext,
 }: {

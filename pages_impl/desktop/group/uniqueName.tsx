@@ -1,17 +1,16 @@
 export { getServerSideProps } from "../../../component/chat/next"
 
-import { BackgroundImageBackdropFilterComponent } from "../../../component/chat/background_image"
 import { ChannelGroupListComponent } from "../../../component/chat/sidebar/channel_group_list"
 import { ChannelListComponent } from "../../../component/chat/sidebar/channel_list"
-import { ContainerComponent } from "../../../component/chat/container"
+import { AppComponent } from "../../../component/layout/app"
 import { ContentGridComponent } from "../../../component/chat/content/layout"
 import Head from "next/head"
 import { SVGComponent } from "../../../component/chat/svg"
-import { SidebarComponent } from "../../../component/chat/sidebar"
+import { SidebarComponent } from "../../../component/layout/sidebar"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/channel_group/combined/page"
 import { EmptyComponent } from "../../../component/chat/sidebar/empty"
-import { NavigationbarComponent } from "../../../component/chat/navigationbar"
+import { NavigationbarComponent } from "../../../component/layout/navigationbar"
 import { SearchComponent } from "../../../component/chat/sidebar/search"
 import { ChannelGroupCardComponent } from "../../../component/chat/sidebar/channel_group"
 
@@ -42,7 +41,7 @@ export default ({ theme, query }) => {
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>
-                <ContainerComponent
+                <AppComponent
                     pageContext={{
                         channelGroup: {
                             object: channelGroup,
@@ -65,10 +64,8 @@ export default ({ theme, query }) => {
                         />
                         <ChannelGroupCardComponent channelGroupId={channelGroup.id} />
                     </SidebarComponent>
-                    <BackgroundImageBackdropFilterComponent url={null}>
-                        <ContentGridComponent />
-                    </BackgroundImageBackdropFilterComponent>
-                </ContainerComponent>
+                    <ContentGridComponent />
+                </AppComponent>
             </ThemeProvider>
         </>
     )

@@ -233,7 +233,7 @@ export const showContextMessages = async (
         nextDomainData = _nextDomainData
     }
     {
-        const [_nextDomainData, response] = await fetch(nextDomainData, api.message.show, {
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.messages.show, {
             messageId,
         })
         if (response.message) {

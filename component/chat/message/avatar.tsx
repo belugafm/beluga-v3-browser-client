@@ -73,6 +73,31 @@ const DefaultAvatarComponent = ({ user }: PropsT) => {
     )
 }
 
+const ProfileImageComponent = ({ user }: PropsT) => {
+    return (
+        <>
+            <div className="avatar">
+                <img src={user.profile_image_url} />
+            </div>
+            <style jsx>{`
+                .avatar {
+                    width: 45px;
+                    height: 45px;
+                    mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    mask-size: 100% 100%;
+                    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    border-radius: 0;
+                    margin-top: 2px;
+                }
+                img {
+                    width: 45px;
+                    height: 45px;
+                }
+            `}</style>
+        </>
+    )
+}
+
 export const MessageAvatarComponent = React.memo(
     (props: PropsT) => {
         const { user } = props
@@ -80,7 +105,7 @@ export const MessageAvatarComponent = React.memo(
         if (user.profile_image_url == null) {
             return <DefaultAvatarComponent user={user} />
         }
-        return <DefaultAvatarComponent user={user} />
+        return <ProfileImageComponent user={user} />
     },
     (prevProps: PropsT, nextProps: PropsT) => {
         if (prevProps.user.profile_image_url !== nextProps.user.profile_image_url) {

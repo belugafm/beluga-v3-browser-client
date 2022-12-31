@@ -1,20 +1,77 @@
-import { MessageObjectT } from "../../../api/object"
+import { MessageObjectT, UserObjectT } from "../../../api/object"
 import React from "react"
 import { Themes } from "../../theme"
 import { Random } from "./avatar"
 
-const getStyle = (theme: Themes) => {
-    if (theme.global.current.light) {
-        return {
-            fill: "#fec52e",
-        }
+const UserWithoutProfileImageComponent = ({ user }: { user: UserObjectT }) => {
+    const gen = new Random(user.id)
+    const hue = 360 * gen.next()
+    const sat = 50
+    const lightness = 70
+    return (
+        <div className="user">
+            <a href={`/user/${user.name}`}></a>
+            <style jsx>{`
+                .user {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 4px;
+                }
+                a {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    mask-size: 100% 100%;
+                    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    background-color: hsl(${hue}deg, ${sat}%, ${lightness}%);
+                }
+            `}</style>
+        </div>
+    )
+}
+
+const UserWithProfileImageComponent = ({ user }: { user: UserObjectT }) => {
+    return (
+        <div className="user">
+            <a href={`/user/${user.name}`}>
+                <img src={user.profile_image_url} />
+            </a>
+            <style jsx>{`
+                .user {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 4px;
+                }
+                a {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                    mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                    mask-size: 100% 100%;
+                    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
+                }
+            `}</style>
+        </div>
+    )
+}
+
+const UserComponent = ({ user }: { user: UserObjectT }) => {
+    if (user.profile_image_url == null) {
+        return <UserWithoutProfileImageComponent user={user} />
+    } else {
+        return <UserWithProfileImageComponent user={user} />
     }
-    if (theme.global.current.dark) {
-        return {
-            fill: "#fec52e",
-        }
-    }
-    throw new Error()
 }
 
 export const FavoritesComponent = ({
@@ -33,36 +90,7 @@ export const FavoritesComponent = ({
         const hue = 360 * gen.next()
         const sat = 50
         const lightness = 70
-        userDomList.push(
-            <div className="user" key={index}>
-                <a href={`/user/${user.name}`}>
-                    <img src={user.profile_image_url} />
-                </a>
-                <style jsx>{`
-                    .user {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        width: 20px;
-                        height: 20px;
-                        margin-right: 4px;
-                    }
-                    a {
-                        display: block;
-                        width: 100%;
-                        height: 100%;
-                    }
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        mask: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
-                        mask-size: 100% 100%;
-                        -webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 0, 100 C 0, 23 23, 0 100, 0 S 200, 23 200, 100 177, 200 100, 200 0, 177 0, 100" fill="white"></path></svg>');
-                        background-color: hsl(${hue}deg, ${sat}%, ${lightness}%);
-                    }
-                `}</style>
-            </div>
-        )
+        userDomList.push(<UserComponent user={user} key={index} />)
     })
     return (
         <div className="favorites">

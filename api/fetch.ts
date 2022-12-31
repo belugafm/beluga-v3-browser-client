@@ -43,6 +43,7 @@ interface ResponseInterface {
     messages?: MessageObjectT[]
     app?: ApplicationObjectT
     apps?: ApplicationObjectT[]
+    file?: FileObjectT
     files?: FileObjectT[]
     authenticity_token?: string
     oauth_token?: string
@@ -72,6 +73,7 @@ export class Response implements ResponseInterface {
     messages?: MessageObjectT[]
     app?: ApplicationObjectT
     apps?: ApplicationObjectT[]
+    file?: FileObjectT
     files?: FileObjectT[]
     authenticityToken?: string
     oauthToken?: string
@@ -140,6 +142,9 @@ export class Response implements ResponseInterface {
         }
         if (response.oauth_token_secret) {
             this.oauthTokenSecret = response.oauth_token_secret
+        }
+        if (response.file) {
+            this.file = response.file
         }
         if (response.files) {
             this.files = response.files

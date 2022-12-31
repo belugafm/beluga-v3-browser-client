@@ -43,7 +43,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/account",
                         })}>
                         <a href="/settings/account">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-user-circle"></use>
                             </svg>
                             アカウント情報
@@ -57,7 +57,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/password",
                         })}>
                         <a href="/settings/password">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-lock"></use>
                             </svg>
                             パスワードの変更
@@ -74,7 +74,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/sessions",
                         })}>
                         <a href="/settings/sessions">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-computer"></use>
                             </svg>
                             アプリとセッション
@@ -91,7 +91,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/mute",
                         })}>
                         <a href="/settings/mute">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-view-off"></use>
                             </svg>
                             ミュート
@@ -105,7 +105,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/block",
                         })}>
                         <a href="/settings/block">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-do-not-disturb"></use>
                             </svg>
                             ブロック
@@ -122,7 +122,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/notifications/keywords",
                         })}>
                         <a href="/settings/notifications/keywords">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-font-size"></use>
                             </svg>
                             キーワード
@@ -139,7 +139,7 @@ export const SettingsMenuComponent = () => {
                             active: url.pathname == "/settings/invite",
                         })}>
                         <a href="/settings/invite">
-                            <svg>
+                            <svg className="icon">
                                 <use href="#icon-user-add"></use>
                             </svg>
                             招待を作成
@@ -184,7 +184,7 @@ export const SettingsMenuComponent = () => {
                 }
                 .secondary-list-container {
                 }
-                svg {
+                svg.icon {
                     margin-top: 1px;
                     width: 20px;
                     height: 20px;
@@ -209,16 +209,12 @@ export const SettingsMenuComponent = () => {
                     color: ${getStyle(theme)["secondaryColorHoverColor"]};
                     background-color: ${getStyle(theme)["secondaryColorHoverBgColor"]};
                 }
-                .icon {
-                    fill: ${getStyle(theme)["color"]};
-                    stroke: ${getStyle(theme)["color"]};
-                }
-                svg {
+                svg.icon {
                     fill: ${getStyle(theme)["iconColor"]};
                     stroke: ${getStyle(theme)["iconColor"]};
                 }
-                .secondary-list-item.active a svg,
-                a:hover svg {
+                .secondary-list-item.active a svg.icon,
+                a:hover svg.icon {
                     fill: ${getStyle(theme)["iconHoverColor"]};
                     stroke: ${getStyle(theme)["iconHoverColor"]};
                 }
@@ -232,7 +228,11 @@ export const SettingsMenuComponent = () => {
                     color: ${getStyle(theme)["secondaryColor"]};
                     background-color: transparent;
                 }
-                .primary-list-container:hover .secondary-list-item.active a svg.right-arrow {
+                .primary-list-container:hover .secondary-list-item.active svg.icon {
+                    fill: ${getStyle(theme)["iconColor"]};
+                    stroke: ${getStyle(theme)["iconColor"]};
+                }
+                .primary-list-container:hover .secondary-list-item.active svg.right-arrow {
                     display: none;
                 }
                 .primary-list-container:hover .secondary-list-item.active a:hover,
@@ -244,6 +244,10 @@ export const SettingsMenuComponent = () => {
                     display: block;
                     fill: ${getStyle(theme)["arrowColor"]};
                     stroke: ${getStyle(theme)["arrowColor"]};
+                }
+                .primary-list-container:hover .secondary-list-item.active a:hover svg.icon {
+                    fill: ${getStyle(theme)["iconHoverColor"]};
+                    stroke: ${getStyle(theme)["iconHoverColor"]};
                 }
             `}</style>
         </>

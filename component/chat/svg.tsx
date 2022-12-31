@@ -17,9 +17,9 @@ export const SVGComponent = () => {
                 <path
                     d="M14 7L10 12L14 17"
                     fill="none"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
             </symbol>
             <symbol xmlns="http://www.w3.org/2000/svg" id="icon-direction-down" viewBox="0 0 24 24">
@@ -332,14 +332,14 @@ export const SVGComponent = () => {
                     d="M7 4L7.69231 3.71154C7.57586 3.43205 7.30278 3.25 7 3.25C6.69722 3.25 6.42414 3.43205 6.30769 3.71154L7 4ZM1.30769 15.7115C1.14838 16.0939 1.32919 16.533 1.71154 16.6923C2.09389 16.8516 2.53299 16.6708 2.69231 16.2885L1.30769 15.7115ZM11.3077 16.2885C11.467 16.6708 11.9061 16.8516 12.2885 16.6923C12.6708 16.533 12.8516 16.0939 12.6923 15.7115L11.3077 16.2885ZM6.30769 3.71154L1.30769 15.7115L2.69231 16.2885L7.69231 4.28846L6.30769 3.71154ZM12.6923 15.7115L7.69231 3.71154L6.30769 4.28846L11.3077 16.2885L12.6923 15.7115Z"
                     stroke="none"
                 />
-                <path d="M22 8V16" fill="none" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M22 8V16" fill="none" strokeWidth="1.5" strokeLinecap="round" />
             </symbol>
 
             <symbol
                 id="icon-notification-off"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 2.75L21 20.75" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                <path d="M3 2.75L21 20.75" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                 <path
                     d="M4.45549 13.88L3.88393 13.3944H3.88393L4.45549 13.88ZM5.33476 11.8385L6.07999 11.9229L5.33476 11.8385ZM18.6652 11.8385L19.4105 11.7541L18.6652 11.8385ZM19.5445 13.88L20.1161 13.3944L19.5445 13.88ZM18.3204 8.79403L17.5751 8.87846V8.87846L18.3204 8.79403ZM5.67964 8.79403L4.9344 8.70961L5.67964 8.79403ZM19.1991 15.4521C19.0801 15.8488 19.3053 16.2669 19.7021 16.3859C20.0988 16.5049 20.5169 16.2797 20.6359 15.8829L19.1991 15.4521ZM7.96647 3.53735C7.62832 3.77658 7.54813 4.24463 7.78735 4.58278C8.02658 4.92093 8.49463 5.00112 8.83278 4.7619L7.96647 3.53735ZM7.15458 6.62188C7.35881 6.26152 7.23225 5.80382 6.87188 5.59959C6.51152 5.39536 6.05382 5.52192 5.84959 5.88229L7.15458 6.62188ZM17.25 17.75C17.6642 17.75 18 17.4142 18 17C18 16.5858 17.6642 16.25 17.25 16.25V17.75ZM17.5751 8.87846L17.92 11.9229L19.4105 11.7541L19.0656 8.70961L17.5751 8.87846ZM6.07999 11.9229L6.42487 8.87846L4.9344 8.70961L4.58953 11.7541L6.07999 11.9229ZM5.02706 14.3657C5.61172 13.6775 5.97775 12.8255 6.07999 11.9229L4.58953 11.7541C4.52038 12.3645 4.2732 12.9363 3.88393 13.3944L5.02706 14.3657ZM17.92 11.9229C18.0223 12.8255 18.3883 13.6775 18.9729 14.3657L20.1161 13.3944C19.7268 12.9363 19.4796 12.3645 19.4105 11.7541L17.92 11.9229ZM5.83014 16.25C4.94334 16.25 4.37926 15.1281 5.02706 14.3657L3.88393 13.3944C2.46491 15.0647 3.57828 17.75 5.83014 17.75V16.25ZM19.0656 8.70961C18.6504 5.04473 15.6279 2.25 12 2.25V3.75C14.8302 3.75 17.2419 5.93698 17.5751 8.87846L19.0656 8.70961ZM20.6359 15.8829C20.8767 15.0798 20.7504 14.141 20.1161 13.3944L18.9729 14.3657C19.2498 14.6915 19.3069 15.0924 19.1991 15.4521L20.6359 15.8829ZM8.83278 4.7619C9.73943 4.12048 10.8319 3.75 12 3.75V2.25C10.5091 2.25 9.1161 2.72404 7.96647 3.53735L8.83278 4.7619ZM6.42487 8.87846C6.51791 8.05714 6.77336 7.29454 7.15458 6.62188L5.84959 5.88229C5.36994 6.72861 5.05047 7.68505 4.9344 8.70961L6.42487 8.87846ZM17.25 16.25H5.83014V17.75H17.25V16.25Z"
                     stroke="none"
@@ -350,7 +350,7 @@ export const SVGComponent = () => {
                 />
             </symbol>
             <symbol id="icon-view-off" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4L20 20" fill="none" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M4 4L20 20" fill="none" strokeWidth="1.5" strokeLinecap="round" />
                 <path
                     d="M13.4998 13.6773C13.8085 13.401 14.2826 13.4273 14.5589 13.7359C14.8351 14.0446 14.8088 14.5187 14.5002 14.795L13.4998 13.6773ZM9.20504 9.49981C9.48129 9.19117 9.95543 9.1649 10.2641 9.44115C10.5727 9.71739 10.599 10.1915 10.3227 10.5002L9.20504 9.49981ZM9.75 12C9.75 13.2426 10.7574 14.25 12 14.25V15.75C9.92893 15.75 8.25 14.0711 8.25 12H9.75ZM12 14.25C12.5767 14.25 13.1012 14.034 13.4998 13.6773L14.5002 14.795C13.8372 15.3883 12.96 15.75 12 15.75V14.25ZM10.3227 10.5002C9.96602 10.8988 9.75 11.4233 9.75 12H8.25C8.25 11.04 8.61169 10.1628 9.20504 9.49981L10.3227 10.5002Z"
                     stroke="none"
@@ -361,13 +361,13 @@ export const SVGComponent = () => {
                 />
             </symbol>
             <symbol id="icon-do-not-disturb" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" fill="none" stroke-width="1.5" />
+                <circle cx="12" cy="12" r="10" fill="none" strokeWidth="1.5" />
                 <path
                     d="M7 12H17"
                     fill="none"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
             </symbol>
             <symbol id="icon-user-add" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -377,22 +377,15 @@ export const SVGComponent = () => {
                     rx="7"
                     ry="3.5"
                     fill="none"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
                 />
-                <circle
-                    cx="10"
-                    cy="7"
-                    r="4"
-                    fill="none"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
-                />
-                <path d="M21 11H17" fill="none" stroke-width="1.5" stroke-linecap="round" />
-                <path d="M19 9L19 13" fill="none" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="10" cy="7" r="4" fill="none" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M21 11H17" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M19 9L19 13" fill="none" strokeWidth="1.5" strokeLinecap="round" />
             </symbol>
             <symbol id="icon-computer" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="20" height="16" rx="3" fill="none" stroke-width="1.5" />
+                <rect x="2" y="2" width="20" height="16" rx="3" fill="none" strokeWidth="1.5" />
                 <path
                     d="M9 21.25C8.58579 21.25 8.25 21.5858 8.25 22C8.25 22.4142 8.58579 22.75 9 22.75V21.25ZM15 22.75C15.4142 22.75 15.75 22.4142 15.75 22C15.75 21.5858 15.4142 21.25 15 21.25V22.75ZM12.75 18C12.75 17.5858 12.4142 17.25 12 17.25C11.5858 17.25 11.25 17.5858 11.25 18H12.75ZM9 22.75H12V21.25H9V22.75ZM12 22.75H15V21.25H12V22.75ZM12.75 22V18H11.25V22H12.75Z"
                     stroke="none"
@@ -411,8 +404,8 @@ export const SVGComponent = () => {
                     r="3"
                     transform="matrix(1 0 0 -1 12 9)"
                     fill="none"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
                 />
             </symbol>
             <symbol id="icon-lock" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

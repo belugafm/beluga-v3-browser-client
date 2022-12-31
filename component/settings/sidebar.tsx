@@ -1,4 +1,5 @@
-import { useTheme } from "../theme"
+import classNames from "classnames"
+import { Themes, useTheme } from "../theme"
 
 const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {
@@ -26,21 +27,31 @@ const getStyle = (theme: Themes) => {
 
 export const SettingsMenuComponent = () => {
     const [theme] = useTheme()
+    const url = new URL(location.href)
+    const components = url.pathname.split("/")
+    console.log(components)
+
     return (
         <>
             <div className="primary-list-container">
                 <div className="primary-list-item">アカウント</div>
                 <div className="secondary-list-container">
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/account",
+                        })}>
+                        <a href="/settings/account">
                             <svg>
                                 <use href="#icon-user-circle"></use>
                             </svg>
                             アカウント情報
                         </a>
                     </div>
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/password",
+                        })}>
+                        <a href="/settings/password">
                             <svg>
                                 <use href="#icon-lock"></use>
                             </svg>
@@ -50,8 +61,11 @@ export const SettingsMenuComponent = () => {
                 </div>
                 <div className="primary-list-item">セキュリティ</div>
                 <div className="secondary-list-container">
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/sessions",
+                        })}>
+                        <a href="/settings/sessions">
                             <svg>
                                 <use href="#icon-computer"></use>
                             </svg>
@@ -61,16 +75,22 @@ export const SettingsMenuComponent = () => {
                 </div>
                 <div className="primary-list-item">安全</div>
                 <div className="secondary-list-container">
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/mute",
+                        })}>
+                        <a href="/settings/mute">
                             <svg>
                                 <use href="#icon-view-off"></use>
                             </svg>
                             ミュート
                         </a>
                     </div>
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/block",
+                        })}>
+                        <a href="/settings/block">
                             <svg>
                                 <use href="#icon-do-not-disturb"></use>
                             </svg>
@@ -80,8 +100,11 @@ export const SettingsMenuComponent = () => {
                 </div>
                 <div className="primary-list-item">通知</div>
                 <div className="secondary-list-container">
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/notifications/keywords",
+                        })}>
+                        <a href="/settings/notifications/keywords">
                             <svg>
                                 <use href="#icon-telegram"></use>
                             </svg>
@@ -91,8 +114,11 @@ export const SettingsMenuComponent = () => {
                 </div>
                 <div className="primary-list-item">招待</div>
                 <div className="secondary-list-container">
-                    <div className="secondary-list-item">
-                        <a href="">
+                    <div
+                        className={classNames("secondary-list-item", {
+                            active: url.pathname == "/settings/invite",
+                        })}>
+                        <a href="/settings/invite">
                             <svg>
                                 <use href="#icon-user-add"></use>
                             </svg>
@@ -147,6 +173,7 @@ export const SettingsMenuComponent = () => {
                 a {
                     color: ${getStyle(theme)["secondaryColor"]};
                 }
+                .secondary-list-item.active a,
                 a:hover {
                     color: ${getStyle(theme)["hoverColor"]};
                     background-color: ${getStyle(theme)["hoverBackgroundColor"]};
@@ -159,6 +186,7 @@ export const SettingsMenuComponent = () => {
                     fill: ${getStyle(theme)["iconColor"]};
                     stroke: ${getStyle(theme)["iconColor"]};
                 }
+                .secondary-list-item.active a svg,
                 a:hover svg {
                     fill: ${getStyle(theme)["iconHoverColor"]};
                     stroke: ${getStyle(theme)["iconHoverColor"]};

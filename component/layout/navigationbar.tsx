@@ -63,7 +63,7 @@ export const NavigationbarComponent = () => {
                                 <div className="triangle"></div>
                             </div>
                         </a>
-                        <a className="button">
+                        <a className="button" href="/settings/account">
                             <svg className="icon settings">
                                 <use href="#icon-settings"></use>
                             </svg>

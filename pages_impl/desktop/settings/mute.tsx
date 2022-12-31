@@ -13,7 +13,7 @@ export default ({ theme, query }) => {
     return (
         <>
             <Head>
-                <title>招待を作成</title>
+                <title>ミュート</title>
             </Head>
             <SVGComponent />
             <ThemeProvider userTheme={null} defaultGlobalThemeName={theme}>

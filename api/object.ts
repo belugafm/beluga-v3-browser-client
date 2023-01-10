@@ -2,6 +2,7 @@ export type MessageId = number
 export type UserId = number
 export type ChannelId = number
 export type ChannelGroupId = number
+export type FileId = number
 
 export type UserObjectT = {
     id: UserId
@@ -93,6 +94,12 @@ export type MessageEntityStyleNode = {
     language?: string
 }
 
+export type MessageEntityFileNode = {
+    file_id: FileId
+    file: FileObjectT | null
+    indices: [number, number]
+}
+
 export type MessageObjectT = {
     id: MessageId
     channel_id: ChannelId
@@ -126,6 +133,7 @@ export type MessageObjectT = {
             message: MessageObjectT | null
             indices: [number, number]
         }[]
+        files: MessageEntityFileNode[]
         favorited_users: UserObjectT[]
         favorited_user_ids: UserId[] // 正規化用
         style: MessageEntityStyleNode[]
@@ -133,10 +141,10 @@ export type MessageObjectT = {
 }
 
 export type FileObjectT = {
-    id: number
+    id: FileId
     user_id: UserId
     group: string
-    path: string
+    url: string
     type: string
     bytes: number
     original: boolean

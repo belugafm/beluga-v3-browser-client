@@ -91,13 +91,13 @@ const FileInputComponent = ({ ref }) => {
     return <input type="file" ref={ref} onChange={handleUpload} multiple hidden />
 }
 
-const getOriginalFilePath = (files: FileObjectT[] | null): string | null => {
+const getOriginalFileUrl = (files: FileObjectT[] | null): string | null => {
     if (files == null) {
         return null
     }
     for (const file of files) {
         if (file.original) {
-            return file.path
+            return file.url
         }
     }
     return null
@@ -135,12 +135,12 @@ const _PostboxComponent = ({
                 var formData = new FormData()
                 formData.append("file", file)
                 const result = await postFormData("upload/media", formData)
-                const path = getOriginalFilePath(result.files)
-                if (path) {
+                const url = getOriginalFileUrl(result.files)
+                if (url) {
                     editor.update(() => {
                         const root = $getRoot()
                         const paragraphNode = $createParagraphNode()
-                        const textNode = $createTextNode(path)
+                        const textNode = $createTextNode(url)
                         paragraphNode.append(textNode)
                         root.append(paragraphNode)
                     })

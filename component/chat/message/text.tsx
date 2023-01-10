@@ -1,4 +1,5 @@
 import {
+    MessageEntityFileNode,
     MessageEntityStyleFormat,
     MessageEntityStyleNode,
     MessageObjectT,
@@ -341,6 +342,84 @@ export const styledNodeToDOM = (
     return null
 }
 
+const findFileEntitiesForTextNode = (
+    node: MessageEntityStyleNode,
+    files: MessageEntityFileNode[]
+) => {
+    for (const file of files) {
+        if (node.indices[0] == file.indices[0] && node.indices[1] == file.indices[1]) {
+            return file
+        }
+    }
+    return null
+}
+
+const getImageDisplaySize = (numImages: number) => {
+    if (numImages == 1) {
+        return 300
+    }
+    if (numImages == 2) {
+        return 200
+    }
+    if (numImages == 3) {
+        return 200
+    }
+    return 200
+}
+
+const imageEntitiesToDom = (entities: MessageEntityFileNode[]) => {
+    const imgList = []
+    const numImages = entities.length
+    const displaySize = getImageDisplaySize(numImages)
+    for (const entity of entities) {
+        if (entity.file.width >= entity.file.height) {
+            imgList.push(
+                <a href={entity.file.url} target="_blank">
+                    <img src={entity.file.url} />
+                    <style jsx>{`
+                        a {
+                            display: block;
+                            padding: 4px;
+                        }
+                        img {
+                            width: ${displaySize}px;
+                            border-radius: 8px;
+                        }
+                    `}</style>
+                </a>
+            )
+        } else {
+            imgList.push(
+                <a href={entity.file.url} target="_blank">
+                    <img src={entity.file.url} />
+                    <style jsx>{`
+                        a {
+                            display: block;
+                            padding: 4px;
+                        }
+                        img {
+                            height: ${displaySize}px;
+                            border-radius: 8px;
+                        }
+                    `}</style>
+                </a>
+            )
+        }
+    }
+    return (
+        <>
+            <div className="container">{imgList}</div>
+            <style jsx>{`
+                .container {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+            `}</style>
+        </>
+    )
+}
+
 export const StyledTextComponent = ({
     text,
     entities,
@@ -352,10 +431,28 @@ export const StyledTextComponent = ({
 }) => {
     const textGraphemes = new GraphemeSplitter().splitGraphemes(text)
     const domList = []
+    const consecutiveImageEntityList = []
     entities.style.forEach((node: MessageEntityStyleNode, index: number) => {
+        if (node.type == "paragraph") {
+            if (node.children.length == 2 && node.children[0].type == "text") {
+                const entity = findFileEntitiesForTextNode(node.children[0], entities["files"])
+                if (entity && entity.file && ["png", "gif", "jpg"].includes(entity.file.type)) {
+                    consecutiveImageEntityList.push(entity)
+                    return
+                }
+            }
+        }
+        if (consecutiveImageEntityList.length > 0) {
+            const dom = imageEntitiesToDom(consecutiveImageEntityList)
+            domList.push(React.cloneElement(dom, { key: index - 1 }))
+        }
         const dom = styledNodeToDOM(textGraphemes, node, theme)
         domList.push(React.cloneElement(dom, { key: index }))
     })
+    if (consecutiveImageEntityList.length > 0) {
+        const dom = imageEntitiesToDom(consecutiveImageEntityList)
+        domList.push(React.cloneElement(dom, { key: entities.style.length }))
+    }
     return (
         <>
             {domList}
@@ -410,6 +507,7 @@ export const TextComponent = React.memo(
                     message: message,
                 }
             }),
+            files: message.entities.files,
             favorited_users: [],
             favorited_user_ids: [],
             style: message.entities.style,

@@ -33,6 +33,7 @@ export default React.memo(
                     message: message,
                 }
             }),
+            files: message.entities.files,
             favorited_users: [],
             favorited_user_ids: [],
             style: [],

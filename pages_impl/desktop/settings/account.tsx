@@ -37,7 +37,6 @@ const ProfileImageComponent = () => {
             fileInputRef.current.value = ""
             return
         }
-        const path = result.file.path
         alert("変更しました")
         fileInputRef.current.value = ""
     }

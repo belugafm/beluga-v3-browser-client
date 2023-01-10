@@ -69,8 +69,8 @@ export class Response implements ResponseInterface {
     channel_group?: ChannelGroupObjectT
     channel_groups?: ChannelGroupObjectT[]
     message?: MessageObjectT
-    user?: UserObjectT
     messages?: MessageObjectT[]
+    user?: UserObjectT
     app?: ApplicationObjectT
     apps?: ApplicationObjectT[]
     file?: FileObjectT

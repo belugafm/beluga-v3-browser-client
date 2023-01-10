@@ -2,6 +2,8 @@ import {
     ChannelGroupObjectT,
     ChannelObjectT,
     ChannelReadStateObjectT,
+    FileObjectT,
+    MessageEntityFileNode,
     MessageEntityStyleNode,
     MessageObjectT,
     UserObjectT,
@@ -51,6 +53,19 @@ function copyMessageEntityStyles(nodes: MessageEntityStyleNode[]) {
     })
 }
 
+function copyMessageEntityFiles(nodes: MessageEntityFileNode[]) {
+    if (nodes.length == 0) {
+        return []
+    }
+    return nodes.map((node) => {
+        return {
+            file_id: node.file_id,
+            file: copyFile(node.file),
+            indices: [...node.indices],
+        } as MessageEntityFileNode
+    })
+}
+
 function copyMessageEntities(
     sourceEntities: MessageObjectT["entities"]
 ): MessageObjectT["entities"] {
@@ -58,6 +73,7 @@ function copyMessageEntities(
         channel_groups: [],
         channels: [],
         messages: [],
+        files: copyMessageEntityFiles(sourceEntities.files),
         favorited_users: [],
         favorited_user_ids: [],
         style: copyMessageEntityStyles(sourceEntities.style),
@@ -239,6 +255,26 @@ export function copyDomainData(prevDomainData: DomainDataT): DomainDataT {
         channelGroups: copyChannelGroups(prevDomainData.channelGroups),
         mutedUserIds: new UserIdSet(prevDomainData.mutedUserIds),
         blockedUserIds: new UserIdSet(prevDomainData.blockedUserIds),
+    }
+}
+
+export function copyFile(file: FileObjectT | null): FileObjectT | null {
+    if (file == null) {
+        return null
+    }
+    return {
+        id: file.id,
+        user_id: file.user_id,
+        group: file.group,
+        url: file.url,
+        type: file.type,
+        bytes: file.bytes,
+        original: file.original,
+        ref_count: file.ref_count,
+        created_at: file.created_at,
+        width: file.width,
+        height: file.height,
+        tag: file.tag,
     }
 }
 

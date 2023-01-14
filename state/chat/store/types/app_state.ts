@@ -1,9 +1,13 @@
+import { MessageSearchQueryT } from "../../../../api/methods/messages"
 import { ChannelGroupId, ChannelId, MessageId } from "../../../../api/object"
 
 export const ContentType = {
+    Home: "Home",
     ChannelGroup: "ChannelGroup",
     Channel: "Channel",
-    Thread: "Thread",
+    Search: "Search",
+    Threads: "Threads",
+    Mentions: "Mentions",
 } as const
 
 export const TimelineMode = {
@@ -24,6 +28,9 @@ export type ContentStateT = {
         channelGroupId?: ChannelGroupId
         channelId?: ChannelId
         messageId?: MessageId
+        search?: {
+            query: MessageSearchQueryT
+        }
     }
     options: {
         showMutedMessage: boolean

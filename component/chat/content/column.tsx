@@ -1,8 +1,8 @@
-import { ChannelContentComponent } from "./channel"
-import { ChannelGroupContentComponent } from "./channel_group"
-import { ContentStateT } from "../../../state/chat/store/types/app_state"
+import { ChannelContentComponent } from "./columns/channel"
+import { ChannelGroupContentComponent } from "./columns/channel_group"
+import { ContentStateT, ContentType } from "../../../state/chat/store/types/app_state"
 import React from "react"
-import { ContentType } from "../../../state/chat/store/app_state"
+import { SearchContentComponent } from "./columns/search"
 
 export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentStateT[] }) => {
     console.debug("ContentColumnComponent::render")
@@ -15,6 +15,9 @@ export const ContentColumnComponent = ({ contentRows }: { contentRows: ContentSt
                     }
                     if (content.type == ContentType.ChannelGroup) {
                         return <ChannelGroupContentComponent key={index} content={content} />
+                    }
+                    if (content.type == ContentType.Search) {
+                        return <SearchContentComponent key={index} content={content} />
                     }
                 })}
             </div>

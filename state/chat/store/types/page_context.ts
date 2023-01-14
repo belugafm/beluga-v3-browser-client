@@ -1,3 +1,4 @@
+import { MessageSearchQueryT } from "../../../../api/methods/messages"
 import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT } from "../../../../api/object"
 
 export type PageContextObjectT = {
@@ -14,6 +15,10 @@ export type PageContextObjectT = {
         object: MessageObjectT
         messages: MessageObjectT[]
         parentChannelGroup: ChannelGroupObjectT
+    }
+    search?: {
+        messages: MessageObjectT[]
+        query: MessageSearchQueryT
     }
     initialDomainData: {
         channels: ChannelObjectT[]

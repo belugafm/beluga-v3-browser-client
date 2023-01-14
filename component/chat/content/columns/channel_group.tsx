@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react"
-import { Themes, useTheme } from "../../theme"
+import { Themes, useTheme } from "../../../theme"
 
-import { ContentStateT } from "../../../state/chat/store/types/app_state"
-import { DomainDataContext } from "../../../state/chat/store/domain_data"
-import { HeaderComponent } from "./header"
-import { PostboxComponent } from "../postbox"
-import { TooltipActionContext } from "../../../state/component/tooltip"
+import { ContentStateT } from "../../../../state/chat/store/types/app_state"
+import { DomainDataContext } from "../../../../state/chat/store/domain_data"
+import { HeaderComponent } from "../header"
+import { PostboxComponent } from "../../postbox"
+import { TooltipActionContext } from "../../../../state/component/tooltip"
 import classnames from "classnames"
-import { TimelineComponent } from "./timeline"
+import { TimelineComponent } from "../timeline"
 
 const getStyleForTheme = (theme: Themes) => {
     if (theme.global.current.light) {

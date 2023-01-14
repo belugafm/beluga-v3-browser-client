@@ -53,7 +53,7 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Thread) {
+            if (content.type == ContentType.Threads) {
                 // TODO
                 return
             }
@@ -72,7 +72,7 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Thread) {
+            if (content.type == ContentType.Threads) {
                 // TODO
                 return
             }
@@ -91,7 +91,7 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Thread) {
+            if (content.type == ContentType.Threads) {
                 // TODO
                 return
             }
@@ -107,7 +107,7 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Thread) {
+            if (content.type == ContentType.Threads) {
                 // TODO
                 return
             }
@@ -123,7 +123,7 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Thread) {
+            if (content.type == ContentType.Threads) {
                 // TODO
                 return
             }

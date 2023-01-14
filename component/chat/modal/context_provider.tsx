@@ -43,7 +43,9 @@ const ChannelMenuModalActionContextProvider = ({
 }) => {
     const [state, action] = useChannelMenuModalState(pageContext)
     const [theme] = useTheme()
-
+    if (pageContext.search) {
+        return <>{children}</>
+    }
     const getChannelGroupId = (pageContext: PageContextObjectT): number => {
         if (pageContext.channel) {
             return pageContext.channel.object.parent_channel_group_id
@@ -51,7 +53,6 @@ const ChannelMenuModalActionContextProvider = ({
         if (pageContext.channelGroup) {
             return pageContext.channelGroup.object.id
         }
-        throw new Error()
     }
     const channelGroupId = getChannelGroupId(pageContext)
     return (

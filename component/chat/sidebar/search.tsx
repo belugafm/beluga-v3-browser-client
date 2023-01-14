@@ -26,12 +26,12 @@ export const SearchComponent = () => {
     const [theme] = useTheme()
     return (
         <>
-            <div className="search">
+            <form className="search" action="/search">
                 <svg className="icon">
                     <use href="#icon-search"></use>
                 </svg>
-                <input type="text" placeholder="検索" />
-            </div>
+                <input type="text" name="text" placeholder="検索" />
+            </form>
             <style jsx>{`
                 .search {
                     height: 40px;

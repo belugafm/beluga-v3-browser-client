@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
-import { Themes, useTheme } from "../../theme"
+import { Themes, useTheme } from "../../../theme"
 
-import { ContentStateT } from "../../../state/chat/store/types/app_state"
-import { HeaderComponent } from "./header"
-import { PostboxComponent } from "../postbox"
-import { TooltipActionContext } from "../../../state/component/tooltip"
-import { TimelineComponent } from "./timeline"
+import { ContentStateT } from "../../../../state/chat/store/types/app_state"
+import { HeaderComponent } from "../header"
+import { PostboxComponent } from "../../postbox"
+import { TooltipActionContext } from "../../../../state/component/tooltip"
+import { TimelineComponent } from "../timeline"
 
 export const getStyle = (theme: Themes) => {
     if (theme.global.current.light) {

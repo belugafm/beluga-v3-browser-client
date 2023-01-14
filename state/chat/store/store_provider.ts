@@ -5,13 +5,14 @@ import {
     MessageObjectT,
     UserObjectT,
 } from "../../../api/object"
-import { ContentType, useAppState } from "./app_state"
+import { useAppState } from "./app_state"
 import { SetStoreActionsT, StoreT } from "./types/store"
 
-import { ContentStateT, TimelineMode } from "./types/app_state"
+import { ContentStateT, ContentType, TimelineMode } from "./types/app_state"
 import { useDomainData } from "./domain_data"
 import { PageContextObjectT } from "./types/page_context"
 import { useReducers } from "./reducer"
+import { MessageSearchQueryT } from "../../../api/methods/messages"
 
 function getLocalStorageKey(pageContext: PageContextObjectT): string | null {
     if (pageContext.channel) {
@@ -22,6 +23,11 @@ function getLocalStorageKey(pageContext: PageContextObjectT): string | null {
     }
     if (pageContext.thread) {
         return `content_layout/message/${pageContext.thread.object.id}`
+    }
+    if (pageContext.search) {
+        // @ts-ignore
+        const queryString = new URLSearchParams(pageContext.search.query).toString()
+        return `content_layout/search?${queryString}`
     }
     return null
 }
@@ -78,6 +84,12 @@ function isThreadUpToDate(thread: MessageObjectT, messages: MessageObjectT[]) {
     }
     if (thread.last_reply_message_id == null) {
         return true
+    }
+    return false
+}
+function isSearchUpToDate(query: MessageSearchQueryT, messages: MessageObjectT[]) {
+    if (messages.length == 0) {
+        return false
     }
     return false
 }
@@ -198,6 +210,41 @@ function loadContentsFromLocalStorage(
             ],
         ]
     }
+    if (pageContext.search) {
+        return [
+            [
+                {
+                    id: Date.now(),
+                    column: 0,
+                    row: 0,
+                    type: ContentType.Search,
+                    updatedAt: new Date(),
+                    postbox: {
+                        enabled: false,
+                        query: {},
+                    },
+                    context: {
+                        search: {
+                            query: pageContext.search.query,
+                        },
+                    },
+                    options: {
+                        showMutedMessage: false,
+                    },
+                    timeline: {
+                        mode: TimelineMode.KeepUpToDate,
+                        lastMessageId: null,
+                        messageIds: pageContext.search.messages.map((message) => message.id),
+                        upToDate: isSearchUpToDate(
+                            pageContext.search.query,
+                            pageContext.search.messages
+                        ),
+                        query: pageContext.search.query,
+                    },
+                },
+            ],
+        ]
+    }
     return []
 }
 
@@ -225,6 +272,14 @@ function getInitialDomainDataObjects(
     if (pageContext.thread) {
         return [
             [],
+            [],
+            pageContext.initialDomainData.channels,
+            pageContext.initialDomainData.channelGroups,
+        ]
+    }
+    if (pageContext.search) {
+        return [
+            pageContext.search.messages,
             [],
             pageContext.initialDomainData.channels,
             pageContext.initialDomainData.channelGroups,

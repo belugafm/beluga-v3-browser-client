@@ -1,9 +1,6 @@
-import * as reducerMethod from "./store/reducer_method"
-
 import { AsyncReducerMethodT, ReducersT } from "./store/types/reducer"
 
 import { AppStateT } from "./store/types/app_state"
-import { ContentType } from "./store/app_state"
 import { Response } from "../../api"
 import { UserObjectT } from "../../api/object"
 import config from "../../config"

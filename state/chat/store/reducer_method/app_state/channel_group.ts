@@ -1,11 +1,10 @@
 import * as api from "../../../../../api"
 import { Response } from "../../../../../api"
 
-import { AppStateT, ContentStateT, TimelineMode } from "../../types/app_state"
+import { AppStateT, ContentStateT, ContentType, TimelineMode } from "../../types/app_state"
 import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
 import { insertContent } from "./content"
 
-import { ContentType } from "../../app_state"
 import { DomainDataT } from "../../types/domain_data"
 import { StoreT } from "../../types/store"
 import config from "../../../../../config"
@@ -131,7 +130,7 @@ const _after = (nextContent: ContentStateT, nextDomainData: DomainDataT) => {
                 nextContent.timeline.upToDate = true
             }
             nextContent.timeline.lastMessageId = channelGroup.last_message_id
-        } else if (nextContent.type == ContentType.Thread) {
+        } else if (nextContent.type == ContentType.Threads) {
             const thread = nextDomainData.messages.get(nextContent.context.messageId)
             if (thread.last_reply_message_id === latestMessageId) {
                 nextContent.timeline.upToDate = true

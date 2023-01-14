@@ -209,6 +209,11 @@ export const WebAPIUnexpectedErrorResponse: ResponseInterface = {
 export function get(methodUrl: string, query: any): Promise<Response> {
     return new Promise((resolve, reject) => {
         const protocol = config.server.https ? "https" : "http"
+        for (const key of Object.keys(query)) {
+            if (query[key] == null) {
+                delete query[key]
+            }
+        }
         const params = new URLSearchParams(query)
         const endpointUrl = new URL(`${protocol}://${config.server.domain}/api/v1/${methodUrl}`)
         endpointUrl.search = params.toString()

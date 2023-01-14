@@ -1,12 +1,6 @@
 import { AppStateSetActionT, AppStateT, ContentStateT } from "./types/app_state"
 import { createContext, useState } from "react"
 
-export const ContentType = {
-    ChannelGroup: "ChannelGroup",
-    Channel: "Channel",
-    Thread: "Thread",
-} as const
-
 export const AppStateContext = createContext<AppStateT>({
     contents: [[]],
 })

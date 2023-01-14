@@ -11,6 +11,7 @@ import {
     UserObjectT,
 } from "./object"
 
+import qs from "querystring"
 import config from "../config"
 
 export class UnexpectedResponseError extends Error {
@@ -214,9 +215,8 @@ export function get(methodUrl: string, query: any): Promise<Response> {
                 delete query[key]
             }
         }
-        const params = new URLSearchParams(query)
         const endpointUrl = new URL(`${protocol}://${config.server.domain}/api/v1/${methodUrl}`)
-        endpointUrl.search = params.toString()
+        endpointUrl.search = qs.stringify(query)
         fetch(endpointUrl.toString(), {
             method: "GET",
             headers: {

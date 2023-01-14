@@ -115,6 +115,14 @@ const isImageUrl = (text: string): boolean => {
     return text.match(/https:\/\/.+\.(jpeg|jpg|gif|png|webp)(:[a-z]+)?$/) != null
 }
 
+const isUrl = (text: string): boolean => {
+    return (
+        text.match(
+            /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+/
+        ) != null
+    )
+}
+
 export const styledNodeToDOM = (
     textGraphemes: string[],
     node: MessageEntityStyleNode,
@@ -143,6 +151,25 @@ export const styledNodeToDOM = (
                             max-width: 50%;
                             margin: 8px 0 8px 0;
                             border-radius: 8px;
+                        }
+                    `}</style>
+                </>
+            )
+        } else if (isUrl(substr)) {
+            return (
+                <>
+                    <a href={substr} target="blank">
+                        {substr}
+                    </a>
+                    <style jsx>{`
+                        a {
+                            color: ${getLinkStyle(theme)["color"]};
+                            display: block;
+                            text-decoration: none;
+                        }
+                        a:hover {
+                            color: ${getLinkStyle(theme)["color"]};
+                            text-decoration: underline;
                         }
                     `}</style>
                 </>

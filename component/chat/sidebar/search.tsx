@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Themes, useTheme } from "../../theme"
 
 const getStyle = (theme: Themes) => {
@@ -24,13 +25,33 @@ const getStyle = (theme: Themes) => {
 
 export const SearchComponent = () => {
     const [theme] = useTheme()
+    const [query, setQuery] = useState("")
     return (
         <>
-            <form className="search" action="/search">
+            <form
+                className="search"
+                action="/search"
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    const words = query.split(/[\s\u3000]+/)
+                    const encodedWords = words.map((word) => {
+                        return encodeURIComponent(word)
+                    })
+                    const encodedQuery = encodedWords.join("%20")
+                    location.href = `/search?text=${encodedQuery}`
+                }}>
                 <svg className="icon">
                     <use href="#icon-search"></use>
                 </svg>
-                <input type="text" name="text" placeholder="検索" />
+                <input
+                    type="text"
+                    name="text"
+                    placeholder="検索"
+                    value={query}
+                    onChange={(e) => {
+                        setQuery(event.target.value)
+                    }}
+                />
             </form>
             <style jsx>{`
                 .search {

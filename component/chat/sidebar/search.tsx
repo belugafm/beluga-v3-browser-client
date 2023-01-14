@@ -7,7 +7,7 @@ const getStyle = (theme: Themes) => {
             focusBackgroundColor: "#fff",
             focusBorderColor: "#2a85ff",
             fill: "#6f767d",
-            color: "#aaa",
+            color: "#000000",
         }
     }
     if (theme.global.current.dark) {
@@ -16,7 +16,7 @@ const getStyle = (theme: Themes) => {
             focusBackgroundColor: "rgba(0,0,0,0.3)",
             focusBorderColor: "#2a85ff",
             fill: "#6f767d",
-            color: "#aaa",
+            color: "#ffffff",
         }
     }
     throw new Error()

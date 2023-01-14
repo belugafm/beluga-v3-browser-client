@@ -49,6 +49,7 @@ export const SearchComponent = () => {
                     placeholder="検索"
                     value={query}
                     onChange={(e) => {
+                        // @ts-ignore
                         setQuery(event.target.value)
                     }}
                 />

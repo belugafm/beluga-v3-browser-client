@@ -174,7 +174,7 @@ export const styledNodeToDOM = (
                     `}</style>
                 </>
             )
-        } else if (node.style) {
+        } else if (node.style && node.style.format != 0) {
             let textDecoration = ""
             if (hasFormat(node.style.format, MessageEntityStyleFormat.STRIKETHROUGH)) {
                 textDecoration += "line-through "
@@ -220,7 +220,47 @@ export const styledNodeToDOM = (
                 </>
             )
         } else {
-            return <span>{substr}</span>
+            const results = [...substr.matchAll(/^\?([^\s\?]+)|\s+\?([^\s\?]+)/g)]
+            if (results.length == 0) {
+                return <span>{substr}</span>
+            }
+            const domList = []
+            const textGraphemes = new GraphemeSplitter().splitGraphemes(substr)
+            let cursor = 0
+            for (const result of results) {
+                const start = result.index
+                if (start > cursor) {
+                    const plainText = textGraphemes.slice(cursor, start).join("")
+                    domList.push(<span>{plainText}</span>)
+                }
+                const matchedString = result[1] || result[2]
+                const offset = result[1] ? 1 : 2
+                const matchedStringGraphemes = new GraphemeSplitter().splitGraphemes(matchedString)
+                const prefixText = textGraphemes.slice(start, start + offset - 1).join("")
+                if (prefixText.length > 0) {
+                    domList.push(<span>{prefixText}</span>)
+                }
+                const searchText = textGraphemes
+                    .slice(start + offset, start + matchedStringGraphemes.length + offset)
+                    .join("")
+                domList.push(
+                    <a href={`/search?text=${searchText}`} key={start}>
+                        <span>{`?${searchText}`}</span>
+                        <style jsx>{`
+                            a {
+                                color: ${getLinkStyle(theme)["color"]};
+                                text-decoration: none;
+                            }
+                            a:hover {
+                                color: ${getLinkStyle(theme)["color"]};
+                                text-decoration: underline;
+                            }
+                        `}</style>
+                    </a>
+                )
+                cursor = start
+            }
+            return <>{domList}</>
         }
     }
     const inner = node.children.map((child, index) => {

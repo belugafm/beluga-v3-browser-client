@@ -34,7 +34,7 @@ export const ContentColumnComponent = ({
             </div>
             <style jsx>{`
                 .container {
-                    background-color: ${getStyle(theme)["backgroundColor"]};
+                    border-left-color: ${getStyle(theme)["backgroundColor"]};
                 }
             `}</style>
             <style jsx>{`
@@ -45,6 +45,7 @@ export const ContentColumnComponent = ({
                     min-width: 300px;
                     max-width: 700px;
                     border-left: 4px solid transparent;
+                    transition-duration: 0.2s;
                 }
                 .rows {
                     display: flex;

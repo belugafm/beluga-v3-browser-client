@@ -32,14 +32,15 @@ export const ThreadHeaderComponent = ({
                     display: flex;
                     flex-direction: row;
                     box-sizing: border-box;
-                    padding: 20px 20px 20px 10px;
+                    padding: 12px 0 12px 0;
                 }
                 .title-container {
                     flex: 1 1 auto;
+                    padding: 6px 10px;
                 }
                 .title {
-                    font-size: 20px;
                     font-weight: bold;
+                    font-size: 16px;
                 }
             `}</style>
             <style jsx>{`

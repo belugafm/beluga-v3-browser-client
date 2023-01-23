@@ -238,6 +238,7 @@ const _PostboxComponent = ({
                     border-radius: 8px;
                     overflow: hidden;
                     border: 1px solid transparent;
+                    transition-duration: 0.2s;
                 }
                 .text-attribute-block {
                     display: flex;

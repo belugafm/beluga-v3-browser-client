@@ -374,6 +374,7 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: ThemeT }) =>
                     font-size: 12px;
                     border-bottom: solid 1px ${getStyle(theme)["borderColor"]};
                     margin: 0 0 24px 0;
+                    transition-duration: 0.2s;
                 }
                 span {
                     padding: 4px 10px;
@@ -383,6 +384,7 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: ThemeT }) =>
                     border: 1px solid ${getStyle(theme)["borderColor"]};
                     position: relative;
                     top: 50%;
+                    transition-duration: 0.2s;
                 }
             `}</style>
         </div>

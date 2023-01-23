@@ -58,6 +58,7 @@ export const ChannelHeaderComponent = ({
                     flex-direction: row;
                     align-items: center;
                     transition: 0.05s;
+                    font-size: 16px;
                 }
                 .status {
                     margin-right: 6px;

@@ -43,7 +43,7 @@ const defaultGlobalThemes = {
     light: defaultGlobalLightTheme,
 }
 
-export type Themes = {
+export type ThemeT = {
     global: {
         current: GlobalTheme
         setCurrentTheme: (value: string) => any
@@ -51,7 +51,7 @@ export type Themes = {
     user: UserTheme
 }
 
-const ThemeContext = createContext<Themes>(null)
+const ThemeContext = createContext<ThemeT>(null)
 
 export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) => {
     const [currentGlobalThemeName, setCurrentGlobalThemeName]: [string, (value: string) => any] =
@@ -80,7 +80,7 @@ export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) =
     )
 }
 
-export const useTheme = (): [Themes, (value: string) => any] => {
-    const themes: Themes = useContext(ThemeContext)
+export const useTheme = (): [ThemeT, (value: string) => any] => {
+    const themes: ThemeT = useContext(ThemeContext)
     return [themes, themes.global.setCurrentTheme]
 }

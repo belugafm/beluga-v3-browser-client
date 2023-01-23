@@ -71,7 +71,7 @@ export const timeline = {
         const responce = await get(
             "timeline/thread",
             removeUndefined({
-                status_id: query.messageId,
+                message_id: query.messageId,
                 since_id: query.sinceId,
                 max_id: query.maxId,
                 since_date: query.sinceDate,

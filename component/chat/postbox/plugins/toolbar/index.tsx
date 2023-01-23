@@ -12,7 +12,7 @@ import {
 } from "lexical"
 import { $isCodeNode, getCodeLanguages, getDefaultCodeLanguage } from "@lexical/code"
 import { $isListNode, ListNode } from "@lexical/list"
-import { Themes, useTheme } from "../../../../theme"
+import { ThemeT, useTheme } from "../../../../theme"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 
 import { $isHeadingNode } from "@lexical/rich-text"
@@ -26,7 +26,7 @@ import ColorPicker from "./color_picker"
 import { $patchStyleText } from "@lexical/selection"
 import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/dropdown"
 
-const getStyleForEditorButton = (theme: Themes) => {
+const getStyleForEditorButton = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#6f767d",
@@ -46,7 +46,7 @@ const getStyleForEditorButton = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForDivider = (theme: Themes) => {
+const getStyleForDivider = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#dcdcdc",
@@ -60,7 +60,7 @@ const getStyleForDivider = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForToolbar = (theme: Themes) => {
+const getStyleForToolbar = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#fafafa",
@@ -93,7 +93,7 @@ const blockTypeToBlockName = {
     ul: "リスト",
 }
 
-function Divider({ theme }: { theme: Themes }) {
+function Divider({ theme }: { theme: ThemeT }) {
     return (
         <>
             <div className="divider" />

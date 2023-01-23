@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Themes, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
@@ -9,7 +9,7 @@ import { TooltipActionContext } from "../../../../state/component/tooltip"
 import classnames from "classnames"
 import { TimelineComponent } from "../timeline"
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyleForTheme = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
@@ -38,7 +38,6 @@ const getStyleForTheme = (theme: Themes) => {
 }
 
 export const ChannelGroupContentComponent = ({ content }: { content: ContentStateT }) => {
-    console.debug("ChannelGroupContentComponent::render")
     const domainData = useContext(DomainDataContext)
     const tooltipAction = useContext(TooltipActionContext)
     const [theme] = useTheme()

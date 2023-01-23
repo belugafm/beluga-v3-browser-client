@@ -1,4 +1,4 @@
-import { Themes, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../theme"
 
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"
@@ -9,7 +9,7 @@ const LoadingComponent = () => {
     return getStyleForTheme(theme)
 }
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyleForTheme = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return (
             <style jsx global>{`

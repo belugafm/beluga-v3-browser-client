@@ -6,7 +6,6 @@ import { getStyle } from "../../layout/sidebar"
 import { ContentColumnComponent } from "./column"
 
 export const ContentGridComponent = () => {
-    console.debug("ContentGridComponent::render")
     const appState = useContext(AppStateContext)
     const [theme] = useTheme()
     return (
@@ -14,7 +13,13 @@ export const ContentGridComponent = () => {
             <div className="grid-container">
                 <div className="grid">
                     {appState.contents.map((contentRows, index) => {
-                        return <ContentColumnComponent key={index} contentRows={contentRows} />
+                        return (
+                            <ContentColumnComponent
+                                key={index}
+                                contentRows={contentRows}
+                                theme={theme}
+                            />
+                        )
                     })}
                     <div className="empty-column"></div>
                 </div>
@@ -26,7 +31,7 @@ export const ContentGridComponent = () => {
             `}</style>
             <style jsx>{`
                 .grid-container {
-                    flex: 0 1 700px;
+                    flex: 0 1 auto;
                     display: flex;
                     flex-direction: column;
                     z-index: 1;

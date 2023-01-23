@@ -1,13 +1,11 @@
-import React, { useContext } from "react"
-import { Themes, useTheme } from "../../../theme"
+import React from "react"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { HeaderComponent } from "../header"
-import { PostboxComponent } from "../../postbox"
-import { TooltipActionContext } from "../../../../state/component/tooltip"
 import { TimelineComponent } from "../timeline"
 
-export const getStyle = (theme: Themes) => {
+export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
@@ -26,7 +24,6 @@ export const getStyle = (theme: Themes) => {
 }
 
 export const SearchContentComponent = ({ content }: { content: ContentStateT }) => {
-    console.debug("SearchContentComponent::render")
     const [theme] = useTheme()
     return (
         <>

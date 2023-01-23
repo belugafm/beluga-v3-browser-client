@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#e6e6e6",

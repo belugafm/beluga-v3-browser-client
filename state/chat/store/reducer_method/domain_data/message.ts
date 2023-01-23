@@ -34,10 +34,10 @@ export const postMessage = async (
 }
 export const deleteMessage = async (
     store: StoreT,
-    query: { messageId: MessageId }
+    query: { id: MessageId }
 ): Promise<[StoreT, Response | null]> => {
     const [nextDomainData, response] = await fetch(store.domainData, api.messages.delete, query)
-    const { messageId } = query
+    const messageId = query.id
     const message = nextDomainData.messages.get(messageId)
     if (message) {
         message.deleted = true

@@ -3,7 +3,7 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { EditorComponent } from "./editor"
@@ -29,7 +29,7 @@ const editorConfig = {
     nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, CodeHighlightNode],
 }
 
-const getStyleForTextarea = (theme: Themes) => {
+const getStyleForTextarea = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#191919",
@@ -53,7 +53,7 @@ const getStyleForTextarea = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForEditorButton = (theme: Themes) => {
+const getStyleForEditorButton = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#6f767d",

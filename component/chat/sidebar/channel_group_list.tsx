@@ -2,7 +2,7 @@ import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
 } from "../../../state/component/model/channel_menu"
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../api/object"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
@@ -10,7 +10,7 @@ import { Random } from "../message/avatar"
 import classnames from "classnames"
 import { useContext } from "react"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#646464",

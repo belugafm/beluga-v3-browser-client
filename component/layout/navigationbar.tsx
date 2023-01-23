@@ -1,6 +1,6 @@
-import { Themes, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../theme"
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyleForTheme = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "rgba(255, 255, 255, 0.95)",

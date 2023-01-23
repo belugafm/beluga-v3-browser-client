@@ -6,7 +6,7 @@ export const ContentType = {
     ChannelGroup: "ChannelGroup",
     Channel: "Channel",
     Search: "Search",
-    Threads: "Threads",
+    Thread: "Thread",
     Mentions: "Mentions",
 } as const
 

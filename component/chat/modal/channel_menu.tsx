@@ -4,11 +4,11 @@ import {
 } from "../../../state/component/model/channel_menu"
 import React, { MouseEvent } from "react"
 
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 import { ChannelGroupId } from "../../../api/object"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
@@ -40,10 +40,9 @@ export const ChannelMenuModalComponent = ({
 }: {
     state: ChannelMenuModalStateT
     action: ChannelMenuModalActionT
-    theme: Themes
+    theme: ThemeT
     channelGroupId: ChannelGroupId
 }) => {
-    console.debug("ChannelMenuModalComponent::render")
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {
         // @ts-ignore
         if (event.target.className.indexOf("hide-modal-on-click") >= 0) {

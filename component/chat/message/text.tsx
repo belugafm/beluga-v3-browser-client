@@ -9,7 +9,7 @@ import { MessagePropsT } from "./types"
 import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 
@@ -43,7 +43,7 @@ export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode)
     }
 }
 
-const getSyntaxHighlightingStyle = (theme: Themes) => {
+const getSyntaxHighlightingStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             lineNumberColor: "#a5aa91",
@@ -59,7 +59,7 @@ const getSyntaxHighlightingStyle = (theme: Themes) => {
     throw new Error()
 }
 
-const getInlineCodeStyle = (theme: Themes) => {
+const getInlineCodeStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
@@ -75,7 +75,7 @@ const getInlineCodeStyle = (theme: Themes) => {
     throw new Error()
 }
 
-const getQuoteStyle = (theme: Themes) => {
+const getQuoteStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#aaaaaa",
@@ -91,7 +91,7 @@ const getQuoteStyle = (theme: Themes) => {
     throw new Error()
 }
 
-const getLinkStyle = (theme: Themes) => {
+const getLinkStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#2a85ff",
@@ -126,7 +126,7 @@ const isUrl = (text: string): boolean => {
 export const styledNodeToDOM = (
     textGraphemes: string[],
     node: MessageEntityStyleNode,
-    theme: Themes
+    theme: ThemeT
 ) => {
     if (node.type == "text") {
         const substr = sliceText(textGraphemes, node)
@@ -494,7 +494,7 @@ export const StyledTextComponent = ({
 }: {
     text: string
     entities: MessageObjectT["entities"]
-    theme: Themes
+    theme: ThemeT
 }) => {
     const textGraphemes = new GraphemeSplitter().splitGraphemes(text)
     const domList = []

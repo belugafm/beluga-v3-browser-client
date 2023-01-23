@@ -40,15 +40,15 @@ export const messages = {
         })
         return responce
     },
-    delete: async (query: { messageId: MessageId }): Promise<Response> => {
+    delete: async (query: { id: MessageId }): Promise<Response> => {
         return await fetch.post("message/delete", {
-            id: query.messageId,
+            id: query.id,
         })
     },
-    show: async (query: { messageId: MessageId }): Promise<Response> => {
+    show: async (query: { id: MessageId }): Promise<Response> => {
         try {
             const response = await get("message/show", {
-                id: query.messageId,
+                id: query.id,
             })
             return response
         } catch (error) {}

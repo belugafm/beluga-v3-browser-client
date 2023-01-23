@@ -1,7 +1,7 @@
 import { ChannelGroupId, ChannelId } from "../../../api/object"
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
-const getStyleForPanel = (theme: Themes) => {
+const getStyleForPanel = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             headerColor: "#6f767d",
@@ -19,7 +19,7 @@ const getStyleForPanel = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForButton = (theme: Themes) => {
+const getStyleForButton = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#1a1d1f",

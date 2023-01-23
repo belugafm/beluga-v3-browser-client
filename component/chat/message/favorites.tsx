@@ -1,6 +1,6 @@
 import { MessageObjectT, UserObjectT } from "../../../api/object"
 import React from "react"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import { Random } from "./avatar"
 
 const UserWithoutProfileImageComponent = ({ user }: { user: UserObjectT }) => {
@@ -79,7 +79,7 @@ export const FavoritesComponent = ({
     theme,
 }: {
     message: MessageObjectT
-    theme: Themes
+    theme: ThemeT
 }) => {
     if (message.favorite_count == 0) {
         return null

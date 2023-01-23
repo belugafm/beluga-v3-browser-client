@@ -1,9 +1,9 @@
 import { MessageObjectT } from "../../../api/object"
 import React from "react"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
@@ -39,7 +39,7 @@ export const SenderComponent = ({
     hidden,
 }: {
     message: MessageObjectT
-    theme: Themes
+    theme: ThemeT
     hidden: boolean
 }) => {
     if (hidden) {

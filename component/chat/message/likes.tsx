@@ -1,9 +1,9 @@
 import { MessageObjectT } from "../../../api/object"
 import React from "react"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#fec52e",
@@ -17,7 +17,7 @@ const getStyle = (theme: Themes) => {
     throw new Error()
 }
 
-export const LikesComponent = ({ message, theme }: { message: MessageObjectT; theme: Themes }) => {
+export const LikesComponent = ({ message, theme }: { message: MessageObjectT; theme: ThemeT }) => {
     if (message.like_count == 0) {
         return null
     }

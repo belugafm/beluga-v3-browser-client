@@ -1,7 +1,7 @@
 import { SidebarStateContext, useSidebarComponentState } from "../../state/component/sidebar"
-import { Themes, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../theme"
 
-export const getStyle = (theme: Themes) => {
+export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "rgba(247,247,247,0.95)",

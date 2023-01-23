@@ -3,7 +3,7 @@ import { MessageEntityStyleFormat, MessageEntityStyleNode } from "../../../api/o
 import { useCallback, useEffect, useState } from "react"
 
 import GraphemeSplitter from "grapheme-splitter"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import classnames from "classnames"
 import lexical from "lexical"
@@ -13,7 +13,7 @@ import { isString } from "../../../lib/type_check"
 
 const initialEditorStateJSON = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#1a1d1f",
@@ -369,7 +369,7 @@ export const SendButtonComponent = ({
     tooltipAction,
     handlePostMessage,
 }: {
-    theme: Themes
+    theme: ThemeT
     tooltipAction: TooltipActionT
     handlePostMessage: (text: string, styleMapJson: string) => Promise<boolean>
 }) => {

@@ -6,6 +6,7 @@ import { Response } from "../../../api"
 var queue: Promise<void> = new Promise((resolve) => resolve())
 
 export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): ReducersT => {
+    const version = Date.now()
     const reducer = <T>(method: ReducerMethodT<T>, query: T): void => {
         try {
             const nextStore = method(store, query)
@@ -22,9 +23,7 @@ export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): R
             queue = queue.then(async () => {
                 try {
                     const [nextStore, response] = await method(store, query)
-                    if (response.ok) {
-                        udpateStore(setStoreActions, store, nextStore)
-                    }
+                    udpateStore(setStoreActions, store, nextStore)
                     resolve(response)
                 } catch (error) {
                     console.error("asyncReducer", error)
@@ -33,6 +32,7 @@ export const useReducers = (store: StoreT, setStoreActions: SetStoreActionsT): R
             })
         })
     }
+    asyncReducer.version = version
     const asyncSequentialReducer = async <T>(
         asyncReducers: {
             method: AsyncReducerMethodT<T>

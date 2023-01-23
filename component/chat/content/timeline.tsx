@@ -1,26 +1,25 @@
 import React, { useCallback, useContext, useMemo, useRef } from "react"
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 import { ContentActionContext, ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT, TimelineMode } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionContext } from "../../../state/component/model/delete_message"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
-import { HeaderComponent } from "./header"
 import { MessageActionContext } from "../../../state/chat/actions/message"
 import { MessageComponent } from "../message"
 import { ChannelId, MessageObjectT, UserId } from "../../../api/object"
-import { PostboxComponent } from "../postbox"
 import { ScrollerState } from "../../../state/chat/components/scroller"
 import { TextComponent } from "../message/text"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { swrGetLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
+import { ContentType } from "../../../state/chat/store/types/app_state"
 
 const lerp = (a: number, b: number, ratio: number) => {
     return a * (1 - ratio) + b * ratio
 }
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyleForTheme = (theme: ThemeT) => {
     if (theme.global.current.light) {
         const alpha = 0.95
         return {
@@ -134,10 +133,10 @@ const NewMessageNotificationButton = ({
     theme,
 }: {
     scrollerState: ScrollerState
-    theme: Themes
+    theme: ThemeT
 }) => {
     if (scrollerState.shouldNotifyNewMessages) {
-        const getStyle = (theme: Themes) => {
+        const getStyle = (theme: ThemeT) => {
             if (theme.global.current.light) {
                 return {
                     fill: "#fff",
@@ -236,11 +235,11 @@ const ShowLatestMessagesButton = ({
 }: {
     scrollerState: ScrollerState
     content: ContentStateT
-    theme: Themes
+    theme: ThemeT
     contentAction: ContentActionT
 }) => {
     if (content.timeline.mode == TimelineMode.ShowContextMessages) {
-        const getStyle = (theme: Themes) => {
+        const getStyle = (theme: ThemeT) => {
             if (theme.global.current.light) {
                 return {
                     fill: "#fff",
@@ -344,8 +343,8 @@ const SpacerComponent = () => {
     )
 }
 
-const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) => {
-    const getStyle = (theme: Themes) => {
+const DateDividerComponent = ({ date, theme }: { date: Date; theme: ThemeT }) => {
+    const getStyle = (theme: ThemeT) => {
         if (theme.global.current.light) {
             return {
                 color: "#1a1d1f",
@@ -391,14 +390,15 @@ const DateDividerComponent = ({ date, theme }: { date: Date; theme: Themes }) =>
 }
 
 const isEmpty = (content: ContentStateT) => {
-    if (content.timeline.messageIds.length == 0) {
-        return true
+    if (content.type == ContentType.Channel) {
+        if (content.timeline.messageIds.length == 0) {
+            return true
+        }
     }
     return false
 }
 
 export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
-    console.debug("TimelineComponent::render")
     const domainData = useContext(DomainDataContext)
     const messageAction = useContext(MessageActionContext)
     const contentAction = useContext(ContentActionContext)

@@ -10,6 +10,7 @@ import { StoreT } from "../../types/store"
 import config from "../../../../../config"
 import { fetch } from "../fetch"
 import { copyAppState, copyContents } from "../../app_state/copy"
+import { findContentInAppState } from "../../app_state/content"
 
 const _fetch = (
     prevDomainData: DomainDataT,
@@ -130,7 +131,7 @@ const _after = (nextContent: ContentStateT, nextDomainData: DomainDataT) => {
                 nextContent.timeline.upToDate = true
             }
             nextContent.timeline.lastMessageId = channelGroup.last_message_id
-        } else if (nextContent.type == ContentType.Threads) {
+        } else if (nextContent.type == ContentType.Thread) {
             const thread = nextDomainData.messages.get(nextContent.context.messageId)
             if (thread.last_reply_message_id === latestMessageId) {
                 nextContent.timeline.upToDate = true
@@ -155,7 +156,7 @@ export const prependMessagesWithMaxId = async (
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)
-    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    const nextContent = findContentInAppState(nextAppState, prevContent)
     nextContent.timeline.messageIds = nextContent.timeline.messageIds.concat(
         messages.map((message) => message.id)
     )
@@ -185,7 +186,7 @@ export const appendMessagesWithSinceId = async (
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)
-    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    const nextContent = findContentInAppState(nextAppState, prevContent)
     nextContent.timeline.messageIds = messages
         .map((message) => message.id)
         .concat(nextContent.timeline.messageIds)
@@ -225,7 +226,7 @@ export const showContextMessages = async (
     }
     {
         const [_nextDomainData, response] = await fetch(nextDomainData, api.messages.show, {
-            messageId,
+            id: messageId,
         })
         if (response.message) {
             messages = messages.concat([response.message])
@@ -243,7 +244,7 @@ export const showContextMessages = async (
         nextDomainData = _nextDomainData
     }
 
-    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    const nextContent = findContentInAppState(nextAppState, prevContent)
     nextContent.timeline.messageIds = messages.map((message) => message.id)
     nextContent.timeline.mode = TimelineMode.ShowContextMessages
 
@@ -266,7 +267,7 @@ export const showLatestMessages = async (
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)
-    const nextContent = nextAppState["contents"][prevContent.column][prevContent.row]
+    const nextContent = findContentInAppState(nextAppState, prevContent)
     nextContent.timeline.messageIds = messages.map((message) => message.id)
     _after(nextContent, nextDomainData)
     nextContent.timeline.mode = TimelineMode.KeepUpToDate

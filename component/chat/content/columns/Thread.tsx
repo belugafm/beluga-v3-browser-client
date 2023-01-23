@@ -25,7 +25,7 @@ export const getStyle = (theme: ThemeT) => {
     throw new Error()
 }
 
-export const ChannelContentComponent = ({ content }: { content: ContentStateT }) => {
+export const ThreadContentComponent = ({ content }: { content: ContentStateT }) => {
     const tooltipAction = useContext(TooltipActionContext)
     const [theme] = useTheme()
     return (

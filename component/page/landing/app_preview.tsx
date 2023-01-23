@@ -5,11 +5,11 @@ import {
     UserObjectT,
 } from "../../../api/object"
 import React, { MouseEvent, useContext } from "react"
-import { Themes, defaultGlobalDarkTheme } from "../../theme"
+import { ThemeT, defaultGlobalDarkTheme } from "../../theme"
 import { TooltipActionContext } from "../../../state/component/tooltip"
 
 import { ChannelDescriptionModalActionContext } from "./channel_modal"
-import { ChannelHeaderComponent } from "../../chat/content/header"
+import { ChannelHeaderComponent } from "../../chat/content/headers/Channel"
 import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
@@ -201,7 +201,7 @@ export const AppPreviewComponent = (props: {
     channelGroup: ChannelGroupObjectT
 }) => {
     const { channels, messages, channelGroup } = props
-    const theme: Themes = {
+    const theme: ThemeT = {
         global: {
             current: defaultGlobalDarkTheme,
             setCurrentTheme: (key: string) => {},

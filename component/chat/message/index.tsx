@@ -4,7 +4,7 @@ import { MessagePropsT } from "./types"
 import { MenuComponent } from "./menu"
 import { MessageAvatarComponent } from "./avatar"
 import React, { useState } from "react"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
 import { LikesComponent } from "./likes"
@@ -20,7 +20,7 @@ const rlerp = (a: number, b: number, ratio: number) => {
     return (b - a * (1 - ratio)) / ratio
 }
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "transparent",
@@ -45,9 +45,9 @@ const TextComponent = ({
     children: any
     messageUser: UserObjectT
     loggedInUser: UserObjectT
-    theme: Themes
+    theme: ThemeT
 }) => {
-    const getStyle = (theme: Themes) => {
+    const getStyle = (theme: ThemeT) => {
         if (theme.global.current.light) {
             return {
                 color: "#828282",
@@ -257,6 +257,9 @@ export const MessageComponent = React.memo(
         )
     },
     (prevProps: MessagePropsT, nextProps: MessagePropsT) => {
+        // TODO: データの変化だけを見ているとreducerなどの変更が無視されるため、
+        // データとハンドラを分離しキャッシュすべきところとそうでないところをちゃんと管理する
+        return false
         if (prevProps.message._internal_updated_at !== nextProps.message._internal_updated_at) {
             return false
         }

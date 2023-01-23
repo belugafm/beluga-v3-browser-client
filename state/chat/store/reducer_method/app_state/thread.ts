@@ -10,33 +10,34 @@ import { StoreT } from "../../types/store"
 import config from "../../../../../config"
 import { fetch } from "../fetch"
 import { copyAppState, copyContents } from "../../app_state/copy"
+import { createThreadContent } from "../../store_provider"
 import { findContentInAppState } from "../../app_state/content"
 
 const _fetch = (
     prevDomainData: DomainDataT,
-    query: Parameters<typeof api.timeline.channelGroup>[0]
+    query: Parameters<typeof api.timeline.thread>[0]
 ): Promise<
     [
         DomainDataT,
         {
-            channel: ChannelObjectT
+            message: MessageObjectT
             messages: MessageObjectT[]
         }
     ]
 > => {
     return new Promise((resolve, reject) => {
-        fetch(prevDomainData, api.channel.show, {
-            id: query.channelGroupId,
+        fetch(prevDomainData, api.messages.show, {
+            id: query.messageId,
         })
             .then(([nextDomainData, response]) => {
                 const prevDomainData = nextDomainData
-                const { channel } = response
+                const { message } = response
                 fetch(
                     prevDomainData,
-                    api.timeline.channelGroup,
+                    api.timeline.thread,
                     Object.assign(
                         {
-                            channelGroupId: query.channelGroupId,
+                            messageId: query.messageId,
                         },
                         query
                     )
@@ -46,7 +47,7 @@ const _fetch = (
                         resolve([
                             nextDomainData,
                             {
-                                channel,
+                                message,
                                 messages,
                             },
                         ])
@@ -66,18 +67,20 @@ export const add = (store: StoreT, content: ContentStateT): StoreT => {
     }
 }
 export const asyncAdd = async (
-    store: StoreT,
+    prevStore: StoreT,
     params: {
-        channelGroupId: ChannelId
+        messageId: MessageId
         insertColumnAfter?: number
     }
 ): Promise<[StoreT, Response | null]> => {
     const timelineQuery = {
-        channelGroupId: params.channelGroupId,
+        messageId: params.messageId,
         limit: config.timeline.maxNumStatuses,
     }
-    const [nextDomainData] = await _fetch(store.domainData, timelineQuery)
-    const nextAppState = store.appState
+    const [nextDomainData, response] = await _fetch(prevStore.domainData, timelineQuery)
+    const content = createThreadContent(response.message, response.messages)
+    const nextAppState = copyAppState(prevStore.appState)
+    nextAppState.contents = insertContent(content, nextAppState.contents, params.insertColumnAfter)
     return [
         {
             domainData: nextDomainData,
@@ -87,23 +90,23 @@ export const asyncAdd = async (
     ]
 }
 export const setTimelineQuery = async (
-    store: StoreT,
+    prevStore: StoreT,
     params: {
         column: ContentStateT
         query: ContentStateT["timeline"]["query"]
     }
 ): Promise<[StoreT, Response]> => {
-    const { channelGroupId } = params.query
-    if (channelGroupId == null) {
+    const { messageId } = params.query
+    if (messageId == null) {
         throw new Error()
     }
     const [nextDomainData, response] = await fetch(
-        store.domainData,
-        api.timeline.channelGroup,
-        Object.assign({ channelGroupId }, params.query)
+        prevStore.domainData,
+        api.timeline.thread,
+        Object.assign({ messageId }, params.query)
     )
 
-    const nextAppState = store.appState
+    const nextAppState = copyAppState(prevStore.appState)
 
     return [
         {
@@ -118,7 +121,7 @@ const _after = (nextContent: ContentStateT, nextDomainData: DomainDataT) => {
     if (nextContent.timeline.messageIds.length > 0) {
         const latestMessageId = nextContent.timeline.messageIds[0]
         if (nextContent.type == ContentType.Channel) {
-            const channel = nextDomainData.channels.get(nextContent.context.channelGroupId)
+            const channel = nextDomainData.channels.get(nextContent.context.channelId)
             if (channel.last_message_id === latestMessageId) {
                 nextContent.timeline.upToDate = true
             }
@@ -149,14 +152,10 @@ export const prependMessagesWithMaxId = async (
     }
 ): Promise<[StoreT, Response | null]> => {
     const { prevContent, maxId } = params
-    const [nextDomainData, response] = await fetch(
-        prevStore.domainData,
-        api.timeline.channelGroup,
-        {
-            channelGroupId: prevContent.timeline.query.channelGroupId,
-            maxId: maxId,
-        }
-    )
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.thread, {
+        messageId: prevContent.timeline.query.messageId,
+        maxId: maxId,
+    })
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)
@@ -165,6 +164,7 @@ export const prependMessagesWithMaxId = async (
         messages.map((message) => message.id)
     )
     _after(nextContent, nextDomainData)
+
     return [
         {
             domainData: nextDomainData,
@@ -182,14 +182,10 @@ export const appendMessagesWithSinceId = async (
     }
 ): Promise<[StoreT, Response | null]> => {
     const { prevContent, sinceId } = params
-    const [nextDomainData, response] = await fetch(
-        prevStore.domainData,
-        api.timeline.channelGroup,
-        {
-            channelGroupId: prevContent.timeline.query.channelGroupId,
-            sinceId: sinceId,
-        }
-    )
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.thread, {
+        messageId: prevContent.timeline.query.messageId,
+        sinceId: sinceId,
+    })
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)
@@ -222,8 +218,8 @@ export const showContextMessages = async (
     let nextDomainData = prevStore.domainData
     let messages = []
     {
-        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.channelGroup, {
-            channelGroupId: prevContent.timeline.query.channelGroupId,
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.thread, {
+            messageId: prevContent.timeline.query.messageId,
             sinceId: messageId,
         })
         if (response.messages) {
@@ -241,8 +237,8 @@ export const showContextMessages = async (
         nextDomainData = _nextDomainData
     }
     {
-        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.channelGroup, {
-            channelGroupId: prevContent.timeline.query.channelGroupId,
+        const [_nextDomainData, response] = await fetch(nextDomainData, api.timeline.thread, {
+            messageId: prevContent.timeline.query.messageId,
             maxId: messageId,
         })
         if (response.messages) {
@@ -268,13 +264,9 @@ export const showLatestMessages = async (
     prevStore: StoreT,
     prevContent: ContentStateT
 ): Promise<[StoreT, Response | null]> => {
-    const [nextDomainData, response] = await fetch(
-        prevStore.domainData,
-        api.timeline.channelGroup,
-        {
-            channelGroupId: prevContent.timeline.query.channelGroupId,
-        }
-    )
+    const [nextDomainData, response] = await fetch(prevStore.domainData, api.timeline.thread, {
+        messageId: prevContent.timeline.query.messageId,
+    })
     const { messages } = response
 
     const nextAppState = copyAppState(prevStore.appState)

@@ -9,9 +9,9 @@ import { useEffect, useRef } from "react"
 
 import { $createCodeNode } from "@lexical/code"
 import { $wrapLeafNodesInElements } from "@lexical/selection"
-import { Themes } from "../../../../theme"
+import { ThemeT } from "../../../../theme"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",

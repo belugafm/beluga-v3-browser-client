@@ -3,10 +3,10 @@ import React, { MouseEvent } from "react"
 import { DateComponent } from "../message/sender"
 import { DeleteMessageModalActionT } from "../../../state/component/model/delete_message"
 import { MessageObjectT } from "../../../api/object"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 
-const getContainerStyle = (theme: Themes) => {
+const getContainerStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "rgba(26, 28, 31, 0.2)",
@@ -25,11 +25,11 @@ export const MessageSenderComponent = ({
     theme,
 }: {
     message: MessageObjectT
-    theme: Themes
+    theme: ThemeT
 }) => {
     const user = message.user
     const display_name = user.display_name ? user.display_name : user.name
-    const getStyle = (theme: Themes) => {
+    const getStyle = (theme: ThemeT) => {
         if (theme.global.current.light) {
             return {
                 color: "#000",
@@ -120,12 +120,12 @@ const MessagePreviewComponent = ({
     theme,
 }: {
     message: MessageObjectT | null
-    theme: Themes
+    theme: ThemeT
 }) => {
     if (message == null) {
         return null
     }
-    const getStyle = (theme: Themes) => {
+    const getStyle = (theme: ThemeT) => {
         if (theme.global.current.light) {
             return {
                 backgroundColor: "transparent",
@@ -231,9 +231,8 @@ export const DeleteMessageModalComponent = ({
     message: MessageObjectT | null
     modalAction: DeleteMessageModalActionT
     deleteMessage: (message: MessageObjectT) => void
-    theme: Themes
+    theme: ThemeT
 }) => {
-    console.debug("DeleteMessageModalComponent::render")
     const handleClickBackgroun = (event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
         // @ts-ignore
@@ -241,7 +240,7 @@ export const DeleteMessageModalComponent = ({
             modalAction.hide()
         }
     }
-    const getStyle = (theme: Themes) => {
+    const getStyle = (theme: ThemeT) => {
         if (theme.global.current.light) {
             return {
                 backgroundColor: "#fff",

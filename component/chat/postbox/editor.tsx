@@ -1,4 +1,4 @@
-import { Themes, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin"
 import { CodeHighlightPlugin } from "./plugins/code_highlight"
@@ -13,7 +13,7 @@ import { ToolbarPlugin } from "./plugins/toolbar"
 import { useContext } from "react"
 import { SubmitOnShiftAndEnterPlugin } from "./plugins/shift_enter"
 
-const getPlaceholderColor = (theme: Themes) => {
+const getPlaceholderColor = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return "#aaa"
     }
@@ -56,7 +56,7 @@ const getPlaceholderText = (content: ContentStateT) => {
     return ""
 }
 
-const getTextareaColor = (theme: Themes) => {
+const getTextareaColor = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return "#191919"
     }
@@ -66,7 +66,7 @@ const getTextareaColor = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForEditorCode = (theme: Themes) => {
+const getStyleForEditorCode = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "rgb(165, 170, 145)",
@@ -86,7 +86,7 @@ const getStyleForEditorCode = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForInlineCode = (theme: Themes) => {
+const getStyleForInlineCode = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
@@ -102,7 +102,7 @@ const getStyleForInlineCode = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForQuote = (theme: Themes) => {
+const getStyleForQuote = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#aaaaa9",

@@ -4,7 +4,7 @@ import { AppStateT, ContentStateT, ContentType } from "../store/types/app_state"
 import { AsyncReducerMethodT, ReducersT } from "../store/types/reducer"
 import { Context, createContext } from "react"
 
-import { ChannelObjectT, MessageId } from "../../../api/object"
+import { ChannelObjectT, MessageId, MessageObjectT } from "../../../api/object"
 import { Response } from "../../../api"
 
 export type ContentActionT = {
@@ -15,6 +15,7 @@ export type ContentActionT = {
     showContextMessages: (content: ContentStateT, messageId: MessageId) => Promise<Response>
     showLatestMessages: (content: ContentStateT) => Promise<Response>
     openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => Promise<Response | null>
+    openThread: (message: MessageObjectT, insertColumnAfter?: number) => Promise<Response | null>
 }
 
 export const ContentActionContext: Context<ContentActionT> = createContext({
@@ -25,6 +26,7 @@ export const ContentActionContext: Context<ContentActionT> = createContext({
     showContextMessages: null,
     showLatestMessages: null,
     openChannel: null,
+    openThread: null,
 })
 
 export const useContentAction = ({
@@ -53,8 +55,11 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Threads) {
-                // TODO
+            if (content.type == ContentType.Thread) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.thread.loadLatestMessages,
+                    content
+                )
                 return
             }
         },
@@ -72,8 +77,14 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Threads) {
-                // TODO
+            if (content.type == ContentType.Thread) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.thread.prependMessagesWithMaxId,
+                    {
+                        prevContent: content,
+                        maxId: maxId,
+                    }
+                )
                 return
             }
         },
@@ -91,8 +102,14 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Threads) {
-                // TODO
+            if (content.type == ContentType.Thread) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.thread.appendMessagesWithSinceId,
+                    {
+                        prevContent: content,
+                        sinceId: sinceId,
+                    }
+                )
                 return
             }
         },
@@ -107,8 +124,11 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Threads) {
-                // TODO
+            if (content.type == ContentType.Thread) {
+                return reducers.asyncReducer(reducerMethod.appState.thread.showContextMessages, {
+                    prevContent: content,
+                    messageId: messageId,
+                })
                 return
             }
         },
@@ -123,14 +143,23 @@ export const useContentAction = ({
                 // TODO
                 return
             }
-            if (content.type == ContentType.Threads) {
-                // TODO
+            if (content.type == ContentType.Thread) {
+                return reducers.asyncReducer(
+                    reducerMethod.appState.thread.showLatestMessages,
+                    content
+                )
                 return
             }
         },
         openChannel: (channel: ChannelObjectT, insertColumnAfter?: number) => {
             return reduce(reducerMethod.appState.channel.asyncAdd, {
                 channelId: channel.id,
+                insertColumnAfter: insertColumnAfter,
+            })
+        },
+        openThread: (message: MessageObjectT, insertColumnAfter?: number) => {
+            return reduce(reducerMethod.appState.thread.asyncAdd, {
+                messageId: message.id,
                 insertColumnAfter: insertColumnAfter,
             })
         },

@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from "react"
 
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import classnames from "classnames"
 import { createContext } from "react"
 

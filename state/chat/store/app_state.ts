@@ -96,6 +96,7 @@ export const useAppState = (
 ): [AppStateT, AppStateSetActionT] => {
     console.debug("useChatAppState")
     const [contents, setContents] = useState<AppStateT["contents"]>(initialContents)
+
     return [
         {
             contents,

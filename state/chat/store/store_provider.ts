@@ -93,6 +93,40 @@ function isSearchUpToDate(query: MessageSearchQueryT, messages: MessageObjectT[]
     }
     return false
 }
+export function createThreadContent(
+    message: MessageObjectT,
+    messages: MessageObjectT[]
+): ContentStateT {
+    return {
+        id: Date.now(),
+        column: 0,
+        row: 0,
+        type: ContentType.Thread,
+        updatedAt: new Date(),
+        postbox: {
+            enabled: true,
+            query: {
+                threadId: message.id,
+            },
+        },
+        context: {
+            messageId: message.id,
+        },
+        options: {
+            showMutedMessage: false,
+        },
+        timeline: {
+            mode: TimelineMode.KeepUpToDate,
+            lastMessageId: message.last_reply_message_id,
+            messageIds: messages.map((message) => message.id),
+            upToDate: isThreadUpToDate(message, messages),
+            query: {
+                messageId: message.id,
+            },
+        },
+    }
+}
+
 function loadContentsFromLocalStorage(
     key: string,
     pageContext: PageContextObjectT
@@ -176,39 +210,7 @@ function loadContentsFromLocalStorage(
         ]
     }
     if (pageContext.thread) {
-        return [
-            [
-                {
-                    id: Date.now(),
-                    column: 0,
-                    row: 0,
-                    type: ContentType.Channel,
-                    updatedAt: new Date(),
-                    postbox: {
-                        enabled: true,
-                        query: {},
-                    },
-                    context: {
-                        channelGroupId: pageContext.thread.object.id,
-                    },
-                    options: {
-                        showMutedMessage: false,
-                    },
-                    timeline: {
-                        mode: TimelineMode.KeepUpToDate,
-                        lastMessageId: pageContext.thread.object.last_reply_message_id,
-                        messageIds: pageContext.thread.messages.map((message) => message.id),
-                        upToDate: isThreadUpToDate(
-                            pageContext.thread.object,
-                            pageContext.thread.messages
-                        ),
-                        query: {
-                            channelId: pageContext.thread.object.id,
-                        },
-                    },
-                },
-            ],
-        ]
+        return [[createThreadContent(pageContext.thread.object, pageContext.thread.messages)]]
     }
     if (pageContext.search) {
         return [

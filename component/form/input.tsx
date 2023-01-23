@@ -1,4 +1,4 @@
-import { Themes, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../theme"
 
 import classnames from "classnames"
 
@@ -12,7 +12,7 @@ type InputComponentAttributes = {
     hint: string[]
 }
 
-const getStyleForTheme = (theme: Themes) => {
+const getStyleForTheme = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#f4f4f4",

@@ -1,7 +1,7 @@
 import classNames from "classnames"
-import { Themes, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../theme"
 
-const getStyle = (theme: Themes) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             primaryColor: "#323232",

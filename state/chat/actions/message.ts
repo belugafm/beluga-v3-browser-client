@@ -17,7 +17,7 @@ export const useMessageAction = ({
         },
         deleteMessage: (message: MessageObjectT) => {
             reducer(reducers.domainData.message.delete, {
-                messageId: message.id,
+                id: message.id,
             })
         },
         createLike: (message: MessageObjectT) => {

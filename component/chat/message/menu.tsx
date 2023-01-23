@@ -3,13 +3,13 @@ import { MessageActionT } from "../../../state/chat/actions/message"
 import { MessageObjectT } from "../../../api/object"
 import { useRef, useState } from "react"
 import React from "react"
-import { Themes } from "../../theme"
+import { ThemeT } from "../../theme"
 import { TooltipActionT } from "../../../state/component/tooltip"
 import { ContentActionT } from "../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../state/chat/store/types/app_state"
 import classnames from "classnames"
 
-const getStyleForButton = (theme: Themes) => {
+const getStyleForButton = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#595e64",
@@ -29,7 +29,7 @@ const getStyleForButton = (theme: Themes) => {
     throw new Error()
 }
 
-const getStyleForMenu = (theme: Themes) => {
+const getStyleForMenu = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#d8dadc",
@@ -56,7 +56,7 @@ export const MenuComponent = ({
     bringMessageDomToFront,
 }: {
     message: MessageObjectT
-    theme: Themes
+    theme: ThemeT
     content: ContentStateT
     contentAction: ContentActionT
     messageAction: MessageActionT
@@ -110,6 +110,10 @@ export const MenuComponent = ({
             </button>
             <button
                 className="menu-button reply-in-thread global-tooltip-container"
+                onClick={(e) => {
+                    e.preventDefault()
+                    contentAction.openThread(message, content.id)
+                }}
                 onMouseEnter={(e) => tooltipAction.show(e, "スレッドで返信する")}
                 onMouseLeave={() => tooltipAction.hide()}>
                 <svg className="icon">

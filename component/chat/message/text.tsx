@@ -535,7 +535,11 @@ export const PlainTextComponent = ({
     text: string
     entities: MessageObjectT["entities"]
 }) => {
-    return <div>{text}</div>
+    const lines = text.split("\n")
+    const elements = lines.map((line, index) => {
+        return <p key={index}>{line}</p>
+    })
+    return <div>{elements}</div>
 }
 
 export const TextComponent = React.memo(

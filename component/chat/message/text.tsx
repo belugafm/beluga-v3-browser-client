@@ -537,7 +537,17 @@ export const PlainTextComponent = ({
 }) => {
     const lines = text.split("\n")
     const elements = lines.map((line, index) => {
-        return <p key={index}>{line}</p>
+        return (
+            <>
+                <p key={index}>{line}</p>
+                <style jsx>{`
+                    p {
+                        margin: 0;
+                        line-height: 1.3em;
+                    }
+                `}</style>
+            </>
+        )
     })
     return <div>{elements}</div>
 }

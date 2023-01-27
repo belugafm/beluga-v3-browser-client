@@ -67,6 +67,20 @@ const getFontStyle = () => {
     )
 }
 
+const getScrollbarStyle = (theme: ThemeT) => {
+    if (theme.global.current.light) {
+        return {
+            thumbColor: "rgba(140,140,140,0.96)",
+        }
+    }
+    if (theme.global.current.dark) {
+        return {
+            thumbColor: "rgba(16,16,16,0.96)",
+        }
+    }
+    throw new Error()
+}
+
 export const AppComponent = ({ children }: { children: any }) => {
     const [theme] = useTheme()
     const { isLoading, loggedInUser } = swrGetLoggedInUser()
@@ -82,7 +96,9 @@ export const AppComponent = ({ children }: { children: any }) => {
     }
     return (
         <>
-            <div id="app"> {children}</div>
+            <div id="app">
+                <div className="container">{children}</div>
+            </div>
             <style jsx>{`
                 #app {
                     background-size: 100% auto;
@@ -90,10 +106,37 @@ export const AppComponent = ({ children }: { children: any }) => {
                     width: 100vw;
                     box-sizing: border-box;
                     position: relative;
+                    padding: 10px 0 10px 0;
+                    display: flex;
+                    flex-direction: row;
+                    overflow-x: scroll;
+                    overflow-y: hidden;
+                }
+                #app::-webkit-scrollbar {
+                    height: 6px;
+                }
+                #app::-webkit-scrollbar-thumb {
+                    border-radius: 10px;
+                    background-color: transparent;
+                    transition: 0.5s;
+                }
+                #app::-webkit-scrollbar-track-piece {
+                    background-clip: padding-box;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+                .container {
+                    flex: 0 0 auto;
+                    min-width: 1080px;
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
-                    padding: 10px 0;
+                    margin: 0 auto;
+                }
+            `}</style>
+            <style jsx>{`
+                #app:hover::-webkit-scrollbar-thumb {
+                    background-color: ${getScrollbarStyle(theme)["thumbColor"]};
                 }
             `}</style>
             <style jsx global>{`

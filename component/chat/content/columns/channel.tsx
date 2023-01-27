@@ -48,7 +48,6 @@ export const ChannelContentComponent = ({ content }: { content: ContentStateT })
                     min-height: 300px;
                 }
                 .content {
-                    width: 100%;
                     min-height: 0;
                     display: flex;
                     flex-direction: column;

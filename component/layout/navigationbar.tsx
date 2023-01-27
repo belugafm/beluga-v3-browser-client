@@ -134,7 +134,7 @@ export const NavigationbarComponent = () => {
                     box-sizing: border-box;
                     display: flex;
                     flex-direction: column;
-                    width: 80px;
+                    flex: 0 0 80px;
                     height: 100%;
                     border-radius: 12px 0 0 12px;
                     z-index: 4;

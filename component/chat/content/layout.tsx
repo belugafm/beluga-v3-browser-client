@@ -21,7 +21,6 @@ export const ContentGridComponent = () => {
                             />
                         )
                     })}
-                    <div className="empty-column"></div>
                 </div>
             </div>
             <style jsx>{`
@@ -31,7 +30,7 @@ export const ContentGridComponent = () => {
             `}</style>
             <style jsx>{`
                 .grid-container {
-                    flex: 0 1 auto;
+                    flex: 1 1 700px;
                     display: flex;
                     flex-direction: column;
                     z-index: 1;

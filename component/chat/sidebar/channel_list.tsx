@@ -12,7 +12,7 @@ import { useContext } from "react"
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
-            color: "#646464",
+            color: "#7d7d7d",
             labelColor: "#323232",
             hoverColor: "#000000",
             hoverBackgroundColor: "#e6e6e6",

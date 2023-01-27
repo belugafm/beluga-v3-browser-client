@@ -15,34 +15,6 @@ import { swrGetLoggedInUser } from "../../../swr/session"
 import { unnormalizeMessage } from "../../../state/chat/store/domain_data/unnormalize"
 import { ContentType } from "../../../state/chat/store/types/app_state"
 
-const lerp = (a: number, b: number, ratio: number) => {
-    return a * (1 - ratio) + b * ratio
-}
-
-const getStyleForTheme = (theme: ThemeT) => {
-    if (theme.global.current.light) {
-        const alpha = 0.95
-        return {
-            color: "#000",
-            // backgroundColor: "#fff",
-            backgroundColor: `rgba(${lerp(244, 255, alpha)}, ${lerp(244, 255, alpha)}, ${lerp(
-                244,
-                255,
-                alpha
-            )}, ${alpha})`,
-            scrollbarThumbColor: "#d8dadc",
-        }
-    }
-    if (theme.global.current.dark) {
-        return {
-            color: "#fcfcfc",
-            backgroundColor: "rgba(30, 30, 30, 0.98)",
-            scrollbarThumbColor: "#787878",
-        }
-    }
-    throw new Error()
-}
-
 export class CheckIsConsecutivePost {
     private lastUserId: UserId | null
     private lastChannelId: ChannelId | null
@@ -401,6 +373,19 @@ const isEmpty = (content: ContentStateT) => {
 }
 
 export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
+    const getStyleForTheme = (theme: ThemeT) => {
+        if (theme.global.current.light) {
+            return {
+                scrollbarThumbColor: "#d8dadc",
+            }
+        }
+        if (theme.global.current.dark) {
+            return {
+                scrollbarThumbColor: "#787878",
+            }
+        }
+        throw new Error()
+    }
     const domainData = useContext(DomainDataContext)
     const messageAction = useContext(MessageActionContext)
     const contentAction = useContext(ContentActionContext)

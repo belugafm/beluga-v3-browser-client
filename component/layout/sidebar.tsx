@@ -22,7 +22,9 @@ export const SidebarComponent = ({ children }) => {
     return (
         <>
             <SidebarStateContext.Provider value={state}>
-                <div className="sidebar translucent">{children}</div>
+                <div className="sidebar translucent">
+                    <div className="inner">{children}</div>
+                </div>
                 <style jsx>{`
                     .sidebar {
                         background-color: ${getStyle(theme)["backgroundColor"]};
@@ -32,9 +34,9 @@ export const SidebarComponent = ({ children }) => {
                 <style jsx>{`
                     .sidebar {
                         height: 100%;
+                        flex: 0 0 300px;
                         transition-duration: 0.2s;
                         transition-property: background-color;
-                        width: 300px;
                         padding: 16px 12px 0 16px;
                         box-sizing: border-box;
                         box-sizing: border-box;
@@ -56,6 +58,9 @@ export const SidebarComponent = ({ children }) => {
                         background-clip: padding-box;
                         background-color: transparent;
                         border-color: transparent;
+                    }
+                    .inner {
+                        width: 272px; /* prevent grid from expanding */
                     }
                 `}</style>
             </SidebarStateContext.Provider>

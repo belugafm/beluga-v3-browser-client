@@ -66,7 +66,7 @@ export const ThemeProvider = ({ userTheme, defaultGlobalThemeName, children }) =
                             return
                         }
                         document.cookie = Cookie.serialize("theme", value, {
-                            expires: new Date(Date.now() + 86400 * 180),
+                            expires: new Date(Date.now() + 86400 * 1000 * 180),
                             path: "/",
                             domain: config.server.domain,
                         })

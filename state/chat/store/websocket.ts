@@ -62,12 +62,12 @@ export class WebSocketClient {
                 console.log("websocket recieved", data)
                 if (data.user_id) {
                     return this.reducers.asyncReducer(updateUser, {
-                        userId: data.user_id,
+                        id: data.user_id,
                     })
                 }
                 if (data.message_id) {
                     await this.reducers.asyncReducer(updateMessage, {
-                        messageId: data.message_id,
+                        id: data.message_id,
                     })
                     // 各タイムラインを強制再描画し現在のデータを反映
                     this.reducers.reducer(setUpdatedAtToAllContents, new Date())

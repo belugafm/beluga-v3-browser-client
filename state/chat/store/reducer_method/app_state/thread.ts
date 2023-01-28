@@ -2,7 +2,7 @@ import * as api from "../../../../../api"
 import { Response } from "../../../../../api"
 
 import { AppStateT, ContentStateT, ContentType, TimelineMode } from "../../types/app_state"
-import { ChannelId, ChannelObjectT, MessageId, MessageObjectT } from "../../../../../api/object"
+import { MessageId, MessageObjectT } from "../../../../../api/object"
 import { insertContent } from "./content"
 
 import { DomainDataT } from "../../types/domain_data"

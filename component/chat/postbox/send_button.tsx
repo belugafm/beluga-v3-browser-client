@@ -419,6 +419,9 @@ export const SendButtonComponent = ({
         addEventListener("keydown", (e) => {
             if (contextKeys.includes(e.key.toLowerCase())) {
                 contextKeyIsDown = true
+                setTimeout(() => {
+                    contextKeyIsDown = false
+                }, 1000)
             }
             if (e.key.toLowerCase() == "enter" && contextKeyIsDown) {
                 handleClick(e)

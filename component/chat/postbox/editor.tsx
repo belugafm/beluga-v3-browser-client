@@ -11,7 +11,6 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin"
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin"
 import { ToolbarPlugin } from "./plugins/toolbar"
 import { useContext } from "react"
-import { SubmitOnShiftAndEnterPlugin } from "./plugins/shift_enter"
 
 const getPlaceholderColor = (theme: ThemeT) => {
     if (theme.global.current.light) {

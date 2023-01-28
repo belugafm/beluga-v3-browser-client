@@ -61,6 +61,9 @@ export const SidebarComponent = ({ children }) => {
                     }
                     .inner {
                         width: 272px; /* prevent grid from expanding */
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-direction: column;
                     }
                 `}</style>
             </SidebarStateContext.Provider>

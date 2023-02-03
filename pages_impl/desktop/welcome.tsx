@@ -1,6 +1,6 @@
 import Head from "next/head"
-import { ThemeProvider } from "../../component/theme"
-import { WelcomeComponent } from "../../component/welcome"
+import { ThemeProvider } from "../../component/desktop/theme"
+import { WelcomeComponent } from "../../component/desktop/welcome"
 
 export default ({ theme }) => {
     return (

@@ -1,9 +1,9 @@
-export { getServerSideProps } from "../../component/chat/next"
+export { getServerSideProps } from "../../component/desktop/chat/next"
 
 import Head from "next/head"
-import { ServerSideProps } from "../../component/chat/next"
-import { SignupFormComponent } from "../../component/page/signup_with_password"
-import { ThemeProvider } from "../../component/theme"
+import { ServerSideProps } from "../../component/desktop/chat/next"
+import { SignupFormComponent } from "../../component/desktop/page/signup_with_password"
+import { ThemeProvider } from "../../component/desktop/theme"
 
 const RiskyUserSection = () => {
     return (

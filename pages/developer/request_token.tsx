@@ -1,8 +1,8 @@
 import Head from "next/head"
 import { useState } from "react"
 import * as api from "../../api"
-import { InputComponent } from "../../component/form/input"
-import { ThemeProvider } from "../../component/theme"
+import { InputComponent } from "../../component/desktop/form/input"
+import { ThemeProvider } from "../../component/desktop/theme"
 
 export default ({}) => {
     const [consumerKey, setConsumerKey] = useState("")

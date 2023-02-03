@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
-import { InputComponent } from "../../component/form/input"
-import { ThemeProvider } from "../../component/theme"
+import { InputComponent } from "../../component/desktop/form/input"
+import { ThemeProvider } from "../../component/desktop/theme"
 import OAuth from "oauth-1.0a"
 import crypto from "crypto"
 

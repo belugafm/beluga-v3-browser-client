@@ -1,4 +1,4 @@
-export { getServerSideProps } from "../../component/chat/next"
+export { getServerSideProps } from "../../component/desktop/chat/next"
 
 import * as api from "../../api"
 
@@ -6,14 +6,14 @@ import {
     ChannelDescriptionModalActionContext,
     ChannelDescriptionModalComponent,
     useChannelDescriptionModalState,
-} from "../../component/page/landing/channel_modal"
+} from "../../component/desktop/page/landing/channel_modal"
 import { TooltipActionContext, useTooltipState } from "../../state/component/tooltip"
 
-import { AppPreviewComponent } from "../../component/page/landing/app_preview"
+import { AppPreviewComponent } from "../../component/desktop/page/landing/app_preview"
 import Head from "next/head"
-import { TooltipComponent } from "../../component/chat/tooltip"
+import { TooltipComponent } from "../../component/desktop/chat/tooltip"
 import { swrFetchData } from "../../swr/index/page"
-import { ServerSideProps } from "../../component/chat/next"
+import { ServerSideProps } from "../../component/desktop/chat/next"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()

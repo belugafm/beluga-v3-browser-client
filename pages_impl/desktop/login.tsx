@@ -3,8 +3,8 @@ import * as api from "../../api"
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
-import { SigninFormComponent } from "../../component/page/login"
-import { ThemeProvider } from "../../component/theme"
+import { SigninFormComponent } from "../../component/desktop/page/login"
+import { ThemeProvider } from "../../component/desktop/theme"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()

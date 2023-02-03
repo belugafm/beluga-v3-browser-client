@@ -1,13 +1,13 @@
-export { getServerSideProps } from "../../../component/chat/next"
+export { getServerSideProps } from "../../../component/desktop/chat/next"
 
-import { AppComponent } from "../../../component/layout/app"
+import { AppComponent } from "../../../component/desktop/layout/app"
 import Head from "next/head"
-import { SVGComponent } from "../../../component/chat/svg"
-import { SidebarComponent } from "../../../component/layout/sidebar"
-import { ThemeProvider } from "../../../component/theme"
-import { NavigationbarComponent } from "../../../component/layout/navigationbar"
-import { ContentComponent } from "../../../component/layout/content"
-import { SettingsMenuComponent } from "../../../component/settings/sidebar"
+import { SVGComponent } from "../../../component/desktop/chat/svg"
+import { SidebarComponent } from "../../../component/desktop/layout/sidebar"
+import { ThemeProvider } from "../../../component/desktop/theme"
+import { NavigationbarComponent } from "../../../component/desktop/layout/navigationbar"
+import { ContentComponent } from "../../../component/desktop/layout/content"
+import { SettingsMenuComponent } from "../../../component/desktop/settings/sidebar"
 
 export default ({ theme, query }) => {
     return (

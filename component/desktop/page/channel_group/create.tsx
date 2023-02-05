@@ -2,7 +2,7 @@ import {
     CreateChannelGroupFormContext,
     useCreateChannelGroupFormState,
 } from "../../../../state/channel_group/create"
-import { useTheme } from "../../theme"
+import { useTheme } from "../../../theme"
 
 import { BlueButton } from "../../form/button"
 import { InputComponent } from "../../form/input"

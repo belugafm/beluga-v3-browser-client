@@ -3,7 +3,7 @@ import { SignupFormContext, useSignupFormState } from "../../../state/account/si
 
 import { InputComponent } from "../form/input"
 import { swrGetLoggedInUser } from "../../../swr/session"
-import { useTheme } from "../theme"
+import { useTheme } from "../../theme"
 
 const PasswordInputForm = () => {
     const { passwordField, handleUpdatePasswordValue } = useContext(SignupFormContext)

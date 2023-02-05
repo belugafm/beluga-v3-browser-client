@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../../theme"
 
 import { ContentStateT } from "../../../../../state/chat/store/types/app_state"
 import { HeaderComponent } from "../header"

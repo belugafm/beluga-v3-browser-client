@@ -1,5 +1,5 @@
 import React from "react"
-import { ThemeT, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

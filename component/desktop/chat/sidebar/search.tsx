@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../../theme"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

@@ -1,7 +1,7 @@
 import * as WebAPI from "../../api"
 
 import Head from "next/head"
-import { ThemeProvider } from "../../component/desktop/theme"
+import { ThemeProvider } from "../../component/theme"
 import { isString } from "../../lib/type_check"
 import { useRouter } from "next/router"
 import useSWR from "swr"

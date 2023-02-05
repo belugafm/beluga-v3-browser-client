@@ -5,7 +5,7 @@ import { ContentStateT, ContentType } from "../../../../state/chat/store/types/a
 import { SearchContentComponent } from "./columns/search"
 import { getStyle } from "../../layout/sidebar"
 import { ThreadContentComponent } from "./columns/Thread"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 
 export const ContentColumnComponent = ({
     contentRows,

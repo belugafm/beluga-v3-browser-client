@@ -1,4 +1,4 @@
-import { ThemeT } from "../../../theme"
+import { ThemeT } from "../../../../theme"
 
 import { ChannelGroupObjectT } from "../../../../../api/object"
 

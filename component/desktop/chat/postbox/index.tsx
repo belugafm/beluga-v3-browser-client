@@ -2,8 +2,8 @@ import { $createParagraphNode, $createTextNode, $getRoot } from "lexical"
 import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
-import React, { useCallback, useEffect, useRef, useState } from "react"
-import { ThemeT, useTheme } from "../../theme"
+import React, { useCallback, useRef, useState } from "react"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { EditorComponent } from "./editor"
@@ -71,24 +71,6 @@ const getStyleForEditorButton = (theme: ThemeT) => {
         }
     }
     throw new Error()
-}
-
-const FileInputComponent = ({ ref }) => {
-    const [editor] = useLexicalComposerContext()
-    const handleUpload = useCallback(
-        async (e) => {
-            const files = e.target.files
-            for (let n = 0; n < files.length; n++) {
-                const file = files.item(n)
-                var formData = new FormData()
-                formData.append("file", file)
-                const result = await postFormData("upload/media", formData)
-                console.log(result)
-            }
-        },
-        [editor]
-    )
-    return <input type="file" ref={ref} onChange={handleUpload} multiple hidden />
 }
 
 const getOriginalFileUrl = (files: FileObjectT[] | null): string | null => {

@@ -1,4 +1,4 @@
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../../theme"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

@@ -1,5 +1,5 @@
 import { SidebarStateContext, useSidebarComponentState } from "../../../state/component/sidebar"
-import { ThemeT, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../../theme"
 
 export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

@@ -3,7 +3,7 @@ import React, { MouseEvent } from "react"
 import { DateComponent } from "../message/sender"
 import { DeleteMessageModalActionT } from "../../../../state/component/model/delete_message"
 import { MessageObjectT } from "../../../../api/object"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 import classnames from "classnames"
 
 const getContainerStyle = (theme: ThemeT) => {

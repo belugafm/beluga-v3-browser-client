@@ -1,10 +1,10 @@
-export { getServerSideProps } from "../../../../component/desktop/chat/next"
+export { getServerSideProps } from "../../../../component/next"
 
 import { AppComponent } from "../../../../component/desktop/layout/app"
 import Head from "next/head"
-import { SVGComponent } from "../../../../component/desktop/chat/svg"
+import { SVGComponent } from "../../../../component/svg"
 import { SidebarComponent } from "../../../../component/desktop/layout/sidebar"
-import { ThemeProvider } from "../../../../component/desktop/theme"
+import { ThemeProvider } from "../../../../component/theme"
 import { NavigationbarComponent } from "../../../../component/desktop/layout/navigationbar"
 import { ContentComponent } from "../../../../component/desktop/layout/content"
 import { SettingsMenuComponent } from "../../../../component/desktop/settings/sidebar"

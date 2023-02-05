@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 
 import { AppStateContext } from "../../../../state/chat/store/app_state"
-import { useTheme } from "../../theme"
+import { useTheme } from "../../../theme"
 import { getStyle } from "../../layout/sidebar"
 import { ContentColumnComponent } from "./column"
 

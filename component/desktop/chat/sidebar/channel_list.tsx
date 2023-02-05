@@ -3,7 +3,7 @@ import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
 } from "../../../../state/component/model/channel_menu"
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
 import classnames from "classnames"

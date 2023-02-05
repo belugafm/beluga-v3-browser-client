@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react"
 
 import Cookie from "cookie"
-import config from "../../config"
+import config from "../config"
 
 type GlobalTheme = {
     light: boolean

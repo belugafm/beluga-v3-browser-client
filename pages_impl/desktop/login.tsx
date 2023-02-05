@@ -4,7 +4,7 @@ import Cookie from "cookie"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { SigninFormComponent } from "../../component/desktop/page/login"
-import { ThemeProvider } from "../../component/desktop/theme"
+import { ThemeProvider } from "../../component/theme"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()

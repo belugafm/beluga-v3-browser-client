@@ -5,7 +5,7 @@ import {
     UserObjectT,
 } from "../../../../api/object"
 import React, { MouseEvent, useContext } from "react"
-import { ThemeT, defaultGlobalDarkTheme } from "../../theme"
+import { ThemeT, defaultGlobalDarkTheme } from "../../../theme"
 import { TooltipActionContext } from "../../../../state/component/tooltip"
 
 import { ChannelDescriptionModalActionContext } from "./channel_modal"
@@ -15,15 +15,15 @@ import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../../state/component/model/delete_message"
 import { MessageActionT } from "../../../../state/chat/actions/message"
 import { MessageComponent } from "../../chat/message"
-import { SVGComponent } from "../../chat/svg"
+import { SVGComponent } from "../../../svg"
 import { unnormalizeMessage } from "../../../../state/chat/store/domain_data/unnormalize"
 import { useStore, websocket } from "../../../../state/chat/store"
-import { CheckIsConsecutivePost } from "../../chat/content/timeline"
+import { CheckConsecutivePost } from "../../chat/content/timeline"
 
 const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
     return (
         <>
-            <a className="item">
+            <a className="item" href={`/channel/${channel.unique_name}`}>
                 <span className="status">{channel.status_string}</span>
                 <span className="name">{channel.name}</span>
             </a>
@@ -228,7 +228,7 @@ export const AppPreviewComponent = (props: {
     const channelList = channels.map((channel, n) => {
         return <ChannelListItem key={n} channel={channel} />
     })
-    const consectivePostChecker = new CheckIsConsecutivePost()
+    const consectivePostChecker = new CheckConsecutivePost()
     const messageAction: MessageActionT = {
         editMessage: (message: MessageObjectT) => (event: MouseEvent<Element>) => {},
         deleteMessage: (message: MessageObjectT) => {},

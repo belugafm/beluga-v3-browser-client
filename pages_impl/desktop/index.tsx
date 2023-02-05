@@ -1,4 +1,4 @@
-export { getServerSideProps } from "../../component/desktop/chat/next"
+export { getServerSideProps } from "../../component/next"
 
 import * as api from "../../api"
 
@@ -13,7 +13,7 @@ import { AppPreviewComponent } from "../../component/desktop/page/landing/app_pr
 import Head from "next/head"
 import { TooltipComponent } from "../../component/desktop/chat/tooltip"
 import { swrFetchData } from "../../swr/index/page"
-import { ServerSideProps } from "../../component/desktop/chat/next"
+import { ServerSideProps } from "../../component/next"
 
 async function loginWithTwitter() {
     const res = await api.auth.twitter.requestToken()

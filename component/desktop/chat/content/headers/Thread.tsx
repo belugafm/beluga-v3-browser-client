@@ -1,4 +1,4 @@
-import { ThemeT } from "../../../theme"
+import { ThemeT } from "../../../../theme"
 
 import { MessageObjectT } from "../../../../../api/object"
 

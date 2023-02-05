@@ -1,7 +1,8 @@
-export { getServerSideProps } from "../../component/desktop/chat/next"
-import { ServerSideProps } from "../../component/desktop/chat/next"
+export { getServerSideProps } from "../../component/next"
+import { ServerSideProps } from "../../component/next"
 import { Device } from "../../component/desktop/chat/next.types"
 import DesktopPage from "../../pages_impl/desktop/channel/uniqueName"
+import MobilePage from "../../pages_impl/mobile/channel/uniqueName"
 
 export default (props: ServerSideProps) => {
     const { device } = props
@@ -9,6 +10,7 @@ export default (props: ServerSideProps) => {
         return <DesktopPage {...props} />
     }
     if (device == Device.Mobile) {
+        return <MobilePage {...props} />
     }
     return <DesktopPage {...props} />
 }

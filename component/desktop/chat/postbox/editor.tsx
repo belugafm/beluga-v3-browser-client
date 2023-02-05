@@ -1,4 +1,4 @@
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin"
 import { CodeHighlightPlugin } from "./plugins/code_highlight"
@@ -44,7 +44,7 @@ const Placeholder = ({ text, theme }) => {
     )
 }
 
-const getPlaceholderText = (content: ContentStateT) => {
+export const getPlaceholderText = (content: ContentStateT) => {
     const domainData = useContext(DomainDataContext)
     if (content.context.channelId) {
         const channel = domainData.channels.get(content.context.channelId)

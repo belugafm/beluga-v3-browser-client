@@ -1,7 +1,7 @@
 import * as WebAPI from "../../api"
 
 import Head from "next/head"
-import { ServerSideProps } from "../../component/desktop/chat/next"
+import { ServerSideProps } from "../../component/next"
 
 async function loginWithTwitter() {
     const res = await WebAPI.auth.twitter.requestToken()

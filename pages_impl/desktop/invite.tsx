@@ -1,8 +1,8 @@
 import Head from "next/head"
-import { ServerSideProps } from "../../component/desktop/chat/next"
+import { ServerSideProps } from "../../component/next"
 import { SignupFormComponent } from "../../component/desktop/page/signup_with_invitation"
 import { useRouter } from "next/router"
-import { ThemeProvider } from "../../component/desktop/theme"
+import { ThemeProvider } from "../../component/theme"
 import useSWR from "swr"
 import * as api from "../../api"
 

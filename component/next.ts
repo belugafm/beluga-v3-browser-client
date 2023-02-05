@@ -1,10 +1,10 @@
 import Cookie from "cookie"
-import { GetServerSideProps } from "next"
-import { isMobile, isTablet } from "react-device-detect"
-import { isString } from "../../../lib/type_check"
-import { Device } from "./next.types"
-import config from "../../../config"
+import { GetServerSideProps, GetServerSidePropsContext } from "next"
+import { isString } from "../lib/type_check"
+import { Device } from "./desktop/chat/next.types"
+import config from "../config"
 import nookies from "nookies"
+import MobileDetect from "mobile-detect"
 
 const isValidDeviceString = (device: any) => {
     if (isString(device)) {
@@ -21,7 +21,7 @@ const isValidDeviceString = (device: any) => {
     return false
 }
 
-const getDevice = (cookie_device: any) => {
+const getDevice = (cookie_device: any, context: GetServerSidePropsContext) => {
     if (isString(cookie_device)) {
         if (cookie_device == Device.Desktop) {
             return Device.Desktop
@@ -33,10 +33,12 @@ const getDevice = (cookie_device: any) => {
             return Device.Tablet
         }
     }
-    if (isTablet) {
+
+    const md = new MobileDetect(context.req.headers["user-agent"] as string)
+    if (md.tablet() != null) {
         return Device.Tablet
     }
-    if (isMobile) {
+    if (md.mobile() != null) {
         return Device.Mobile
     }
     return Device.Desktop
@@ -95,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             userName: user_name ? user_name : null,
             params: params ? params : {},
             query: query ? query : {},
-            device: getDevice(device),
+            device: getDevice(device, context),
         },
     }
 }

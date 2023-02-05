@@ -5,7 +5,7 @@ import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { DeleteMessageModalActionT } from "../../../../state/component/model/delete_message"
 import { DomainDataT } from "../../../../state/chat/store/types/domain_data"
 import { MessageActionT } from "../../../../state/chat/actions/message"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 import { TooltipActionT } from "../../../../state/component/tooltip"
 
 export type MessagePropsT = {

@@ -1,6 +1,6 @@
 import React from "react"
 import { swrGetLoggedInUser } from "../../swr/session"
-import { useTheme } from "./theme"
+import { useTheme } from "../theme"
 
 const AlreadyLoggedInMessageComponent = () => {
     const { loggedInUser, authenticityToken } = swrGetLoggedInUser()

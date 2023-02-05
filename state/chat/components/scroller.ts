@@ -22,6 +22,14 @@ export class ScrollerState {
     setShouldNotifyNewMessages: (on: boolean) => void
     setComponentDidMout: (on: boolean) => void
     setLastReadLatestMessageId: (messageId: MessageId) => void
+
+    // 初期スクロール位置を一番下にするためにCSSでcolumn-reverseしている
+    // これはiOSのsafariでは効かない
+    reversedColumn: boolean
+
+    constructor(opt: { reversedColumn: boolean }) {
+        this.reversedColumn = opt.reversedColumn
+    }
     use = ({
         ref,
         content,
@@ -69,6 +77,7 @@ export class ScrollerState {
         useEffect(() => {
             console.log("[ScrollerState] useEffect #1")
             if (this.forceScrollToBottom) {
+                this.scrollToBottom()
                 this.setLastReadLatestMessageId(lastMessageId)
             }
             if (
@@ -84,9 +93,15 @@ export class ScrollerState {
     }
     scrollToBottom = () => {
         const scroller = this.ref.current as HTMLDivElement
-        // column-reverseされているので0が見かけ上のbottomになる
-        if (scroller.scrollTop != 0) {
-            scroller.scrollTop = 0
+        if (this.reversedColumn) {
+            // column-reverseされているので+0が見かけ上のbottomになる
+            if (scroller.scrollTop < 0) {
+                scroller.scrollTop = 0
+            }
+        } else {
+            if (scroller.scrollTop < scroller.scrollHeight) {
+                scroller.scrollTop = scroller.scrollHeight
+            }
         }
     }
     isTimelineUpToDate = () => {
@@ -114,27 +129,49 @@ export class ScrollerState {
         }
         const scroller = this.ref.current as HTMLDivElement
         const bottomScrollTop = scroller.scrollHeight - scroller.clientHeight
-        // macOSでは0.5pxずれるので注意
-        // column-reverseされているので注意
-        if (scroller.scrollTop > -1) {
-            this.setHasReachedBottom(true)
-            this.scrollToBottom()
-            if (this.content.timeline.upToDate) {
-                this.setForceScrollToBottom(true)
-                this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
+        if (this.reversedColumn) {
+            // column-reverseされているのでscrollTopの値に注意
+            // macOSでは0.5pxずれるので注意
+            if (scroller.scrollTop > -1) {
+                this.setHasReachedBottom(true)
+                this.scrollToBottom()
+                if (this.content.timeline.upToDate) {
+                    this.setForceScrollToBottom(true)
+                    this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
+                } else {
+                    this.setForceScrollToBottom(false)
+                }
             } else {
+                this.setHasReachedBottom(false)
                 this.setForceScrollToBottom(false)
             }
+            // 400pxのマージンを設ける
+            if (scroller.scrollTop <= 400 - bottomScrollTop) {
+                this.setHasReachedTop(true)
+                this.loadMessagesWithMaxIdIfNeeded()
+            } else {
+                this.setHasReachedTop(false)
+            }
         } else {
-            this.setHasReachedBottom(false)
-            this.setForceScrollToBottom(false)
-        }
-        // 400pxのマージンを設ける
-        if (scroller.scrollTop <= 400 - bottomScrollTop) {
-            this.setHasReachedTop(true)
-            this.loadMessagesWithMaxIdIfNeeded()
-        } else {
-            this.setHasReachedTop(false)
+            if (scroller.scrollTop > bottomScrollTop - 1) {
+                this.setHasReachedBottom(true)
+                this.scrollToBottom()
+                if (this.content.timeline.upToDate) {
+                    this.setForceScrollToBottom(true)
+                    this.setLastReadLatestMessageId(this.content.timeline.lastMessageId)
+                } else {
+                    this.setForceScrollToBottom(false)
+                }
+            } else {
+                this.setHasReachedBottom(false)
+                this.setForceScrollToBottom(false)
+            }
+            if (scroller.scrollTop <= 200) {
+                this.setHasReachedTop(true)
+                this.loadMessagesWithMaxIdIfNeeded()
+            } else {
+                this.setHasReachedTop(false)
+            }
         }
     }
 }

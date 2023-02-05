@@ -9,7 +9,7 @@ import { MessagePropsT } from "./types"
 import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 import classnames from "classnames"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 

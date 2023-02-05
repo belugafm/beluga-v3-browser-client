@@ -2,7 +2,7 @@ import * as api from "../../api"
 import { Response } from "../../api"
 
 import Head from "next/head"
-import { ThemeProvider } from "../../component/desktop/theme"
+import { ThemeProvider } from "../../component/theme"
 import useSWR from "swr"
 import { InputComponent } from "../../component/desktop/form/input"
 import { useState } from "react"

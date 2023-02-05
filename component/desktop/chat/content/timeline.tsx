@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from "react"
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../../theme"
 
 import { ContentActionContext, ContentActionT } from "../../../../state/chat/actions/contents"
 import { ContentStateT, TimelineMode } from "../../../../state/chat/store/types/app_state"
@@ -15,7 +15,7 @@ import { swrGetLoggedInUser } from "../../../../swr/session"
 import { unnormalizeMessage } from "../../../../state/chat/store/domain_data/unnormalize"
 import { ContentType } from "../../../../state/chat/store/types/app_state"
 
-export class CheckIsConsecutivePost {
+export class CheckConsecutivePost {
     private lastUserId: UserId | null
     private lastChannelId: ChannelId | null
     private lastCreatedAt: Date | null
@@ -394,13 +394,19 @@ export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
     const { loggedInUser } = swrGetLoggedInUser()
     const scrollerRef = useRef(null)
     const [theme] = useTheme()
-    const scrollerState = useMemo(() => new ScrollerState(), [content.id])
+    const scrollerState = useMemo(
+        () =>
+            new ScrollerState({
+                reversedColumn: true,
+            }),
+        [content.id]
+    )
     scrollerState.use({
         ref: scrollerRef,
         content: content,
         contentAction: contentAction,
     })
-    const consectivePostChecker = new CheckIsConsecutivePost()
+    const consectivePostChecker = new CheckConsecutivePost()
     const messageComponentList = []
     const messageList = [...content.timeline.messageIds].reverse().map((messageId) => {
         const normalizedMessage = domainData.messages.get(messageId)

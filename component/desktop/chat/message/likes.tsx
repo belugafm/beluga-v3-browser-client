@@ -1,6 +1,6 @@
 import { MessageObjectT } from "../../../../api/object"
 import React from "react"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 import classnames from "classnames"
 
 const getStyle = (theme: ThemeT) => {

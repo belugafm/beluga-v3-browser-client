@@ -1,6 +1,6 @@
 import { MessageObjectT, UserObjectT } from "../../../../api/object"
 import React from "react"
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../../theme"
 import { Random } from "./avatar"
 
 const UserWithoutProfileImageComponent = ({ user }: { user: UserObjectT }) => {

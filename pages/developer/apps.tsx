@@ -158,7 +158,9 @@ export default () => {
                         <button type="submit">作成する</button>
                     </div>
                     <div>
+                        <label>consumerKey</label>
                         <p>{consumerKey}</p>
+                        <label>consumerSecret</label>
                         <p>{consumerSecret}</p>
                     </div>
                     <style jsx>{`

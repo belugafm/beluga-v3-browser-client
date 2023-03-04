@@ -167,6 +167,9 @@ export class Response implements ResponseInterface {
         if (response.consumer_key) {
             this.consumerKey = response.consumer_key
         }
+        if (response.consumer_secret) {
+            this.consumerSecret = response.consumer_secret
+        }
         if (response.request_token) {
             this.requestToken = response.request_token
         }

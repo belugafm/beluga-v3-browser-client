@@ -5,32 +5,48 @@ import Head from "next/head"
 import { ThemeProvider } from "../../component/theme"
 import useSWR from "swr"
 import { InputComponent } from "../../component/desktop/form/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
+import { ApplicationObjectT, UserObjectT } from "../../api/object"
 
 export default () => {
     const [name, setName] = useState("")
+    const [displayName, setDisplayName] = useState("")
     const [description, setDescription] = useState("")
-    const [callbackUrl, setCallbackUrl] = useState("")
-    const [read, setRead] = useState(true)
-    const [write, setWrite] = useState(false)
-    const [consumerKey, setConsumerKey] = useState("")
-    const [consumerSecret, setConsumerSecret] = useState("")
+    const [appId, setAppId] = useState(-1)
+    const [accessToken, setAccessToken] = useState("")
+    const [accessTokenSecret, setAccessTokenSecret] = useState("")
 
-    const { data, error } = useSWR("/api/app/list_apps", () => {
+    let apps: ApplicationObjectT[] = []
+    let bots: UserObjectT[] = []
+
+    useEffect(() => {
+        if (apps.length > 0 && appId == -1) {
+            setAppId(apps[0].id)
+        }
+    })
+
+    const response1 = useSWR("/api/bot/list_bots", () => {
+        return api.bot.listBots()
+    })
+    const response2 = useSWR("/api/app/list_apps", () => {
         return api.app.listApps()
     })
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
+    if (response1.error) return <div>failed to load</div>
+    if (!response1.data) return <div>loading...</div>
+    bots = response1.data.bots
 
-    const createApp = async () => {
+    if (response2.error) return <div>failed to load</div>
+    if (!response2.data) return <div>loading...</div>
+    apps = response2.data.apps
+
+    const createBot = async () => {
         try {
-            return await api.app.create({
+            return await api.bot.create({
                 name,
+                displayName,
                 description,
-                callbackUrl,
-                read,
-                write,
+                appId,
             })
         } catch (error) {
             if (error instanceof UnexpectedResponseError) {
@@ -43,39 +59,31 @@ export default () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const response = await createApp()
+        const response = await createBot()
         if (response.ok) {
             setName("")
+            setDisplayName("")
             setDescription("")
-            setCallbackUrl("")
-            setConsumerKey(response.consumerKey)
-            setConsumerSecret(response.consumerSecret)
+            setAccessToken(response.accessToken)
+            setAccessTokenSecret(response.accessTokenSecret)
         }
     }
 
-    const appDomList = []
-    data.apps.forEach((app, index) => {
-        appDomList.push(
+    const botDomList = []
+    bots.forEach((bot, index) => {
+        botDomList.push(
             <div className="container" key={index}>
                 <div className="section">
+                    <label>ユーザー名</label>
+                    <p>{bot.name}</p>
+                </div>
+                <div className="section">
                     <label>名前</label>
-                    <p>{app.name}</p>
+                    <p>{bot.display_name}</p>
                 </div>
                 <div className="section">
                     <label>説明</label>
-                    <p>{app.description}</p>
-                </div>
-                <div className="section">
-                    <label>コールバックURL</label>
-                    <p>{app.callback_url}</p>
-                </div>
-                <div className="section">
-                    <label>token</label>
-                    <p>{app.token}</p>
-                </div>
-                <div className="section">
-                    <label>secret（今後これは表示されなくなります）</label>
-                    <p>{app.secret}</p>
+                    <p>{bot.description}</p>
                 </div>
                 <style jsx>{`
                     .container {
@@ -100,25 +108,40 @@ export default () => {
             </div>
         )
     })
+
+    const appSelectOptionList = []
+    apps.forEach((app, index) => {
+        appSelectOptionList.push(<option key={index}>{app.id}</option>)
+    })
+
     return (
         <>
             <Head>
-                <title>アプリケーション一覧</title>
+                <title>bot一覧</title>
             </Head>
             <ThemeProvider userTheme={null} defaultGlobalThemeName={null}>
                 <div className="apps">
-                    <p>アプリケーション一覧</p>
-                    {appDomList}
+                    <p>bot一覧</p>
+                    {botDomList}
                 </div>
                 <form method="POST" action="" onSubmit={handleSubmit}>
                     <InputComponent
-                        label="アプリケーション名"
+                        label="ユーザー名"
                         type="text"
                         name="name"
                         value={name}
                         errorMessage={[]}
                         hint={[]}
                         onChange={(e) => setName(e.target.value)}
+                    />
+                    <InputComponent
+                        label="名前"
+                        type="text"
+                        name="display_name"
+                        value={displayName}
+                        errorMessage={[]}
+                        hint={[]}
+                        onChange={(e) => setDisplayName(e.target.value)}
                     />
                     <InputComponent
                         label="アプリケーションの説明"
@@ -129,37 +152,17 @@ export default () => {
                         hint={[]}
                         onChange={(e) => setDescription(e.target.value)}
                     />
-                    <InputComponent
-                        label="コールバックURL"
-                        type="text"
-                        name="callback_url"
-                        value={callbackUrl}
-                        errorMessage={[]}
-                        hint={[]}
-                        onChange={(e) => setCallbackUrl(e.target.value)}
-                    />
-                    <div>
-                        <input
-                            type="checkbox"
-                            checked={read}
-                            onChange={(e) => setRead(e.target.checked)}
-                        />
-                        Read
-                    </div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            checked={write}
-                            onChange={(e) => setWrite(e.target.checked)}
-                        />
-                        Write
-                    </div>
+                    <select name="app_id" onChange={(e) => setAppId(Number(e.target.value))}>
+                        {appSelectOptionList}
+                    </select>
                     <div className="button-container">
                         <button type="submit">作成する</button>
                     </div>
                     <div>
-                        <p>{consumerKey}</p>
-                        <p>{consumerSecret}</p>
+                        <label>accessToken</label>
+                        <p>{accessToken}</p>
+                        <label>accessTokenSecret</label>
+                        <p>{accessTokenSecret}</p>
                     </div>
                     <style jsx>{`
                         .button-container {

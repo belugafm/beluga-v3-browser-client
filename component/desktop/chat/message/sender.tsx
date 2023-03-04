@@ -54,7 +54,8 @@ const BotIndicator = ({ isBot, theme }: { isBot: boolean; theme: ThemeT }) => {
                         border-radius: 4px;
                         padding: 1px 4px;
                         font-weight: bold;
-                        margin-right: 4px;
+                        margin-left: 4px;
+                        margin-right: 8px;
                     }
                 `}</style>
             </span>

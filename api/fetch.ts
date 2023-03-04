@@ -44,6 +44,7 @@ interface ResponseInterface {
     messages?: MessageObjectT[]
     app?: ApplicationObjectT
     apps?: ApplicationObjectT[]
+    bots?: UserObjectT[]
     file?: FileObjectT
     files?: FileObjectT[]
     authenticity_token?: string
@@ -74,6 +75,7 @@ export class Response implements ResponseInterface {
     user?: UserObjectT
     app?: ApplicationObjectT
     apps?: ApplicationObjectT[]
+    bots?: UserObjectT[]
     file?: FileObjectT
     files?: FileObjectT[]
     authenticityToken?: string
@@ -149,6 +151,9 @@ export class Response implements ResponseInterface {
         }
         if (response.files) {
             this.files = response.files
+        }
+        if (response.bots) {
+            this.bots = response.bots
         }
         if (response.apps) {
             this.apps = response.apps

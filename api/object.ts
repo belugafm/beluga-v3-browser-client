@@ -159,6 +159,8 @@ export type ApplicationObjectT = {
     id: number
     user_id: UserId
     name: string
+    token: string
+    secret: string
     callback_url: string
     description: string | null
 }

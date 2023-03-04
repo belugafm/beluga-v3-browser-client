@@ -26,6 +26,43 @@ const formatWithTwoDecimals = (n: number) => {
     return n
 }
 
+const BotIndicator = ({ isBot, theme }: { isBot: boolean; theme: ThemeT }) => {
+    const getStyle = (theme: ThemeT) => {
+        if (theme.global.current.light) {
+            return {
+                color: "#fff",
+                bgColor: "#999",
+            }
+        }
+        if (theme.global.current.dark) {
+            return {
+                color: "#000",
+                bgColor: "#999",
+            }
+        }
+        throw new Error()
+    }
+    if (isBot) {
+        return (
+            <span className="is-bot">
+                BOT
+                <style jsx>{`
+                    .is-bot {
+                        background-color: ${getStyle(theme)["bgColor"]};
+                        color: ${getStyle(theme)["color"]};
+                        font-size: 10px;
+                        border-radius: 4px;
+                        padding: 1px 4px;
+                        font-weight: bold;
+                        margin-right: 4px;
+                    }
+                `}</style>
+            </span>
+        )
+    }
+    return null
+}
+
 export const DateComponent = ({ date }: { date: Date }) => {
     const hours = formatWithTwoDecimals(date.getHours())
     const minutes = formatWithTwoDecimals(date.getMinutes())
@@ -60,6 +97,7 @@ export const SenderComponent = ({
                 <span className="at-str">@</span>
                 <span className="name-str">{user.name}</span>
             </a>
+            <BotIndicator isBot={user.bot} theme={theme} />
             <span className="time">
                 <DateComponent date={message.created_at} />
             </span>
@@ -75,6 +113,8 @@ export const SenderComponent = ({
                 a {
                     text-decoration: none;
                     font-weight: normal;
+                    transition-duration: 0.2s;
+                    transition-property: color;
                 }
                 a:hover {
                     text-decoration: underline;

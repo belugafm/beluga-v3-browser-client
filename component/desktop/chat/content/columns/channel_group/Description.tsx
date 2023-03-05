@@ -40,7 +40,7 @@ export const DescriptionComponent = ({ text, theme }: { text?: string; theme: Th
                     <style jsx>{`
                         p {
                             margin: 0;
-                            line-height: 1.3em;
+                            line-height: 1.5em;
                         }
                         a {
                             color: ${getStyle(theme)["color"]};
@@ -58,7 +58,7 @@ export const DescriptionComponent = ({ text, theme }: { text?: string; theme: Th
                 <style jsx>{`
                     p {
                         margin: 0;
-                        line-height: 1.3em;
+                        line-height: 1.5em;
                     }
                 `}</style>
             </>

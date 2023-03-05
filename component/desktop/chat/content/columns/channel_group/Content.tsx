@@ -169,7 +169,8 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 .cover-image-container {
                     flex: 0 0 auto;
                     min-height: 0;
-                    padding: 4px;
+                    padding: 4px 4px 0 4px;
+                    margin-bottom: 20px;
                 }
                 .block.back-to-parent {
                     flex: 0 0 40px;

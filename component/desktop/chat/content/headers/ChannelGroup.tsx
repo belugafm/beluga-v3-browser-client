@@ -42,7 +42,7 @@ export const ChannelGroupHeaderComponent = ({
                     display: flex;
                     flex-direction: row;
                     box-sizing: border-box;
-                    padding: 20px 20px 20px 10px;
+                    padding: 5px 20px 20px 10px;
                 }
                 .name-container {
                     flex: 1 1 auto;

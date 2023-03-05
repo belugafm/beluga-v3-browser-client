@@ -34,6 +34,9 @@ export default ({ theme, query }: ServerSideProps) => {
     if (channelGroups == null) {
         return <div>エラー</div>
     }
+    parentChannelGroup.child_channel_group_ids = channelGroups.map(
+        (channelGroup) => channelGroup.id
+    )
     return (
         <>
             <Head>

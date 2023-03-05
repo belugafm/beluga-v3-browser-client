@@ -41,6 +41,7 @@ export type ChannelGroupObjectT = {
     last_message_created_at: number | null
     last_message_id: MessageId | null
     parent_id: number | null
+    child_channel_group_ids: number[]
     parent: ChannelGroupObjectT | null
     minimum_trust_rank: string
 }

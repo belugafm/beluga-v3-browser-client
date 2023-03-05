@@ -13,6 +13,7 @@ export default () => {
     const [name, setName] = useState("")
     const [displayName, setDisplayName] = useState("")
     const [description, setDescription] = useState("")
+    const [botUserId, setBotUserId] = useState(-1)
     const [appId, setAppId] = useState(-1)
     const [accessToken, setAccessToken] = useState("")
     const [accessTokenSecret, setAccessTokenSecret] = useState("")
@@ -66,6 +67,7 @@ export default () => {
             setDescription("")
             setAccessToken(response.accessToken)
             setAccessTokenSecret(response.accessTokenSecret)
+            setBotUserId(response.user.id)
         }
     }
 
@@ -159,6 +161,8 @@ export default () => {
                         <button type="submit">作成する</button>
                     </div>
                     <div>
+                        <label>userId</label>
+                        <p>{botUserId}</p>
                         <label>accessToken</label>
                         <p>{accessToken}</p>
                         <label>accessTokenSecret</label>

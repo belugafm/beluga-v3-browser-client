@@ -1,6 +1,6 @@
 import React from "react"
 import { ChannelContentComponent } from "./columns/channel"
-import { ChannelGroupContentComponent } from "./columns/channel_group"
+import { ChannelGroupContentComponent } from "./columns/channel_group/Content"
 import { ContentStateT, ContentType } from "../../../../state/chat/store/types/app_state"
 import { SearchContentComponent } from "./columns/search"
 import { getStyle } from "../../layout/sidebar"

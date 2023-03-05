@@ -29,11 +29,11 @@ export const useOAuthCallback = () => {
     if (data) {
         mutate(data, false)
         if (data.ok) {
-            location.href = "/welcome"
+            location.href = "/group/global"
             return (
                 <p>
                     ログインしました。すぐにページが移動しない場合は、
-                    <a href="/welcom">こちらのリンク</a>をクリックしてください。
+                    <a href="/group/global">こちらのリンク</a>をクリックしてください。
                 </p>
             )
         } else {

@@ -1,5 +1,10 @@
 import { MessageSearchQueryT } from "../../../../api/methods/messages"
-import { ChannelGroupObjectT, ChannelObjectT, MessageObjectT } from "../../../../api/object"
+import {
+    ChannelGroupObjectT,
+    ChannelId,
+    ChannelObjectT,
+    MessageObjectT,
+} from "../../../../api/object"
 
 export type PageContextObjectT = {
     channel?: {

@@ -1,15 +1,16 @@
 import React, { useContext, useState } from "react"
-import { ThemeT, useTheme } from "../../../../theme"
+import { ThemeT, useTheme } from "../../../../../theme"
 
-import { ContentStateT } from "../../../../../state/chat/store/types/app_state"
-import { DomainDataContext } from "../../../../../state/chat/store/domain_data"
-import { HeaderComponent } from "../header"
-import { PostboxComponent } from "../../postbox"
-import { TooltipActionContext } from "../../../../../state/component/tooltip"
+import { ContentStateT } from "../../../../../../state/chat/store/types/app_state"
+import { DomainDataContext } from "../../../../../../state/chat/store/domain_data"
+import { HeaderComponent } from "../../header"
+import { PostboxComponent } from "../../../postbox"
+import { TooltipActionContext } from "../../../../../../state/component/tooltip"
 import classnames from "classnames"
-import { TimelineComponent } from "../timeline"
+import { ChildChannelGroupComponent } from "./ChildChannelGroup"
+import classNames from "classnames"
 
-const getStyleForTheme = (theme: ThemeT) => {
+const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#000",
@@ -53,6 +54,15 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
     if (channelGroup.parent_id) {
         parentChannelGroup = domainData.channelGroups.get(channelGroup.parent_id)
     }
+    if (channelGroup == null) {
+        return null
+    }
+    const childChannelGroups = channelGroup.child_channel_group_ids
+        .map((channelGroupId) => domainData.channelGroups.get(channelGroupId))
+        .filter((channelGroup) => channelGroup != null)
+    const childChannelGroupsComponents = childChannelGroups.map((channelGroup, index) => {
+        return <ChildChannelGroupComponent channelGroup={channelGroup} theme={theme} key={index} />
+    })
     return (
         <>
             <div className="content">
@@ -102,7 +112,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                                         e.preventDefault()
                                         setTabIndex(1)
                                     }}>
-                                    タイムライン
+                                    見つける
                                 </a>
                             </div>
                         </div>
@@ -113,23 +123,43 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                             <div className="description">{channelGroup.description}</div>
                         </div>
                         <div
-                            className={classnames("timeline-container", {
+                            className={classnames("find-container", {
                                 hidden: tabIndex != 1,
                             })}>
-                            <TimelineComponent content={content} />
+                            見つかる予定
                         </div>
                         <div className="postbox">
                             <PostboxComponent content={content} tooltipAction={tooltipAction} />
                         </div>
                     </div>
                 </div>
+                <div
+                    className={classNames("block child-channel-group-block", {
+                        hidden: childChannelGroupsComponents.length == 0,
+                    })}>
+                    <h2>チャンネルグループ</h2>
+                    <div className="child-channel-groups">{childChannelGroupsComponents}</div>
+                </div>
             </div>
             <style jsx>{`
                 .content {
                     flex: 1 1 auto;
-                    display: flex;
-                    flex-direction: column;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
                     padding: 16px;
+                }
+                .content::-webkit-scrollbar {
+                    width: 0px;
+                    height: 0px;
+                }
+                .content::-webkit-scrollbar-thumb {
+                    border-radius: 10px;
+                    background-color: gray;
+                }
+                .content::-webkit-scrollbar-track-piece {
+                    background-clip: padding-box;
+                    background-color: transparent;
+                    border-color: transparent;
                 }
                 .block {
                     flex: 1 1 auto;
@@ -189,9 +219,6 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     flex: 0 0 auto;
                     z-index: 3;
                 }
-                .tab-block {
-                    height: 0;
-                }
                 .tab {
                     flex: 0 0 auto;
                     z-index: 3;
@@ -214,13 +241,22 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                 .desctiption-container {
                     padding: 20px;
                 }
-                .timeline-container {
-                    display: flex;
+                .find-container {
+                    padding: 20px;
+                }
+                .child-channel-group-block {
                     flex-direction: column;
-                    flex: 1 1 auto;
-                    position: relative;
-                    overflow: hidden;
-                    padding: 20px 0 10px 0;
+                    padding: 0px;
+                }
+                .child-channel-group-block h2 {
+                    font-size: 20px;
+                    font-weight: bold;
+                    padding: 0 10px;
+                }
+                .child-channel-groups {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
                 }
                 .hidden {
                     display: none;
@@ -228,30 +264,30 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
             `}</style>
             <style jsx>{`
                 .content {
-                    background-color: ${getStyleForTheme(theme)["backgroundColor"]};
+                    background-color: ${getStyle(theme)["backgroundColor"]};
                 }
                 .block {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 .back-to-parent-link {
-                    color: ${getStyleForTheme(theme)["color"]};
+                    color: ${getStyle(theme)["color"]};
                 }
                 .tab-item {
-                    color: ${getStyleForTheme(theme)["tabInactiveColor"]};
+                    color: ${getStyle(theme)["tabInactiveColor"]};
                 }
                 .tab-item:hover {
-                    color: ${getStyleForTheme(theme)["tabHoverColor"]};
-                    background-color: ${getStyleForTheme(theme)["tabHoverBgColor"]};
+                    color: ${getStyle(theme)["tabHoverColor"]};
+                    background-color: ${getStyle(theme)["tabHoverBgColor"]};
                 }
                 .tab-item.active {
-                    color: ${getStyleForTheme(theme)["tabActiveColor"]};
-                    background-color: ${getStyleForTheme(theme)["tabActiveBgColor"]};
+                    color: ${getStyle(theme)["tabActiveColor"]};
+                    background-color: ${getStyle(theme)["tabActiveBgColor"]};
                 }
                 .tab-item.active:hover {
-                    background-color: ${getStyleForTheme(theme)["tabActiveBgColor"]};
+                    background-color: ${getStyle(theme)["tabActiveBgColor"]};
                 }
                 .back-arrow-svg {
-                    stroke: ${getStyleForTheme(theme)["color"]};
+                    stroke: ${getStyle(theme)["color"]};
                 }
             `}</style>
         </>

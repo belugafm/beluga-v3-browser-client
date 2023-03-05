@@ -35,6 +35,7 @@ export default ({ theme, query }) => {
     }
     const channelGroupIds = channelGroups.map((channelGroup) => channelGroup.id)
     const channelIds = channels.map((channel) => channel.id)
+    channelGroup.child_channel_group_ids = channelGroupIds
     return (
         <>
             <Head>

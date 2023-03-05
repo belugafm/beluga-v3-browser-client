@@ -1,5 +1,6 @@
 import { Response, UnexpectedResponseError, get, post } from "../fetch"
 import { ChannelGroupId } from "../object"
+import { TrustLevel, TrustRank } from "../trust_rank"
 
 function buildPayload(query: { id?: ChannelGroupId; uniqueName?: string }) {
     if (query.id) {
@@ -26,6 +27,7 @@ export const channelGroup = {
         return post("channel_group/create", {
             name: body.name,
             parent_id: body.parentId,
+            minimum_trust_rank: TrustRank.Visitor,
         })
     },
     listChannels: (query: { id: ChannelGroupId }): Promise<Response> => {

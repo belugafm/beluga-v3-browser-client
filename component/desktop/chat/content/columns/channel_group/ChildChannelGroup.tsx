@@ -70,8 +70,11 @@ export const ChildChannelGroupComponent = ({
                     height: 305px;
                     box-sizing: border-box;
                     padding: 10px;
+                    position: relative;
                 }
                 .channel-group {
+                    display: flex;
+                    flex-direction: column;
                     width: 100%;
                     height: 100%;
                     border-radius: 10px;
@@ -80,12 +83,13 @@ export const ChildChannelGroupComponent = ({
                     border: 1px solid ${getStyle(theme)["borderColor"]};
                 }
                 .cover-image {
+                    flex: 0 0 100px;
                     width: 100%;
-                    height: 100px;
                     overflow: hidden;
                     border-radius: 10px 10px 0 0;
                 }
                 .metadata {
+                    flex: 1 1 auto;
                     padding: 20px;
                     display: flex;
                     flex-direction: column;
@@ -105,6 +109,7 @@ export const ChildChannelGroupComponent = ({
                     text-decoration: underline;
                 }
                 .description {
+                    flex: 1 1 auto;
                     font-size: 16px;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -113,11 +118,13 @@ export const ChildChannelGroupComponent = ({
                     margin-bottom: 20px;
                 }
                 .stats-block {
-                    flex: 1 1 auto;
+                    flex: 0 0 auto;
                     border-radius: 5px;
                     display: flex;
                     flex-direction: row;
                     background-color: ${getStyle(theme)["secondaryBgColor"]};
+                    position: relative;
+                    bottom: 0;
                 }
                 .stats {
                     width: 50%;

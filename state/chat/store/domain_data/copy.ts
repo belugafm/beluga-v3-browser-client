@@ -235,7 +235,9 @@ export function copyChannelGroup(
         minimum_trust_rank: channelGroup.minimum_trust_rank,
         parent_id: channelGroup.parent_id,
         parent: copyChannelGroup(channelGroup.parent),
-        child_channel_group_ids: [...channelGroup.child_channel_group_ids],
+        child_channel_group_ids: channelGroup.child_channel_group_ids
+            ? [...channelGroup.child_channel_group_ids]
+            : [],
     }
 }
 

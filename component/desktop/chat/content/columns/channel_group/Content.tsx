@@ -9,6 +9,7 @@ import { TooltipActionContext } from "../../../../../../state/component/tooltip"
 import classnames from "classnames"
 import { ChildChannelGroupComponent } from "./ChildChannelGroup"
 import classNames from "classnames"
+import { DescriptionComponent } from "./Description"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
@@ -96,40 +97,26 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                                     className={classnames("tab-item", {
                                         active: tabIndex == 0,
                                     })}
-                                    href="#description"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        setTabIndex(0)
-                                    }}>
+                                    href={`/group/${channelGroup.unique_name}`}>
                                     概要
                                 </a>
                                 <a
                                     className={classnames("tab-item", {
-                                        active: tabIndex == 1,
+                                        active: tabIndex == 0,
                                     })}
-                                    href="#timeline"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        setTabIndex(1)
-                                    }}>
+                                    href={`/group/${channelGroup.unique_name}/find`}>
                                     見つける
                                 </a>
                             </div>
                         </div>
-                        <div
-                            className={classnames("desctiption-container", {
-                                hidden: tabIndex != 0,
-                            })}>
-                            <div className="description">{channelGroup.description}</div>
+                        <div className="description">
+                            <DescriptionComponent text={channelGroup.description} theme={theme} />
                         </div>
                         <div
                             className={classnames("find-container", {
                                 hidden: tabIndex != 1,
                             })}>
                             見つかる予定
-                        </div>
-                        <div className="postbox">
-                            <PostboxComponent content={content} tooltipAction={tooltipAction} />
                         </div>
                     </div>
                 </div>
@@ -175,7 +162,6 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     position: relative;
                     overflow: hidden;
                     transition-duration: 0.2s;
-                    margin-bottom: 16px;
                 }
                 .block:last-child .block-content {
                     margin-bottom: 0;
@@ -234,12 +220,8 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                     margin: 0 10px -1px 0;
                     border-radius: 32px;
                 }
-                .postbox {
-                    flex: 0 0 auto;
-                    z-index: 2;
-                }
-                .desctiption-container {
-                    padding: 20px;
+                .description {
+                    padding: 20px 10px;
                 }
                 .find-container {
                     padding: 20px;

@@ -25,7 +25,10 @@ const isUrl = (text: string): boolean => {
     )
 }
 
-export const DescriptionComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {
+export const DescriptionComponent = ({ text, theme }: { text?: string; theme: ThemeT }) => {
+    if (text == null) {
+        return null
+    }
     const lines = text.split("\n")
     const components = lines.map((line, index) => {
         if (isUrl(line)) {

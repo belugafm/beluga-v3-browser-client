@@ -102,7 +102,7 @@ export const ChannelGroupContentComponent = ({ content }: { content: ContentStat
                                 </a>
                                 <a
                                     className={classnames("tab-item", {
-                                        active: tabIndex == 0,
+                                        active: tabIndex == 1,
                                     })}
                                     href={`/group/${channelGroup.unique_name}/find`}>
                                     見つける

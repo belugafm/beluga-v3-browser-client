@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef, useState } from "react"
 import * as api from "../../api"
 import { Response } from "../../api"
 
@@ -5,9 +6,33 @@ import Head from "next/head"
 import { ThemeProvider } from "../../component/theme"
 import useSWR from "swr"
 import { InputComponent } from "../../component/desktop/form/input"
-import { useEffect, useState } from "react"
-import { UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
+import { postFormData, UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { ApplicationObjectT, UserObjectT } from "../../api/object"
+
+const ProfileImageComponent = ({ bot }: { bot: UserObjectT }) => {
+    const fileInputRef = useRef(null)
+    const handleUploadMedia = async (e) => {
+        const files = e.target.files
+        if (files.length == 0) {
+            alert("ファイルを選択してください")
+            fileInputRef.current.value = ""
+            return
+        }
+        const file = files[0]
+        var formData = new FormData()
+        formData.append("file", file)
+        formData.append("user_id", String(bot.id))
+        const result = await postFormData("account/update_profile_image", formData)
+        if (result.file == null) {
+            alert("問題が発生したためアップロードできませんでした")
+            fileInputRef.current.value = ""
+            return
+        }
+        alert("変更しました")
+        fileInputRef.current.value = ""
+    }
+    return <input type="file" ref={fileInputRef} onChange={handleUploadMedia} multiple />
+}
 
 export default () => {
     const [name, setName] = useState("")
@@ -86,6 +111,12 @@ export default () => {
                 <div className="section">
                     <label>説明</label>
                     <p>{bot.description}</p>
+                </div>
+                <div className="section">
+                    <label>プロフィール画像</label>
+                    <p>
+                        <ProfileImageComponent bot={bot} />
+                    </p>
                 </div>
                 <style jsx>{`
                     .container {

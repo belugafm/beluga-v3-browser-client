@@ -13,7 +13,7 @@ import { swrGetLoggedInUser } from "../../swr/session"
 import { unnormalizeMessage } from "../../state/chat/store/domain_data/unnormalize"
 import { ContentType } from "../../state/chat/store/types/app_state"
 import { MessageComponent } from "../mobile/Message"
-import { TextComponent } from "../desktop/chat/message/text"
+import { TextComponent } from "../desktop/chat/message/Text"
 
 export class CheckConsecutivePost {
     private lastUserId: UserId | null

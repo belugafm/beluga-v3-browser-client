@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../../../component/next"
 
-import { ChannelGroupListComponent } from "../../../component/desktop/chat/sidebar/channel_group_list"
-import { ChannelListComponent } from "../../../component/desktop/chat/sidebar/channel_list"
+import { ChannelGroupListComponent } from "../../../component/desktop/chat/sidebar/ChannelGroupList"
+import { ChannelListComponent } from "../../../component/desktop/chat/sidebar/ChannelList"
 import { AppComponent } from "../../../component/desktop/layout/app"
 import { CreateChannelFormComponent } from "../../../component/desktop/page/channel/create"
 import Head from "next/head"
@@ -11,9 +11,9 @@ import { ContentComponent } from "../../../component/desktop/layout/content"
 import { ThemeProvider } from "../../../component/theme"
 import { swrFetchData } from "../../../swr/page/channel_group"
 import { NavigationbarComponent } from "../../../component/desktop/layout/navigationbar"
-import { SearchComponent } from "../../../component/desktop/chat/sidebar/search"
-import { EmptyComponent } from "../../../component/desktop/chat/sidebar/empty"
-import { ChannelGroupCardComponent } from "../../../component/desktop/chat/sidebar/channel_group"
+import { SearchComponent } from "../../../component/desktop/chat/sidebar/Search"
+import { EmptyComponent } from "../../../component/desktop/chat/sidebar/Empty"
+import { ChannelGroupCardComponent } from "../../../component/desktop/chat/sidebar/ChannelGroupCard"
 import { ContextProviderComponent } from "../../../component/desktop/layout/context_provider"
 
 export default ({ theme, query }) => {

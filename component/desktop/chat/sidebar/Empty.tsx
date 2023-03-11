@@ -1,7 +1,7 @@
 import { ChannelGroupId, ChannelId } from "../../../../api/object"
 import { ThemeT, useTheme } from "../../../theme"
 
-const getStyleForPanel = (theme: ThemeT) => {
+const getPanelStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             headerColor: "#6f767d",
@@ -19,7 +19,7 @@ const getStyleForPanel = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForButton = (theme: ThemeT) => {
+const getButtonStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#1a1d1f",
@@ -53,10 +53,10 @@ export const EmptyComponent = ({
     channelGroupId: ChannelGroupId
 }) => {
     const [theme] = useTheme()
-    const components: JSX.Element[] = []
+    const elements: JSX.Element[] = []
     if (channelIds.length == 0) {
         if (channelGroupIds.length == 0) {
-            components.push(
+            elements.push(
                 <div className="item" key="channelGroup">
                     <div className="header">
                         <span className="label">チャンネルグループ</span>
@@ -120,26 +120,26 @@ export const EmptyComponent = ({
                     `}</style>
                     <style jsx>{`
                         .header {
-                            color: ${getStyleForPanel(theme)["headerColor"]};
+                            color: ${getPanelStyle(theme)["headerColor"]};
                         }
                         .create-new {
-                            color: ${getStyleForPanel(theme)["contentColor"]};
+                            color: ${getPanelStyle(theme)["contentColor"]};
                         }
                         a {
-                            color: ${getStyleForButton(theme)["color"]};
-                            border-color: ${getStyleForButton(theme)["borderColor"]};
-                            background-color: ${getStyleForButton(theme)["backgroundColor"]};
+                            color: ${getButtonStyle(theme)["color"]};
+                            border-color: ${getButtonStyle(theme)["borderColor"]};
+                            background-color: ${getButtonStyle(theme)["backgroundColor"]};
                         }
                         a:hover {
-                            color: ${getStyleForButton(theme)["hoverColor"]};
-                            border-color: ${getStyleForButton(theme)["hoverBorderColor"]};
-                            background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
+                            color: ${getButtonStyle(theme)["hoverColor"]};
+                            border-color: ${getButtonStyle(theme)["hoverBorderColor"]};
+                            background-color: ${getButtonStyle(theme)["hoverBackgroundColor"]};
                         }
                     `}</style>
                 </div>
             )
         }
-        components.push(
+        elements.push(
             <div className="item" key="channel">
                 <div className="header">
                     <span className="label">チャンネル</span>
@@ -203,24 +203,24 @@ export const EmptyComponent = ({
                 `}</style>
                 <style jsx>{`
                     .header {
-                        color: ${getStyleForPanel(theme)["headerColor"]};
+                        color: ${getPanelStyle(theme)["headerColor"]};
                     }
                     .create-new {
-                        color: ${getStyleForPanel(theme)["contentColor"]};
+                        color: ${getPanelStyle(theme)["contentColor"]};
                     }
                     a {
-                        color: ${getStyleForButton(theme)["color"]};
-                        border-color: ${getStyleForButton(theme)["borderColor"]};
-                        background-color: ${getStyleForButton(theme)["backgroundColor"]};
+                        color: ${getButtonStyle(theme)["color"]};
+                        border-color: ${getButtonStyle(theme)["borderColor"]};
+                        background-color: ${getButtonStyle(theme)["backgroundColor"]};
                     }
                     a:hover {
-                        color: ${getStyleForButton(theme)["hoverColor"]};
-                        border-color: ${getStyleForButton(theme)["hoverBorderColor"]};
-                        background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
+                        color: ${getButtonStyle(theme)["hoverColor"]};
+                        border-color: ${getButtonStyle(theme)["hoverBorderColor"]};
+                        background-color: ${getButtonStyle(theme)["hoverBackgroundColor"]};
                     }
                 `}</style>
             </div>
         )
     }
-    return <>{components}</>
+    return <>{elements}</>
 }

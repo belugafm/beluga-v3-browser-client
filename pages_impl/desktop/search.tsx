@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../../component/next"
 
-import { ChannelGroupListComponent } from "../../component/desktop/chat/sidebar/channel_group_list"
-import { ChannelListComponent } from "../../component/desktop/chat/sidebar/channel_list"
+import { ChannelGroupListComponent } from "../../component/desktop/chat/sidebar/ChannelGroupList"
+import { ChannelListComponent } from "../../component/desktop/chat/sidebar/ChannelList"
 import { AppComponent } from "../../component/desktop/layout/app"
 import { ContentGridComponent } from "../../component/desktop/chat/content/layout"
 import Head from "next/head"

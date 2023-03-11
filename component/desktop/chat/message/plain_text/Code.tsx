@@ -4,7 +4,7 @@ import { ThemeT } from "../../../../theme"
 import { getStyle } from "../styled_text/Code"
 
 const getLanguage = (text: string) => {
-    const m = text.match(/"""([^\s]+)?\n/)
+    const m = text.match(/```([^\s]+)?\n/)
     if (m) {
         return m[1]
     } else {
@@ -13,7 +13,7 @@ const getLanguage = (text: string) => {
 }
 
 const getCodeContent = (text: string) => {
-    const m = text.match(/"""[^\s]+?\n([\s\S]+)"""/)
+    const m = text.match(/```[^\s]+?\n([\s\S]+)```/)
     if (m) {
         return m[1].replace(/^\s+/, "").replace(/\s+$/, "")
     } else {
@@ -22,7 +22,6 @@ const getCodeContent = (text: string) => {
 }
 
 export const CodeComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {
-    const langage = getLanguage(text)
     return (
         <div className="__global-message-text-syntax-highlight">
             <SyntaxHighlighter

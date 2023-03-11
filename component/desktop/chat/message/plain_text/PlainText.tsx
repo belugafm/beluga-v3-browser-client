@@ -32,7 +32,7 @@ const splitIntoInlineComponents = (text: string) => {
 
 const splitByCode = (text: string): string[] => {
     return text
-        .split(/("""[a-zA-Z0-9]*?\n[\s\S]+?\n""")/)
+        .split(/(```[a-zA-Z0-9]*?\n[\s\S]+?\n```)/)
         .filter((substr) => substr && substr.length > 0)
 }
 
@@ -45,7 +45,7 @@ const splitIntoMultilineComponents = (text: string): string[] => {
 export const PlainTextComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {
     const multilineComponents = splitIntoMultilineComponents(text)
     const elements = multilineComponents.map((block, k) => {
-        if (block.indexOf('"""') == 0) {
+        if (block.indexOf("```") == 0) {
             return <CodeComponent text={block} theme={theme} />
         } else {
             const lines = block.split("\n").filter((substr) => substr.length > 0)

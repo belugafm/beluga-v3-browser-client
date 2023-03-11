@@ -45,7 +45,7 @@ export class Random {
     }
 }
 
-const DefaultAvatarComponent = ({ user }: PropsT) => {
+const RandomColorComponent = ({ user }: PropsT) => {
     const gen = new Random(user.id)
     const hue = 360 * gen.next()
     const sat = 50
@@ -73,7 +73,7 @@ const DefaultAvatarComponent = ({ user }: PropsT) => {
     )
 }
 
-const ProfileImageComponent = ({ user }: PropsT) => {
+const ImageComponent = ({ user }: PropsT) => {
     return (
         <>
             <div className="avatar">
@@ -98,14 +98,13 @@ const ProfileImageComponent = ({ user }: PropsT) => {
     )
 }
 
-export const MessageAvatarComponent = React.memo(
+export const ProfileImageComponent = React.memo(
     (props: PropsT) => {
         const { user } = props
-        console.debug("MessageAvatarComponent::render", user.id, user.profile_image_url)
         if (user.profile_image_url == null) {
-            return <DefaultAvatarComponent user={user} />
+            return <RandomColorComponent user={user} />
         }
-        return <ProfileImageComponent user={user} />
+        return <ImageComponent user={user} />
     },
     (prevProps: PropsT, nextProps: PropsT) => {
         if (prevProps.user.profile_image_url !== nextProps.user.profile_image_url) {

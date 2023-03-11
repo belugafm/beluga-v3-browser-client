@@ -1,24 +1,16 @@
-import { DateComponent, SenderComponent } from "./sender"
+import { DateComponent, HeaderComponent } from "./Header"
 
 import { MessagePropsT } from "./types"
-import { MenuComponent } from "./menu"
-import { MessageAvatarComponent } from "./avatar"
+import { MenuComponent } from "./Menu"
+import { ProfileImageComponent } from "./ProfileImage"
 import React, { useState } from "react"
 import { ThemeT } from "../../../theme"
 import classnames from "classnames"
 import deepEqual from "deep-equal"
-import { LikesComponent } from "./likes"
-import { FavoritesComponent } from "./favorites"
+import { LikesComponent } from "./Likes"
+import { FavoritesComponent } from "./Favorites"
 import { TrustLevel, TrustRank } from "../../../../api/trust_rank"
 import { UserObjectT } from "../../../../api/object"
-
-const lerp = (a: number, b: number, ratio: number) => {
-    return a * (1 - ratio) + b * ratio
-}
-
-const rlerp = (a: number, b: number, ratio: number) => {
-    return (b - a * (1 - ratio)) / ratio
-}
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
@@ -142,7 +134,7 @@ export const MessageComponent = React.memo(
                             className={classnames("avatar-block", {
                                 hidden: props.isConsecutivePost,
                             })}>
-                            <MessageAvatarComponent user={message.user} />
+                            <ProfileImageComponent user={message.user} />
                         </div>
                         <div
                             className={classnames("created-at-block", {
@@ -152,7 +144,7 @@ export const MessageComponent = React.memo(
                         </div>
                     </div>
                     <div className="message-right">
-                        <SenderComponent
+                        <HeaderComponent
                             message={message}
                             hidden={props.isConsecutivePost}
                             theme={props.theme}

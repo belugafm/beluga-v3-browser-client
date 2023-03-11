@@ -71,7 +71,7 @@ export const DateComponent = ({ date }: { date: Date }) => {
     return <span>{str}</span>
 }
 
-export const SenderComponent = ({
+export const HeaderComponent = ({
     message,
     theme,
     hidden,
@@ -86,7 +86,7 @@ export const SenderComponent = ({
     const user = message.user
     const display_name = user.display_name ? user.display_name : user.name
     return (
-        <div className="sender">
+        <div className="header">
             <a
                 className={classnames("display-name", {
                     hidden: user.display_name == null,
@@ -103,7 +103,7 @@ export const SenderComponent = ({
                 <DateComponent date={message.created_at} />
             </span>
             <style jsx>{`
-                .sender {
+                .header {
                     display: flex;
                     flex-direction: row;
                     align-items: center;

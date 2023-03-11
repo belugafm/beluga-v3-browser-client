@@ -6,7 +6,7 @@ import { ContentStateT, TimelineMode } from "../../../../state/chat/store/types/
 import { DeleteMessageModalActionContext } from "../../../../state/component/model/delete_message"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
 import { MessageActionContext } from "../../../../state/chat/actions/message"
-import { MessageComponent } from "../message"
+import { MessageComponent } from "../message/Message"
 import { ChannelId, MessageObjectT, UserId } from "../../../../api/object"
 import { ScrollerState } from "../../../../state/chat/components/scroller"
 import { TextComponent } from "../message/Text"

@@ -4,10 +4,10 @@ import classnames from "classnames"
 import { TrustLevel, TrustRank } from "../../api/trust_rank"
 import { UserObjectT } from "../../api/object"
 import { MessagePropsT } from "../desktop/chat/message/types"
-import { MessageAvatarComponent } from "../desktop/chat/message/avatar"
-import { DateComponent, SenderComponent } from "../desktop/chat/message/sender"
-import { LikesComponent } from "../desktop/chat/message/likes"
-import { FavoritesComponent } from "../desktop/chat/message/favorites"
+import { ProfileImageComponent } from "../desktop/chat/message/ProfileImage"
+import { DateComponent, HeaderComponent } from "../desktop/chat/message/Header"
+import { LikesComponent } from "../desktop/chat/message/Likes"
+import { FavoritesComponent } from "../desktop/chat/message/Favorites"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
@@ -129,7 +129,7 @@ export const MessageComponent = React.memo(
                             className={classnames("avatar-block", {
                                 hidden: props.isConsecutivePost,
                             })}>
-                            <MessageAvatarComponent user={message.user} />
+                            <ProfileImageComponent user={message.user} />
                         </div>
                         <div
                             className={classnames("created-at-block", {
@@ -139,7 +139,7 @@ export const MessageComponent = React.memo(
                         </div>
                     </div>
                     <div className="message-right">
-                        <SenderComponent
+                        <HeaderComponent
                             message={message}
                             hidden={props.isConsecutivePost}
                             theme={props.theme}

@@ -1,9 +1,9 @@
 import { MessageObjectT } from "../../../../api/object"
 
-import { MessagePropsT } from "./types"
 import React from "react"
 import { PlainTextComponent } from "./plain_text/PlainText"
 import { StyledTextComponent } from "./styled_text/StyledText"
+import { MessagePropsT } from "./types"
 
 export const TextComponent = React.memo(
     ({ message, domainData, contentAction: chatActions, content, theme }: MessagePropsT) => {

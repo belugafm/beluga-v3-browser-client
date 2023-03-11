@@ -1,6 +1,6 @@
 import { ThemeT } from "../../../../../theme"
 import { ChannelGroupObjectT } from "../../../../../../api/object"
-import { Random } from "../../../message/avatar"
+import { Random } from "../../../message/ProfileImage"
 
 export const CoverImageComponent = ({ channelGroup }: { channelGroup: ChannelGroupObjectT }) => {
     if (channelGroup.image_url) {

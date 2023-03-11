@@ -299,6 +299,9 @@ export const MenuComponent = ({
                     background-color: ${getStyleForMenu(theme)["backgroundColor"]};
                     border-color: ${getStyleForMenu(theme)["borderColor"]};
                 }
+                .spacer {
+                    border-color: ${getStyleForMenu(theme)["borderColor"]};
+                }
                 .menu-button {
                     fill: ${getStyleForButton(theme)["fill"]};
                     background-color: ${getStyleForButton(theme)["backgroundColor"]};
@@ -316,9 +319,6 @@ export const MenuComponent = ({
                     fill: ${getStyleForButton(theme)["hoverFill"]};
                     stroke: ${getStyleForButton(theme)["hoverFill"]};
                     background-color: ${getStyleForButton(theme)["hoverBackgroundColor"]};
-                }
-                .spacer {
-                    border-color: ${getStyleForMenu(theme)["borderColor"]};
                 }
             `}</style>
         </div>

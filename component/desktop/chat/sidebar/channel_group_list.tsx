@@ -6,7 +6,7 @@ import { ThemeT, useTheme } from "../../../theme"
 
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../../api/object"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
-import { Random } from "../message/avatar"
+import { Random } from "../message/ProfileImage"
 import classnames from "classnames"
 import { useContext } from "react"
 

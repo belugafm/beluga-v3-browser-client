@@ -8,7 +8,7 @@ import { ChannelGroupId, ChannelGroupObjectT } from "../../../../api/object"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
 import classnames from "classnames"
 import { useContext } from "react"
-import { Random } from "../../../desktop/chat/message/avatar"
+import { Random } from "../../../desktop/chat/message/ProfileImage"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

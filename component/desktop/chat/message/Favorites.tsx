@@ -1,7 +1,7 @@
 import { MessageObjectT, UserObjectT } from "../../../../api/object"
 import React from "react"
 import { ThemeT } from "../../../theme"
-import { Random } from "./avatar"
+import { Random } from "./ProfileImage"
 
 const UserWithoutProfileImageComponent = ({ user }: { user: UserObjectT }) => {
     const gen = new Random(user.id)
@@ -86,10 +86,6 @@ export const FavoritesComponent = ({
     }
     const userDomList = []
     message.entities.favorited_users.forEach((user, index) => {
-        const gen = new Random(user.id)
-        const hue = 360 * gen.next()
-        const sat = 50
-        const lightness = 70
         userDomList.push(<UserComponent user={user} key={index} />)
     })
     return (

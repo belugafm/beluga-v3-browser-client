@@ -36,14 +36,14 @@ export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode)
 export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
-            lineNumberColor: "#a5aa91",
-            backgroundColor: "rgb(35, 36, 31)",
+            lineNumberColor: "#5A5A5A",
+            backgroundColor: "#141414",
         }
     }
     if (theme.global.current.dark) {
         return {
-            lineNumberColor: "#505764",
-            backgroundColor: "#0d0e10",
+            lineNumberColor: "#5A5A5A",
+            backgroundColor: "#141414",
         }
     }
     throw new Error()

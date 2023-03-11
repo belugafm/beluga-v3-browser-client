@@ -33,7 +33,7 @@ export const getCodeContent = (text: string[], codeNode: MessageEntityStyleNode)
     }
 }
 
-const getStyle = (theme: ThemeT) => {
+export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             lineNumberColor: "#a5aa91",

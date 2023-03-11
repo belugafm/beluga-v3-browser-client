@@ -19,7 +19,7 @@ export const getStyle = (theme: ThemeT) => {
 export const containsUrl = (text: string): boolean => {
     return (
         text.match(
-            /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+(\s)?/
+            /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+/
         ) != null
     )
 }

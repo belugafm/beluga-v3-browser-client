@@ -12,7 +12,7 @@ import {
 } from "lexical"
 import { $isCodeNode, getCodeLanguages, getDefaultCodeLanguage } from "@lexical/code"
 import { $isListNode, ListNode } from "@lexical/list"
-import { ThemeT, useTheme } from "../../../../../theme"
+import { ThemeT, useTheme } from "../../../../../Theme"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 
 import { $isHeadingNode } from "@lexical/rich-text"

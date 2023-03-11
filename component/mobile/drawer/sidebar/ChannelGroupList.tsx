@@ -2,7 +2,7 @@ import {
     ChannelMenuModalActionContext,
     ChannelMenuModalStateContext,
 } from "../../../../state/component/model/channel_menu"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../../api/object"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"

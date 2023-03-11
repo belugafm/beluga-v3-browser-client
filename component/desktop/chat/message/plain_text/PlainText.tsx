@@ -1,6 +1,6 @@
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 import { ExternalImageComponent, containsImageUrl } from "../styled_text/ExternalImage"
 import { containsUrl, LinkComponent } from "../styled_text/Link"
 import { CodeComponent } from "./Code"

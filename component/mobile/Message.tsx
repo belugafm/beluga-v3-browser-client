@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ThemeT } from "../theme"
+import { ThemeT } from "../Theme"
 import classnames from "classnames"
 import { TrustLevel, TrustRank } from "../../api/trust_rank"
 import { UserObjectT } from "../../api/object"

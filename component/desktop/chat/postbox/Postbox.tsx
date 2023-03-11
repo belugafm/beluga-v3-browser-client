@@ -3,7 +3,7 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
 import React, { useCallback, useRef, useState } from "react"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { EditorComponent } from "./Editor"

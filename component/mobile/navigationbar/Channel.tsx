@@ -1,5 +1,5 @@
 import { ChannelObjectT } from "../../../api/object"
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../Theme"
 import { DrawerButton } from "./DrawerButton"
 
 const getStyle = (theme: ThemeT) => {

@@ -6,7 +6,7 @@ import {
 
 import GraphemeSplitter from "grapheme-splitter"
 import React from "react"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 import { containsImageUrl } from "./ExternalImage"
 import { containsUrl } from "./Link"
 import { SearchTextComponent } from "./SearchText"

@@ -1,4 +1,4 @@
-import { useTheme } from "../../../theme"
+import { useTheme } from "../../../Theme"
 
 export const SidebarThemeComponent = () => {
     const [theme, setTheme] = useTheme()

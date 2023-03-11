@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { MessageEntityStyleFormat, MessageEntityStyleNode } from "../../../../../api/object"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 
 const hasFormat = (nodeFormat: number, styleFormat: number): boolean => {
     return (nodeFormat & styleFormat) !== 0

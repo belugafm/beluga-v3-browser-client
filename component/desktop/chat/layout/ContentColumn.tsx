@@ -3,9 +3,9 @@ import { ChannelContentComponent } from "../content/columns/Channel"
 import { ChannelGroupContentComponent } from "../content/columns/channel_group/Content"
 import { ContentStateT, ContentType } from "../../../../state/chat/store/types/app_state"
 import { SearchContentComponent } from "../content/columns/Search"
-import { getStyle } from "../../layout/sidebar"
+import { getStyle } from "../../layout/Sidebar"
 import { ThreadContentComponent } from "../content/columns/Thread"
-import { ThemeT } from "../../../theme"
+import { ThemeT } from "../../../Theme"
 
 export const ContentColumnComponent = ({
     contentRows,

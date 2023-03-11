@@ -1,7 +1,7 @@
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 import { MessageEntityStyleNode } from "../../../../../api/object"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 
 export const sliceText = (textGraphemes: string[], node: MessageEntityStyleNode) => {
     if (node.indices.length == 0) {

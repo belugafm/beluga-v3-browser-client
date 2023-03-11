@@ -3,9 +3,9 @@ import * as api from "../../api"
 import { Response } from "../../api"
 
 import Head from "next/head"
-import { ThemeProvider } from "../../component/theme"
+import { ThemeProvider } from "../../component/Theme"
 import useSWR from "swr"
-import { InputComponent } from "../../component/desktop/form/input"
+import { InputComponent } from "../../component/desktop/form/Input"
 import { postFormData, UnexpectedResponseError, WebAPIUnavailableResponse } from "../../api/fetch"
 import { ApplicationObjectT, UserObjectT } from "../../api/object"
 

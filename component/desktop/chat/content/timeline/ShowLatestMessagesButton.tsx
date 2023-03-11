@@ -1,5 +1,5 @@
 import React from "react"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 
 import { ContentStateT, TimelineMode } from "../../../../../state/chat/store/types/app_state"
 import { ScrollerState } from "../../../../../state/chat/components/scroller"

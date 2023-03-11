@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../../api/object"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 import { Random } from "../message/ProfileImage"
 
 const getStyle = (theme: ThemeT) => {

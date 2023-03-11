@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
-import { InputComponent } from "../../component/desktop/form/input"
-import { ThemeProvider } from "../../component/theme"
+import { InputComponent } from "../../component/desktop/form/Input"
+import { ThemeProvider } from "../../component/Theme"
 import * as api from "../../api"
 
 export default () => {

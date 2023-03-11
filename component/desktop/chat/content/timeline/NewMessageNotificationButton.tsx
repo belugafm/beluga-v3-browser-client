@@ -1,5 +1,5 @@
 import React from "react"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 import { ScrollerState } from "../../../../../state/chat/components/scroller"
 
 const getStyle = (theme: ThemeT) => {

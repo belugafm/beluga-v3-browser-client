@@ -1,4 +1,4 @@
-import { ThemeT } from "../../theme"
+import { ThemeT } from "../../Theme"
 import classnames from "classnames"
 
 const getStyle = (theme: ThemeT) => {

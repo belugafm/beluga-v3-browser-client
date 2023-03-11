@@ -1,6 +1,6 @@
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 import { getStyle } from "../styled_text/Code"
 
 const getLanguage = (text: string) => {

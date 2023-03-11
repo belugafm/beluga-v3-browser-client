@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { ThemeProvider } from "../component/theme"
+import { ThemeProvider } from "../component/Theme"
 
 export default ({ theme }) => {
     return (

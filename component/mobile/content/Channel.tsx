@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../Theme"
 
 import { TooltipActionContext } from "../../../state/component/tooltip"
 import { TimelineComponent } from "../Timeline"

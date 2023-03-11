@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useRef } from "react"
-import { ThemeT, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../Theme"
 
 import { ContentActionContext, ContentActionT } from "../../state/chat/actions/contents"
 import { ContentStateT, TimelineMode } from "../../state/chat/store/types/app_state"

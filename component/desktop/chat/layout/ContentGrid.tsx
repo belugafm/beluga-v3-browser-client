@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 
 import { AppStateContext } from "../../../../state/chat/store/app_state"
-import { useTheme } from "../../../theme"
-import { getStyle } from "../../layout/sidebar"
+import { useTheme } from "../../../Theme"
+import { getStyle } from "../../layout/Sidebar"
 import { ContentColumnComponent } from "./ContentColumn"
 
 export const ContentGridComponent = () => {

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { ThemeT, useTheme } from "../../../../../theme"
+import { ThemeT, useTheme } from "../../../../../Theme"
 
 import { ContentStateT } from "../../../../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../../../../state/chat/store/domain_data"

@@ -1,4 +1,4 @@
-import { ThemeT, useTheme } from "../../theme"
+import { ThemeT, useTheme } from "../../Theme"
 
 import Cookie from "cookie"
 import { GetServerSideProps } from "next"

@@ -1,4 +1,4 @@
-import { useTheme } from "../../../theme"
+import { useTheme } from "../../../Theme"
 
 import { ContentStateT, ContentType } from "../../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"

@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react"
 
 import { $createCodeNode } from "@lexical/code"
 import { $wrapLeafNodesInElements } from "@lexical/selection"
-import { ThemeT } from "../../../../../theme"
+import { ThemeT } from "../../../../../Theme"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

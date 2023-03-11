@@ -13,7 +13,7 @@ import { DeleteMessageModalComponent } from "./delete_message"
 import { MessageActionContext } from "../../../../state/chat/actions/message"
 import React from "react"
 import { useContext } from "react"
-import { useTheme } from "../../../theme"
+import { useTheme } from "../../../Theme"
 import { PageContextObjectT } from "../../../../state/chat/store/types/page_context"
 
 const DeleteMessageModalActionContextProvider = ({ children }) => {

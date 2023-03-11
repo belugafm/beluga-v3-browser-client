@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { ThemeT, useTheme } from "../theme"
+import { ThemeT, useTheme } from "../Theme"
 
 import { ContentStateT } from "../../state/chat/store/types/app_state"
 import { FileObjectT } from "../../api/object"

@@ -1,4 +1,4 @@
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin"
 import { CodeHighlightPlugin } from "./plugins/CodeHighlight"

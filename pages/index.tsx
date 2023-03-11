@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../component/next"
 import { ServerSideProps } from "../component/next"
 import { Device } from "../component/desktop/chat/next.types"
-import DesktopPage from "../pages_impl/desktop/index"
+import DesktopPage from "../pages_impl/desktop/landing/Page"
 import MobilePage from "../pages_impl/mobile/index"
 
 export default (props: ServerSideProps) => {

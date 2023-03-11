@@ -1,5 +1,5 @@
 import { ChannelGroupId, ChannelId } from "../../../../api/object"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 
 const getPanelStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

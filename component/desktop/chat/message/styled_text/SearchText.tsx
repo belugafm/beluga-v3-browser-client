@@ -1,5 +1,5 @@
 import GraphemeSplitter from "grapheme-splitter"
-import { ThemeT } from "../../../../theme"
+import { ThemeT } from "../../../../Theme"
 import { getStyle } from "./Link"
 
 const LinkComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {

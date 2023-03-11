@@ -4,7 +4,7 @@ import {
 } from "../../../../state/component/model/channel_menu"
 import React, { MouseEvent } from "react"
 
-import { ThemeT } from "../../../theme"
+import { ThemeT } from "../../../Theme"
 import classnames from "classnames"
 import { ChannelGroupId } from "../../../../api/object"
 

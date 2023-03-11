@@ -1,7 +1,7 @@
 export { getServerSideProps } from "../../component/next"
 import { ServerSideProps } from "../../component/next"
 import { Device } from "../../component/desktop/chat/next.types"
-import DesktopPage from "../../pages_impl/desktop/settings/password"
+import DesktopPage from "../../pages_impl/desktop/settings/password/Page"
 
 export default (props: ServerSideProps) => {
     const { device } = props

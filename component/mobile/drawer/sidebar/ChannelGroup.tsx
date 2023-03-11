@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { ChannelGroupId, ChannelGroupObjectT } from "../../../../api/object"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
 import { Random } from "../../../desktop/chat/message/ProfileImage"
-import { ThemeT, useTheme } from "../../../theme"
+import { ThemeT, useTheme } from "../../../Theme"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

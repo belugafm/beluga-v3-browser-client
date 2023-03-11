@@ -3,7 +3,7 @@ import { MessageEntityStyleFormat, MessageEntityStyleNode } from "../../../../ap
 import { useCallback, useEffect, useState } from "react"
 
 import GraphemeSplitter from "grapheme-splitter"
-import { ThemeT } from "../../../theme"
+import { ThemeT } from "../../../Theme"
 import { TooltipActionT } from "../../../../state/component/tooltip"
 import classnames from "classnames"
 import lexical from "lexical"

@@ -9,7 +9,7 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react"
 import * as React from "react"
 
-import TextInput from "./text_input"
+import TextInput from "./TextInput"
 
 interface ColorPickerProps {
     buttonAriaLabel?: string

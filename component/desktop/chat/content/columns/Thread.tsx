@@ -3,7 +3,7 @@ import { ThemeT, useTheme } from "../../../../theme"
 
 import { ContentStateT } from "../../../../../state/chat/store/types/app_state"
 import { HeaderComponent } from "../header"
-import { PostboxComponent } from "../../postbox"
+import { PostboxComponent } from "../../postbox/Postbox"
 import { TooltipActionContext } from "../../../../../state/component/tooltip"
 import { TimelineComponent } from "../timeline"
 

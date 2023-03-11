@@ -16,15 +16,15 @@ import { ThemeT, useTheme } from "../../../../../theme"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 
 import { $isHeadingNode } from "@lexical/rich-text"
-import { BlockOptionsDropdownList } from "./block_dropdown"
-import { Select } from "./select_language"
+import { BlockOptionsDropdownList } from "./BlockDropdown"
+import { Select } from "./SelectLanguage"
 import { TooltipActionContext } from "../../../../../../state/component/tooltip"
 import classnames from "classnames"
 import { createPortal } from "react-dom"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import ColorPicker from "./color_picker"
+import ColorPicker from "./color_picker/ColorPicker"
 import { $patchStyleText } from "@lexical/selection"
-import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/dropdown"
+import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/Dropdown"
 
 const getStyleForEditorButton = (theme: ThemeT) => {
     if (theme.global.current.light) {

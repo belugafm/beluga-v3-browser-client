@@ -1,15 +1,15 @@
 import { ThemeT, useTheme } from "../../../theme"
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin"
-import { CodeHighlightPlugin } from "./plugins/code_highlight"
+import { CodeHighlightPlugin } from "./plugins/CodeHighlight"
 import { ContentEditable } from "@lexical/react/LexicalContentEditable"
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 import { DomainDataContext } from "../../../../state/chat/store/domain_data"
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin"
-import { ListMaxIndentLevelPlugin } from "./plugins/list_max_indent_level"
+import { ListMaxIndentLevelPlugin } from "./plugins/ListMaxIndentLevel"
 import { ListPlugin } from "@lexical/react/LexicalListPlugin"
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin"
-import { ToolbarPlugin } from "./plugins/toolbar"
+import { ToolbarPlugin } from "./plugins/toolbar/Toolbar"
 import { useContext } from "react"
 
 const getPlaceholderColor = (theme: ThemeT) => {

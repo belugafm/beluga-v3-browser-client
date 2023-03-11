@@ -7,7 +7,7 @@ import { SendButtonComponent } from "./postbox/SendButton"
 import { TooltipActionT } from "../../state/component/tooltip"
 import { postFormData } from "../../api/fetch"
 import { usePostboxAction } from "../../state/chat/actions/postbox"
-import { getPlaceholderText } from "../desktop/chat/postbox/editor"
+import { getPlaceholderText } from "../desktop/chat/postbox/Editor"
 
 const getStyleForTextarea = (theme: ThemeT) => {
     if (theme.global.current.light) {

@@ -18,7 +18,7 @@ import { MessageComponent } from "../../chat/message/Message"
 import { SVGComponent } from "../../../svg"
 import { unnormalizeMessage } from "../../../../state/chat/store/domain_data/unnormalize"
 import { useStore, websocket } from "../../../../state/chat/store"
-import { CheckConsecutivePost } from "../../chat/content/timeline"
+import { CheckConsecutivePost } from "../../chat/content/Timeline"
 
 const ChannelListItem = ({ channel }: { channel: ChannelObjectT }) => {
     return (

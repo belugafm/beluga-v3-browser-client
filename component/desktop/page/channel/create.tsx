@@ -8,7 +8,7 @@ import { BlueButton } from "../../form/button"
 import { InputComponent } from "../../form/input"
 import { useContext } from "react"
 import { getStyle as getSidebarStyleForTheme } from "../../layout/sidebar"
-import { getStyle as getContentStyle } from "../../chat/content/columns/channel"
+import { getStyle as getContentStyle } from "../../chat/content/columns/Channel"
 import { ChannelGroupObjectT } from "../../../../api/object"
 import { TrustRank } from "../../../../api/trust_rank"
 

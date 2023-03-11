@@ -2,10 +2,10 @@ import React, { useContext } from "react"
 import { ThemeT, useTheme } from "../../../../theme"
 
 import { ContentStateT } from "../../../../../state/chat/store/types/app_state"
-import { HeaderComponent } from "../header"
+import { HeaderComponent } from "../Header"
 import { PostboxComponent } from "../../postbox/Postbox"
 import { TooltipActionContext } from "../../../../../state/component/tooltip"
-import { TimelineComponent } from "../timeline"
+import { TimelineComponent } from "../Timeline"
 
 export const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

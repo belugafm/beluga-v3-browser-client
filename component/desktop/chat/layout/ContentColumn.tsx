@@ -1,10 +1,10 @@
 import React from "react"
-import { ChannelContentComponent } from "./columns/channel"
-import { ChannelGroupContentComponent } from "./columns/channel_group/Content"
+import { ChannelContentComponent } from "../content/columns/Channel"
+import { ChannelGroupContentComponent } from "../content/columns/channel_group/Content"
 import { ContentStateT, ContentType } from "../../../../state/chat/store/types/app_state"
-import { SearchContentComponent } from "./columns/search"
+import { SearchContentComponent } from "../content/columns/Search"
 import { getStyle } from "../../layout/sidebar"
-import { ThreadContentComponent } from "./columns/Thread"
+import { ThreadContentComponent } from "../content/columns/Thread"
 import { ThemeT } from "../../../theme"
 
 export const ContentColumnComponent = ({

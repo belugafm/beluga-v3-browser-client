@@ -1,7 +1,7 @@
 import { ContentActionT } from "../../../../state/chat/actions/contents"
 import { ContentStateT } from "../../../../state/chat/store/types/app_state"
 
-export default ({
+export const MenuComponent = ({
     content,
     chatActions,
 }: {

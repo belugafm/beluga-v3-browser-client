@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 import { AppStateContext } from "../../../../state/chat/store/app_state"
 import { useTheme } from "../../../theme"
 import { getStyle } from "../../layout/sidebar"
-import { ContentColumnComponent } from "./column"
+import { ContentColumnComponent } from "./ContentColumn"
 
 export const ContentGridComponent = () => {
     const appState = useContext(AppStateContext)

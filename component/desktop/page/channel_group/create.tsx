@@ -8,7 +8,7 @@ import { BlueButton } from "../../form/button"
 import { InputComponent } from "../../form/input"
 import { useContext } from "react"
 import { getStyle as getSidebarStyleForTheme } from "../../layout/sidebar"
-import { getStyle as getContentStyleForTheme } from "../../chat/content/columns/channel"
+import { getStyle as getContentStyleForTheme } from "../../chat/content/columns/Channel"
 
 const NameInputForm = () => {
     const { nameField, handleUpdateNameValue } = useContext(CreateChannelGroupFormContext)

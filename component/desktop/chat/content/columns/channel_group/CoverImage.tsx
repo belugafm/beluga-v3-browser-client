@@ -1,4 +1,3 @@
-import { ThemeT } from "../../../../../theme"
 import { ChannelGroupObjectT } from "../../../../../../api/object"
 import { Random } from "../../../message/ProfileImage"
 

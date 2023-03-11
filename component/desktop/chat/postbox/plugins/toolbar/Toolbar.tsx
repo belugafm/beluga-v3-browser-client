@@ -26,7 +26,7 @@ import ColorPicker from "./color_picker/ColorPicker"
 import { $patchStyleText } from "@lexical/selection"
 import { DropDownItems as ColorPickerDropDownItems } from "./color_picker/Dropdown"
 
-const getStyleForEditorButton = (theme: ThemeT) => {
+const getButtonStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#6f767d",
@@ -46,7 +46,7 @@ const getStyleForEditorButton = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForDivider = (theme: ThemeT) => {
+const getDividerStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#dcdcdc",
@@ -60,7 +60,7 @@ const getStyleForDivider = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForToolbar = (theme: ThemeT) => {
+const getToolbarStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             backgroundColor: "#fafafa",
@@ -101,7 +101,7 @@ function Divider({ theme }: { theme: ThemeT }) {
                 .divider {
                     width: 1px;
                     margin: 8px 6px;
-                    background-color: ${getStyleForDivider(theme)["backgroundColor"]};
+                    background-color: ${getDividerStyle(theme)["backgroundColor"]};
                 }
             `}</style>
         </>
@@ -510,29 +510,29 @@ export function ToolbarPlugin({ hidden }: { hidden: boolean }) {
             `}</style>
             <style jsx>{`
                 .text-attribute-block {
-                    background-color: ${getStyleForToolbar(theme)["backgroundColor"]};
-                    border-bottom: ${getStyleForToolbar(theme)["borderColor"]};
+                    background-color: ${getToolbarStyle(theme)["backgroundColor"]};
+                    border-bottom: ${getToolbarStyle(theme)["borderColor"]};
                 }
                 .editor-button {
-                    color: ${getStyleForEditorButton(theme)["fill"]};
-                    fill: ${getStyleForEditorButton(theme)["fill"]};
-                    background-color: ${getStyleForEditorButton(theme)["backgroundColor"]};
+                    color: ${getButtonStyle(theme)["fill"]};
+                    fill: ${getButtonStyle(theme)["fill"]};
+                    background-color: ${getButtonStyle(theme)["backgroundColor"]};
                 }
                 .editor-button.format.active,
                 .editor-button:hover {
-                    color: ${getStyleForEditorButton(theme)["hoverFill"]};
-                    fill: ${getStyleForEditorButton(theme)["hoverFill"]};
-                    background-color: ${getStyleForEditorButton(theme)["hoverBackgroundColor"]};
+                    color: ${getButtonStyle(theme)["hoverFill"]};
+                    fill: ${getButtonStyle(theme)["hoverFill"]};
+                    background-color: ${getButtonStyle(theme)["hoverBackgroundColor"]};
                 }
                 .editor-button.bold,
                 .editor-button.paragraph,
                 .editor-button.strikethrough {
-                    stroke: ${getStyleForEditorButton(theme)["fill"]};
+                    stroke: ${getButtonStyle(theme)["fill"]};
                 }
                 .editor-button.bold:hover,
                 .editor-button.paragraph:hover,
                 .editor-button.strikethrough:hover {
-                    stroke: ${getStyleForEditorButton(theme)["hoverFill"]};
+                    stroke: ${getButtonStyle(theme)["hoverFill"]};
                 }
             `}</style>
         </div>

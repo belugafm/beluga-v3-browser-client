@@ -65,7 +65,7 @@ const getTextareaColor = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForEditorCode = (theme: ThemeT) => {
+const getCodeStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "rgb(165, 170, 145)",
@@ -85,7 +85,7 @@ const getStyleForEditorCode = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForInlineCode = (theme: ThemeT) => {
+const getInlineCodeStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#a5aa91",
@@ -101,7 +101,7 @@ const getStyleForInlineCode = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForQuote = (theme: ThemeT) => {
+const getQuoteStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             borderColor: "#aaaaa9",
@@ -307,23 +307,23 @@ export function EditorComponent({
             `}</style>
             <style jsx global>{`
                 .__global-editor-text-code {
-                    background-color: ${getStyleForInlineCode(theme)["backgroundColor"]};
-                    border-color: ${getStyleForInlineCode(theme)["borderColor"]};
+                    background-color: ${getInlineCodeStyle(theme)["backgroundColor"]};
+                    border-color: ${getInlineCodeStyle(theme)["borderColor"]};
                 }
                 .__global-editor-code {
-                    color: ${getStyleForEditorCode(theme)["codeColor"]};
-                    background-color: ${getStyleForEditorCode(theme)["backgroundColor"]};
+                    color: ${getCodeStyle(theme)["codeColor"]};
+                    background-color: ${getCodeStyle(theme)["backgroundColor"]};
                 }
                 .__global-editor-code:before {
-                    background-color: ${getStyleForEditorCode(theme)["backgroundColor"]};
-                    color: ${getStyleForEditorCode(theme)["color"]};
+                    background-color: ${getCodeStyle(theme)["backgroundColor"]};
+                    color: ${getCodeStyle(theme)["color"]};
                 }
                 .__global-editor-code:after {
-                    color: ${getStyleForEditorCode(theme)["color"]};
+                    color: ${getCodeStyle(theme)["color"]};
                 }
                 .__global-editor-quote {
-                    color: ${getStyleForQuote(theme)["color"]};
-                    border-left-color: ${getStyleForQuote(theme)["borderColor"]};
+                    color: ${getQuoteStyle(theme)["color"]};
+                    border-left-color: ${getQuoteStyle(theme)["borderColor"]};
                 }
             `}</style>
         </>

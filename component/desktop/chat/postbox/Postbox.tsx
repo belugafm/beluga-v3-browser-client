@@ -29,7 +29,7 @@ const editorConfig = {
     nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, CodeHighlightNode],
 }
 
-const getStyleForTextarea = (theme: ThemeT) => {
+const getTextareaStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             color: "#191919",
@@ -53,7 +53,7 @@ const getStyleForTextarea = (theme: ThemeT) => {
     throw new Error()
 }
 
-const getStyleForEditorButton = (theme: ThemeT) => {
+const getEditorButtonStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
         return {
             fill: "#6f767d",
@@ -209,7 +209,7 @@ const _PostboxComponent = ({
             `}</style>
             <style jsx global>{`
                 .public-DraftEditorPlaceholder-root {
-                    color: ${getStyleForTextarea(theme)["placeholderColor"]};
+                    color: ${getTextareaStyle(theme)["placeholderColor"]};
                 }
             `}</style>
             <style jsx>{`
@@ -298,31 +298,31 @@ const _PostboxComponent = ({
             `}</style>
             <style jsx>{`
                 .postbox {
-                    color: ${getStyleForTextarea(theme)["color"]};
-                    background-color: ${getStyleForTextarea(theme)["backgroundColor"]};
-                    border-color: ${getStyleForTextarea(theme)["borderColor"]};
+                    color: ${getTextareaStyle(theme)["color"]};
+                    background-color: ${getTextareaStyle(theme)["backgroundColor"]};
+                    border-color: ${getTextareaStyle(theme)["borderColor"]};
                 }
                 .postbox.active {
-                    border-color: ${getStyleForTextarea(theme)["focusBorderColor"]};
-                    background-color: ${getStyleForTextarea(theme)["focusBackgroundColor"]};
+                    border-color: ${getTextareaStyle(theme)["focusBorderColor"]};
+                    background-color: ${getTextareaStyle(theme)["focusBackgroundColor"]};
                 }
                 .editor-button {
-                    fill: ${getStyleForEditorButton(theme)["fill"]};
-                    background-color: ${getStyleForEditorButton(theme)["backgroundColor"]};
+                    fill: ${getEditorButtonStyle(theme)["fill"]};
+                    background-color: ${getEditorButtonStyle(theme)["backgroundColor"]};
                 }
                 .editor-button:hover {
-                    fill: ${getStyleForEditorButton(theme)["hoverFill"]};
-                    background-color: ${getStyleForEditorButton(theme)["hoverBackgroundColor"]};
+                    fill: ${getEditorButtonStyle(theme)["hoverFill"]};
+                    background-color: ${getEditorButtonStyle(theme)["hoverBackgroundColor"]};
                 }
                 .editor-button.toggle-text-editor {
-                    fill: ${getStyleForEditorButton(theme)["fill"]};
-                    stroke: ${getStyleForEditorButton(theme)["fill"]};
-                    background-color: ${getStyleForEditorButton(theme)["backgroundColor"]};
+                    fill: ${getEditorButtonStyle(theme)["fill"]};
+                    stroke: ${getEditorButtonStyle(theme)["fill"]};
+                    background-color: ${getEditorButtonStyle(theme)["backgroundColor"]};
                 }
                 .editor-button.toggle-text-editor:hover {
-                    fill: ${getStyleForEditorButton(theme)["hoverFill"]};
-                    stroke: ${getStyleForEditorButton(theme)["hoverFill"]};
-                    background-color: ${getStyleForEditorButton(theme)["hoverBackgroundColor"]};
+                    fill: ${getEditorButtonStyle(theme)["hoverFill"]};
+                    stroke: ${getEditorButtonStyle(theme)["hoverFill"]};
+                    background-color: ${getEditorButtonStyle(theme)["hoverBackgroundColor"]};
                 }
             `}</style>
         </>

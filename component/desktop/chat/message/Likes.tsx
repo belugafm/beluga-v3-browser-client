@@ -51,7 +51,7 @@ export const LikesComponent = ({ message, theme }: { message: MessageObjectT; th
                 .likes {
                     display: flex;
                     flex-direction: row;
-                    margin: 4px 0;
+                    margin: 6px 0 4px 0;
                 }
             `}</style>
         </div>

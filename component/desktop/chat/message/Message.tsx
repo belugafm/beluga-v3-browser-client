@@ -158,14 +158,14 @@ export const MessageComponent = React.memo(
                                 theme={props.theme}
                             />
                         </div>
-                        <LikesComponent message={message} theme={props.theme} />
-                        <FavoritesComponent message={message} theme={props.theme} />
                         <ReplyComponent
                             message={message}
                             contentAction={props.contentAction}
                             content={props.content}
                             theme={props.theme}
                         />
+                        <LikesComponent message={message} theme={props.theme} />
+                        <FavoritesComponent message={message} theme={props.theme} />
                     </div>
                 </div>
                 <div className="menu-container">

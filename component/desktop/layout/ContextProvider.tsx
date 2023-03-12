@@ -5,7 +5,7 @@ import { websocket, polling, useStore } from "../../../state/chat/store"
 
 import { AppStateContext } from "../../../state/chat/store/app_state"
 import { DomainDataContext } from "../../../state/chat/store/domain_data"
-import { ModalContextProvider } from "../chat/modal/context_provider"
+import { ModalContextProvider } from "../chat/modal/ContextProvider"
 import { ReducerContext } from "../../../state/chat/store/types/reducer"
 import { TooltipComponent } from "../chat/Tooltip"
 import { PageContextObjectT } from "../../../state/chat/store/types/page_context"

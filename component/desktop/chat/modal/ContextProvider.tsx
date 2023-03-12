@@ -8,8 +8,8 @@ import {
     useDeleteMessageModalState,
 } from "../../../../state/component/model/delete_message"
 
-import { ChannelMenuModalComponent } from "./channel_menu"
-import { DeleteMessageModalComponent } from "./delete_message"
+import { ChannelMenuModalComponent } from "./ChannelMenu"
+import { DeleteMessageModalComponent } from "./DeleteMessage"
 import { MessageActionContext } from "../../../../state/chat/actions/message"
 import React from "react"
 import { useContext } from "react"

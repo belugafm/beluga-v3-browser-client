@@ -147,7 +147,9 @@ export const EmptyComponent = ({
                 <div className="create-new">
                     <p>チャンネルがまだありません。</p>
                     <div className="link">
-                        <a href={`/channel/create?parent_id=${channelGroupId}`}>作成する</a>
+                        <a href={`/channel/create?parent_channel_group_id=${channelGroupId}`}>
+                            作成する
+                        </a>
                     </div>
                 </div>
                 <style jsx>{`

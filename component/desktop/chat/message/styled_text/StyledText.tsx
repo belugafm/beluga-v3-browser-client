@@ -9,7 +9,7 @@ import React from "react"
 import { ThemeT } from "../../../../Theme"
 import { containsImageUrl } from "./ExternalImage"
 import { containsUrl } from "./Link"
-import { SearchTextComponent } from "./SearchText"
+import { containsSearchText, SearchTextComponent } from "./SearchText"
 import { StyledInlineTextCompoment } from "./StyledInlineText"
 import { QuoteComponent } from "./Quote"
 import { Heading1Component } from "./Heading1"
@@ -40,8 +40,10 @@ export const styledNodeToElement = (
             return <PlainTextComponent text={substr} theme={theme} />
         } else if (node.style && node.style.format != 0) {
             return <StyledInlineTextCompoment text={substr} node={node} theme={theme} />
-        } else {
+        } else if (containsSearchText(substr)) {
             return <SearchTextComponent text={substr} theme={theme} />
+        } else {
+            return <PlainTextComponent text={substr} theme={theme} />
         }
     }
     const innerElements = node.children.map((child, index) => {

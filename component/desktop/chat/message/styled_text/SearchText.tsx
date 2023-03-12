@@ -20,6 +20,10 @@ const LinkComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {
     )
 }
 
+export const containsSearchText = (text: string) => {
+    return text.match(/^\?([^\s\?]+)|\s+\?([^\s\?]+)+/) != null
+}
+
 export const SearchTextComponent = ({ text, theme }: { text: string; theme: ThemeT }) => {
     const results = [...text.matchAll(/^\?([^\s\?]+)|\s+\?([^\s\?]+)/g)]
     if (results.length == 0) {

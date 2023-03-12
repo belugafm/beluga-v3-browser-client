@@ -1,4 +1,5 @@
 export const ParagraphComponent = ({ children }) => {
+    return <>{children}</>
     return (
         <>
             <p>{children}</p>

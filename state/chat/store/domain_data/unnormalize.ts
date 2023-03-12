@@ -17,6 +17,12 @@ export function unnormalizeMessage(
             ret.entities.favorited_users.push(user)
         }
     })
+    if (ret.last_reply_message_id) {
+        ret.last_reply_message = domainData.messages.get(ret.last_reply_message_id)
+        if (ret.last_reply_message) {
+            ret.last_reply_message.user = domainData.users.get(ret.last_reply_message.user_id)
+        }
+    }
     return ret
 }
 

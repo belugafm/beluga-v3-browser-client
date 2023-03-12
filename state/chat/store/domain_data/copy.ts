@@ -126,11 +126,12 @@ export function copyMessage(message: MessageObjectT | null): MessageObjectT | nu
         deleted: message.deleted ? message.deleted : false,
         entities: copyMessageEntities(message.entities),
         reply_count: message.reply_count,
+        last_reply_message: copyMessage(message.last_reply_message),
+        last_reply_message_id: message.last_reply_message_id,
         like_count: message.like_count,
         favorite_count: message.favorite_count,
         favorited: message.favorited,
         thread_id: message.thread_id,
-        last_reply_message_id: message.last_reply_message_id,
         last_reply_message_created_at: message.last_reply_message_created_at,
     }
 }

@@ -11,6 +11,7 @@ import { LikesComponent } from "./Likes"
 import { FavoritesComponent } from "./Favorites"
 import { TrustLevel, TrustRank } from "../../../../api/trust_rank"
 import { UserObjectT } from "../../../../api/object"
+import { ReplyComponent } from "./Reply"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {
@@ -159,6 +160,12 @@ export const MessageComponent = React.memo(
                         </div>
                         <LikesComponent message={message} theme={props.theme} />
                         <FavoritesComponent message={message} theme={props.theme} />
+                        <ReplyComponent
+                            message={message}
+                            contentAction={props.contentAction}
+                            content={props.content}
+                            theme={props.theme}
+                        />
                     </div>
                 </div>
                 <div className="menu-container">

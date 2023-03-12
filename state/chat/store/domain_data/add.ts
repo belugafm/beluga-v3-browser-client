@@ -25,7 +25,10 @@ export function addMessage(
         nextDomainData = addChannel(message.channel, nextDomainData)
         message.channel = null
     }
-
+    if (message.last_reply_message) {
+        nextDomainData = addMessage(message.last_reply_message, nextDomainData)
+        message.last_reply_message = null
+    }
     message.entities.channels.forEach((entity) => {
         if (entity.channel == null) {
             return

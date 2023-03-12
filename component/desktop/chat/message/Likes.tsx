@@ -1,7 +1,6 @@
 import { MessageObjectT } from "../../../../api/object"
 import React from "react"
 import { ThemeT } from "../../../Theme"
-import classnames from "classnames"
 
 const getStyle = (theme: ThemeT) => {
     if (theme.global.current.light) {

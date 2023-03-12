@@ -113,8 +113,9 @@ export type MessageObjectT = {
     favorited: boolean
     like_count: number
     reply_count: number
-    thread_id: MessageId | null
     last_reply_message_id: MessageId | null
+    last_reply_message: MessageObjectT | null
+    thread_id: MessageId | null
     last_reply_message_created_at: Date | null
     deleted: boolean
     _internal_updated_at: number // for React

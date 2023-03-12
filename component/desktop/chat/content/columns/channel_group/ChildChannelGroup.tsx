@@ -67,7 +67,6 @@ export const ChildChannelGroupComponent = ({
                     flex: 1 1 50%;
                     min-width: 50%;
                     max-width: 50%;
-                    height: 305px;
                     box-sizing: border-box;
                     padding: 10px;
                     position: relative;
@@ -110,9 +109,11 @@ export const ChildChannelGroupComponent = ({
                 }
                 .description {
                     flex: 1 1 auto;
-                    font-size: 16px;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+                    font-size: 15px;
+                    line-height: 1.1em;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
                     width: 100%;
                     overflow: hidden;
                     margin-bottom: 20px;

@@ -271,7 +271,17 @@ export const AppPreviewComponent = (props: {
                     content={null}
                     isConsecutivePost={consectivePostChecker.check(message)}
                     theme={theme}>
-                    {message.text}
+                    <>
+                        <span>{message.text}</span>
+                        <style jsx>{`
+                            span {
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 2;
+                                overflow: hidden;
+                            }
+                        `}</style>
+                    </>
                 </MessageComponent>
             )
         })
@@ -337,6 +347,16 @@ export const AppPreviewComponent = (props: {
                     transition: border-color 0.1s;
                     min-width: 0;
                     background-color: rgba(19, 19, 19, 0.9);
+                    overflow-y: scroll;
+                }
+                .sidebar-block::-webkit-scrollbar {
+                    display: none;
+                }
+                .sidebar-block::-webkit-scrollbar-thumb {
+                    display: none;
+                }
+                .sidebar-block::-webkit-scrollbar-track-piece {
+                    display: none;
                 }
                 .sidebar-block:hover {
                     border-color: #f28369;

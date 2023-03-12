@@ -132,6 +132,7 @@ export const ReplyComponent = ({
                     align-items: center;
                     border-radius: 8px;
                     font-size: 13px;
+                    line-height: 1em;
                     text-decoration: none;
                     background-color: ${getStyle(theme)["backgroundColor"]};
                     border: 1px solid ${getStyle(theme)["borderColor"]};
@@ -140,7 +141,7 @@ export const ReplyComponent = ({
                 }
                 svg {
                     flex: 0 0 24px;
-                    padding: 0 10px;
+                    padding: 0 6px;
                     stroke: ${getStyle(theme)["stroke"]};
                 }
                 .text {

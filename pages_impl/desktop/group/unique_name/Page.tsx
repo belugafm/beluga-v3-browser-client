@@ -14,6 +14,7 @@ import { NavigationbarComponent } from "../../../../component/desktop/layout/Nav
 import { SearchComponent } from "../../../../component/desktop/chat/sidebar/Search"
 import { ChannelGroupCardComponent } from "../../../../component/desktop/chat/sidebar/ChannelGroupCard"
 import { ContextProviderComponent } from "../../../../component/desktop/layout/ContextProvider"
+import { InternalErrorComponent } from "../../../../component/desktop/InternalError"
 
 export default ({ theme, query }) => {
     const { isLoading, errors, channels, channelGroup, channelGroups, messages } = swrFetchData({
@@ -21,7 +22,7 @@ export default ({ theme, query }) => {
     })
     for (const error of errors) {
         if (error) {
-            return <div>問題が発生しました。再度ログインしてください。</div>
+            return <InternalErrorComponent />
         }
     }
     if (isLoading) {

@@ -15,6 +15,7 @@ import { SidebarComponent } from "../../../component/mobile/drawer/Sidebar"
 import { ChannelListComponent } from "../../../component/mobile/drawer/sidebar/ChannelList"
 import { ChannelGroupListComponent } from "../../../component/mobile/drawer/sidebar/ChannelGroupList"
 import { ChannelGroupCardComponent } from "../../../component/mobile/drawer/sidebar/ChannelGroup"
+import { InternalErrorComponent } from "../../../component/desktop/InternalError"
 
 export default ({ theme, query }: ServerSideProps) => {
     const { isLoading, errors, channels, channel, channelGroups, messages, parentChannelGroup } =
@@ -23,7 +24,7 @@ export default ({ theme, query }: ServerSideProps) => {
         })
     for (const error of errors) {
         if (error) {
-            return <div>問題が発生しました。再度ログインしてください。</div>
+            return <InternalErrorComponent />
         }
     }
     if (isLoading) {

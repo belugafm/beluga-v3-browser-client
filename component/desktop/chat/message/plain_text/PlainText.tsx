@@ -13,7 +13,7 @@ const flatten = (array: any[]): any[] => {
 const splitByUrl = (text: string): string[] => {
     return text
         .split(
-            /(https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+)/
+            /(https?:\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+)/
         )
         .filter((substr) => substr && substr.length > 0)
 }

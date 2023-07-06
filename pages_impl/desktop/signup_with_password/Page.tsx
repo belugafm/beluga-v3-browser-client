@@ -3,6 +3,7 @@ export { getServerSideProps } from "../../../component/next"
 import Head from "next/head"
 import { ServerSideProps } from "../../../component/next"
 import { ThemeProvider } from "../../../component/Theme"
+import { FormComponent } from "./Form"
 
 const RiskyUserSection = () => {
     return (
@@ -77,6 +78,13 @@ export default (props: ServerSideProps) => {
                             <div className="sep"></div>
                             <div className="section invite-link">
                                 <InviteLinkSection />
+                            </div>
+                            <div className="sep"></div>
+                            <div className="section title">
+                                <h1>アカウント作成</h1>
+                            </div>
+                            <div className="section start-beluga">
+                                <FormComponent />
                             </div>
                         </div>
                     </div>

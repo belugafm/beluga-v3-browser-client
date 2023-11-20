@@ -20,7 +20,7 @@ const splitByUrl = (text: string): string[] => {
 
 const splitByImageUrl = (text: string): string[] => {
     return text
-        .split(/(https:\/\/.+\.(?:jpeg|jpg|gif|png|webp)(?::[a-z]+)?)/)
+        .split(/(https:\/\/.+\.(?:jpeg|jpg|gif|png|webp)(?:\?\S+)?)/)
         .filter((substr) => substr && substr.length > 0)
 }
 

@@ -2,14 +2,15 @@ import { ThemeT } from "../../../../Theme"
 import { getStyle } from "./Link"
 
 export const containsImageUrl = (text: string): boolean => {
-    return text.match(/https:\/\/.+\.(jpeg|jpg|gif|png|webp)(:[a-z]+)?$/) != null
+    return text.match(/https:\/\/.+\.(jpeg|jpg|gif|png|webp)(\?\S+)?$/) != null
 }
 
 export const ExternalImageComponent = ({ href, theme }: { href: string; theme: ThemeT }) => {
+    const urlWithoutQuery = href.split("?")[0]
     return (
         <>
             <a href={href} target="blank">
-                {href}
+                {urlWithoutQuery}
             </a>
             <img src={href} />
             <style jsx>{`

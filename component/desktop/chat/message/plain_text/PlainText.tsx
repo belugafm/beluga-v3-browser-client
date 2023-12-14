@@ -33,7 +33,7 @@ const splitIntoInlineComponents = (text: string) => {
 
 const splitByCode = (text: string): string[] => {
     return text
-        .split(/(```[a-zA-Z0-9]*?\n[\s\S]+?\n```)/)
+        .split(/(\`\`\`.*?\r?\n[\s\S]+?\r?\n\`\`\`)/)
         .filter((substr) => substr && substr.length > 0)
 }
 

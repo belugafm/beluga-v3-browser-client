@@ -13,7 +13,7 @@ const getLanguage = (text: string) => {
 }
 
 const getCodeContent = (text: string) => {
-    const m = text.match(/```[^\s]+?\n([\s\S]+)```/)
+    const m = text.match(/\`\`\`([\s\S]+?)\`\`\`/)
     if (m) {
         return m[1].replace(/^\s+/, "").replace(/\s+$/, "")
     } else {

@@ -129,7 +129,11 @@ export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
                 message.created_at.getDate() != prevMessage.created_at.getDate()
             ) {
                 messageComponentList.push(
-                    <DateDividerComponent key={n} date={message.created_at} theme={theme} />
+                    <DateDividerComponent
+                        key={message.created_at.toString()}
+                        date={message.created_at}
+                        theme={theme}
+                    />
                 )
             }
         }

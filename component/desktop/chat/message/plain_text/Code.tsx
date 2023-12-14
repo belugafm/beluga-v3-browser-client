@@ -4,7 +4,7 @@ import { ThemeT } from "../../../../Theme"
 import { getStyle } from "../styled_text/Code"
 
 const getLanguage = (text: string) => {
-    const m = text.match(/```([^\s]+)?\n/)
+    const m = text.match(/\`\`\`(\S+?)\s/)
     if (m) {
         return m[1]
     } else {
@@ -13,7 +13,7 @@ const getLanguage = (text: string) => {
 }
 
 const getCodeContent = (text: string) => {
-    const m = text.match(/\`\`\`([\s\S]+?)\`\`\`/)
+    const m = text.match(/\`\`\`\S*?\s([\s\S]+?)\`\`\`/)
     if (m) {
         return m[1].replace(/^\s+/, "").replace(/\s+$/, "")
     } else {

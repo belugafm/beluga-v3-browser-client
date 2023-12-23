@@ -27,6 +27,7 @@ export const ExternalImageComponent = ({ href, theme }: { href: string; theme: T
                     max-width: 50%;
                     margin: 8px 0 8px 0;
                     border-radius: 8px;
+                    display: block;
                 }
             `}</style>
         </>

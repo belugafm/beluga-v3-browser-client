@@ -1,10 +1,9 @@
 import GraphemeSplitter from "grapheme-splitter"
-import SyntaxHighlighter from "react-syntax-highlighter"
-import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 import { ThemeT } from "../../../../Theme"
 import { ExternalImageComponent, containsImageUrl } from "../styled_text/ExternalImage"
 import { containsUrl, LinkComponent } from "../styled_text/Link"
 import { CodeComponent } from "./Code"
+import { InlineMarkdownTextComponent } from "./InlineMarkdownText"
 
 const flatten = (array: any[]): any[] => {
     return array.reduce((prev, current) => prev.concat(current), [])
@@ -86,7 +85,13 @@ export const PlainTextComponent = ({ text, theme }: { text: string; theme: Theme
                             </span>
                         )
                     }
-                    return <span key={`${j}-${k}`}>{substr}</span>
+                    return (
+                        <InlineMarkdownTextComponent
+                            key={`${j}-${k}`}
+                            text={substr}
+                            theme={theme}
+                        />
+                    )
                 })
                 return (
                     <p className="line" key={`${j}-${k}`}>

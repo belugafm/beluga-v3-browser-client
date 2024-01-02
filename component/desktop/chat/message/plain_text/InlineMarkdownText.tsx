@@ -1,3 +1,4 @@
+import React from "react"
 import { ThemeT } from "../../../../Theme"
 
 const flatten = (array: any[]): any[] => {
@@ -31,34 +32,34 @@ export const InlineMarkdownTextComponent = ({ text, theme }: { text: string; the
             var m = substr.match(/~~(.+?)~~/)
             if (m) {
                 return (
-                    <>
-                        <span key={j}>{m[1]}</span>
+                    <React.Fragment key={`${j}-${k}`}>
+                        <span>{m[1]}</span>
                         <style jsx>{`
                             span {
                                 text-decoration-line: line-through;
                             }
                         `}</style>
-                    </>
+                    </React.Fragment>
                 )
             }
             m = substr.match(/\*\*(.+?)\*\*/)
             if (m) {
                 return (
-                    <>
-                        <span key={j}>{m[1]}</span>
+                    <React.Fragment key={`${j}-${k}`}>
+                        <span>{m[1]}</span>
                         <style jsx>{`
                             span {
                                 font-weight: bold;
                             }
                         `}</style>
-                    </>
+                    </React.Fragment>
                 )
             }
             m = substr.match(/`(.+?)`/)
             if (m) {
                 return (
-                    <>
-                        <code key={j}>{m[1]}</code>
+                    <React.Fragment key={`${j}-${k}`}>
+                        <code>{m[1]}</code>
                         <style jsx>{`
                             code {
                                 border-radius: 5px;
@@ -71,10 +72,10 @@ export const InlineMarkdownTextComponent = ({ text, theme }: { text: string; the
                                     monospace;
                             }
                         `}</style>
-                    </>
+                    </React.Fragment>
                 )
             }
-            return <span key={j}>{substr}</span>
+            return <span key={`${j}-${k}`}>{substr}</span>
         })
     })
     return <>{elements}</>

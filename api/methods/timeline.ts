@@ -20,6 +20,9 @@ export const timeline = {
         untilDate?: number
         limit?: number
     }): Promise<Response> => {
+        if (query.channelGroupId == null) {
+            throw new Error("channelGroupId is null")
+        }
         const responce = await get(
             "timeline/channel_group",
             removeUndefined({
@@ -44,6 +47,9 @@ export const timeline = {
         untilDate?: number
         limit?: number
     }): Promise<Response> => {
+        if (query.channelId == null) {
+            throw new Error("channelId is null")
+        }
         const responce = await get(
             "timeline/channel",
             removeUndefined({
@@ -68,6 +74,9 @@ export const timeline = {
         untilDate?: number
         limit?: number
     }): Promise<Response> => {
+        if (query.messageId == null) {
+            throw new Error("messageId is null")
+        }
         const responce = await get(
             "timeline/thread",
             removeUndefined({

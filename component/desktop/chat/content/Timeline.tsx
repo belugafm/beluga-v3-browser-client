@@ -113,13 +113,16 @@ export const TimelineComponent = ({ content }: { content: ContentStateT }) => {
     })
     const consectivePostChecker = new CheckConsecutivePost()
     const messageComponentList = []
-    const messageList = [...content.timeline.messageIds].reverse().map((messageId) => {
-        const normalizedMessage = domainData.messages.get(messageId)
-        if (normalizedMessage == null) {
-            return null
-        }
-        return unnormalizeMessage(normalizedMessage, domainData)
-    })
+    const messageList = [...content.timeline.messageIds]
+        .reverse()
+        .map((messageId) => {
+            const normalizedMessage = domainData.messages.get(messageId)
+            if (normalizedMessage == null) {
+                return null
+            }
+            return unnormalizeMessage(normalizedMessage, domainData)
+        })
+        .filter((message) => message != null)
     messageList.forEach((message, n) => {
         if (n > 0) {
             const prevMessage = messageList[n - 1]
